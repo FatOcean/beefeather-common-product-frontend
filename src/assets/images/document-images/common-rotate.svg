@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="13px" viewBox="0 0 12 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>翻转顺时针备份</title>
+    <g id="版本3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="通用文字" transform="translate(-770.000000, -198.000000)" fill="#999999" fill-rule="nonzero">
+            <g id="编组-16" transform="translate(288.000000, 185.000000)">
+                <g id="编组-7" transform="translate(16.000000, 12.000000)">
+                    <g id="翻转顺时针备份" transform="translate(466.000000, 1.000000)">
+                        <path d="M5.5,1.6 L5.5,0 L9.03571429,2 L5.5,4 L5.5,2.4 C2.90714286,2.4 0.785714286,4.4 0.785714286,6.88 L0.785714286,8.8 L0,8.8 L0,6.88 C0,3.96 2.475,1.6 5.5,1.6 Z" id="Shape"></path>
+                        <path d="M3.14285714,6.4 L3.14285714,11.2 C3.14285714,11.64 3.49642857,12 3.92857143,12 L10.2142857,12 C10.6464286,12 11,11.64 11,11.2 L11,6.4 C11,5.96 10.6464286,5.6 10.2142857,5.6 L3.92857143,5.6 C3.49642857,5.6 3.14285714,5.96 3.14285714,6.4 Z M3.92857143,6.4 L10.2142857,6.4 L10.2142857,11.2 L3.92857143,11.2 L3.92857143,6.4 Z" id="Shape" stroke="#999999" stroke-width="0.5"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

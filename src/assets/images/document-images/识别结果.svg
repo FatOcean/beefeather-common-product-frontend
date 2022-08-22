@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>识别结果</title>
+    <defs>
+        <filter x="-3.5%" y="-3.0%" width="106.9%" height="106.1%" filterUnits="objectBoundingBox" id="filter-1">
+            <feMorphology radius="1.5" operator="dilate" in="SourceAlpha" result="shadowSpreadOuter1"></feMorphology>
+            <feOffset dx="0" dy="3" in="shadowSpreadOuter1" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0199037576   0 0 0 0 0.069070532   0 0 0 0 0.115896031  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="工作台" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="工作台-增值税普票解析" transform="translate(-885.000000, -160.000000)">
+            <g id="编组-21" filter="url(#filter-1)" transform="translate(869.000000, 137.000000)">
+                <g id="编组-23" transform="translate(16.000000, 20.000000)">
+                    <g id="识别结果" transform="translate(0.000000, 3.000000)">
+                        <rect id="矩形" fill="#D8D8D8" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                        <rect id="矩形" fill="#8492A6" x="0" y="0" width="4" height="1.6"></rect>
+                        <rect id="矩形备份-7" fill="#8492A6" x="12" y="0" width="4" height="1.6"></rect>
+                        <rect id="矩形备份" fill="#8492A6" x="0" y="14.4" width="4" height="1.6"></rect>
+                        <rect id="矩形备份-8" fill="#8492A6" x="12" y="14.4" width="4" height="1.6"></rect>
+                        <rect id="矩形" fill="#8492A6" x="0" y="0" width="1.6" height="4"></rect>
+                        <rect id="矩形备份-2" fill="#8492A6" x="14.4" y="0" width="1.6" height="4"></rect>
+                        <rect id="矩形备份-5" fill="#8492A6" x="0" y="12" width="1.6" height="4"></rect>
+                        <rect id="矩形备份-9" fill="#8492A6" x="14" y="12" width="1.6" height="4"></rect>
+                        <path d="M13,2.5 L13,13.5 L3,13.5 L3,2.5 L13,2.5 Z M8.6,10.3 L4.6,10.3 L4.6,11.9 L8.6,11.9 L8.6,10.3 Z M11.4,7.3 L4.6,7.3 L4.6,8.9 L11.4,8.9 L11.4,7.3 Z M11.4,4.1 L4.6,4.1 L4.6,5.7 L11.4,5.7 L11.4,4.1 Z" id="形状结合" fill="#202D40"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
