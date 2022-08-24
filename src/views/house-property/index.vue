@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="document-ocr-wrapper"
-    :class="{ 'bee-loading': beeLoading }"
-  >
+  <div class="document-ocr-wrapper" :class="{ 'bee-loading': beeLoading }">
     <ocr-layout
       v-model="page"
       ref="ocrlayout"
@@ -28,31 +25,23 @@
           :key="rowIndex"
         >
           <td>{{ row.key }}</td>
-          <td v-html="resolveCol(row.value)"></td>
+          <td  style="white-space: pre-line">{{row.value}}</td>
         </ocr-el>
       </table>
     </ocr-layout>
 
     <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
+    <bee-loading :percent="percent" :needProgress="true" v-show="beeLoading"></bee-loading>
 
     <!-- 错误样本收集 -->
-    <div
-      class="sample-collection"
-      v-show="page.collectImgUrl"
-      @click="clickSampleCollection"
-    >
+    <div class="sample-collection" v-show="page.collectImgUrl" @click="clickSampleCollection">
       <svg-icon :iconClass="starsFlag ? '星星填充' : '星星'"></svg-icon>
       <span>{{ starsFlag ? "取消" : "难例" }}样本收集</span>
     </div>
 
     <!-- 上传文件 -->
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
-        action="/beefeather/file-handle-web/file/upload" -->
+    action="/beefeather/file-handle-web/file/upload"-->
     <lls-collapse-transition>
       <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <link-upload
@@ -89,9 +78,7 @@
               拖拽文件到此处或
               <span style="color: #0887ff; margin: 4px">点击上传</span>
             </div>
-            <div class="upload-text">
-              支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
+            <div class="upload-text">支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M</div>
           </div>
         </div>
       </link-upload>
@@ -119,14 +106,14 @@ export default {
       loadRecordId: "", // 难例收集id
       pageMenuPerm: {
         UPLOADCERTIFICATE: true,
-        DOWNCERTIFICATE: true,
-      },
+        DOWNCERTIFICATE: true
+      }
     };
   },
   components: {
     [beeLoading.name]: beeLoading,
     [OcrLayout.name]: OcrLayout,
-    [OcrEl.name]: OcrEl,
+    [OcrEl.name]: OcrEl
   },
   created() {
     // this.page = this.documents[0].tableFileDTOList[0];
@@ -152,62 +139,61 @@ export default {
       window.parent.postMessage(
         {
           from: "messageFromDocumentOcr",
-          fixed: fixed,
+          fixed: fixed
         },
         "*"
       );
     },
     // 样本收集点击事件
     clickSampleCollection() {
+      const requestId = this.documents[0].requestId;
       const picAddress = this.page.collectImgUrl;
       if (!this.starsFlag) {
         // const requestId = this.documents[0].requestId;
         this.$http
-          .post(
-            "/qualification-certificate-analysis-web/qualificationCertificate/saveCollectInfo",
-            {
-              // requestId: requestId,
-              picAddress: picAddress,
-              productName: "资质证书解析",
-            }
-          )
-          .then((res) => {
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+            requestId: requestId,
+            picAddress: picAddress,
+            productName: "房产证解析"
+          })
+          .then(res => {
             if (res.data.code === "200") {
               this.starsFlag = true;
-              this.loadRecordId = res.data.data.loadRecordId;
+              this.loadRecordId = res.data.data
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 120,
+                offset: 120
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120,
+                offset: 120
               });
+              嗯;
             }
           });
       } else {
         this.$http
           .post(
-            `/qualification-certificate-analysis-web/qualificationCertificate/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.loadRecordId
-            )}&url=${encodeURIComponent(picAddress)}`
+            )}&picAddress=${encodeURIComponent(picAddress)}`
           )
-          .then((res) => {
+          .then(res => {
             if (res.data.code === "200") {
               this.starsFlag = false;
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 120,
+                offset: 120
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120,
+                offset: 120
               });
             }
           });
@@ -216,7 +202,7 @@ export default {
     beforeUpload() {
       this.postFixdMessage(true);
       this.percent = 0;
-      window.setTimeout((_) => {
+      window.setTimeout(_ => {
         this.beeLoading = true;
       }, 80);
     },
@@ -229,12 +215,11 @@ export default {
     },
     // 表格ocr识别
     ocrRecognitionExcel(file) {
-      console.log(file);
       this.$http
         .post(
           `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=房产证解析`
         )
-        .then((res) => {
+        .then(res => {
           res = res.data;
           if (res.code === "200") {
             this.postFixdMessage(false);
@@ -242,24 +227,25 @@ export default {
             this.$message({
               message: "上传成功",
               type: "success",
-              offset: 120,
+              offset: 120
             });
             this.percent = 100;
-            this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
-              name: res.data[0].name,
-              pages: res.data.map((i) => {
+            this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
+              name: res.data.name,
+              requestId:res.data.requestId,
+              pages: res.data.pages.map(i => {
                 return {
                   ...i,
-                  collectImgUrl: i.img,
-                  img: this.resolveUrl(i.img),
-                  analysisResult: i.analysisResult.map((item) => {
+                  collectImgUrl: `${i.img}${i.pageName}`,
+                  img: this.resolveUrl(`${i.img}${i.pageName}`),
+                  analysisResult: i.analysisResult.map(item => {
                     return {
                       ...item,
-                      coordinatesList: item.coordinatesList || [],
+                      coordinatesList: item.coordinatesList || []
                     };
-                  }),
+                  })
                 };
-              }),
+              })
             });
             this.starsFlag = false;
             this.page = this.documents[0].pages[0];
@@ -269,7 +255,7 @@ export default {
             this.$message({
               message: res.message,
               type: "error",
-              offset: 120,
+              offset: 120
             });
           }
         });
@@ -280,12 +266,13 @@ export default {
     },
     // 下载识别结果
     handleClickDownload() {
+      console.log(this.$refs.ocrlayout.example,'this.$refs.ocrlayout.example');
       this.$http({
         method: "get",
         url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=房产证解析`,
-        responseType: "blob",
+        responseType: "blob"
       })
-        .then((res) => {
+        .then(res => {
           const fileName =
             res.headers["content-disposition"] &&
             res.headers["content-disposition"]
@@ -297,11 +284,11 @@ export default {
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
           this.exportByBlob(blob, decodeURIComponent(fileName), type);
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="stylus">
@@ -315,9 +302,11 @@ export default {
 
     .ocr-inner .ocr-result .ocr-text {
       padding: 16px;
+
       * {
-        user-select text
+        user-select: text;
       }
+
       table {
         border-left: 1px solid #E3E8F0;
         border-top: 1px solid #E3E8F0;

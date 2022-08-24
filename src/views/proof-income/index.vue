@@ -28,7 +28,7 @@
           :key="rowIndex"
         >
           <td>{{ row.key }}</td>
-          <td v-html="resolveCol(row.value)"></td>
+          <td  style="white-space: pre-line">{{row.value}}</td>
         </ocr-el>
       </table>
     </ocr-layout>
@@ -159,16 +159,17 @@ export default {
     },
     // 样本收集点击事件
     clickSampleCollection() {
+      const requestId = this.documents[0].requestId;
       const picAddress = this.page.collectImgUrl;
       if (!this.starsFlag) {
         // const requestId = this.documents[0].requestId;
         this.$http
           .post(
-            "/qualification-certificate-analysis-web/qualificationCertificate/saveCollectInfo",
+            "/general-product-web/hardCaseCollect/saveCollectInfo",
             {
-              // requestId: requestId,
+              requestId: requestId,
               picAddress: picAddress,
-              productName: "资质证书解析",
+              productName: "收入证明解析",
             }
           )
           .then((res) => {
@@ -191,9 +192,9 @@ export default {
       } else {
         this.$http
           .post(
-            `/qualification-certificate-analysis-web/qualificationCertificate/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.loadRecordId
-            )}&url=${encodeURIComponent(picAddress)}`
+            )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
             if (res.data.code === "200") {
@@ -229,10 +230,9 @@ export default {
     },
     // 表格ocr识别
     ocrRecognitionExcel(file) {
-      console.log(file);
       this.$http
         .post(
-          `/general-product-web/general/downloadResult?taskId=${this.files[0].taskId}&productName=收入证明解析`
+          `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=收入证明解析`
         )
         .then((res) => {
           res = res.data;
@@ -246,20 +246,21 @@ export default {
             });
             this.percent = 100;
             this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
-              name: res.data[0].name,
-              pages: res.data.map((i) => {
+              name: res.data.name,
+              requestId:res.data.requestId,
+              pages: res.data.pages.map(i => {
                 return {
                   ...i,
                   collectImgUrl: i.img,
                   img: this.resolveUrl(i.img),
-                  analysisResult: i.analysisResult.map((item) => {
+                  analysisResult: i.analysisResult.map(item => {
                     return {
                       ...item,
-                      coordinatesList: item.coordinatesList || [],
+                      coordinatesList: item.coordinatesList || []
                     };
-                  }),
+                  })
                 };
-              }),
+              })
             });
             this.starsFlag = false;
             this.page = this.documents[0].pages[0];
