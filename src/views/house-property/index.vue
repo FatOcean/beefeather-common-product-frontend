@@ -238,6 +238,8 @@ export default {
                   ...i,
                   collectImgUrl: `${i.img}${i.pageName}`,
                   img: this.resolveUrl(`${i.img}${i.pageName}`),
+                  originalHeight : /0|2/.test(i.imgRotatingDeg / 90) ? i.originalHeight : i.originalWidth,
+                  originalWidth : /0|2/.test(i.imgRotatingDeg / 90) ? i.originalWidth : i.originalHeight,
                   analysisResult: i.analysisResult.map(item => {
                     return {
                       ...item,
@@ -446,5 +448,10 @@ export default {
       }
     }
   }
+}
+</style>
+<style>
+.frame-mask-svg {
+  transform: rotate(0deg) !important
 }
 </style>

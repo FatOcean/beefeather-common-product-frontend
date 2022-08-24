@@ -253,6 +253,8 @@ export default {
                   ...i,
                   collectImgUrl: i.img,
                   img: this.resolveUrl(i.img),
+                  originalHeight : /0|2/.test(i.imgRotatingDeg / 90) ? i.originalHeight : i.originalWidth,
+                  originalWidth : /0|2/.test(i.imgRotatingDeg / 90) ? i.originalWidth : i.originalHeight,
                   analysisResult: i.analysisResult.map(item => {
                     return {
                       ...item,
