@@ -283,7 +283,7 @@ const documents = [
         "analysisResult": [
           {
             "id": 1,
-            "key": "权利人名称1",
+            "key": "权利人名称",
             "value": "李号号",
             "coordinatesList": [
               {
@@ -306,7 +306,7 @@ const documents = [
           },
           {
             "id": 2,
-            "key": "权利人证件号1",
+            "key": "权利人证件号",
             "value": "440525196800000008",
             "coordinatesList": [
               {
