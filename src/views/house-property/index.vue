@@ -55,7 +55,6 @@
         :on-error="onError"
         :showFileList="false"
         :class="{ dragenter: dragenter }"
-        :accept="['pdf', 'jpg', 'png', 'jpeg', 'bmp']"
         :messageOffset="120"
         :maxSize="1024 * 1024 * 8"
       >
@@ -199,7 +198,13 @@ export default {
           });
       }
     },
-    beforeUpload() {
+    beforeUpload(file) {
+      const fileSuffix = file.name.substring(file.name.lastIndexOf('.') + 1).toUpperCase()
+      let whiteList = ['PDF', 'JPG', 'PNG', 'JPEG', 'BMP']
+      if (whiteList.indexOf(fileSuffix) === -1) {
+        this.$message.error('仅支持PDF、JPG、JPEG、PNG、BMP格式文件上传，暂不支持其他格式')
+        return false
+      }
       this.postFixdMessage(true);
       this.percent = 0;
       window.setTimeout(_ => {
