@@ -6,7 +6,7 @@ import exampleOne from "../../assets/images/document-images/income/示例一.jpg
 const documents = [
   {
     "name": "示例一.jpg",
-    "requestId": "T2022082317807091",
+    "requestId": "001",
     "pages": [
       {
         "img": exampleOne,
@@ -75,7 +75,7 @@ const documents = [
   },
   {
     "name": "示例二.jpg",
-    "requestId": "T2022082317123721",
+    "requestId": "002",
     "pages": [
       {
         "img": exampleTwo,
