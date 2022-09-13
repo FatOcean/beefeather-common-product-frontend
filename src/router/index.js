@@ -5,6 +5,7 @@ import layout from '@/views/layout'
 // import layoutRoutes from './modules/layout'
 import houseProperty from '../views/house-property/index.vue'
 import proofIncome from '../views/proof-income/index.vue'
+import vehicleQualificationCertificate from '../views/vehicle-qualification-certificate/index.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,6 +29,15 @@ const routes = [
     }
   },
   {
+    path: '/vehicleQualificationCertificate',
+    component: vehicleQualificationCertificate,
+    meta: {
+      title: '文档OCR',
+      icon: 'icon_4',
+      activeIcon: 'icon_4_active'
+    }
+  },
+  {
     path: '/proofIncome',
     component: proofIncome,
     meta: {
@@ -35,7 +45,7 @@ const routes = [
       icon: 'icon_4',
       activeIcon: 'icon_4_active'
     }
-  }
+  },
 ]
 
 const router = new VueRouter({

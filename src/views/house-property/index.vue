@@ -25,16 +25,24 @@
           :key="rowIndex"
         >
           <td>{{ row.key }}</td>
-          <td  style="white-space: pre-line">{{row.value}}</td>
+          <td style="white-space: pre-line">{{ row.value }}</td>
         </ocr-el>
       </table>
     </ocr-layout>
 
     <!--  进度条 -->
-    <bee-loading :percent="percent" :needProgress="true" v-show="beeLoading"></bee-loading>
+    <bee-loading
+      :percent="percent"
+      :needProgress="true"
+      v-show="beeLoading"
+    ></bee-loading>
 
     <!-- 错误样本收集 -->
-    <div class="sample-collection" v-show="page.collectImgUrl" @click="clickSampleCollection">
+    <div
+      class="sample-collection"
+      v-show="page.collectImgUrl"
+      @click="clickSampleCollection"
+    >
       <svg-icon :iconClass="starsFlag ? '星星填充' : '星星'"></svg-icon>
       <span>{{ starsFlag ? "取消" : "难例" }}样本收集</span>
     </div>
@@ -49,7 +57,6 @@
         class="upload-wrapper"
         @mouseenter.native="dragenter = true"
         @mouseleave.native="dragenter = false"
-        :before-upload="beforeUpload"
         :on-success="ocrRecognitionExcel"
         :on-progress="onProgress"
         :on-error="onError"
@@ -57,6 +64,7 @@
         :class="{ dragenter: dragenter }"
         :messageOffset="120"
         :maxSize="1024 * 1024 * 8"
+        :accept="['jpg', 'jpeg', 'bmp', 'png', 'pdf']"
       >
         <div
           class="upload-innder"
@@ -77,7 +85,9 @@
               拖拽文件到此处或
               <span style="color: #0887ff; margin: 4px">点击上传</span>
             </div>
-            <div class="upload-text">支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M</div>
+            <div class="upload-text">
+              支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
+            </div>
           </div>
         </div>
       </link-upload>
@@ -105,14 +115,14 @@ export default {
       loadRecordId: "", // 难例收集id
       pageMenuPerm: {
         UPLOADCERTIFICATE: true,
-        DOWNCERTIFICATE: true
-      }
+        DOWNCERTIFICATE: true,
+      },
     };
   },
   components: {
     [beeLoading.name]: beeLoading,
     [OcrLayout.name]: OcrLayout,
-    [OcrEl.name]: OcrEl
+    [OcrEl.name]: OcrEl,
   },
   created() {
     // this.page = this.documents[0].tableFileDTOList[0];
@@ -138,7 +148,7 @@ export default {
       window.parent.postMessage(
         {
           from: "messageFromDocumentOcr",
-          fixed: fixed
+          fixed: fixed,
         },
         "*"
       );
@@ -153,22 +163,22 @@ export default {
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "房产证解析"
+            productName: "房产证解析",
           })
-          .then(res => {
+          .then((res) => {
             if (res.data.code === "200") {
               this.starsFlag = true;
-              this.loadRecordId = res.data.data
+              this.loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 120
+                offset: 120,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120
+                offset: 120,
               });
               嗯;
             }
@@ -180,34 +190,38 @@ export default {
               this.loadRecordId
             )}&picAddress=${encodeURIComponent(picAddress)}`
           )
-          .then(res => {
+          .then((res) => {
             if (res.data.code === "200") {
               this.starsFlag = false;
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 120
+                offset: 120,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120
+                offset: 120,
               });
             }
           });
       }
     },
     beforeUpload(file) {
-      const fileSuffix = file.name.substring(file.name.lastIndexOf('.') + 1).toUpperCase()
-      let whiteList = ['PDF', 'JPG', 'PNG', 'JPEG', 'BMP']
+      const fileSuffix = file.name
+        .substring(file.name.lastIndexOf(".") + 1)
+        .toUpperCase();
+      let whiteList = ["PDF", "JPG", "PNG", "JPEG", "BMP"];
       if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message.error('仅支持PDF、JPG、JPEG、PNG、BMP格式文件上传，暂不支持其他格式')
-        return false
+        this.$message.error(
+          "仅支持PDF、JPG、JPEG、PNG、BMP格式文件上传，暂不支持其他格式"
+        );
+        return false;
       }
       this.postFixdMessage(true);
       this.percent = 0;
-      window.setTimeout(_ => {
+      window.setTimeout((_) => {
         this.beeLoading = true;
       }, 80);
     },
@@ -224,7 +238,7 @@ export default {
         .post(
           `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=房产证解析`
         )
-        .then(res => {
+        .then((res) => {
           res = res.data;
           if (res.code === "200") {
             this.postFixdMessage(false);
@@ -232,27 +246,31 @@ export default {
             this.$message({
               message: "上传成功",
               type: "success",
-              offset: 120
+              offset: 120,
             });
             this.percent = 100;
             this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
               name: res.data.name,
-              requestId:res.data.requestId,
-              pages: res.data.pages.map(i => {
+              requestId: res.data.requestId,
+              pages: res.data.pages.map((i) => {
                 return {
                   ...i,
                   collectImgUrl: `${i.img}${i.pageName}`,
                   img: this.resolveUrl(`${i.img}${i.pageName}`),
-                  originalHeight : /0|2/.test(i.imgRotatingDeg / 90) ? i.originalHeight : i.originalWidth,
-                  originalWidth : /0|2/.test(i.imgRotatingDeg / 90) ? i.originalWidth : i.originalHeight,
-                  analysisResult: i.analysisResult.map(item => {
+                  originalHeight: /0|2/.test(i.imgRotatingDeg / 90)
+                    ? i.originalHeight
+                    : i.originalWidth,
+                  originalWidth: /0|2/.test(i.imgRotatingDeg / 90)
+                    ? i.originalWidth
+                    : i.originalHeight,
+                  analysisResult: i.analysisResult.map((item) => {
                     return {
                       ...item,
-                      coordinatesList: item.coordinatesList || []
+                      coordinatesList: item.coordinatesList || [],
                     };
-                  })
+                  }),
                 };
-              })
+              }),
             });
             this.starsFlag = false;
             this.page = this.documents[0].pages[0];
@@ -262,7 +280,7 @@ export default {
             this.$message({
               message: res.message,
               type: "error",
-              offset: 120
+              offset: 120,
             });
           }
         });
@@ -273,13 +291,13 @@ export default {
     },
     // 下载识别结果
     handleClickDownload() {
-      console.log(this.$refs.ocrlayout.example,'this.$refs.ocrlayout.example');
+      console.log(this.$refs.ocrlayout.example, "this.$refs.ocrlayout.example");
       this.$http({
         method: "get",
         url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=房产证解析`,
-        responseType: "blob"
+        responseType: "blob",
       })
-        .then(res => {
+        .then((res) => {
           const fileName =
             res.headers["content-disposition"] &&
             res.headers["content-disposition"]
@@ -291,11 +309,11 @@ export default {
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
           this.exportByBlob(blob, decodeURIComponent(fileName), type);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="stylus">
@@ -457,6 +475,6 @@ export default {
 </style>
 <style>
 .frame-mask-svg {
-  transform: rotate(0deg) !important
+  transform: rotate(0deg) !important;
 }
 </style>

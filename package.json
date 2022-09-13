@@ -11,7 +11,7 @@
 	"dependencies": {
 		"@linklogis/beeLoading": "^1.0.0",
 		"@linklogis/image-viewer": "^1.1.1",
-		"@linklogis/link-upload": "^1.0.6",
+		"@linklogis/link-upload": "^1.0.9",
 		"@linklogis/ocr-layout": "^1.1.7",
 		"axios": "^0.21.1",
 		"core-js": "^3.6.5",

@@ -49,7 +49,7 @@
 
     <!-- 上传文件 -->
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
-        action="/beefeather/file-handle-web/file/upload" -->
+    action="/beefeather/file-handle-web/file/upload"-->
     <lls-collapse-transition>
       <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <link-upload
@@ -163,7 +163,7 @@ export default {
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "收入证明解析",
+            productName: "车辆合格证解析",
           })
           .then((res) => {
             if (res.data.code === "200") {
@@ -180,6 +180,7 @@ export default {
                 type: "error",
                 offset: 120,
               });
+              嗯;
             }
           });
       } else {
@@ -235,7 +236,7 @@ export default {
     ocrRecognitionExcel(file) {
       this.$http
         .post(
-          `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=收入证明解析`
+          `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=车辆合格证解析`
         )
         .then((res) => {
           res = res.data;
@@ -248,14 +249,14 @@ export default {
               offset: 120,
             });
             this.percent = 100;
-            this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
+            this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
               name: res.data.name,
               requestId: res.data.requestId,
               pages: res.data.pages.map((i) => {
                 return {
                   ...i,
-                  collectImgUrl: i.img,
-                  img: this.resolveUrl(i.img),
+                  collectImgUrl: `${i.img}${i.pageName}`,
+                  img: this.resolveUrl(`${i.img}${i.pageName}`),
                   originalHeight: /0|2/.test(i.imgRotatingDeg / 90)
                     ? i.originalHeight
                     : i.originalWidth,
@@ -290,9 +291,10 @@ export default {
     },
     // 下载识别结果
     handleClickDownload() {
+      console.log(this.$refs.ocrlayout.example, "this.$refs.ocrlayout.example");
       this.$http({
         method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=收入证明解析`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=车辆合格证解析`,
         responseType: "blob",
       })
         .then((res) => {
@@ -469,5 +471,10 @@ export default {
       }
     }
   }
+}
+</style>
+<style>
+.frame-mask-svg {
+  transform: rotate(0deg) !important;
 }
 </style>
