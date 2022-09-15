@@ -57,6 +57,7 @@
         class="upload-wrapper"
         @mouseenter.native="dragenter = true"
         @mouseleave.native="dragenter = false"
+        :beforeUpload="beforeUpload"
         :on-success="ocrRecognitionExcel"
         :on-progress="onProgress"
         :on-error="onError"
@@ -208,16 +209,6 @@ export default {
       }
     },
     beforeUpload(file) {
-      const fileSuffix = file.name
-        .substring(file.name.lastIndexOf(".") + 1)
-        .toUpperCase();
-      let whiteList = ["PDF", "JPG", "PNG", "JPEG", "BMP"];
-      if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message.error(
-          "仅支持PDF、JPG、JPEG、PNG、BMP格式文件上传，暂不支持其他格式"
-        );
-        return false;
-      }
       this.postFixdMessage(true);
       this.percent = 0;
       window.setTimeout((_) => {
@@ -225,8 +216,12 @@ export default {
       }, 80);
     },
     onProgress(event, file) {
-      // console.log();
-      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
+      this.beeLoading =
+        // console.log();
+        this.percent = Math.min(
+          Math.floor((100 * file.loaded) / file.size),
+          98
+        );
     },
     onError(res) {
       // console.log(res);
