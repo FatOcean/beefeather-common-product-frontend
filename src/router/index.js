@@ -6,6 +6,7 @@ import layout from '@/views/layout'
 import houseProperty from '../views/house-property/index.vue'
 import proofIncome from '../views/proof-income/index.vue'
 import vehicleQualificationCertificate from '../views/vehicle-qualification-certificate/index.vue'
+import drivingLicense from '../views/driving-license/index.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,7 +18,7 @@ const routes = [
     path: '/',
     component: layout,
     // children: layoutRoutes
-    redirect: "/houseProperty"
+    redirect: "/drivingLicense"
   },
   {
     path: '/houseProperty',
@@ -40,6 +41,15 @@ const routes = [
   {
     path: '/proofIncome',
     component: proofIncome,
+    meta: {
+      title: '文档OCR',
+      icon: 'icon_4',
+      activeIcon: 'icon_4_active'
+    }
+  },
+  {
+    path: '/drivingLicense',
+    component: drivingLicense,
     meta: {
       title: '文档OCR',
       icon: 'icon_4',
