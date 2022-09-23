@@ -173,13 +173,13 @@ export default {
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 120,
+                offset: 72,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120,
+                offset: 72,
               });
             }
           });
@@ -196,13 +196,13 @@ export default {
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 120,
+                offset: 72,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120,
+                offset: 72,
               });
             }
           });
@@ -240,7 +240,7 @@ export default {
             this.$message({
               message: "上传成功",
               type: "success",
-              offset: 120,
+              offset: 72,
             });
             this.percent = 100;
             this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
@@ -274,7 +274,7 @@ export default {
             this.$message({
               message: res.message,
               type: "error",
-              offset: 120,
+              offset: 72,
             });
           }
         });

@@ -36,7 +36,7 @@ api.interceptors.response.use(
     }
     const code = response.data.code;
     if (code === 401) {
-      Message.error({ message: "用户未登录！", offset: 120, });
+      Message.error({ message: "用户未登录！", offset: 72, });
       router.push("/login");
       return Promise.reject(new Error("用户未登录！"));
     } else {
