@@ -5,6 +5,7 @@
       ref="ocrlayout"
       :data="documents"
       locatable
+      isMultiCoordinate
       @on-open-viewer="postFixdMessage(true)"
       @on-close-viewer="postFixdMessage(false)"
     >
