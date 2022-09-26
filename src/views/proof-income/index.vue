@@ -8,12 +8,26 @@
       isMultiCoordinate
       @on-open-viewer="postFixdMessage(true)"
       @on-close-viewer="postFixdMessage(false)"
+      @on-change-example="handleChangeExample"
     >
       <llsButton type="text" slot="button" @click="handleClickDownload">
         <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
         <svg-icon class="download" iconClass="下载"></svg-icon>
         <span>下载</span>
       </llsButton>
+      <lls-tabs
+        @tab-click="handleClick"
+        v-model="activeName"
+        v-if="tabsArray.length > 1"
+      >
+        <lls-tab-pane
+          v-for="(item, index) in tabsArray"
+          :key="index"
+          :label="item.name"
+          :name="item.name"
+        >
+        </lls-tab-pane>
+      </lls-tabs>
       <table cellspacing="0" cellpadding="0">
         <tr>
           <th>字段名</th>
@@ -22,7 +36,7 @@
         <ocr-el
           tag="tr"
           :value="row.coordinatesList"
-          v-for="(row, rowIndex) in page.analysisResult"
+          v-for="(row, rowIndex) in tabResult"
           :key="rowIndex"
         >
           <td>{{ row.key }}</td>
@@ -119,6 +133,9 @@ export default {
         UPLOADCERTIFICATE: true,
         DOWNCERTIFICATE: true,
       },
+      activeName: "",
+      tabsArray: [],
+      activeTabIndex: 0,
     };
   },
   components: {
@@ -126,8 +143,17 @@ export default {
     [OcrLayout.name]: OcrLayout,
     [OcrEl.name]: OcrEl,
   },
+  computed: {
+    tabResult() {
+      return this.page.analysisResult[this.activeTabIndex].tabResult;
+    },
+  },
   created() {
-    // this.page = this.documents[0].tableFileDTOList[0];
+    this.page = this.documents[0].pages[0];
+    this.tabsArray = this.page.analysisResult.map((item) => {
+      return { name: item.tabName };
+    });
+    this.activeName = this.tabsArray[0].name;
   },
   mounted() {
     // console.log("设置cookie")
@@ -138,6 +164,18 @@ export default {
     // });
   },
   methods: {
+    handleClick(value) {
+      // console.log(value);
+      this.activeTabIndex = Number(value.index);
+    },
+    handleChangeExample() {
+      this.$nextTick(() => {
+        this.tabsArray = this.page.analysisResult.map((item) => {
+          return { name: item.tabName };
+        });
+        this.activeName = this.tabsArray[0].name;
+      });
+    },
     setuserMenuPermList(data) {
       if (data.pageMenuPerm) {
         this.$nextTick(() => {
@@ -260,8 +298,13 @@ export default {
                     : i.originalHeight,
                   analysisResult: i.analysisResult.map((item) => {
                     return {
-                      ...item,
-                      coordinatesList: item.coordinatesList || [],
+                      tabName: item.tabName,
+                      tabResult: item.tabResult.map((j) => {
+                        return {
+                          ...j,
+                          coordinatesList: j.coordinatesList || [],
+                        };
+                      }),
                     };
                   }),
                 };
