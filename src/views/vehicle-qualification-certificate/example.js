@@ -17,7 +17,7 @@ const documents = [
             "id": 1,
             "key": "发证日期",
             "value": "2015年08月25日",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 890,
                 "y": 82
@@ -34,13 +34,13 @@ const documents = [
                 "x": 890,
                 "y": 116
               }
-            ]
+            ]]
           },
           {
             "id": 2,
             "key": "车辆识别代号/车架号",
             "value": "LV4ER4S2VS4FE65FE",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 891,
                 "y": 192
@@ -57,13 +57,13 @@ const documents = [
                 "x": 891,
                 "y": 221
               }
-            ]
+            ]]
           },
           {
             "id": 3,
             "key": "车身颜色",
             "value": "传奇黑",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 328,
                 "y": 229
@@ -80,7 +80,7 @@ const documents = [
                 "x": 328,
                 "y": 259
               }
-            ]
+            ]]
           }
         ]
       }

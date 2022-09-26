@@ -19,7 +19,7 @@ const documents = [
             "id": 0,
             "key": "工作单位",
             "value": "深圳市小蜜蜂科技有限公司",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 900,
                 "y": 1412
@@ -36,13 +36,13 @@ const documents = [
                 "x": 902,
                 "y": 1448
               }
-            ]
+            ]]
           },
           {
             "id": 1,
             "key": "月收入",
             "value": "10000",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 394,
                 "y": 757
@@ -59,14 +59,14 @@ const documents = [
                 "x": 392,
                 "y": 801
               }
-            ]
+            ]]
           },
           {
             "id": 2,
             "key": "年收入",
             "value": "",
             "coordinatesList": [
-
+              []
             ]
           }
         ]
@@ -88,7 +88,7 @@ const documents = [
             "id": 0,
             "key": "工作单位",
             "value": "深圳市小蜜峰科技有限公司",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 1108,
                 "y": 1356
@@ -105,21 +105,21 @@ const documents = [
                 "x": 1108,
                 "y": 1701
               }
-            ]
+            ]]
           },
           {
             "id": 1,
             "key": "月收入",
             "value": "",
             "coordinatesList": [
-
+              []
             ]
           },
           {
             "id": 2,
             "key": "年收入",
             "value": "250000",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 1181,
                 "y": 883
@@ -136,7 +136,7 @@ const documents = [
                 "x": 1181,
                 "y": 932
               }
-            ]
+            ]]
           }
         ]
       }

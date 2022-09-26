@@ -1135,10 +1135,10 @@
   dependencies:
     axios "^0.26.1"
 
-"@linklogis/ocr-layout@^1.1.7":
-  version "1.2.0"
-  resolved "http://nexus.linklogis.cn/repository/lls-npm/@linklogis/ocr-layout/-/ocr-layout-1.2.0.tgz#a686deaf615995d36bdeb4574cce5346dfd06c55"
-  integrity sha512-up0vutrXNvSyAOjB56hBeQ/8oTs6SV1SLuV66VnYauorkPaJ7SqxBT/lnbJ9Akan/QqGgKgW8qRyPujebZkxcg==
+"@linklogis/ocr-layout@^1.2.3":
+  version "1.2.3"
+  resolved "http://nexus.linklogis.cn/repository/lls-npm/@linklogis/ocr-layout/-/ocr-layout-1.2.3.tgz#1de81faf3420fec25b6ed8aa6ad91c188e26d429"
+  integrity sha512-8LrvnvrVM5XWnbXYVVtIKSX/qxGJmhDFcSSm7paKOfqyUagg30TWGcPCTwzXW25J4VVGdGsyALCpnzjR+osQsw==
 
 "@linklogis/spec@^0.0.6":
   version "0.0.6"

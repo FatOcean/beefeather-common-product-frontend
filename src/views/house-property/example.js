@@ -17,7 +17,7 @@ const documents = [
             "id": 1,
             "key": "权利人名称1",
             "value": "李号号",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 133,
                 "y": 257
@@ -34,13 +34,13 @@ const documents = [
                 "x": 132,
                 "y": 315
               }
-            ]
+            ]]
           },
           {
             "id": 2,
             "key": "权利人证件号1",
             "value": "440525196800000008",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 133,
                 "y": 257
@@ -57,13 +57,13 @@ const documents = [
                 "x": 132,
                 "y": 315
               }
-            ]
+            ]]
           },
           {
             "id": 3,
             "key": "宗地号",
             "value": "A004-0087",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 359,
                 "y": 483
@@ -80,13 +80,13 @@ const documents = [
                 "x": 358,
                 "y": 544
               }
-            ]
+            ]]
           },
           {
             "id": 4,
             "key": "宗地面积",
             "value": "38090.56㎡",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 1170,
                 "y": 506
@@ -103,13 +103,13 @@ const documents = [
                 "x": 1170,
                 "y": 565
               }
-            ]
+            ]]
           },
           {
             "id": 5,
             "key": "土地用途",
             "value": "居住用地",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 356,
                 "y": 579
@@ -126,13 +126,13 @@ const documents = [
                 "x": 354,
                 "y": 660
               }
-            ]
+            ]]
           },
           {
             "id": 6,
             "key": "所在区",
             "value": "宝安",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 1165,
                 "y": 597
@@ -149,13 +149,13 @@ const documents = [
                 "x": 1161,
                 "y": 674
               }
-            ]
+            ]]
           },
           {
             "id": 7,
             "key": "土地位置",
             "value": "宝安中心区N5区",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 363,
                 "y": 705
@@ -172,13 +172,13 @@ const documents = [
                 "x": 363,
                 "y": 763
               }
-            ]
+            ]]
           },
           {
             "id": 8,
             "key": "使用年限",
             "value": "70年,从2004年07月14日至2074年07月13日止。",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 359,
                 "y": 811
@@ -195,13 +195,13 @@ const documents = [
                 "x": 358,
                 "y": 868
               }
-            ]
+            ]]
           },
           {
             "id": 9,
             "key": "房产证书编号",
             "value": "深房地字第50003973",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 383,
                 "y": 1674
@@ -218,13 +218,13 @@ const documents = [
                 "x": 382,
                 "y": 1742
               }
-            ]
+            ]]
           },
           {
             "id": 10,
             "key": "登记日期",
             "value": "登记日期2009年09月28日",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 565,
                 "y": 2052
@@ -241,13 +241,13 @@ const documents = [
                 "x": 563,
                 "y": 2114
               }
-            ]
+            ]]
           },
           {
             "id": 11,
             "key": "建筑面积",
             "value": "130.3㎡",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 2040,
                 "y": 401
@@ -264,13 +264,13 @@ const documents = [
                 "x": 2037,
                 "y": 461
               }
-            ]
+            ]]
           },
           {
             "id": 12,
             "key": "套内建筑面积",
             "value": "103.09㎡",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 2833,
                 "y": 417
@@ -287,13 +287,13 @@ const documents = [
                 "x": 2833,
                 "y": 476
               }
-            ]
+            ]]
           },
           {
             "id": 13,
             "key": "用途",
             "value": "住宅",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 2034,
                 "y": 498
@@ -310,13 +310,13 @@ const documents = [
                 "x": 2031,
                 "y": 573
               }
-            ]
+            ]]
           },
           {
             "id": 14,
             "key": "竣工日期",
             "value": "2006年10月31日",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 2833,
                 "y": 525
@@ -333,13 +333,13 @@ const documents = [
                 "x": 2832,
                 "y": 585
               }
-            ]
+            ]]
           },
           {
             "id": 15,
             "key": "登记价",
             "value": "人民币7777775.00元",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 2043,
                 "y": 609
@@ -356,13 +356,13 @@ const documents = [
                 "x": 2042,
                 "y": 666
               }
-            ]
+            ]]
           },
           {
             "id": 16,
             "key": "附记",
             "value": "市场商品房。\n该业主于2009年9月25日通过购买取得该房地产。\n以下空白",
-            "coordinatesList": [
+            "coordinatesList": [[
               {
                 "x": 1752,
                 "y": 814
@@ -379,7 +379,7 @@ const documents = [
                 "x": 1750,
                 "y": 950
               }
-            ]
+            ]]
           }
         ]
       }
