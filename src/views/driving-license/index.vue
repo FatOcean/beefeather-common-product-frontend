@@ -166,8 +166,12 @@ export default {
   },
   methods: {
     handleClick(value) {
-      // console.log(value);
+      // console.log(this.$refs.ocrlayout);
       this.activeTabIndex = Number(value.index);
+      // this.$refs.ocrlayout.resetProps();
+      this.$refs.ocrlayout.pathValue = null;
+      this.$refs.ocrlayout.activeText = null;
+      this.$refs.ocrlayout.activeTextId = "";
     },
     handleChangeExample() {
       this.$nextTick(() => {
@@ -300,7 +304,7 @@ export default {
                   analysisResult: i.analysisResult.map((item) => {
                     return {
                       tabName: item.tabName,
-                      tabResult: item.tabResult.map((j) => {
+                      tabResult: item.analysisResult.map((j) => {
                         return {
                           ...j,
                           coordinatesList: j.coordinatesList || [],
@@ -313,6 +317,13 @@ export default {
             });
             this.starsFlag = false;
             this.page = this.documents[0].pages[0];
+            this.tabsArray = this.page.analysisResult.map((item) => {
+              return { name: item.tabName };
+            });
+            this.activeName = this.tabsArray[0].name;
+            // this.$refs.ocrlayout.reRenderImage();
+            // console.log(this.page, "page");
+            // console.log(this.$refs.ocrlayout, "ref");
           } else {
             this.postFixdMessage(false);
             this.beeLoading = false;

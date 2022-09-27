@@ -16,7 +16,6 @@ const documents = [
           {
             tabName: 'tab1',
             tabResult: [
-
               {
                 "id": 1,
                 "key": "发证日期",
