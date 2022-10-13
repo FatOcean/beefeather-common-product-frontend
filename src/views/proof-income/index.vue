@@ -172,6 +172,7 @@ export default {
       this.$refs.ocrlayout.activeTextId = "";
     },
     handleChangeExample() {
+      this.activeTabIndex = 0;
       this.$nextTick(() => {
         this.tabsArray = this.page.analysisResult.map((item) => {
           return { name: item.tabName };

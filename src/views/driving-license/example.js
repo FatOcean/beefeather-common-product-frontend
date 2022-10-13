@@ -362,6 +362,12 @@ const documents = [
                     }
                   ]
                 ]
+              },
+              {
+                id: 4,
+                key: '记录',
+                value: '',
+                coordinatesList: []
               }
             ]
           }
