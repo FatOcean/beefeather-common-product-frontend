@@ -267,6 +267,9 @@ export default {
         );
     },
     onError(res) {
+      this.files = []
+      this.beeLoading = false
+      this.$message.error('文件上传失败（如文件未解压等）')
       // console.log(res);
     },
     // 表格ocr识别

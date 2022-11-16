@@ -264,6 +264,9 @@ export default {
       this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
     },
     onError(res) {
+      this.files = []
+      this.beeLoading = false
+      this.$message.error('文件上传失败（如文件未解压等）')
       // console.log(res);
     },
     // 表格ocr识别
