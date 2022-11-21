@@ -10,7 +10,12 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <llsButton type="text" slot="button" @click="handleClickDownload">
+      <llsButton
+        type="text"
+        slot="button"
+        @click="handleClickDownload"
+        v-if="pageMenuPerm['downloadHouseProperty']"
+      >
         <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
         <svg-icon class="download" iconClass="下载"></svg-icon>
         <span>下载</span>
@@ -65,7 +70,7 @@
     <!-- 上传文件 -->
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
     action="/beefeather/file-handle-web/file/upload"-->
-    <lls-collapse-transition>
+    <lls-collapse-transition v-if="pageMenuPerm['uploadHouseProperty']">
       <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <link-upload
         v-model="files"
@@ -129,13 +134,11 @@ export default {
       href: window.location.href,
       starsFlag: false, // 是否收集
       loadRecordId: "", // 难例收集id
-      pageMenuPerm: {
-        UPLOADCERTIFICATE: true,
-        DOWNCERTIFICATE: true,
-      },
+      pageMenuPerm: {},
       activeName: "",
       tabsArray: [],
       activeTabIndex: 0,
+      pageMenuPerm: {},
     };
   },
   components: {
@@ -159,9 +162,9 @@ export default {
     // console.log("设置cookie")
     // this.setCookie("AUTHENTICATION", "token____________", 1)
     // 接收iframe的数据
-    // window.addEventListener("message", (e) => {
-    //   this.setuserMenuPermList(e.data);
-    // });
+    window.addEventListener("message", (e) => {
+      this.setuserMenuPermList(e.data);
+    });
   },
   methods: {
     handleClick(value) {
