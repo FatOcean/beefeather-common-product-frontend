@@ -15,6 +15,7 @@
         slot="button"
         @click="handleClickDownload"
         v-if="pageMenuPerm['downloadProofIncome']"
+        :style="{ 'margin-right': downloadButtonPosition }"
       >
         <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
         <svg-icon class="download" iconClass="下载"></svg-icon>
@@ -153,6 +154,12 @@ export default {
     tabResult() {
       return this.page.analysisResult[this.activeTabIndex].tabResult;
     },
+    downloadButtonPosition() {
+      return this.pageMenuPerm["serviceProofIncome"] ||
+        this.pageMenuPerm["collectProofIncome"]
+        ? "54px"
+        : "0";
+    },
   },
   created() {
     this.page = this.documents[0].pages[0];
@@ -273,9 +280,9 @@ export default {
         );
     },
     onError(res) {
-      this.files = []
-      this.beeLoading = false
-      this.$message.error('文件上传失败（如文件未解压等）')
+      this.files = [];
+      this.beeLoading = false;
+      this.$message.error("文件上传失败（如文件未解压等）");
       // console.log(res);
     },
     // 表格ocr识别
@@ -374,10 +381,6 @@ export default {
 .document-ocr-wrapper {
   .ocr-layout {
     padding: 76px 24px 24px 24px;
-
-    .lls-button.lls-button--text {
-      margin-right: 54px;
-    }
 
     .ocr-inner .ocr-result .ocr-text {
       padding: 16px;
