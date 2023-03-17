@@ -286,7 +286,6 @@ export default {
         );
     },
     onError(res) {
-      // console.log(res);
       this.files = [];
       this.beeLoading = false;
       this.$message.error("文件上传失败（如文件未解压等）");

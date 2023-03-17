@@ -1,0 +1,815 @@
+import imageOne from './images/示例一.jpg'
+import imageTwo from './images/示例二.png'
+import imageThree from './images/示例三.jpg'
+
+const data = [
+  {
+    url: imageOne,
+    flag: '光大银行',
+    width: 2478,
+    height: 3506,
+    forbid_change: true,
+    fileName: '示例一.jpg',
+    imagePath: 'product/receipt_analysis/demo/data/示例一.jpg',
+    // "pdfPath": "product/treasury_flow_analysis/lls/T2022062111243343/data/1-交易明细表(1).pdf",
+    excelPath: 'product/receipt_analysis/demo/result/示例一.xlsx',
+    tabList: [
+      {
+        id: 1,
+        tabName: '回单1',
+        position: {
+          w: 2013,
+          x: 220,
+          h: 1058,
+          y: 2012
+        },
+        contentList: [
+          {
+            id: 1,
+            codeEn: 'beneficiary_name',
+            key: '收款人名称',
+            value: '短信通知手续费收入(对公)'
+          },
+          {
+            id: 2,
+            codeEn: 'beneficiary_account',
+            key: '收款人账号',
+            value: '3861012296000'
+          },
+          {
+            id: 3,
+            codeEn: 'beneficiary_bank',
+            key: '收款人银行',
+            value: '广州分行'
+          },
+          {
+            id: 4,
+            codeEn: 'payer_name',
+            key: '付款人名称',
+            value: '联捷商业保理有限公司'
+          },
+          {
+            id: 5,
+            codeEn: 'payer_account',
+            key: '付款人账号',
+            value: '3861018800091'
+          },
+          {
+            id: 6,
+            codeEn: 'payer_bank',
+            key: '付款人银行',
+            value: '广州分行'
+          },
+          {
+            id: 7,
+            codeEn: 'capitalized_amount',
+            key: '金额（大写）',
+            value: '人民币壹拾元整'
+          },
+          {
+            id: 8,
+            codeEn: 'lowercase_amount',
+            key: '金额（小写）',
+            value: '￥10.00'
+          },
+          {
+            id: 9,
+            codeEn: 'bank_serial_number',
+            key: '银行流水号',
+            value: '901410000098'
+          },
+          {
+            id: 10,
+            codeEn: 'receipt_number',
+            key: '回单编号',
+            value: '202107299014100000980000000001'
+          },
+          {
+            id: 11,
+            codeEn: 'transaction_date',
+            key: '交易日期',
+            value: '2021-07-29'
+          },
+          {
+            id: 12,
+            codeEn: 'currency',
+            key: '币种',
+            value: '人民币'
+          },
+          {
+            id: 13,
+            codeEn: 'number_of_prints ',
+            key: '打印次数',
+            value: ''
+          },
+          {
+            id: 14,
+            codeEn: ' receipt_type',
+            key: '回单类型',
+            value: '电子回单'
+          },
+          {
+            id: 15,
+            codeEn: 'transaction_type',
+            key: '交易类型',
+            value: ''
+          },
+          {
+            id: 16,
+            codeEn: 'bookkeeping_outlets',
+            key: '记账网点',
+            value: ''
+          },
+          {
+            id: 17,
+            codeEn: 'bookkeeping_teller',
+            key: '记账柜员',
+            value: ''
+          },
+          {
+            id: 18,
+            codeEn: 'accounting_date',
+            key: '记账日期',
+            value: '2021-07-29'
+          },
+          {
+            id: 19,
+            codeEn: 'print_date',
+            key: '打印日期',
+            value: ''
+          },
+          {
+            id: 20,
+            codeEn: 'business_number',
+            key: '业务编号',
+            value: ''
+          },
+          {
+            id: 21,
+            codeEn: 'use',
+            key: '用途',
+            value: '短信通服务费'
+          },
+          {
+            id: 22,
+            codeEn: 'remark',
+            key: '备注',
+            value: ''
+          },
+          {
+            id: 23,
+            codeEn: 'postscript',
+            key: '附言',
+            value: ''
+          },
+          {
+            id: 24,
+            codeEn: 'settlement_method',
+            key: '结算方式',
+            value: ''
+          },
+          {
+            id: 25,
+            codeEn: 'summary',
+            key: '摘要',
+            value: ''
+          },
+          {
+            id: 26,
+            codeEn: 'loan_sign',
+            key: '借贷标志',
+            value: ''
+          },
+          {
+            id: 27,
+            codeEn: 'receipt_and_payment_sign',
+            key: '收付标志',
+            value: ''
+          },
+          {
+            id: 28,
+            codeEn: 'pay_bank_number',
+            key: '付款行行号',
+            value: ''
+          },
+          {
+            id: 29,
+            codeEn: 'payee_bank_number',
+            key: '收款行行号',
+            value: ''
+          },
+          {
+            id: 30,
+            codeEn: 'timestamp',
+            key: '时间戳',
+            value: ''
+          }
+        ]
+      },
+      {
+        id: 2,
+        tabName: '回单2',
+        position: {
+          w: 1990,
+          x: 230,
+          h: 1037,
+          y: 340
+        },
+        contentList: [
+          {
+            id: 1,
+            codeEn: 'beneficiary_name',
+            key: '收款人名称',
+            value: '联捷商业保理有限公司'
+          },
+          {
+            id: 2,
+            codeEn: 'beneficiary_account',
+            key: '收款人账号',
+            value: '3861018800091'
+          },
+          {
+            id: 3,
+            codeEn: 'beneficiary_bank',
+            key: '收款人银行',
+            value: ''
+          },
+          {
+            id: 4,
+            codeEn: 'payer_name',
+            key: '付款人名称',
+            value: ''
+          },
+          {
+            id: 5,
+            codeEn: 'payer_account',
+            key: '付款人账号',
+            value: ''
+          },
+          {
+            id: 6,
+            codeEn: 'payer_bank',
+            key: '付款人银行',
+            value: ''
+          },
+          {
+            id: 7,
+            codeEn: 'capitalized_amount',
+            key: '金额（大写）',
+            value: '人民币壹拾陆元肆角陆分'
+          },
+          {
+            id: 8,
+            codeEn: 'lowercase_amount',
+            key: '金额（小写）',
+            value: '￥16.46'
+          },
+          {
+            id: 9,
+            codeEn: 'bank_serial_number',
+            key: '银行流水号',
+            value: '993861000222'
+          },
+          {
+            id: 10,
+            codeEn: 'receipt_number',
+            key: '回单编号',
+            value: '202109219938610002220000005690'
+          },
+          {
+            id: 11,
+            codeEn: 'transaction_date',
+            key: '交易日期',
+            value: '2021-09-21'
+          },
+          {
+            id: 12,
+            codeEn: 'currency',
+            key: '币种',
+            value: '人民币'
+          },
+          {
+            id: 13,
+            codeEn: 'number_of_prints ',
+            key: '打印次数',
+            value: ''
+          },
+          {
+            id: 14,
+            codeEn: ' receipt_type',
+            key: '回单类型',
+            value: '电子回单'
+          },
+          {
+            id: 15,
+            codeEn: 'transaction_type',
+            key: '交易类型',
+            value: ''
+          },
+          {
+            id: 16,
+            codeEn: 'bookkeeping_outlets',
+            key: '记账网点',
+            value: ''
+          },
+          {
+            id: 17,
+            codeEn: 'bookkeeping_teller',
+            key: '记账柜员',
+            value: ''
+          },
+          {
+            id: 18,
+            codeEn: 'accounting_date',
+            key: '记账日期',
+            value: '2021-09-21'
+          },
+          {
+            id: 19,
+            codeEn: 'print_date',
+            key: '打印日期',
+            value: ''
+          },
+          {
+            id: 20,
+            codeEn: 'business_number',
+            key: '业务编号',
+            value: ''
+          },
+          {
+            id: 21,
+            codeEn: 'use',
+            key: '用途',
+            value: '.'
+          },
+          {
+            id: 22,
+            codeEn: 'remark',
+            key: '备注',
+            value: ''
+          },
+          {
+            id: 23,
+            codeEn: 'postscript',
+            key: '附言',
+            value: ''
+          },
+          {
+            id: 24,
+            codeEn: 'settlement_method',
+            key: '结算方式',
+            value: ''
+          },
+          {
+            id: 25,
+            codeEn: 'summary',
+            key: '摘要',
+            value: ''
+          },
+          {
+            id: 26,
+            codeEn: 'loan_sign',
+            key: '借贷标志',
+            value: ''
+          },
+          {
+            id: 27,
+            codeEn: 'receipt_and_payment_sign',
+            key: '收付标志',
+            value: ''
+          },
+          {
+            id: 28,
+            codeEn: 'pay_bank_number',
+            key: '付款行行号',
+            value: ''
+          },
+          {
+            id: 29,
+            codeEn: 'payee_bank_number',
+            key: '收款行行号',
+            value: ''
+          },
+          {
+            id: 30,
+            codeEn: 'timestamp',
+            key: '时间戳',
+            value: ''
+          }
+        ]
+      }
+    ]
+  },
+  {
+    url: imageTwo,
+    flag: '华夏银行',
+    width: 1188,
+    height: 842,
+    forbid_change: true,
+    fileName: '示例二.png',
+    imagePath: 'product/receipt_analysis/demo/data/示例二.png',
+    // "pdfPath": "product/treasury_flow_analysis/lls/T2022062111243343/data/1-交易明细表(1).pdf",
+    excelPath: 'product/receipt_analysis/demo/result/示例二.png',
+    tabList: [
+      {
+        id: 1,
+        tabName: '回单',
+        position: {
+          w: 1187,
+          x: 0,
+          h: 827,
+          y: 7
+        },
+        contentList: [
+          {
+            id: 1,
+            codeEn: 'beneficiary_name',
+            key: '收款人名称',
+            value: '科技集团有限公司'
+          },
+          {
+            id: 2,
+            codeEn: 'beneficiary_account',
+            key: '收款人账号',
+            value: '1086000000057'
+          },
+          {
+            id: 3,
+            codeEn: 'beneficiary_bank',
+            key: '收款人银行',
+            value: ''
+          },
+          {
+            id: 4,
+            codeEn: 'payer_name',
+            key: '付款人名称',
+            value: '联捷商业保理有限公司'
+          },
+          {
+            id: 5,
+            codeEn: 'payer_account',
+            key: '付款人账号',
+            value: '80188010011'
+          },
+          {
+            id: 6,
+            codeEn: 'payer_bank',
+            key: '付款人银行',
+            value: '广东华兴银行股份有限公司广州天河路支行'
+          },
+          {
+            id: 7,
+            codeEn: 'capitalized_amount',
+            key: '金额（大写）',
+            value: ''
+          },
+          {
+            id: 8,
+            codeEn: 'lowercase_amount',
+            key: '金额（小写）',
+            value: '100,023,000.00'
+          },
+          {
+            id: 9,
+            codeEn: 'bank_serial_number',
+            key: '银行流水号',
+            value: '7555997'
+          },
+          {
+            id: 10,
+            codeEn: 'receipt_number',
+            key: '回单编号',
+            value: '0802BGP4HGC!'
+          },
+          {
+            id: 11,
+            codeEn: 'transaction_date',
+            key: '交易日期',
+            value: '2021-08-02'
+          },
+          {
+            id: 12,
+            codeEn: 'currency',
+            key: '币种',
+            value: ''
+          },
+          {
+            id: 13,
+            codeEn: 'number_of_prints ',
+            key: '打印次数',
+            value: ''
+          },
+          {
+            id: 14,
+            codeEn: ' receipt_type',
+            key: '回单类型',
+            value: ''
+          },
+          {
+            id: 15,
+            codeEn: 'transaction_type',
+            key: '交易类型',
+            value: '普通汇兑'
+          },
+          {
+            id: 16,
+            codeEn: 'bookkeeping_outlets',
+            key: '记账网点',
+            value: '0860'
+          },
+          {
+            id: 17,
+            codeEn: 'bookkeeping_teller',
+            key: '记账柜员',
+            value: ''
+          },
+          {
+            id: 18,
+            codeEn: 'accounting_date',
+            key: '记账日期',
+            value: '2021-08-02'
+          },
+          {
+            id: 19,
+            codeEn: 'print_date',
+            key: '打印日期',
+            value: '2021-09-23 17:52:02'
+          },
+          {
+            id: 20,
+            codeEn: 'business_number',
+            key: '业务编号',
+            value: ''
+          },
+          {
+            id: 21,
+            codeEn: 'use',
+            key: '用途',
+            value: ''
+          },
+          {
+            id: 22,
+            codeEn: 'remark',
+            key: '备注',
+            value: ''
+          },
+          {
+            id: 23,
+            codeEn: 'postscript',
+            key: '附言',
+            value: ''
+          },
+          {
+            id: 24,
+            codeEn: 'settlement_method',
+            key: '结算方式',
+            value: ''
+          },
+          {
+            id: 25,
+            codeEn: 'summary',
+            key: '摘要',
+            value: ''
+          },
+          {
+            id: 26,
+            codeEn: 'loan_sign',
+            key: '借贷标志',
+            value: '贷'
+          },
+          {
+            id: 27,
+            codeEn: 'receipt_and_payment_sign',
+            key: '收付标志',
+            value: ''
+          },
+          {
+            id: 28,
+            codeEn: 'pay_bank_number',
+            key: '付款行行号',
+            value: '313581092072'
+          },
+          {
+            id: 29,
+            codeEn: 'payee_bank_number',
+            key: '收款行行号',
+            value: '304584042088'
+          },
+          {
+            id: 30,
+            codeEn: 'timestamp',
+            key: '时间戳',
+            value: ''
+          }
+        ]
+      }
+    ]
+  },
+  {
+    url: imageThree,
+    flag: '中国建设银行',
+    width: 2478,
+    height: 3506,
+    forbid_change: true,
+    fileName: '示例三.jpg',
+    imagePath: 'product/receipt_analysis/demo/data/示例三.jpg',
+    // "pdfPath": "product/treasury_flow_analysis/lls/T2022062111243343/data/1-交易明细表(1).pdf",
+    excelPath: 'product/receipt_analysis/demo/result/示例三.jpg',
+    tabList: [
+      {
+        id: 1,
+        tabName: '回单',
+        position: {
+          w: 2069,
+          x: 179,
+          h: 796,
+          y: 196
+        },
+        contentList: [
+          {
+            id: 1,
+            codeEn: 'beneficiary_name',
+            key: '收款人名称',
+            value: '客户建行贷款还款资金过渡户'
+          },
+          {
+            id: 2,
+            codeEn: 'beneficiary_account',
+            key: '收款人账号',
+            value: '44200007715631399900800.'
+          },
+          {
+            id: 3,
+            codeEn: 'beneficiary_bank',
+            key: '收款人银行',
+            value: '建行深圳平湖支行'
+          },
+          {
+            id: 4,
+            codeEn: 'payer_name',
+            key: '付款人名称',
+            value: ':融捷商业保理有限公司'
+          },
+          {
+            id: 5,
+            codeEn: 'payer_account',
+            key: '付款人账号',
+            value: '4425010000770000'
+          },
+          {
+            id: 6,
+            codeEn: 'payer_bank',
+            key: '付款人银行',
+            value: '中国建设银行股份有限公司深圳平湖支行'
+          },
+          {
+            id: 7,
+            codeEn: 'capitalized_amount',
+            key: '金额（大写）',
+            value: '壹拾万零伍仟玖佰贰拾玖元陆角整'
+          },
+          {
+            id: 8,
+            codeEn: 'lowercase_amount',
+            key: '金额（小写）',
+            value: '105,929.60'
+          },
+          {
+            id: 9,
+            codeEn: 'bank_serial_number',
+            key: '银行流水号',
+            value: '743-4420000770N0PP42'
+          },
+          {
+            id: 10,
+            codeEn: 'receipt_number',
+            key: '回单编号',
+            value: '103766575714'
+          },
+          {
+            id: 11,
+            codeEn: 'transaction_date',
+            key: '交易日期',
+            value: '20210826'
+          },
+          {
+            id: 12,
+            codeEn: 'currency',
+            key: '币种',
+            value: '人民币元'
+          },
+          {
+            id: 13,
+            codeEn: 'number_of_prints ',
+            key: '打印次数',
+            value: ''
+          },
+          {
+            id: 14,
+            codeEn: ' receipt_type',
+            key: '回单类型',
+            value: ''
+          },
+          {
+            id: 15,
+            codeEn: 'transaction_type',
+            key: '交易类型',
+            value: ''
+          },
+          {
+            id: 16,
+            codeEn: 'bookkeeping_outlets',
+            key: '记账网点',
+            value: ''
+          },
+          {
+            id: 17,
+            codeEn: 'bookkeeping_teller',
+            key: '记账柜员',
+            value: ''
+          },
+          {
+            id: 18,
+            codeEn: 'accounting_date',
+            key: '记账日期',
+            value: ''
+          },
+          {
+            id: 19,
+            codeEn: 'print_date',
+            key: '打印日期',
+            value: ''
+          },
+          {
+            id: 20,
+            codeEn: 'business_number',
+            key: '业务编号',
+            value: ''
+          },
+          {
+            id: 21,
+            codeEn: 'use',
+            key: '用途',
+            value: '发放保理融资款'
+          },
+          {
+            id: 22,
+            codeEn: 'remark',
+            key: '备注',
+            value: ''
+          },
+          {
+            id: 23,
+            codeEn: 'postscript',
+            key: '附言',
+            value: ''
+          },
+          {
+            id: 24,
+            codeEn: 'settlement_method',
+            key: '结算方式',
+            value: ''
+          },
+          {
+            id: 25,
+            codeEn: 'summary',
+            key: '摘要',
+            value: '自定义'
+          },
+          {
+            id: 26,
+            codeEn: 'loan_sign',
+            key: '借贷标志',
+            value: ''
+          },
+          {
+            id: 27,
+            codeEn: 'receipt_and_payment_sign',
+            key: '收付标志',
+            value: ''
+          },
+          {
+            id: 28,
+            codeEn: 'pay_bank_number',
+            key: '付款行行号',
+            value: ''
+          },
+          {
+            id: 29,
+            codeEn: 'payee_bank_number',
+            key: '收款行行号',
+            value: ''
+          },
+          {
+            id: 30,
+            codeEn: 'timestamp',
+            key: '时间戳',
+            value: ''
+          }
+        ]
+      }
+    ]
+  }
+]
+
+export { data }

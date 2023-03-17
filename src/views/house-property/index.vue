@@ -234,7 +234,6 @@ export default {
                 type: "error",
                 offset: 72,
               });
-              嗯;
             }
           });
       } else {

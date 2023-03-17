@@ -12,6 +12,7 @@ import './icons'
 import './components/table-wrapper'
 import LinkUpload from '@linklogis/link-upload'
 import api from "./api/apiRequest.js"
+import './components/upload-file'
 Vue.use(LinkUpload)
 
 // import {OcrLayout,OcrEl} from "@linklogis/ocr-layout";
