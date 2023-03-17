@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import login from '@/views/login'
-import layout from '@/views/layout'
-// import layoutRoutes from './modules/layout'
+
 import houseProperty from '../views/house-property/index.vue'
 import proofIncome from '../views/proof-income/index.vue'
 import vehicleQualificationCertificate from '../views/vehicle-qualification-certificate/index.vue'
@@ -16,7 +14,6 @@ const routes = [
   // },
   {
     path: '/',
-    component: layout,
     // children: layoutRoutes
     redirect: "/drivingLicense"
   },
