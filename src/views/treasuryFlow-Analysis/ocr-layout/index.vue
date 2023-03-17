@@ -134,26 +134,21 @@
               :src="imageUrl"
               :alt="imageName"
             />
-            <svg
-              :width="realRenderWidth"
-              :height="realRenderHeight"
-              xmlns="http://www.w3.org/2000/svg"
-              version="1.1"
-              class="svg-mask"
-            >
-              <rect
-                ref="rect"
-                :x="position.x * scale"
-                :y="position.y * scale"
-                :width="position.w * scale"
-                :height="position.h * scale"
-                rx="5"
-                ry="5"
-                stroke="rgb(26, 155, 255)"
-                fill="none"
-                stroke-width="2"
-              />
-            </svg>
+            <div
+              class="frame-mask"
+              :data-id="i.id"
+              :class="{ active: activeTextId === i.id }"
+              v-for="i in pageDetail"
+              :ref="`maskEl${i.id}`"
+              :key="i.key"
+              :style="{
+                top: `${i.startY * imgScale}px`,
+                left: `${i.startX * imgScale}px`,
+                height: `${i.height * imgScale}px`,
+                width: `${i.width * imgScale}px`,
+                transform: `rotate(${i.deg}deg)`,
+              }"
+            ></div>
           </div>
         </div>
       </div>
@@ -180,7 +175,7 @@
             <slot name="title"></slot>
           </div>
           <llsButton
-            v-if="pageMenuPerm['DOWNLOAD_RECEIPT']"
+            v-if="pageMenuPerm['DOWNLOAD_TREASURY_FLOW']"
             type="text"
             @click="handleClickDownload"
             :style="{ 'padding-right': downloadButtonPosition }"
@@ -331,14 +326,13 @@ export default {
       scale: 1,
       total: 1,
       down_allow: true,
-      position: { x: 0, y: 0, w: 0, h: 0 },
-      // position: {},
     };
   },
   created() {},
   mounted() {
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg();
+
     // 兼容firefox
     this.bind(this.$refs.documentLayout, "DOMMouseScroll", this.handleZoom);
 
@@ -366,7 +360,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromReceiptAnalysis",
+          from: "messageFromTreasuryFlow",
           fixed: fixed,
         },
         "*"
@@ -381,51 +375,9 @@ export default {
         this.activePageIndex = 1;
       }
     },
-    resetPosition() {
-      this.position = { x: 0, y: 0, w: 0, h: 0 };
-    },
-    handleClick(position) {
-      if (JSON.stringify(position) === "{}") {
-        position = { x: 0, y: 0, w: 0, h: 0 };
-      }
-      this.position = position;
-      // this.$nextTick((_) => {
-      //   const rect = this.$refs.rect;
-      //   const documentLayout = this.$refs.documentLayout;
-      //   const maskElRect = rect.getBoundingClientRect();
-      //   const documentLayoutRect = documentLayout.getBoundingClientRect();
-      //   const lY = documentLayoutRect.top;
-      //   const lX = documentLayoutRect.left;
-      //   const mY = maskElRect.top;
-      //   const mX = maskElRect.left;
-      //   const startX = mX - lX;
-      //   const startY = mY - lY;
-      //   if (
-      //     startX <= 0 ||
-      //     startY <= 0 ||
-      //     startX >= this.documentWidth ||
-      //     startY >= this.documentHeight
-      //   ) {
-      //     let disX = 0,
-      //       disY = 0;
-      //     if (startX <= 0) {
-      //       disX = -startX + this.documentWidth / 2;
-      //     }
-      //     if (startY <= 0) {
-      //       disY = -startY + this.documentHeight / 2;
-      //     }
-      //     if (startX >= this.documentWidth) {
-      //       disX = this.documentWidth / 2 - startX;
-      //     }
-      //     if (startY >= this.documentHeight) {
-      //       disY = this.documentHeight / 2 - startY;
-      //     }
-      //     console.log(disX, disY);
-      //     this.transferDocument({ disX, disY });
-      //   }
-      // });
-      // 点击右侧tabs
-      // this.resetProps()
+    handleClick(index) {
+      // // 点击右侧tabs
+      // // this.resetProps()
       // this.rotateIndex = 0;
       // // this.activePageIndex = 1
       // this.activeTextId = null;
@@ -437,7 +389,7 @@ export default {
       // this.moveY = 0;
       // this.updateTranslateY();
       // this.$emit("resetId");
-      // this.activePageIndex = index + 1
+      // // this.activePageIndex = index + 1
       // const page = this.example.productsConverters;
       // this.resizeImg();
       // this.$emit("handle-change", page);
@@ -793,7 +745,7 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/receipt-analysis-web/receipt/common/downLoadFile?path=${this.example.excelPath}`,
+        url: `/treasury-flow-analysis-web/treasuryFlow/common/downLoadFile?path=${this.example.excelPath}`,
         responseType: "blob",
       })
         .then((res) => {
@@ -811,17 +763,18 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          // this.$message({
-          //   message: error.data.message,
-          //   type: "error",
-          // });
+          this.$message({
+            message: "网络错误，请稍后再试",
+            type: "error",
+            offset: 72,
+          });
         });
     },
   },
   computed: {
     downloadButtonPosition() {
-      return this.pageMenuPerm["SERVICE_RECEIPT"] ||
-        this.pageMenuPerm["COLLECT_RECEIPT"]
+      return this.pageMenuPerm["SERVICE_TREASURY_FLOW"] ||
+        this.pageMenuPerm["COLLECT_TREASURY_FLOW"]
         ? "54px"
         : "0";
     },
@@ -908,11 +861,6 @@ export default {
     color: #999;
   }
 
-  // .function_bar {
-  // display:flex,
-  // flex-wrap:nowrap,
-  // justify-content:space-between
-  // }
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
@@ -965,12 +913,6 @@ export default {
         right: 0;
         border-radius: 0 0 4px 4px;
         text-align: center;
-
-        // white-space: nowrap;
-        // overflow: hidden;
-        // text-overflow: ellipsis;
-        // display: flex;
-        // justify-content: center;
         span {
           transform: scale(0.75);
           transform-origin: left;
@@ -1007,8 +949,8 @@ export default {
     .svg-mask {
       pointer-events: none;
       position: absolute;
-      top:0px;
-      left:0px;
+      top: 60px;
+      left: 16px;
       z-index: 1;
     }
 
@@ -1080,24 +1022,10 @@ export default {
         justify-content: center;
         align-items: center;
 
-        // background-image: repeating-linear-gradient(
-        // to right,
-        // transparent 0px,
-        // transparent 14px,
-        // #e3e8f0 14px,
-        // #e3e8f0 15px
-        // ), repeating-linear-gradient(
-        // to bottom,
-        // transparent 0px,
-        // transparent 14px,
-        // #e3e8f0 14px,
-        // #e3e8f0 15px
-        // );
         .document {
-          // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          cursor: url('./icon/手势-张开.svg'), grab;
+          cursor: url('~@/icons/svg/手势-张开.svg'), grab;
           background-repeat: no-repeat;
           width: 100%;
 
@@ -1110,7 +1038,7 @@ export default {
           }
 
           &.draggable {
-            cursor: url('./icon/手势-握紧.svg'), grabbing;
+            cursor: url('~@/icons/svg/手势-握紧.svg'), grabbing;
           }
 
           // transition: all 0.3s linear;
@@ -1227,7 +1155,7 @@ export default {
         border: 1px solid #e3e8f0;
         height: calc(100% - 74px);
         overflow: auto;
-        padding: 0 8px 12px 8px;
+        padding: 12px 8px;
         background: #fff;
         position: relative;
 
@@ -1243,7 +1171,7 @@ export default {
         }
 
         // 竖向滚动条
-        &::-webkit-scrollbar-thumb:vertical {
+        &::-webkit-scrollbar-thumb:horizontal {
           background-color: rgba(32, 45, 64, 0.5);
           -webkit-border-radius: 2px;
         }

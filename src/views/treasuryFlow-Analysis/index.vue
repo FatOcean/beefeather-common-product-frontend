@@ -15,7 +15,7 @@
           style="margin-left: 8px"
           v-model="selectValue"
           placeholder="请选择银行"
-          :disabled="loading || instance.forbid_change"
+          :disabled="loading || documents.forbid_change"
           @change="getResult()"
         >
           <lls-option
@@ -43,38 +43,33 @@
           v-show="selectValue !== '' && !loading && !failedStatus"
           v-loading="loading"
         >
-          <lls-tabs @tab-click="handleClick" v-model="activeName">
-            <lls-tab-pane
-              v-for="(item, index) in tabsArray"
-              :key="index"
-              :label="item.name"
-              :name="item.name"
-            >
-              <table cellspacing="0" class="table-data" ref="table">
-                <thead>
-                  <td colspan="2">字段名</td>
-                  <td>识别结果</td>
-                </thead>
-                <tbody v-for="i in page.contentList" :key="i.id">
-                  <tr>
-                    <td colspan="2">{{ i.key }}</td>
-                    <td>{{ i.value }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </lls-tab-pane>
-          </lls-tabs>
+          <table cellspacing="0" class="table-data" ref="table">
+            <thead>
+              <td v-for="(header, index) in page.headers" :key="index">
+                {{ header }}
+              </td>
+            </thead>
+            <tbody>
+              <tr v-for="row in page.content" :key="row.id * 100">
+                <td
+                  v-for="(item, index) in row.value"
+                  :key="row.id * 100 + index + 1"
+                >
+                  {{ item }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <!-- 错误样本收集-->
           <div
             class="sample-collection"
             @click="clickSampleCollection"
-            v-show="instance.isUpload"
-            v-loading="isLoading"
+            v-show="documents.isUpload"
           >
             <svg-icon
-              :iconClass="instance.starsFlag ? '星星填充' : '星星'"
+              :iconClass="documents.starsFlag ? '星星填充' : '星星'"
             ></svg-icon>
-            <span>{{ instance.starsFlag ? "取消" : "难例" }}样本收集</span>
+            <span>{{ documents.starsFlag ? "取消" : "难例" }}样本收集</span>
           </div>
         </div>
 
@@ -86,7 +81,7 @@
           <img :src="failed" alt="" />
           <span>解析失败 </span>
           <span class="extraText"
-            >上传回单与该银行信息不匹配，请重新选择银行</span
+            >上传流水与该银行信息不匹配，请重新选择银行</span
           >
         </div>
         <div class="noContent" v-show="loading" v-loading="loading">
@@ -104,7 +99,7 @@
     ></bee-loading>
 
     <!-- 上传文件 -->
-    <lls-collapse-transition v-if="pageMenuPerm['UPLOAD_RECEIPT']">
+    <lls-collapse-transition v-if="pageMenuPerm['UPLOAD_TREASURY_FLOW']">
       <upload-file
         v-model="files"
         class="upload-wrapper"
@@ -146,13 +141,16 @@ import { data } from "./example";
 import failed from "@/assets/images/failed.png";
 import searching from "@/assets/images/searching.png";
 import beeLoading from "@linklogis/beeLoading";
-import { getBankList, analysisFile } from "../../api/receiptAnalysis";
-import ocrlayout from "./ocr-layout";
-// import uploadFile from  './upload-file'
+import { getBankList, analysisFile } from "../../api/treasuryFlow";
+import ocrlayout from "./ocr-layout/index.vue";
 export default {
+  name: "treasuryFlowAnalysis",
+  components: {
+    [beeLoading.name]: beeLoading,
+    ocrlayout,
+  },
   data() {
     return {
-      isLoading: false,
       failed,
       searching,
       data,
@@ -168,6 +166,8 @@ export default {
       documents: [],
       // documents: data.analysisResult,
       dragenter: false,
+      token: window.sessionStorage.getItem("token"),
+      origin: window.sessionStorage.getItem("origin"),
       href: window.location.href,
       search: "",
       documents_backup: [],
@@ -175,8 +175,8 @@ export default {
       hideResult: [],
       activeTabIndex: 0,
       pageMenuPerm: {
-        UPLOAD_RECEIPT: true,
-        DOWNLOAD_RECEIPT: true,
+        UPLOAD_TREASURY_FLOW: true,
+        DOWNLOAD_TREASURY_FLOW: true,
       },
       falg: true,
       hasTab: false,
@@ -188,15 +188,7 @@ export default {
       banks: null,
       failedStatus: false,
       taskId: 0,
-      instance: {},
     };
-  },
-  components: {
-    [beeLoading.name]: beeLoading,
-    // [OcrLayout.name]: OcrLayout,
-    // [OcrEl.name]: OcrEl,
-    ocrlayout,
-    // uploadFile,
   },
   created() {
     getBankList()
@@ -216,18 +208,12 @@ export default {
         }
       })
       .catch((err) => {});
-    this.instance = this.data[0];
-    this.documents = this.instance.tabList;
-    this.page = this.documents[0];
-    this.tabsArray = this.documents.map((item, index) => {
-      return { name: item.tabName };
-    });
-    this.activeName = this.tabsArray[0].name;
-    this.selectValue = this.instance.flag;
-    this.url = this.instance.imagePath;
+    this.documents = this.data[0];
+    this.page = this.documents.resultVO;
+    this.selectValue = this.documents.flag;
+    this.url = this.documents.imagePath;
   },
   mounted() {
-    this.$refs.documents.handleClick(this.page.position);
     // 接收iframe的数据
     window.addEventListener("message", (e) => {
       this.setuserMenuPermList(e.data);
@@ -250,49 +236,38 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromReceiptAnalysis",
+          from: "messageFromTreasuryFlow",
           fixed: fixed,
         },
         "*"
       );
     },
+    //滚轮横向滑动
+    // handleWheel(e) {
+    //   const scrollDiv = document.getElementsByClassName("hasContent")[0];
+    //   scrollDiv.scrollLeft += e.deltaY;
+    // },
     getResult() {
       this.loading = true;
-      this.$refs.documents.resetPosition();
       analysisFile(this.url, this.banks[this.selectValue])
         .then((res) => {
           res = res.data;
-          if (res.code === "200" && res.data.tabList) {
+          if (res.code === "200") {
             // this.documents = res.data;
-            let num = 0;
-            res.data.tabList.forEach((item) => {
-              if (item.contentList.length !== 0) {
-                num += 1;
-              }
-            });
-            if (num === 0) {
+            if (res.data.resultVO.content.length === 0) {
               this.failedStatus = true;
               this.selectValue = "";
               this.$refs.documents.down_allow = false;
             } else {
-              this.instance.tabList = res.data.tabList;
-              this.instance.imagePath = res.data.imagePath;
-              this.instance.excelPath = res.data.excelPath;
-              this.instance.height = res.data.height;
-              this.instance.width = res.data.width;
-              this.$refs.documents.resizeImg();
-              this.instance.flag = this.selectValue;
-              this.documents = this.instance.tabList;
-              this.tabsArray = this.documents.map((item, index) => {
-                return { name: item.tabName };
-              });
-              this.activeName = this.tabsArray[0].name;
-              this.page = this.documents[0];
+              this.documents.resultVO = res.data.resultVO;
+              this.documents.excelPath = res.data.excelPath;
+              this.documents.flag = this.selectValue;
+              this.page = this.documents.resultVO;
               this.$refs.documents.down_allow = true;
               this.failedStatus = false;
-              this.$refs.documents.handleClick(
-                this.page.position ? this.page.position : {}
-              );
+              const scrollDiv =
+                document.getElementsByClassName("hasContent")[0];
+              scrollDiv.scrollLeft = 0;
             }
           } else {
             this.failedStatus = true;
@@ -307,7 +282,7 @@ export default {
         })
         .catch((err) => {
           this.failedStatus = true;
-          this.instance.flag = "";
+          this.documents.flag = "";
           this.selectValue = "";
           this.$refs.documents.down_allow = false;
         })
@@ -318,53 +293,48 @@ export default {
     tabs(activeDocumentIndex, activePageIndex) {
       this.failedStatus = false;
       this.activeDocumentIndex = activeDocumentIndex;
-      this.instance = this.data[activeDocumentIndex];
-      this.url = this.instance.pdfPath
-        ? this.instance.pdfPath
-        : this.instance.imagePath;
-      this.$refs.documents.resetPosition();
-      this.documents = this.instance.tabList;
-      this.selectValue = this.instance.flag;
+      this.documents = this.data[activeDocumentIndex];
+      this.url = this.documents.pdfPath
+        ? this.documents.pdfPath
+        : this.documents.imagePath;
+      this.selectValue = this.documents.flag;
       if (this.selectValue !== "") {
-        this.page = this.documents[0];
-        this.tabsArray = this.documents.map((item, index) => {
-          return { name: item.tabName };
-        });
-        this.activeName = this.tabsArray[0].name;
-        this.$refs.documents.handleClick(
-          this.page.position ? this.page.position : {}
-        );
-        this.$refs.documents.down_allow = true;
-      }
+        this.page = this.documents.resultVO;
+        if (this.page.content.length > 0)
+          this.$refs.documents.down_allow = true;
+        else this.$refs.documents.down_allow = false;
+      } else this.$refs.documents.down_allow = false;
     },
     handleClick(value) {
-      this.$refs.documents.resetPosition();
+      // console.log(value.index);
       this.activeTabIndex = Number(value.index);
-      this.page = this.documents[this.activeTabIndex];
-      this.$refs.documents.handleClick(
-        this.page.position ? this.page.position : {}
-      );
+      this.$refs.documents.handleClick(value.index);
+      this.page = this.tabList[this.activeTabIndex].productsConverterList;
+      this.page = this.page.filter((item) => {
+        return item.value !== "";
+      });
     },
     // 样本收集点击事件    //快速开发暂时隐藏
     clickHandler(e, i, noParent) {},
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
       // const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${this.instance.imagePath}`;
+      const picAddress = `${this.documents.imagePath}`;
       // console.log(data, '000')
-      if (!this.instance.starsFlag) {
+      if (!this.documents.starsFlag) {
         const fileId = 1;
         this.$http
-          .post("/receipt-analysis-web/receipt/common/saveCollectInfo", {
-            fileId,
-            picAddress,
-            productName: "回单解析",
-          })
+          .post(
+            "/treasury-flow-analysis-web/treasuryFlow/common/saveCollectInfo",
+            {
+              fileId,
+              picAddress,
+              productName: "流水解析",
+            }
+          )
           .then((res) => {
             if (res.data.code === "200") {
-              this.$set(this.instance, "starsFlag", true);
-              this.instance.loadRecordId = res.data.data.loadRecordId;
+              this.$set(this.documents, "starsFlag", true);
+              this.documents.loadRecordId = res.data.data.loadRecordId;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -377,19 +347,19 @@ export default {
                 offset: 72,
               });
             }
-          })
-          .finally((res) => {
-            this.isLoading = false;
           });
       } else {
         this.$http
-          .post("/receipt-analysis-web/receipt/common/cancelcollectinfo", {
-            loadRecordId: this.instance.loadRecordId,
-            url: picAddress,
-          })
+          .post(
+            "/treasury-flow-analysis-web/treasuryFlow/common/cancelcollectinfo",
+            {
+              loadRecordId: this.documents.loadRecordId,
+              url: picAddress,
+            }
+          )
           .then((res) => {
             if (res.data.code === "200") {
-              this.instance.starsFlag = false;
+              this.documents.starsFlag = false;
 
               this.$message({
                 message: "取消收集成功",
@@ -403,9 +373,6 @@ export default {
                 offset: 72,
               });
             }
-          })
-          .finally((res) => {
-            this.isLoading = false;
           });
       }
     },
@@ -452,8 +419,11 @@ export default {
       this.postFixedMessage(true);
       const fd = new FormData();
       fd.append("file", file);
+      // fd.append("type", type);
+      // fd.append("url", "172.16.88.170:32294");
+      this.$refs.documents.down_allow = false;
       this.$http({
-        url: "/receipt-analysis-web/receipt/analysis/uploadAndGetFilePath",
+        url: "/treasury-flow-analysis-web//treasuryFlow/analysis/uploadAndGetFilePath",
         method: "post",
         data: fd,
         onUploadProgress: (progressEvent) => {
@@ -473,16 +443,42 @@ export default {
               offset: 72,
             });
             this.percent = 100;
+            // res.data.forEach((i) => {
+            //   i.isUpload = true;
+            //   i.starsFlag = false;
+            // });
             res.data.isUpload = true;
             res.data.starsFlag = false;
             this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath;
             if (this.data.length > 3) this.data.shift();
             this.data.unshift(res.data);
-            this.instance = this.data[0];
-            this.instance.flag = "";
+            this.documents = this.data[0];
+            this.documents.flag = "";
             this.selectValue = "";
-            this.$refs.documents.down_allow = false;
-            this.$refs.documents.resetPosition();
+            const scrollDiv = document.getElementsByClassName("hasContent")[0];
+            scrollDiv.scrollLeft = 0;
+            // this.tabList = this.documents.tabList;
+            // this.tabsArray = this.tabList.map((item) => {
+            //   return {
+            //     name: item.tabName,
+            //   };
+            // });
+            // this.page = this.tabList[0].productsConverterList;
+            // this.activeName = this.tabsArray[0].name;
+            // this.activeTabIndex = 0;
+
+            // console.log(this.documents, "documents2");
+            // this.activeDocumentIndex = 0;
+
+            // this.tabsArray = [];
+            // for (let i = 0; i < this.page.length; i++) {
+            //   this.tabsArray[i] = {
+            //     name: this.page[i].analysisName
+            //       ? this.page[i].analysisName
+            //       : `未识别${i + 1}`,
+            //   };
+            // }
+            // this.activeName = this.tabsArray[0].name;
           } else {
             this.beeLoading = false;
             this.postFixedMessage(false);
@@ -611,7 +607,6 @@ export default {
 
 .table-data {
   width: 100%;
-  margin-bottom: 16px;
 
   thead {
     background: #F3F4F6;
@@ -620,12 +615,6 @@ export default {
       border-top: 1px solid #E3E8F0;
       font-weight: bold;
       color: #202D40;
-
-      &:last-child {
-        width: 50%;
-        color: #202D40;
-        border-right: 1px solid #E3E8F0;
-      }
     }
   }
 
@@ -646,10 +635,10 @@ export default {
     white-space: pre-line;
     min-width: 100px;
     cursor: text;
+    white-space: nowrap;
 
     &:last-child {
       border-right: 1px solid #E3E8F0;
-      width: 50%;
     }
   }
 }
@@ -793,7 +782,8 @@ export default {
 }
 
 .hasContent {
-  overflow: auto;
+  // height: 100%;
+  // padding: 12px 8px;
   width: calc(100% - 16px);
   position: relative;
   margin: 8px;

@@ -47,6 +47,13 @@ const routes = [
       title: "回单解析",
     },
   },
+  {
+    path: "/treasuryFlowAnalysis",
+    component: (resolve) => require(["@/views/treasuryFlow-Analysis"], resolve),
+    meta: {
+      title: "流水解析",
+    },
+  },
 ];
 
 const router = new VueRouter({

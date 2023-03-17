@@ -15,8 +15,6 @@ import api from "./api/apiRequest.js"
 import './components/upload-file'
 Vue.use(LinkUpload)
 
-// import {OcrLayout,OcrEl} from "@linklogis/ocr-layout";
-// Vue.use(OcrLayout)
 
 Vue.prototype.$http = api
 
