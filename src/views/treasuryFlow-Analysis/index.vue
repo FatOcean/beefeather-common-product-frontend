@@ -143,6 +143,8 @@ import searching from "@/assets/images/searching.png";
 import beeLoading from "@linklogis/beeLoading";
 import { getBankList, analysisFile } from "../../api/treasuryFlow";
 import ocrlayout from "./ocr-layout/index.vue";
+import { mapMutations, mapState } from "vuex";
+
 export default {
   name: "treasuryFlowAnalysis",
   components: {
@@ -174,10 +176,6 @@ export default {
       checked: false,
       hideResult: [],
       activeTabIndex: 0,
-      pageMenuPerm: {
-        UPLOAD_TREASURY_FLOW: true,
-        DOWNLOAD_TREASURY_FLOW: true,
-      },
       falg: true,
       hasTab: false,
       tabList: [],
@@ -216,10 +214,11 @@ export default {
   mounted() {
     // 接收iframe的数据
     window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
+      // this.setuserMenuPermList(e.data);
     });
   },
   computed: {
+    ...mapState(["pageMenuPerm"]),
     example() {
       return this.data[this.activeDocumentIndex];
     },

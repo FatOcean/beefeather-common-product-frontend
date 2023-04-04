@@ -1,6 +1,6 @@
 <template>
   <lls-dropdown class="configuration-wrapper" v-if="servicecon || collect">
-    <lls-button type="text" icon="lls-icon-more">更多</lls-button>
+    <lls-button type="text" icon="lls-icon-more" style="margin-left:12px">更多</lls-button>
     <lls-dropdown-menu slot="dropdown" class="configuration-dropdown">
       <lls-dropdown-item>
         <servicecon-figuration :productName="productName" type="text" v-if="servicecon" :requestBody="requestBody"></servicecon-figuration>
@@ -60,14 +60,14 @@ export default {
   padding: 0 !important;
   height: 100%;
 
-  .configuration-wrapper.lls-dropdown {
-    position: absolute;
-    right: 34px;
-    top: 42.5px;
-    color: #0887FF;
-    // transform: rotate(90deg);
-    cursor: pointer;
-  }
+  // .configuration-wrapper.lls-dropdown {
+  //   position: absolute;
+  //   right: 34px;
+  //   top: 42.5px;
+  //   color: #0887FF;
+  //   // transform: rotate(90deg);
+  //   cursor: pointer;
+  // }
 
   iframe {
     width: calc(100% + 24px);

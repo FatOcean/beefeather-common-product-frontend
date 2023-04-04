@@ -10,18 +10,23 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <llsButton
-        type="text"
-        slot="button"
-        @click="handleClickDownload"
-        v-if="pageMenuPerm['downloadVehicleQualification']"
-        :style="{ 'margin-right': downloadButtonPosition }"
-      >
-        <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
-        <svg-icon class="download" iconClass="下载"></svg-icon>
-        <span>下载</span>
-      </llsButton>
-      
+      <div slot="button">
+        <llsButton
+          type="text"
+          @click="handleClickDownload"
+          v-if="pageMenuPerm['downloadVehicleQualification']"
+        >
+          <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
+          <svg-icon class="download" iconClass="下载"></svg-icon>
+          <span>下载</span>
+        </llsButton>
+        <more-button
+          productName="车辆合格证解析"
+          :collectName="true"
+          :servicecon="pageMenuPerm['serviceVehicleQualification']"
+          :collect="pageMenuPerm['collectVehicleQualification']"
+        ></more-button>
+      </div>
       <lls-tabs
         @tab-click="handleClick"
         v-model="activeName"
@@ -121,6 +126,7 @@
 import documents from "./example";
 import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   data() {
@@ -136,14 +142,9 @@ export default {
       href: window.location.href,
       starsFlag: false, // 是否收集
       loadRecordId: "", // 难例收集id
-      pageMenuPerm: {
-        UPLOADCERTIFICATE: true,
-        DOWNCERTIFICATE: true,
-      },
       activeName: "",
       tabsArray: [],
       activeTabIndex: 0,
-      pageMenuPerm: {},
     };
   },
   components: {
@@ -155,12 +156,8 @@ export default {
     tabResult() {
       return this.page.analysisResult[this.activeTabIndex].tabResult;
     },
-    downloadButtonPosition() {
-      return this.pageMenuPerm["serviceVehicleQualification"] ||
-        this.pageMenuPerm["collectVehicleQualification"]
-        ? "54px"
-        : "0";
-    },
+    ...mapState(["pageMenuPerm"]),
+
   },
   created() {
     this.page = this.documents[0].pages[0];
@@ -174,7 +171,7 @@ export default {
     // this.setCookie("AUTHENTICATION", "token____________", 1)
     // 接收iframe的数据
     window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
+      // this.setuserMenuPermList(e.data);
     });
   },
   methods: {

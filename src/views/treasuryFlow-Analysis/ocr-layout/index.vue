@@ -174,25 +174,32 @@
           <div class="ocr-title">
             <slot name="title"></slot>
           </div>
-          <llsButton
-            v-if="pageMenuPerm['DOWNLOAD_TREASURY_FLOW']"
-            type="text"
-            @click="handleClickDownload"
-            :style="{ 'padding-right': downloadButtonPosition }"
-            :disabled="!down_allow"
-          >
-            <svg-icon
-              v-show="down_allow"
-              class="download"
-              iconClass="下载"
-            ></svg-icon>
-            <svg-icon
-              v-show="!down_allow"
-              class="download"
-              iconClass="下载灰"
-            ></svg-icon>
-            <span>下载</span></llsButton
-          >
+          <div>
+            <llsButton
+              v-if="pageMenuPerm['DOWNLOAD_TREASURY_FLOW']"
+              type="text"
+              @click="handleClickDownload"
+              :disabled="!down_allow"
+            >
+              <svg-icon
+                v-show="down_allow"
+                class="download"
+                iconClass="下载"
+              ></svg-icon>
+              <svg-icon
+                v-show="!down_allow"
+                class="download"
+                iconClass="下载灰"
+              ></svg-icon>
+              <span>下载</span></llsButton
+            >
+            <more-Button
+              productName="流水解析"
+              :requestBody="requestBody"
+              :servicecon="pageMenuPerm['SERVICE_TREASURY_FLOW']"
+              :collect="pageMenuPerm['COLLECT_TREASURY_FLOW']"
+            ></more-Button>
+          </div>
         </div>
 
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
@@ -326,6 +333,12 @@ export default {
       scale: 1,
       total: 1,
       down_allow: true,
+      requestBody: {
+        url: "/treasury-flow-analysis-web/treasuryFlow/common/serviceList",
+        data: {
+          name: "流水解析",
+        },
+      },
     };
   },
   created() {},

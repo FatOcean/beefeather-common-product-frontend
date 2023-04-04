@@ -10,17 +10,23 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <llsButton
-        type="text"
-        slot="button"
-        @click="handleClickDownload"
-        v-if="pageMenuPerm['downloadDrivingLicense']"
-        :style="{ 'margin-right': downloadButtonPosition }"
-      >
-        <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
-        <svg-icon class="download" iconClass="下载"></svg-icon>
-        <span>下载</span>
-      </llsButton>
+      <div slot="button">
+        <llsButton
+          type="text"
+          @click="handleClickDownload"
+          v-if="pageMenuPerm['downloadDrivingLicense']"
+        >
+          <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
+          <svg-icon class="download" iconClass="下载"></svg-icon>
+          <span>下载</span>
+        </llsButton>
+        <more-button
+          productName="驾驶证解析"
+          :collect="pageMenuPerm['collectDrivingLicense']"
+          :servicecon="pageMenuPerm['serviceDrivingLicense']"
+          :collectName="true"
+        ></more-button>
+      </div>
       <lls-tabs
         @tab-click="handleClick"
         v-model="activeName"
@@ -121,7 +127,7 @@
 import documents from "./example";
 import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -136,18 +142,9 @@ export default {
       href: window.location.href,
       starsFlag: false, // 是否收集
       loadRecordId: "", // 难例收集id
-      pageMenuPerm: {
-        UPLOADCERTIFICATE: true,
-        DOWNCERTIFICATE: true,
-      },
       activeName: "",
       tabsArray: [],
       activeTabIndex: 0,
-      pageMenuPerm: {
-        downloadDrivingLicense: true,
-        collectDrivingLicense: false,
-        serviceDrivingLicense: false,
-      },
     };
   },
   components: {
@@ -156,14 +153,9 @@ export default {
     [OcrEl.name]: OcrEl,
   },
   computed: {
+    ...mapState(["pageMenuPerm"]),
     tabResult() {
       return this.page.analysisResult[this.activeTabIndex].tabResult;
-    },
-    downloadButtonPosition() {
-      return this.pageMenuPerm["serviceDrivingLicense"] ||
-        this.pageMenuPerm["collectDrivingLicense"]
-        ? "54px"
-        : "0";
     },
   },
   created() {
@@ -178,7 +170,7 @@ export default {
     // this.setCookie("AUTHENTICATION", "token____________", 1)
     // 接收iframe的数据
     window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
+      // this.setuserMenuPermList(e.data);
     });
   },
   methods: {

@@ -10,17 +10,22 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <llsButton
-        type="text"
-        slot="button"
-        @click="handleClickDownload"
-        v-if="pageMenuPerm['downloadProofIncome']"
-        :style="{ 'margin-right': downloadButtonPosition }"
-      >
-        <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
-        <svg-icon class="download" iconClass="下载"></svg-icon>
-        <span>下载</span>
-      </llsButton>
+      <div slot="button">
+        <llsButton
+          type="text"
+          @click="handleClickDownload"
+          v-if="pageMenuPerm['downloadProofIncome']"
+        >
+          <svg-icon class="download" iconClass="下载"></svg-icon>
+          <span>下载</span>
+        </llsButton>
+        <more-button
+          productName="收入证明解析"
+          :collect="pageMenuPerm['collectProofIncome']"
+          :servicecon="pageMenuPerm['serviceProofIncome']"
+          :collectName="true"
+        ></more-button>
+      </div>
       <lls-tabs
         @tab-click="handleClick"
         v-model="activeName"
@@ -72,7 +77,6 @@
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
         action="/beefeather/file-handle-web/file/upload" -->
     <lls-collapse-transition v-if="pageMenuPerm['uploadProofIncome']">
-      <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <link-upload
         v-model="files"
         class="upload-wrapper"
@@ -120,7 +124,7 @@
 import documents from "./example";
 import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-
+import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -135,14 +139,9 @@ export default {
       href: window.location.href,
       starsFlag: false, // 是否收集
       loadRecordId: "", // 难例收集id
-      pageMenuPerm: {
-        UPLOADCERTIFICATE: true,
-        DOWNCERTIFICATE: true,
-      },
       activeName: "",
       tabsArray: [],
       activeTabIndex: 0,
-      pageMenuPerm: {},
     };
   },
   components: {
@@ -151,14 +150,9 @@ export default {
     [OcrEl.name]: OcrEl,
   },
   computed: {
+    ...mapState(["pageMenuPerm"]),
     tabResult() {
       return this.page.analysisResult[this.activeTabIndex].tabResult;
-    },
-    downloadButtonPosition() {
-      return this.pageMenuPerm["serviceProofIncome"] ||
-        this.pageMenuPerm["collectProofIncome"]
-        ? "54px"
-        : "0";
     },
   },
   created() {
@@ -169,16 +163,9 @@ export default {
     this.activeName = this.tabsArray[0].name;
   },
   mounted() {
-    // console.log("设置cookie")
-    // this.setCookie("AUTHENTICATION", "token____________", 1)
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
-    });
   },
   methods: {
     handleClick(value) {
-      // console.log(value);
       this.activeTabIndex = Number(value.index);
       this.$refs.ocrlayout.pathValue = null;
       this.$refs.ocrlayout.activeText = null;
@@ -192,13 +179,6 @@ export default {
         });
         this.activeName = this.tabsArray[0].name;
       });
-    },
-    setuserMenuPermList(data) {
-      if (data.pageMenuPerm) {
-        this.$nextTick(() => {
-          this.pageMenuPerm = data.pageMenuPerm;
-        });
-      }
     },
     postFixdMessage(fixed) {
       // 发送message 页面高度

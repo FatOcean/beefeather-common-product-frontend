@@ -184,7 +184,6 @@
               v-if="pageMenuPerm['DOWNLOAD_RECEIPT']"
               type="text"
               @click="handleClickDownload"
-              style="margin-right: 12px"
               :disabled="!down_allow"
             >
               <svg-icon

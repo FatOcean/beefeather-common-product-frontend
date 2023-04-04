@@ -148,6 +148,7 @@ import searching from "@/assets/images/searching.png";
 import beeLoading from "@linklogis/beeLoading";
 import { getBankList, analysisFile } from "../../api/receiptAnalysis";
 import ocrlayout from "./ocr-layout";
+ import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -173,10 +174,6 @@ export default {
       checked: false,
       hideResult: [],
       activeTabIndex: 0,
-      pageMenuPerm: {
-        UPLOAD_RECEIPT: true,
-        DOWNLOAD_RECEIPT: true,
-      },
       falg: true,
       hasTab: false,
       tabList: [],
@@ -193,7 +190,6 @@ export default {
   components: {
     [beeLoading.name]: beeLoading,
     ocrlayout,
-    
   },
   created() {
     getBankList()
@@ -227,10 +223,11 @@ export default {
     this.$refs.documents.handleClick(this.page.position);
     // 接收iframe的数据
     window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
+      // this.setuserMenuPermList(e.data);
     });
   },
   computed: {
+    ...mapState(["pageMenuPerm"]),
     example() {
       return this.data[this.activeDocumentIndex];
     },

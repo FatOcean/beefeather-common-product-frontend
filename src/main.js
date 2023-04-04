@@ -13,13 +13,12 @@ import LinkUpload from "@linklogis/link-upload";
 import api from "./api/apiRequest.js";
 import "./components/upload-file";
 import moreButton from "@/components/moreButton/index.vue";
-import Directives from './directives/index'
-Vue.use(Directives)
-Vue.component('moreButton',moreButton)
+import Directives from "./directives/index";
+Vue.use(Directives);
+Vue.component("moreButton", moreButton);
 Vue.use(LinkUpload);
 
 Vue.prototype.$http = api;
-
 Vue.config.productionTip = false;
 router.beforeEach((to, from, next) => {
   // 权限验证

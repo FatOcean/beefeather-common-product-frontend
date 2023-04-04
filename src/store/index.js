@@ -14,7 +14,7 @@ const mutations = {
     // 修改 state 中存储的数据
     state.pageMenuPerm = value;
     // 修改后，页面会重新渲染
-    console.log(state.pageMenuPerm);
+    // console.log(state.pageMenuPerm);
   },
 };
 
