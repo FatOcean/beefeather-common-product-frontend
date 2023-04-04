@@ -54,6 +54,13 @@ const routes = [
       title: "流水解析",
     },
   },
+  {
+    path: "/businessLicenseAnalysis",
+    component: (resolve) => require(["@/views/businessLicenseAnalysis"], resolve),
+    meta: {
+      title: "营业执照",
+    },
+  },
 ];
 
 const router = new VueRouter({

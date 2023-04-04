@@ -14,6 +14,8 @@ import api from "./api/apiRequest.js";
 import "./components/upload-file";
 import moreButton from "@/components/moreButton/index.vue";
 import Directives from "./directives/index";
+import './components/ocr-el'
+
 Vue.use(Directives);
 Vue.component("moreButton", moreButton);
 Vue.use(LinkUpload);

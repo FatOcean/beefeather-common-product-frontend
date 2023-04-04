@@ -1,4 +1,4 @@
-import exampleTwo from "../../assets/images/document-images/property/示例二.png";
+
 import exampleOne from "../../assets/images/document-images/property/示例一.jpg";
 
 const documents = [
