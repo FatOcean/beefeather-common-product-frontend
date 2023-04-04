@@ -60,15 +60,6 @@ export default {
   padding: 0 !important;
   height: 100%;
 
-  // .configuration-wrapper.lls-dropdown {
-  //   position: absolute;
-  //   right: 34px;
-  //   top: 42.5px;
-  //   color: #0887FF;
-  //   // transform: rotate(90deg);
-  //   cursor: pointer;
-  // }
-
   iframe {
     width: calc(100% + 24px);
     margin: -48px -12px -12px -12px;

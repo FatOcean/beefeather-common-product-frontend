@@ -74,7 +74,13 @@ const routes = [
       title: "印章去除",
     },
   },
-
+  {
+    path: "/sealRecognition",
+    component: (resolve) => require(["@/views/sealRecognition"], resolve),
+    meta: {
+      title: "印章识别",
+    },
+  },
 ];
 
 const router = new VueRouter({

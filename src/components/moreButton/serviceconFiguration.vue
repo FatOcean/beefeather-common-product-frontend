@@ -1,12 +1,28 @@
 <template>
   <div class="servicecon-figuration">
     <lls-button :type="type" :plain="plain" @click="dialogOpen">
-      <svg-icon iconClass="服务配置"></svg-icon>
+      <!-- <svg-icon iconClass="服务配置"></svg-icon> -->
+      <img
+        src="./服务配置.svg"
+        alt=""
+        style="vertical-align: middle"
+        v-if="isicon"
+      />
       <span class="button-text">服务配置</span>
     </lls-button>
-    <lls-dialog title="服务配置" :visible.sync="dialogVisible" width="400px" :before-close="dialogClose" append-to-body>
+    <lls-dialog
+      title="服务配置"
+      :visible.sync="dialogVisible"
+      width="400px"
+      :before-close="dialogClose"
+      append-to-body
+    >
       <lls-form ref="form" label-width="100px">
-        <lls-radio-group v-model="configType" style="margin-bottom: 22px" @change="handleConfigType">
+        <lls-radio-group
+          v-model="configType"
+          style="margin-bottom: 22px"
+          @change="handleConfigType"
+        >
           <lls-radio-button
             v-for="(item, index) in configurationArray"
             :key="index"
@@ -17,7 +33,11 @@
         </lls-radio-group>
         <template v-if="configType === '默认服务配置'">
           <lls-form-item label="调用服务名称">
-            <lls-select v-model="dataId" :filter-bar="true" placeholder="请选择服务名称">
+            <lls-select
+              v-model="dataId"
+              :filter-bar="true"
+              placeholder="请选择服务名称"
+            >
               <lls-option
                 v-for="(item, index) in serviceOptions"
                 :key="index"
@@ -32,7 +52,7 @@
           </lls-form-item>
           <dl class="service-description">
             <dt>服务描述</dt>
-            <dd>{{ params.serviceDescription || '- -' }}</dd>
+            <dd>{{ params.serviceDescription || "- -" }}</dd>
           </dl>
         </template>
         <!-- 自定义服务配置 -->
@@ -46,9 +66,14 @@
               placeholder="示例:127.0.0.1:6666"
             ></lls-input>
           </lls-form-item>
-          <div v-show="checkStatus == null" class="detection-hint">系统将自动检测接口地址是否连接成功</div>
+          <div v-show="checkStatus == null" class="detection-hint">
+            系统将自动检测接口地址是否连接成功
+          </div>
           <div class="detection-centre" v-show="checkStatus == 'checking'">
-            <span v-loading="checkStatus == 'checking'" class="detection-loading"></span>
+            <span
+              v-loading="checkStatus == 'checking'"
+              class="detection-loading"
+            ></span>
             <div class="detection-centre-title">检测中</div>
           </div>
           <div class="detection-success-title" v-show="checkStatus === true">
@@ -83,23 +108,29 @@
 // 自定义服务接口
 // import { customServiceConfiguration } from '../../../api/documentOcr/customServiceConfiguration.js'
 // 检测服务接口
-import { checkingInterfaceStatus } from '@/api/documentOcr/customServiceConfiguration.js'
+import { checkingInterfaceStatus } from "@/api/documentOcr/customServiceConfiguration.js";
 // 保存服务接口
-import { saveServiceConfiguration } from '@/api/documentOcr/defaultServiceConfiguration.js'
+import { saveServiceConfiguration } from "@/api/documentOcr/defaultServiceConfiguration.js";
 // 默认服务配置下拉
 import {
   defaultServiceConfigurationSelect,
-  defaultServiceConfigurationSelectForBody
-} from '@/api/documentOcr/defaultServiceConfiguration'
+  defaultServiceConfigurationSelectForBody,
+} from "@/api/documentOcr/defaultServiceConfiguration";
 // 默认服务配置
-import { defaultServiceConfiguration } from '@/api/documentOcr/defaultServiceConfiguration'
+import { defaultServiceConfiguration } from "@/api/documentOcr/defaultServiceConfiguration";
 export default {
-  name: 'Serviceconfiguration',
+  name: "Serviceconfiguration",
   props: {
     plain: Boolean,
     productName: String,
-    type: { type: String, default: 'primary' },
-    requestBody: { type: Object, default: () => {} }
+    type: { type: String, default: "primary" },
+    requestBody: { type: Object, default: () => {} },
+    isicon: {
+      type: Boolean,
+      default: () => {
+        return false;
+      },
+    },
   },
   data() {
     return {
@@ -108,266 +139,326 @@ export default {
       // status: null, // 检测失败成功
       // flag: false,
       // 单选按钮选项
-      configType: '默认服务配置',
-      serviceConfigType: '默认服务配置',
+      configType: "默认服务配置",
+      serviceConfigType: "默认服务配置",
       configurationArray: [
-        { label: '默认服务配置', value: '默认服务配置' },
-        { label: '自定义服务配置', value: '自定义服务配置' }
+        { label: "默认服务配置", value: "默认服务配置" },
+        { label: "自定义服务配置", value: "自定义服务配置" },
       ],
       // 调用服务名称下拉框选项
       serviceOptions: [],
-      temporaryAddress: '', // 临时自定义地址
-      dataPortAddress: '', // 当前录入自定义地址
-      servicePortAddress: '', // // 服务端保存的自定义地址
-      dataId: '', // 当前录入的服务id
-      serviceId: '', // 服务端保存的服务id
+      temporaryAddress: "", // 临时自定义地址
+      dataPortAddress: "", // 当前录入自定义地址
+      servicePortAddress: "", // // 服务端保存的自定义地址
+      dataId: "", // 当前录入的服务id
+      serviceId: "", // 服务端保存的服务id
       // 查询服务列表
       serviceListUrl: {
         文档OCR: `/ocr-web/serviceConfig/serviceList`,
         表格OCR: `/table-ocr-web/serviceConfig/serviceList`,
-        资质证书解析: '/qualification-certificate-analysis-web/qualificationCertificate/serviceList',
-        增值税发票解析: '/vat-general-invoice-web/invoice/common/serviceList',
-        营业执照解析: '/business-license-analysis-web/invoice/common/serviceList',
-        跨境发票解析: '/vat-cross-border-invoice-web/invoice/common/serviceList',
-        身份证解析: '/identity-card-analysis-web/identityCard/common//serviceList',
-        提货单解析: '/cross-border-bill-web/crossBorderBill/common/serviceList',
-        印章去除: '/seal-removal-web/sealRemoval/common/serviceList',
-        印章识别: '/seal-recognition-web/seal/recognition/serviceList',
-        印章检测: '/seal-detection-web/seal/detection/serviceList',
-        报关单解析: '/cross-border-customs-declaration-analysis-web/customsDeclaration/common/serviceList',
-        流水解析: '/treasury-flow-analysis-web/treasuryFlow/common/serviceList',
-        回单解析: '/receipt-analysis-web/receipt/common/serviceList',
-        房产证解析: '/general-product-web/serviceConfig/serviceList',
-        收入证明解析: '/general-product-web/serviceConfig/serviceList',
-        车辆合格证解析: '/general-product-web/serviceConfig/serviceList',
-        驾驶证解析: '/general-product-web/serviceConfig/serviceList'
+        资质证书解析:
+          "/qualification-certificate-analysis-web/qualificationCertificate/serviceList",
+        增值税发票解析: "/vat-general-invoice-web/invoice/common/serviceList",
+        营业执照解析:
+          "/business-license-analysis-web/invoice/common/serviceList",
+        跨境发票解析:
+          "/vat-cross-border-invoice-web/invoice/common/serviceList",
+        身份证解析:
+          "/identity-card-analysis-web/identityCard/common//serviceList",
+        提货单解析: "/cross-border-bill-web/crossBorderBill/common/serviceList",
+        印章去除: "/seal-removal-web/sealRemoval/common/serviceList",
+        印章识别: "/seal-recognition-web/seal/recognition/serviceList",
+        印章检测: "/seal-detection-web/seal/detection/serviceList",
+        报关单解析:
+          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/serviceList",
+        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/serviceList",
+        回单解析: "/receipt-analysis-web/receipt/common/serviceList",
+        房产证解析: "/general-product-web/serviceConfig/serviceList",
+        收入证明解析: "/general-product-web/serviceConfig/serviceList",
+        车辆合格证解析: "/general-product-web/serviceConfig/serviceList",
+        驾驶证解析: "/general-product-web/serviceConfig/serviceList",
       },
       // 查询初始化服务配置信息
       queryServiceConfigInfoUrl: {
         文档OCR: `/ocr-web/serviceConfig/queryServiceConfigInfo`,
         表格OCR: `/table-ocr-web/serviceConfig/queryServiceConfigInfo`,
-        资质证书解析: '/qualification-certificate-analysis-web/qualificationCertificate/queryServiceConfigInfo',
-        增值税发票解析: '/vat-general-invoice-web/invoice/common/queryserviceconfiginfo',
-        跨境发票解析: '/vat-cross-border-invoice-web/invoice/common/queryserviceconfiginfo',
-        营业执照解析: '/business-license-analysis-web/invoice/common/queryserviceconfiginfo',
-        身份证解析: '/identity-card-analysis-web/identityCard/common//queryserviceconfiginfo',
-        提货单解析: '/cross-border-bill-web/crossBorderBill/common/queryserviceconfiginfo',
-        印章去除: '/seal-removal-web/sealRemoval/common/queryserviceconfiginfo',
-        印章识别: '/seal-recognition-web/seal/recognition/queryserviceconfiginfo',
-        印章检测: '/seal-detection-web/seal/detection/queryserviceconfiginfo',
-        报关单解析: '/cross-border-customs-declaration-analysis-web/customsDeclaration/common/queryserviceconfiginfo',
-        流水解析: '/treasury-flow-analysis-web/treasuryFlow/common/queryserviceconfiginfo',
-        回单解析: '/receipt-analysis-web/receipt/common/queryserviceconfiginfo',
-        房产证解析: '/general-product-web/serviceConfig/queryServiceConfigInfo',
-        收入证明解析: '/general-product-web/serviceConfig/queryServiceConfigInfo',
-        车辆合格证解析: '/general-product-web/serviceConfig/queryServiceConfigInfo',
-        驾驶证解析: '/general-product-web/serviceConfig/queryServiceConfigInfo'
+        资质证书解析:
+          "/qualification-certificate-analysis-web/qualificationCertificate/queryServiceConfigInfo",
+        增值税发票解析:
+          "/vat-general-invoice-web/invoice/common/queryserviceconfiginfo",
+        跨境发票解析:
+          "/vat-cross-border-invoice-web/invoice/common/queryserviceconfiginfo",
+        营业执照解析:
+          "/business-license-analysis-web/invoice/common/queryserviceconfiginfo",
+        身份证解析:
+          "/identity-card-analysis-web/identityCard/common//queryserviceconfiginfo",
+        提货单解析:
+          "/cross-border-bill-web/crossBorderBill/common/queryserviceconfiginfo",
+        印章去除: "/seal-removal-web/sealRemoval/common/queryserviceconfiginfo",
+        印章识别:
+          "/seal-recognition-web/seal/recognition/queryserviceconfiginfo",
+        印章检测: "/seal-detection-web/seal/detection/queryserviceconfiginfo",
+        报关单解析:
+          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/queryserviceconfiginfo",
+        流水解析:
+          "/treasury-flow-analysis-web/treasuryFlow/common/queryserviceconfiginfo",
+        回单解析: "/receipt-analysis-web/receipt/common/queryserviceconfiginfo",
+        房产证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        收入证明解析:
+          "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        车辆合格证解析:
+          "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        驾驶证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
       },
       // 保存服务配置信息
       saveConfigInfoUrl: {
         文档OCR: `/ocr-web/serviceConfig/saveConfigInfo`,
         表格OCR: `/table-ocr-web/serviceConfig/saveConfigInfo`,
-        资质证书解析: '/qualification-certificate-analysis-web/qualificationCertificate/saveConfigInfo',
-        增值税发票解析: '/vat-general-invoice-web/invoice/common/saveconfiginfo',
-        跨境发票解析: '/vat-cross-border-invoice-web/invoice/common/saveconfiginfo',
-        营业执照解析: '/business-license-analysis-web/invoice/common/saveconfiginfo',
-        身份证解析: '/identity-card-analysis-web/identityCard/common//saveService',
-        提货单解析: '/cross-border-bill-web/crossBorderBill/common/saveService',
-        印章去除: '/seal-removal-web/sealRemoval/common/saveService',
-        印章识别: '/seal-recognition-web/seal/recognition/saveconfiginfo',
-        印章检测: '/seal-detection-web/seal/detection/saveconfiginfo',
-        报关单解析: '/cross-border-customs-declaration-analysis-web/customsDeclaration/common/saveService',
-        流水解析: '/treasury-flow-analysis-web/treasuryFlow/common/saveService',
-        回单解析: '/receipt-analysis-web/receipt/common/saveService',
-        房产证解析: '/general-product-web/serviceConfig/saveConfigInfo',
-        收入证明解析: '/general-product-web/serviceConfig/saveConfigInfo',
-        车辆合格证解析: '/general-product-web/serviceConfig/saveConfigInfo',
-        驾驶证解析: '/general-product-web/serviceConfig/saveConfigInfo'
+        资质证书解析:
+          "/qualification-certificate-analysis-web/qualificationCertificate/saveConfigInfo",
+        增值税发票解析:
+          "/vat-general-invoice-web/invoice/common/saveconfiginfo",
+        跨境发票解析:
+          "/vat-cross-border-invoice-web/invoice/common/saveconfiginfo",
+        营业执照解析:
+          "/business-license-analysis-web/invoice/common/saveconfiginfo",
+        身份证解析:
+          "/identity-card-analysis-web/identityCard/common//saveService",
+        提货单解析: "/cross-border-bill-web/crossBorderBill/common/saveService",
+        印章去除: "/seal-removal-web/sealRemoval/common/saveService",
+        印章识别: "/seal-recognition-web/seal/recognition/saveconfiginfo",
+        印章检测: "/seal-detection-web/seal/detection/saveconfiginfo",
+        报关单解析:
+          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/saveService",
+        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/saveService",
+        回单解析: "/receipt-analysis-web/receipt/common/saveService",
+        房产证解析: "/general-product-web/serviceConfig/saveConfigInfo",
+        收入证明解析: "/general-product-web/serviceConfig/saveConfigInfo",
+        车辆合格证解析: "/general-product-web/serviceConfig/saveConfigInfo",
+        驾驶证解析: "/general-product-web/serviceConfig/saveConfigInfo",
       },
       selfConfigInfoUrl: {
         文档OCR: `/ocr-web/serviceConfig/selfConfigInfo`,
         表格OCR: `/table-ocr-web/serviceConfig/selfConfigInfo`,
-        资质证书解析: '/qualification-certificate-analysis-web/qualificationCertificate/selfConfigInfo'
+        资质证书解析:
+          "/qualification-certificate-analysis-web/qualificationCertificate/selfConfigInfo",
       },
       // 检测接口连通性
       checkConnectUrl: {
         文档OCR: `/ocr-web/serviceConfig/checkConnect`,
         表格OCR: `/table-ocr-web/serviceConfig/checkConnect`,
-        资质证书解析: '/qualification-certificate-analysis-web/qualificationCertificate/checkConnect',
-        增值税发票解析: '/vat-general-invoice-web/invoice/common/checkconnect',
-        跨境发票解析: '/vat-cross-border-invoice-web/invoice/common/checkconnect',
-        营业执照解析: '/business-license-analysis-web/invoice/common/checkconnect',
-        身份证解析: '/identity-card-analysis-web/identityCard/common//checkstatus',
-        提货单解析: '/cross-border-bill-web/crossBorderBill/common/checkstatus',
-        印章去除: '/seal-removal-web/sealRemoval/common/checkstatus',
-        印章识别: '/seal-recognition-web/seal/recognition/checkconnect',
-        印章检测: '/seal-detection-web/seal/detection/checkconnect',
-        报关单解析: '/cross-border-customs-declaration-analysis-web/customsDeclaration/common/checkstatus',
-        流水解析: '/treasury-flow-analysis-web/treasuryFlow/common/checkstatus',
-        回单解析: '/receipt-analysis-web/receipt/common/checkstatus',
-        房产证解析: '/general-product-web/serviceConfig/checkConnect',
-        收入证明解析: '/general-product-web/serviceConfig/checkConnect',
-        车辆合格证解析: '/general-product-web/serviceConfig/checkConnect',
-        驾驶证解析: '/general-product-web/serviceConfig/checkConnect'
-      }
-    }
+        资质证书解析:
+          "/qualification-certificate-analysis-web/qualificationCertificate/checkConnect",
+        增值税发票解析: "/vat-general-invoice-web/invoice/common/checkconnect",
+        跨境发票解析:
+          "/vat-cross-border-invoice-web/invoice/common/checkconnect",
+        营业执照解析:
+          "/business-license-analysis-web/invoice/common/checkconnect",
+        身份证解析:
+          "/identity-card-analysis-web/identityCard/common//checkstatus",
+        提货单解析: "/cross-border-bill-web/crossBorderBill/common/checkstatus",
+        印章去除: "/seal-removal-web/sealRemoval/common/checkstatus",
+        印章识别: "/seal-recognition-web/seal/recognition/checkconnect",
+        印章检测: "/seal-detection-web/seal/detection/checkconnect",
+        报关单解析:
+          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/checkstatus",
+        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/checkstatus",
+        回单解析: "/receipt-analysis-web/receipt/common/checkstatus",
+        房产证解析: "/general-product-web/serviceConfig/checkConnect",
+        收入证明解析: "/general-product-web/serviceConfig/checkConnect",
+        车辆合格证解析: "/general-product-web/serviceConfig/checkConnect",
+        驾驶证解析: "/general-product-web/serviceConfig/checkConnect",
+      },
+    };
   },
   computed: {
     // 服务配置参数
     params() {
-      let obj = {}
+      let obj = {};
       this.serviceOptions.forEach((item) => {
         if (item.serviceId === this.dataId) {
-          obj = item
+          obj = item;
         }
-      })
+      });
       return {
-        serviceId: this.isSelfConfig ? '00000000' : obj.serviceId,
-        serviceName: this.isSelfConfig ? '自定义服务' : obj.serviceName,
-        servicePortAddress: this.isSelfConfig ? this.dataPortAddress : obj.servicePortAddress,
+        serviceId: this.isSelfConfig ? "00000000" : obj.serviceId,
+        serviceName: this.isSelfConfig ? "自定义服务" : obj.serviceName,
+        servicePortAddress: this.isSelfConfig
+          ? this.dataPortAddress
+          : obj.servicePortAddress,
         isSelfConfig: this.isSelfConfig,
         productName: this.productName,
-        serviceDescription: this.isSelfConfig ? '' : obj.serviceDescription
-      }
+        serviceDescription: this.isSelfConfig ? "" : obj.serviceDescription,
+      };
     },
     serviceStatus() {
-      let obj = {}
+      let obj = {};
       this.serviceOptions.forEach((item) => {
         if (item.serviceId === this.dataId) {
-          obj = item
+          obj = item;
         }
-      })
-      return obj.serviceStatus
+      });
+      return obj.serviceStatus;
     },
     // 是否是自定义服务配置
     isSelfConfig() {
-      return this.configType === '自定义服务配置'
-    }
+      return this.configType === "自定义服务配置";
+    },
   },
   methods: {
     // ...mapMutations('home', ['changeShowNav']),
     // 弹窗打开
     dialogOpen() {
-      this.configType = this.serviceConfigType
-      this.dataId = this.serviceId
-      this.dialogVisible = true
+      this.configType = this.serviceConfigType;
+      this.dataId = this.serviceId;
+      this.dialogVisible = true;
       // this.changeShowNav(false)
       // 默认服务配置接口下拉
       // 这里有些接口的请求参数方式不一样，放在body里的需要判断一下
       if (this.requestBody?.url) {
-        const { url, data } = this.requestBody
-        this.queryServiceList(defaultServiceConfigurationSelectForBody, url, data)
+        const { url, data } = this.requestBody;
+        this.queryServiceList(
+          defaultServiceConfigurationSelectForBody,
+          url,
+          data
+        );
       } else {
-        const { serviceListUrl, productName } = this
-        this.queryServiceList(defaultServiceConfigurationSelect, serviceListUrl[productName], productName)
+        const { serviceListUrl, productName } = this;
+        this.queryServiceList(
+          defaultServiceConfigurationSelect,
+          serviceListUrl[productName],
+          productName
+        );
       }
     },
     // 弹窗关闭
     dialogClose() {
-      this.dialogVisible = false
+      this.dialogVisible = false;
       // this.changeShowNav(true)
     },
     // 切换配置类型
     handleConfigType() {
-      this.checkStatus = null
+      this.checkStatus = null;
       if (this.isSelfConfig) {
-        this.dataId = '00000000'
-        this.dataPortAddress = this.configType == this.serviceConfigType ? this.servicePortAddress : ''
+        this.dataId = "00000000";
+        this.dataPortAddress =
+          this.configType == this.serviceConfigType
+            ? this.servicePortAddress
+            : "";
       } else {
-        this.dataId = this.configType == this.serviceConfigType ? this.serviceId : ''
+        this.dataId =
+          this.configType == this.serviceConfigType ? this.serviceId : "";
       }
     },
     // 检测地址
     handleCheck() {
       if (!this.dataPortAddress) {
-        return
+        return;
       }
       if (this.dataPortAddress == this.temporaryAddress) {
-        this.checkStatus = this.beforeStatus
-        return
+        this.checkStatus = this.beforeStatus;
+        return;
       }
-      this.checkStatus = 'checking'
-      checkingInterfaceStatus(this.checkConnectUrl[this.productName], this.dataPortAddress)
+      this.checkStatus = "checking";
+      checkingInterfaceStatus(
+        this.checkConnectUrl[this.productName],
+        this.dataPortAddress
+      )
         .then((res) => {
-          if (res.data.code === '200') {
-            const data = res.data
-            this.checkStatus = data.data
+          if (res.data.code === "200") {
+            const data = res.data;
+            this.checkStatus = data.data;
           } else {
-            this.checkStatus = false
+            this.checkStatus = false;
           }
         })
         .catch((error) => {
-          this.checkStatus = false
-          console.log(error)
-        })
+          this.checkStatus = false;
+          console.log(error);
+        });
     },
     handleFocus() {
-      this.beforeStatus = this.checkStatus
-      this.checkStatus = null
-      this.temporaryAddress = this.dataPortAddress
+      this.beforeStatus = this.checkStatus;
+      this.checkStatus = null;
+      this.temporaryAddress = this.dataPortAddress;
     },
     // 确定按钮
     confirm() {
-      saveServiceConfiguration(this.saveConfigInfoUrl[this.productName], this.params).then((res) => {
-        if (res.data.code === '200') {
+      saveServiceConfiguration(
+        this.saveConfigInfoUrl[this.productName],
+        this.params
+      ).then((res) => {
+        if (res.data.code === "200") {
           // console.log(res, '保存默认服务配置')
-          this.dialogVisible = false
-          this.serviceConfigType = this.configType
-          this.serviceId = this.dataId
-          this.servicePortAddress = this.dataPortAddress
-          this.$message.success({ message: res.data.message })
+          this.dialogVisible = false;
+          this.serviceConfigType = this.configType;
+          this.serviceId = this.dataId;
+          this.servicePortAddress = this.dataPortAddress;
+          this.$message.success({ message: res.data.message });
           this.serviceOptions = this.serviceOptions.filter((item) => {
-            return item.serviceStatus !== '不可用'
-          })
+            return item.serviceStatus !== "不可用";
+          });
         } else {
-          this.dialogVisible = true
-          this.$message.error({ message: res.data.message })
+          this.dialogVisible = true;
+          this.$message.error({ message: res.data.message });
         }
-      })
+      });
     },
     // 默认服务配置接口
     queryDefaultServiceConfig() {
-      defaultServiceConfiguration(this.queryServiceConfigInfoUrl[this.productName], this.productName).then((res) => {
-        if (res.data.code === '200' && res.data.data) {
-          const data = res.data.data
-          this.configType = data.isSelfConfig ? '自定义服务配置' : '默认服务配置'
-          this.serviceConfigType = data.isSelfConfig ? '自定义服务配置' : '默认服务配置'
-          this.dataId = data.serviceId
-          this.serviceId = data.serviceId
-          this.servicePortAddress = data.servicePortAddress
-          this.dataPortAddress = data.servicePortAddress
-          let obj = null
+      defaultServiceConfiguration(
+        this.queryServiceConfigInfoUrl[this.productName],
+        this.productName
+      ).then((res) => {
+        if (res.data.code === "200" && res.data.data) {
+          const data = res.data.data;
+          this.configType = data.isSelfConfig
+            ? "自定义服务配置"
+            : "默认服务配置";
+          this.serviceConfigType = data.isSelfConfig
+            ? "自定义服务配置"
+            : "默认服务配置";
+          this.dataId = data.serviceId;
+          this.serviceId = data.serviceId;
+          this.servicePortAddress = data.servicePortAddress;
+          this.dataPortAddress = data.servicePortAddress;
+          let obj = null;
           this.serviceOptions.forEach((item) => {
             if (item.serviceId === this.serviceId) {
-              obj = item
+              obj = item;
             }
-          })
-          if (!obj && this.serviceId !== '' && this.serviceId != undefined && !data.isSelfConfig) {
+          });
+          if (
+            !obj &&
+            this.serviceId !== "" &&
+            this.serviceId != undefined &&
+            !data.isSelfConfig
+          ) {
             this.serviceOptions.unshift({
-              serviceName: data.serviceName + '（不可用）',
+              serviceName: data.serviceName + "（不可用）",
               serviceId: this.serviceId,
               servicePortAddress: data.servicePortAddress,
-              serviceStatus: '不可用',
-              serviceDescription: data.serviceDescription
-            })
+              serviceStatus: "不可用",
+              serviceDescription: data.serviceDescription,
+            });
           }
         }
-      })
+      });
     },
     queryServiceList(methods, url, data) {
       methods(url, data).then((res) => {
-        if (res.data.code === '200') {
+        if (res.data.code === "200") {
           // console.log(res, '默认服务配置接口下拉')
-          const data = res.data
+          const data = res.data;
           // 赋值下拉选项数组
-          this.serviceOptions = data.data
+          this.serviceOptions = data.data;
           // 默认服务配置接口
-          this.queryDefaultServiceConfig()
+          this.queryDefaultServiceConfig();
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style lang="stylus" scoped>
 ::v-deep .lls-select {
