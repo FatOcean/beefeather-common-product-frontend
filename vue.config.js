@@ -15,7 +15,7 @@ module.exports = {
       entry: 'src/main.js',
       template: 'public/index.html',
       filename: 'index.html',
-      title: '资质证书解析'
+      title: '通用产品'
     }
   },
   devServer: {

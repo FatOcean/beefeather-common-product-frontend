@@ -148,7 +148,6 @@ import searching from "@/assets/images/searching.png";
 import beeLoading from "@linklogis/beeLoading";
 import { getBankList, analysisFile } from "../../api/receiptAnalysis";
 import ocrlayout from "./ocr-layout";
-// import uploadFile from  './upload-file'
 export default {
   data() {
     return {
@@ -193,10 +192,8 @@ export default {
   },
   components: {
     [beeLoading.name]: beeLoading,
-    // [OcrLayout.name]: OcrLayout,
-    // [OcrEl.name]: OcrEl,
     ocrlayout,
-    // uploadFile,
+    
   },
   created() {
     getBankList()

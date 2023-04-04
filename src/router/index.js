@@ -13,14 +13,14 @@ const routes = [
     redirect: "/drivingLicense",
   },
   {
-    path: "/houseProperty",
+    path: "/housePropertyAnalysis",
     component: houseProperty,
     meta: {
       title: "房产证解析",
     },
   },
   {
-    path: "/vehicleQualificationCertificate",
+    path: "/vehicleQualificationCertificateAnalysis",
     component: vehicleQualificationCertificate,
     meta: {
       title: "车辆合格证解析",

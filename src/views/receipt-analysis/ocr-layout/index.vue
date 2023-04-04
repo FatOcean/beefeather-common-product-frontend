@@ -179,25 +179,33 @@
           <div class="ocr-title">
             <slot name="title"></slot>
           </div>
-          <llsButton
-            v-if="pageMenuPerm['DOWNLOAD_RECEIPT']"
-            type="text"
-            @click="handleClickDownload"
-            :style="{ 'padding-right': downloadButtonPosition }"
-            :disabled="!down_allow"
-          >
-            <svg-icon
-              v-show="down_allow"
-              class="download"
-              iconClass="下载"
-            ></svg-icon>
-            <svg-icon
-              v-show="!down_allow"
-              class="download"
-              iconClass="下载灰"
-            ></svg-icon>
-            <span>下载</span></llsButton
-          >
+          <div>
+            <llsButton
+              v-if="pageMenuPerm['DOWNLOAD_RECEIPT']"
+              type="text"
+              @click="handleClickDownload"
+              style="margin-right: 12px"
+              :disabled="!down_allow"
+            >
+              <svg-icon
+                v-show="down_allow"
+                class="download"
+                iconClass="下载"
+              ></svg-icon>
+              <svg-icon
+                v-show="!down_allow"
+                class="download"
+                iconClass="下载灰"
+              ></svg-icon>
+              <span>下载</span></llsButton
+            >
+            <more-Button
+              productName="回单解析"
+              :requestBody="requestBody"
+              :servicecon="pageMenuPerm['SERVICE_RECEIPT']"
+              :collect="pageMenuPerm['COLLECT_RECEIPT']"
+            ></more-Button>
+          </div>
         </div>
 
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
@@ -332,6 +340,12 @@ export default {
       total: 1,
       down_allow: true,
       position: { x: 0, y: 0, w: 0, h: 0 },
+      requestBody: {
+        url: "/receipt-analysis-web/receipt/common/serviceList",
+        data: {
+          name: "回单解析",
+        },
+      },
       // position: {},
     };
   },
@@ -389,58 +403,6 @@ export default {
         position = { x: 0, y: 0, w: 0, h: 0 };
       }
       this.position = position;
-      // this.$nextTick((_) => {
-      //   const rect = this.$refs.rect;
-      //   const documentLayout = this.$refs.documentLayout;
-      //   const maskElRect = rect.getBoundingClientRect();
-      //   const documentLayoutRect = documentLayout.getBoundingClientRect();
-      //   const lY = documentLayoutRect.top;
-      //   const lX = documentLayoutRect.left;
-      //   const mY = maskElRect.top;
-      //   const mX = maskElRect.left;
-      //   const startX = mX - lX;
-      //   const startY = mY - lY;
-      //   if (
-      //     startX <= 0 ||
-      //     startY <= 0 ||
-      //     startX >= this.documentWidth ||
-      //     startY >= this.documentHeight
-      //   ) {
-      //     let disX = 0,
-      //       disY = 0;
-      //     if (startX <= 0) {
-      //       disX = -startX + this.documentWidth / 2;
-      //     }
-      //     if (startY <= 0) {
-      //       disY = -startY + this.documentHeight / 2;
-      //     }
-      //     if (startX >= this.documentWidth) {
-      //       disX = this.documentWidth / 2 - startX;
-      //     }
-      //     if (startY >= this.documentHeight) {
-      //       disY = this.documentHeight / 2 - startY;
-      //     }
-      //     console.log(disX, disY);
-      //     this.transferDocument({ disX, disY });
-      //   }
-      // });
-      // 点击右侧tabs
-      // this.resetProps()
-      // this.rotateIndex = 0;
-      // // this.activePageIndex = 1
-      // this.activeTextId = null;
-      // this.zoomScale = 1;
-      // this.pathValue = null;
-      // this.dragX = 0;
-      // this.dragY = 0;
-      // this.moveX = 0;
-      // this.moveY = 0;
-      // this.updateTranslateY();
-      // this.$emit("resetId");
-      // this.activePageIndex = index + 1
-      // const page = this.example.productsConverters;
-      // this.resizeImg();
-      // this.$emit("handle-change", page);
     },
     resizeImg() {
       const el = this.$el;
@@ -459,11 +421,6 @@ export default {
     reRenderImage() {
       this.data.forEach((page) => {
         const vm = this;
-        // const img = new Image();
-        // img.src = page.img;
-        // img.onload = function () {
-        // page.originalWidth = this.width // 图片原始宽度
-        // page.originalHeight = this.height // 图片原始高度
         page.scale = vm.documentWidth / +page.width;
         // page.scale = vm.documentHeight / page.height;
         // 初始图片缩放比例
@@ -819,12 +776,6 @@ export default {
     },
   },
   computed: {
-    downloadButtonPosition() {
-      return this.pageMenuPerm["SERVICE_RECEIPT"] ||
-        this.pageMenuPerm["COLLECT_RECEIPT"]
-        ? "54px"
-        : "0";
-    },
     // 当前示例信息
     example() {
       return this.data[this.activeDocumentIndex];
