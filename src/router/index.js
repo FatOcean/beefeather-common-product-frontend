@@ -58,9 +58,16 @@ const routes = [
     path: "/businessLicenseAnalysis",
     component: (resolve) => require(["@/views/businessLicenseAnalysis"], resolve),
     meta: {
-      title: "营业执照",
+      title: "营业执照解析",
+    },
+  },  {
+    path: "/certificateAnalysis",
+    component: (resolve) => require(["@/views/certificateAnalysis"], resolve),
+    meta: {
+      title: "资质证书解析",
     },
   },
+
 ];
 
 const router = new VueRouter({

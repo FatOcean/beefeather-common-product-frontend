@@ -17,7 +17,10 @@ api.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("token"),
       origin = sessionStorage.getItem("origin");
-    config.url = (process.env.NODE_ENV == "development" ? '/beefeather' : decodeURIComponent(origin)) + config.url;
+    // config.url =
+    //   (process.env.NODE_ENV == "development"
+    //     ? "/beefeather"
+    //     : decodeURIComponent(origin)) + config.url;
     if (token) {
       config.headers.Authorization = token;
     }
@@ -31,14 +34,30 @@ api.interceptors.request.use(
 // 响应拦截
 api.interceptors.response.use(
   (response) => {
-    if (response.request.responseType === 'blob' || response.config.url.indexOf(".json") > -1) {
-      return response
+    if (
+      response.request.responseType === "blob" ||
+      response.config.url.indexOf(".json") > -1
+    ) {
+      return response;
     }
     const code = response.data.code;
     if (code === 401) {
-      Message.error({ message: "用户未登录！", offset: 72, });
+      Message.error({ message: "用户未登录！", offset: 72 });
       router.push("/login");
       return Promise.reject(new Error("用户未登录！"));
+    } else if (
+      code !== "200" &&
+      code !== undefined &&
+      code !== 0 &&
+      response.config.showError &&
+      !response.config.url.includes("/gateway-web/oauth/check_token")
+    ) {
+      Message({
+        message: response.data.message || "error",
+        type: "error",
+        duration: 3 * 1000,
+      });
+      return response;
     } else {
       return response;
     }
