@@ -67,6 +67,13 @@ const routes = [
       title: "资质证书解析",
     },
   },
+  {
+    path: "/sealRemoval",
+    component: (resolve) => require(["@/views/sealRemoval"], resolve),
+    meta: {
+      title: "印章去除",
+    },
+  },
 
 ];
 
