@@ -11,13 +11,15 @@ import "./icons";
 import "./components/table-wrapper";
 import LinkUpload from "@linklogis/link-upload";
 import api from "./api/apiRequest.js";
-import "./components/upload-file";
+// import "./components/upload-file";
 import moreButton from "@/components/moreButton/index.vue";
+import uploadFile from "@/components/upload-file/index.vue";
 import Directives from "./directives/index";
-import './components/ocr-el'
+import "./components/ocr-el";
 
 Vue.use(Directives);
 Vue.component("moreButton", moreButton);
+Vue.component("uploadFile", uploadFile);
 Vue.use(LinkUpload);
 
 Vue.prototype.$http = api;

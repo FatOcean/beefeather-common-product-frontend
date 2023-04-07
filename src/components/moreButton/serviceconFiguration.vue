@@ -306,13 +306,22 @@ export default {
     },
   },
   methods: {
-    // ...mapMutations('home', ['changeShowNav']),
+    postFixdMessage(fixed) {
+      // 发送message 页面高度
+      window.parent.postMessage(
+        {
+          from: "messageGeneralProduct",
+          fixed: fixed,
+        },
+        "*"
+      );
+    },
     // 弹窗打开
     dialogOpen() {
       this.configType = this.serviceConfigType;
       this.dataId = this.serviceId;
       this.dialogVisible = true;
-      // this.changeShowNav(false)
+      this.postFixdMessage(true);
       // 默认服务配置接口下拉
       // 这里有些接口的请求参数方式不一样，放在body里的需要判断一下
       if (this.requestBody?.url) {
@@ -334,7 +343,7 @@ export default {
     // 弹窗关闭
     dialogClose() {
       this.dialogVisible = false;
-      // this.changeShowNav(true)
+      this.postFixdMessage(false);
     },
     // 切换配置类型
     handleConfigType() {
@@ -382,6 +391,7 @@ export default {
       this.checkStatus = null;
       this.temporaryAddress = this.dataPortAddress;
     },
+
     // 确定按钮
     confirm() {
       saveServiceConfiguration(
@@ -394,13 +404,21 @@ export default {
           this.serviceConfigType = this.configType;
           this.serviceId = this.dataId;
           this.servicePortAddress = this.dataPortAddress;
-          this.$message.success({ message: res.data.message });
+          this.$message({
+            message: res.data.message,
+            type: "success",
+            offset: 72,
+          });
           this.serviceOptions = this.serviceOptions.filter((item) => {
             return item.serviceStatus !== "不可用";
           });
         } else {
           this.dialogVisible = true;
-          this.$message.error({ message: res.data.message });
+          this.$message({
+            message: res.data.message,
+            type: "error",
+            offset: 72,
+          });
         }
       });
     },
