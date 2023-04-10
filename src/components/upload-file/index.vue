@@ -104,40 +104,41 @@ export default {
               offset: 72,
             });
             this.percent = 100;
-            this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
-              name: res.data.name,
-              requestId: res.data.requestId,
-              pages: res.data.pages.map((i) => {
-                return {
-                  ...i,
-                  collectImgUrl: `${i.img}${i.pageName}`,
-                  img: this.resolveUrl(`${i.img}${i.pageName}`),
-                  originalHeight: /0|2/.test(i.imgRotatingDeg / 90)
-                    ? i.originalHeight
-                    : i.originalWidth,
-                  originalWidth: /0|2/.test(i.imgRotatingDeg / 90)
-                    ? i.originalWidth
-                    : i.originalHeight,
-                  analysisResult: i.analysisResult.map((item) => {
-                    return {
-                      tabName: item.tabName,
-                      tabResult: item.analysisResult.map((j) => {
-                        return {
-                          ...j,
-                          coordinatesList: j.coordinatesList || [],
-                        };
-                      }),
-                    };
-                  }),
-                };
-              }),
-            });
-            this.starsFlag = false;
-            this.page = this.documents[0].pages[0];
-            this.tabsArray = this.page.analysisResult.map((item) => {
-              return { name: item.tabName };
-            });
-            this.activeName = this.tabsArray[0].name;
+            this.$emit("uploadFileData", res);
+            // this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
+            //   name: res.data.name,
+            //   requestId: res.data.requestId,
+            //   pages: res.data.pages.map((i) => {
+            //     return {
+            //       ...i,
+            //       collectImgUrl: `${i.img}${i.pageName}`,
+            //       img: this.resolveUrl(`${i.img}${i.pageName}`),
+            //       originalHeight: /0|2/.test(i.imgRotatingDeg / 90)
+            //         ? i.originalHeight
+            //         : i.originalWidth,
+            //       originalWidth: /0|2/.test(i.imgRotatingDeg / 90)
+            //         ? i.originalWidth
+            //         : i.originalHeight,
+            //       analysisResult: i.analysisResult.map((item) => {
+            //         return {
+            //           tabName: item.tabName,
+            //           tabResult: item.analysisResult.map((j) => {
+            //             return {
+            //               ...j,
+            //               coordinatesList: j.coordinatesList || [],
+            //             };
+            //           }),
+            //         };
+            //       }),
+            //     };
+            //   }),
+            // });
+            // this.starsFlag = false;
+            // this.page = this.documents[0].pages[0];
+            // this.tabsArray = this.page.analysisResult.map((item) => {
+            //   return { name: item.tabName };
+            // });
+            // this.activeName = this.tabsArray[0].name;
           } else {
             this.postFixdMessage(false);
             this.beeLoading = false;

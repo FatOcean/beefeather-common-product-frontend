@@ -95,49 +95,11 @@
         </div>
       </template>
     </ocrlayout>
-
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
-
-    <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOAD_RECEIPT']">
-      <upload-file
-        v-model="files"
-        class="upload-wrapper"
-        @http-request="handleFile"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :class="{ dragenter: dragenter }"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </upload-file>
+      <upload-File
+        productName="回单解析"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
@@ -145,10 +107,9 @@
 import { data } from "./example";
 import failed from "@/assets/images/failed.png";
 import searching from "@/assets/images/searching.png";
-import beeLoading from "@linklogis/beeLoading";
 import { getBankList, analysisFile } from "../../api/receiptAnalysis";
 import ocrlayout from "./ocr-layout";
- import { mapMutations, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -156,11 +117,8 @@ export default {
       failed,
       searching,
       data,
-      files: [],
       activeTextId: "",
       page: {}, // 当前页面数据信息
-      beeLoading: false, // 上传进度条显示隐藏
-      percent: 0, // 进度条
       activeName: "",
       servicePortAddress: "",
       activeDocumentIndex: 0,
@@ -188,7 +146,6 @@ export default {
     };
   },
   components: {
-    [beeLoading.name]: beeLoading,
     ocrlayout,
   },
   created() {
@@ -221,10 +178,6 @@ export default {
   },
   mounted() {
     this.$refs.documents.handleClick(this.page.position);
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      // this.setuserMenuPermList(e.data);
-    });
   },
   computed: {
     ...mapState(["pageMenuPerm"]),
@@ -233,22 +186,17 @@ export default {
     },
   },
   methods: {
-    setuserMenuPermList(data) {
-      if (data.pageMenuPerm) {
-        this.falg = false;
-        this.pageMenuPerm = data.pageMenuPerm;
-        this.falg = true;
-      }
-    },
-    postFixedMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: "messageFromReceiptAnalysis",
-          fixed: fixed,
-        },
-        "*"
-      );
+    uploadFileData(res) {
+      res.data.isUpload = true;
+      res.data.starsFlag = false;
+      this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath;
+      if (this.data.length > 3) this.data.shift();
+      this.data.unshift(res.data);
+      this.instance = this.data[0];
+      this.instance.flag = "";
+      this.selectValue = "";
+      this.$refs.documents.down_allow = false;
+      this.$refs.documents.resetPosition();
     },
     getResult() {
       this.loading = true;
@@ -403,206 +351,10 @@ export default {
           });
       }
     },
-    // 点击上传
-    handleFile(res) {
-      this.$refs.selectRef && this.$refs.selectRef.blur();
-      const file = res.file;
-      const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-      const whiteList = [
-        "PDF",
-        "JPG",
-        "PNG",
-        "BMP",
-        "JPEG",
-        "jpg",
-        "png",
-        "bmp",
-        "pdf",
-        "jpeg",
-      ];
-      const isLt8M = Number(file.size / 1024 / 1024);
-      if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message({
-          message: "上传文件只能是 PDF、JPG、PNG、JPEG、BMP格式",
-          type: "error",
-          offset: 72,
-        });
-        return false;
-      }
-      if (isLt8M > 8) {
-        this.$message({
-          message: "文件大小超过8M",
-          type: "error",
-          offset: 72,
-        });
-        return false;
-      }
-      this.uploadFile(file);
-    },
-    // 将文件资源传送到服务器
-    uploadFile(file) {
-      this.percent = 0;
-      this.beeLoading = true;
-      this.postFixedMessage(true);
-      const fd = new FormData();
-      fd.append("file", file);
-      this.$http({
-        url: "/receipt-analysis-web/receipt/analysis/uploadAndGetFilePath",
-        method: "post",
-        data: fd,
-        onUploadProgress: (progressEvent) => {
-          this.percent =
-            Math.ceil((progressEvent.loaded * 100) / progressEvent.total) - 2;
-        },
-      })
-        .then((res) => {
-          res = res.data;
-          // console.log(res.data, "data");
-          if (res.code === "200") {
-            this.postFixedMessage(false);
-            this.beeLoading = false;
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 72,
-            });
-            this.percent = 100;
-            res.data.isUpload = true;
-            res.data.starsFlag = false;
-            this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath;
-            if (this.data.length > 3) this.data.shift();
-            this.data.unshift(res.data);
-            this.instance = this.data[0];
-            this.instance.flag = "";
-            this.selectValue = "";
-            this.$refs.documents.down_allow = false;
-            this.$refs.documents.resetPosition();
-          } else {
-            this.beeLoading = false;
-            this.postFixedMessage(false);
-            this.$message({
-              message: res.message,
-              type: "error",
-              offset: 72,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    handleDragLeave() {
-      setTimeout((_) => {
-        this.dragenter = false;
-      }, 200);
-    },
   },
 };
 </script>
 <style lang="stylus">
-.identify-data {
-  .identify-header {
-    display: flex;
-    background: #F3F4F6;
-
-    div {
-      width: 50%;
-      line-height: 40px;
-      padding-left: 8px;
-      border: 1px solid #E3E8F0;
-
-      &:last-child {
-        border-left: none;
-      }
-    }
-  }
-
-  .identify-content {
-    .identify-content-top {
-      display: flex;
-
-      div {
-        width: 50%;
-        line-height: 40px;
-        padding-left: 8px;
-        border: 1px solid #E3E8F0;
-        border-top: none;
-
-        &:last-child {
-          border-left: none;
-        }
-      }
-    }
-
-    .identify-content-other {
-      border: 1px solid #E3E8F0;
-      border-top: none;
-      display: flex;
-      box-sizing: border-box;
-
-      .other-list {
-        width: 50%;
-        box-sizing: border-box;
-
-        div {
-          border-bottom: 1px solid #E3E8F0;
-          line-height: 40px;
-          padding-left: 8px;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
-
-      .other-left {
-        align-content: center;
-        width: 50%;
-        box-sizing: border-box;
-        display: flex;
-
-        .other-info {
-          border-bottom: 1px solid #E3E8F0;
-          border-right: 1px solid #E3E8F0;
-          border-left: 1px solid #E3E8F0;
-          line-height: 40px;
-          padding-left: 8px;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
-    }
-  }
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-
-  .lls-checkbox__label {
-    padding-left: 4px;
-    color: #202D40;
-  }
-
-  .lls-checkbox {
-    margin-left: 32px;
-  }
-
-  .lls-checkbox__input.is-checked+.lls-checkbox__label {
-    color: #202D40;
-  }
-}
-
-.pre-line {
-  white-space: pre-line;
-}
-
-.tableWrapper {
-}
-
 .table-data {
   width: 100%;
   margin-bottom: 16px;
@@ -665,16 +417,6 @@ export default {
     left: 0;
   }
 
-  // .checked {
-  // position: absolute;
-  // right: 0;
-  // }
-
-  // .function_bar {
-  // display:flex,
-  // flex-wrap:nowrap,
-  // justify-content:space-between
-  // }
   .sample-collection {
     width: 114px;
     position: fixed;
@@ -699,58 +441,6 @@ export default {
       color: #fff;
       margin-left: 4px;
       vertical-align: middle;
-    }
-  }
-
-  .upload-wrapper {
-    position: absolute;
-    bottom: 0px;
-    z-index: 9;
-
-    .dragger-wrapper {
-      width: 302px;
-      height: initial;
-      min-height: initial;
-      background: #ffffff;
-      border: 1px solid #b4dbff;
-      border-radius: 16px 16px 0px 0px;
-      box-shadow: 0px -3px 6px 0px rgba(5, 18, 30, 0.04);
-      text-align: center;
-      cursor: pointer;
-
-      .upload-innder {
-        margin: 0;
-        padding: 16px 36px;
-
-        .put-upload {
-          color: #0887ff;
-          font-size: 16px;
-          pointer-events: none;
-
-          .svg-icon {
-            font-size: 16px;
-          }
-
-          >span {
-            vertical-align: middle;
-            margin-left: 8px;
-          }
-        }
-
-        .expand-upload {
-          padding: 16px 0;
-          pointer-events: none;
-
-          .svg-icon {
-            font-size: 24px;
-          }
-
-          .upload-text {
-            color: #8492a6;
-            margin-top: 8px;
-          }
-        }
-      }
     }
   }
 }

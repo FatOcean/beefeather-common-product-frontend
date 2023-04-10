@@ -578,4 +578,12 @@ export default {
   vertical-align: middle;
   margin-left: 4px;
 }
+
+::v-deep .lls-select:hover .lls-input__inner {
+  border-color: #0887ff !important;
+}
+
+::v-deep .lls-select .lls-input.is-disabled .lls-input__inner:hover {
+  border-color: #E9E9E9 !important;
+}
 </style>
