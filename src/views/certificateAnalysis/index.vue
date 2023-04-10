@@ -59,10 +59,12 @@
     </div>
 
     <!-- 上传文件 -->
-    <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
-        action="/beefeather/file-handle-web/file/upload" -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOADCERTIFICATE']">
-      <link-upload
+      <upload-File
+        productName="资质证书解析"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
+      <!-- <link-upload
         v-model="files"
         class="upload-wrapper"
         @mouseenter.native="dragenter = true"
@@ -101,7 +103,7 @@
             </div>
           </div>
         </div>
-      </link-upload>
+      </link-upload> -->
     </lls-collapse-transition>
   </div>
 </template>
@@ -109,7 +111,7 @@
 import documents from "./example";
 import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -124,9 +126,6 @@ export default {
       href: window.location.href,
       starsFlag: false, // 是否收集
       loadRecordId: "", // 难例收集id
-      pageMenuPerm: {
-        DOWNCERTIFICATE: true,
-      },
     };
   },
   components: {
@@ -135,41 +134,28 @@ export default {
     [OcrEl.name]: OcrEl,
   },
   computed: {
-    downloadButtonPosition() {
-      return this.pageMenuPerm["COLLCERTIFICATE"] ||
-        this.pageMenuPerm["SERCERTIFICATE"]
-        ? "54px"
-        : "0";
-    },
-  },
-  created() {
-    // this.page = this.documents[0].tableFileDTOList[0];
-  },
-  mounted() {
-    // console.log("设置cookie")
-    // this.setCookie("AUTHENTICATION", "token____________", 1)
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
-    });
+    ...mapState(["pageMenuPerm"]),
   },
   methods: {
-    setuserMenuPermList(data) {
-      if (data.pageMenuPerm) {
-        this.$nextTick(() => {
-          this.pageMenuPerm = data.pageMenuPerm;
-        });
-      }
-    },
-    postFixdMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: "messageFromDocumentOcr",
-          fixed: fixed,
-        },
-        "*"
-      );
+    uploadFileData(res) {
+      this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
+        name: res.data[0].name,
+        pages: res.data.map((i) => {
+          return {
+            ...i,
+            collectImgUrl: i.img,
+            img: this.resolveUrl(i.img),
+            analysisResult: i.analysisResult.map((item) => {
+              return {
+                ...item,
+                coordinatesList: item.coordinatesList || [],
+              };
+            }),
+          };
+        }),
+      });
+      this.starsFlag = false;
+      this.page = this.documents[0].pages[0];
     },
     // 样本收集点击事件
     clickSampleCollection() {
@@ -228,7 +214,6 @@ export default {
       }
     },
     beforeUpload() {
-      this.postFixdMessage(true);
       window.setTimeout((_) => {
         console.log("1");
         this.beeLoading = true;
@@ -254,7 +239,6 @@ export default {
         .then((res) => {
           res = res.data;
           if (res.code === "200") {
-            this.postFixdMessage(false);
             this.beeLoading = false;
             this.$message({
               message: "上传成功",
@@ -281,7 +265,6 @@ export default {
             this.starsFlag = false;
             this.page = this.documents[0].pages[0];
           } else {
-            this.postFixdMessage(false);
             this.beeLoading = false;
             this.$message({
               message: res.message,

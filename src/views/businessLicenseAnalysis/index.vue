@@ -47,39 +47,10 @@
 
     <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOADBSINESSLICENSE']">
-      <upload-file
-        v-model="files"
-        class="upload-wrapper"
-        @http-request="handleFile"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :class="{ dragenter: dragenter }"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </upload-file>
+      <upload-File
+        productName="营业执照解析"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
@@ -87,13 +58,13 @@
 import { normalData } from "./defaultData";
 import ocrlayout from "./ocr-layout";
 import beeLoading from "@linklogis/beeLoading";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
       isLoading: false,
       flag: true,
       starsFlag: null,
-      files: [],
       activeTextId: "",
       page: {}, // 当前页面数据信息
       beeLoading: false, // 上传进度条显示隐藏
@@ -109,26 +80,9 @@ export default {
       token: window.sessionStorage.getItem("token"),
       origin: window.sessionStorage.getItem("origin"),
       href: window.location.href,
-      pageMenuPerm: {
-        //按钮默认显示值
-        DOWNBSINESSLICENSE: true,
-        UPLOADBSINESSLICENSE: true,
-        SERBSINESSLICENSE: false,
-        COLLBSINESSLICENSE: false,
-      },
     };
   },
-  components: { [beeLoading.name]: beeLoading,ocrlayout },
-  created() {
-    // // console.log(this.example, '000')
-    // this.page = this.documents[0].items[0];
-    // this.tabsArray = this.documents[0].items.map((item, index) => {
-    //   return {
-    //     name: `营业执照${index + 1}`,
-    //   };
-    // });
-    // this.activeName = this.tabsArray[0].name;
-  },
+  components: { [beeLoading.name]: beeLoading, ocrlayout },
   watch: {
     checked(val) {
       this.activeTextId = null;
@@ -136,11 +90,9 @@ export default {
       this.$refs.documents.pathValue = null;
       this.filterEmpty(val);
     },
-    // search(val) {
-    //   this.searchData()
-    // }
   },
   computed: {
+    ...mapState(["pageMenuPerm"]),
     example() {
       return this.documents[this.activeDocumentIndex];
     },
@@ -153,51 +105,32 @@ export default {
   mounted() {
     // 接收iframe的数据
     window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
+      // this.setuserMenuPermList(e.data);
     });
   },
   methods: {
-    setuserMenuPermList(data) {
-      if (data.pageMenuPerm) {
-        this.flag = false;
-        this.pageMenuPerm = data.pageMenuPerm;
-        this.flag = true;
+    uploadFileData(res) {
+      res.data.forEach((i) => {
+        i.isUpload = true;
+      });
+      res.data[0].images.forEach((item) => {
+        item.url = `${this.originLocation}?filename=${encodeURIComponent(
+          item.path
+        )}`;
+      });
+      this.starsFlag = false;
+      if (this.documents.length >= 3) {
+        this.documents.shift();
       }
-    },
-    postFixdMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: "messageFromBillOfLading",
-          fixed: fixed,
-        },
-        "*"
-      );
+      this.documents = res.data.concat(this.documents);
+      this.activeDocumentIndex = 0;
     },
     tabs(activeDocumentIndex, activePageIndex) {
       this.checked = false;
       this.filterEmpty(false);
       // this.searchData()
       this.activeDocumentIndex = activeDocumentIndex;
-      // this.tabsArray = this.documents[activeDocumentIndex].items.map(
-      //   (item, index) => {
-      //     return {
-      //       name: `营业执照${index + 1}`,
-      //     };
-      //   }
-      // );
-      // this.activeName = this.tabsArray[activePageIndex].name;
     },
-    // handleClick(value) {
-    //   this.checked = false;
-    //   this.filterEmpty(false);
-    //   // this.searchData()
-    //   this.tabsArray.forEach((item, index) => {
-    //     if (item.name === value.name) {
-    //       this.$refs.documents.handleClick(index);
-    //     }
-    //   });
-    // },
     filterEmpty(flag) {
       this.page.items = this.emptyData(this.page.items, flag);
       // this.page.describes = this.emptyData(this.page.describes, flag)
@@ -211,23 +144,6 @@ export default {
       });
       return newArr;
     },
-    // searchData() {
-    //   // this.$refs.documents.resetProps()
-    //   this.activeTextId = null
-    //   this.$refs.documents.activeTextId = null
-    //   this.$refs.documents.pathValue = null
-    //   this.page.items = this.handleArr(this.page.items, this.search)
-    //   // this.page.describes = this.handleArr(this.page.describes, this.search)
-    // },
-    // handleArr(arr, eleName) {
-    //   const newArr = arr.map((item) => {
-    //     return {
-    //       ...item,
-    //       notShow: !(item.key.indexOf(eleName) > -1) && !(item.value.indexOf(eleName) > -1)
-    //     }
-    //   })
-    //   return newArr
-    // },
     // 样本收集点击事件
     clickHandler(e, i, noParent) {
       const el = e.target.parentNode.firstChild;
@@ -345,8 +261,6 @@ export default {
     // 将文件资源传送到服务器
     uploadFile(file) {
       this.percent = 0;
-      this.postFixdMessage(true);
-
       this.$nextTick((_) => {
         this.beeLoading = true;
       });
@@ -362,10 +276,8 @@ export default {
         },
       })
         .then((res) => {
-          // console.log(res)
           res = res.data;
           if (res && res.code === "200") {
-            this.postFixdMessage(false);
             this.beeLoading = false;
 
             res.data.forEach((i) => {
@@ -383,34 +295,13 @@ export default {
             });
             this.percent = 100;
             this.starsFlag = false;
-            // 处理对象数据
-            // const Data=[];
-            // for(const key in res){
-            //   Data.push(res[key])
-            // }
-            // console.log(Data);
-
             if (this.documents.length >= 3) {
               this.documents.shift();
             }
             this.documents = res.data.concat(this.documents);
-
-            //  this.documents.forEach((item)=>{
-            //    item.items[0].items.forEach((e)=>{
-            //       if(e.value){
-            //         this.$refs.documents.handleClickText()
-            //            this.activeEl = '';
-            //           this.activeText = '';
-            //       }
-            //    })
-
-            //  })
-
             this.activeDocumentIndex = 0;
-            // this.page = this.documents[0].items[0];
             console.log(this.example);
           } else {
-            this.postFixdMessage(false);
             this.beeLoading = false;
             this.$message({
               message: res.message,
@@ -423,11 +314,6 @@ export default {
           this.beeLoading = false;
           this.$message.error("文件上传失败（如文件未解压等）");
         });
-    },
-    handleDragLeave() {
-      setTimeout((_) => {
-        this.dragenter = false;
-      }, 200);
     },
   },
 };
