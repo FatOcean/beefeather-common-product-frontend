@@ -54,33 +54,33 @@ const routes = [
       title: "流水解析",
     },
   },
-  {
-    path: "/businessLicenseAnalysis",
-    component: (resolve) => require(["@/views/businessLicenseAnalysis"], resolve),
-    meta: {
-      title: "营业执照解析",
-    },
-  },  {
-    path: "/certificateAnalysis",
-    component: (resolve) => require(["@/views/certificateAnalysis"], resolve),
-    meta: {
-      title: "资质证书解析",
-    },
-  },
-  {
-    path: "/sealRemoval",
-    component: (resolve) => require(["@/views/sealRemoval"], resolve),
-    meta: {
-      title: "印章去除",
-    },
-  },
-  {
-    path: "/sealRecognition",
-    component: (resolve) => require(["@/views/sealRecognition"], resolve),
-    meta: {
-      title: "印章识别",
-    },
-  },
+  // {
+  //   path: "/businessLicenseAnalysis",
+  //   component: (resolve) => require(["@/views/businessLicenseAnalysis"], resolve),
+  //   meta: {
+  //     title: "营业执照解析",
+  //   },
+  // },  {
+  //   path: "/certificateAnalysis",
+  //   component: (resolve) => require(["@/views/certificateAnalysis"], resolve),
+  //   meta: {
+  //     title: "资质证书解析",
+  //   },
+  // },
+  // {
+  //   path: "/sealRemoval",
+  //   component: (resolve) => require(["@/views/sealRemoval"], resolve),
+  //   meta: {
+  //     title: "印章去除",
+  //   },
+  // },
+  // {
+  //   path: "/sealRecognition",
+  //   component: (resolve) => require(["@/views/sealRecognition"], resolve),
+  //   meta: {
+  //     title: "印章识别",
+  //   },
+  // },
 ];
 
 const router = new VueRouter({
