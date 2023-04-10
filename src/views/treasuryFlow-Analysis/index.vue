@@ -1,6 +1,6 @@
 <template>
   <div class="treasury-flow-analysis-wrapper">
-    <ocrlayout
+    <ocrLayout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
       :data="data"
@@ -89,7 +89,7 @@
           <span>正在解析中...</span>
         </div>
       </template>
-    </ocrlayout>
+    </ocrLayout>
 
     <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOAD_TREASURY_FLOW']">
@@ -105,12 +105,12 @@ import { data } from "./example";
 import failed from "@/assets/images/failed.png";
 import searching from "@/assets/images/searching.png";
 import { getBankList, analysisFile } from "../../api/treasuryFlow";
-import ocrlayout from "./ocr-layout/index.vue";
-import { mapMutations, mapState } from "vuex";
+import ocrLayout from "./ocr-layout";
+import { mapState } from "vuex";
 export default {
   name: "treasuryFlowAnalysis",
   components: {
-    ocrlayout,
+    ocrLayout,
   },
   data() {
     return {

@@ -2,9 +2,6 @@ import imageOne from './images/示例一.jpg';
 import imageTwo from './images/示例二.jpg';
 import imageThree from './images/示例三.jpg';
 
-
-
-
 const data = [
   {
     url: imageOne,

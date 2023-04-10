@@ -1,6 +1,6 @@
 <template>
   <div class="treasury-flow-analysis-wrapper">
-    <ocrlayout
+    <ocrLayout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
       :data="data"
@@ -64,7 +64,6 @@
               </table>
             </lls-tab-pane>
           </lls-tabs>
-          <!-- 错误样本收集-->
           <div
             class="sample-collection"
             @click="clickSampleCollection"
@@ -94,7 +93,7 @@
           <span>正在解析中...</span>
         </div>
       </template>
-    </ocrlayout>
+    </ocrLayout>
     <lls-collapse-transition v-if="pageMenuPerm['UPLOAD_RECEIPT']">
       <upload-File
         productName="回单解析"
@@ -108,7 +107,7 @@ import { data } from "./example";
 import failed from "@/assets/images/failed.png";
 import searching from "@/assets/images/searching.png";
 import { getBankList, analysisFile } from "../../api/receiptAnalysis";
-import ocrlayout from "./ocr-layout";
+import ocrLayout from "./ocr-layout";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -146,7 +145,7 @@ export default {
     };
   },
   components: {
-    ocrlayout,
+    ocrLayout,
   },
   created() {
     getBankList()
