@@ -746,7 +746,7 @@ export default {
         method: "get",
         url: `/general-product-web/general/downloadResult?path=${encodeURIComponent(
           this.example.url
-        )}taskId=${this.example.requestId}&productName=营业执照解析&show=${
+        )}&taskId=${this.example.requestId}&productName=营业执照解析&show=${
           this.example.show || false
         }`,
         responseType: "blob",
