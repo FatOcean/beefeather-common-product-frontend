@@ -220,11 +220,6 @@ export default {
             this.failedStatus = true;
             this.selectValue = "";
             this.$refs.documents.down_allow = false;
-            // this.$message({
-            //   message: res.message,
-            //   type: "error",
-            //   offset: 72,
-            // });
           }
         })
         .catch((err) => {
@@ -232,7 +227,7 @@ export default {
           this.documents.flag = "";
           this.selectValue = "";
           this.$refs.documents.down_allow = false;
-                    this.$message({
+          this.$message({
             message: res.message,
             type: "error",
             offset: 72,

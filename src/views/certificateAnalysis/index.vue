@@ -145,9 +145,9 @@ export default {
             ...i,
             collectImgUrl: i.img,
             img: this.resolveUrl(i.imagePath),
-            name:i.fileName,
-            originalHeight:i.height,
-            originalWidth:i.width,
+            name: i.fileName,
+            originalHeight: i.height,
+            originalWidth: i.width,
             analysisResult: i.analysisResult.map((item) => {
               return {
                 ...item,
@@ -285,7 +285,11 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.page.requestId}&productName=资质证书解析解析`,
+        url: `/general-product-web/general/downloadResult?taskId=${
+          this.page.requestId
+        }&productName=资质证书解析解析&path=${encodeURIComponent(
+          this.page.excelPath
+        )}`,
         responseType: "blob",
       })
         .then((res) => {

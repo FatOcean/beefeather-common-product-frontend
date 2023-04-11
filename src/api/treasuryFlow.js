@@ -9,7 +9,9 @@ export function uploadAndGetFilePath(data) {
 }
 // 获取解析结果
 export function analysisFile(data) {
-  return api.post(`/general-product-web/general/uploadAnalysisFile`, data);
+  return api.post(
+    `/general-product-web/general/uploadAnalysisFile?filePath=${data.filePath}&bankName=${data.bankName}&productName=${data.productName}`
+  );
 }
 
 // 获取选项
