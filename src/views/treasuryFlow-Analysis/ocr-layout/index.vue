@@ -758,7 +758,7 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/treasury-flow-analysis-web/treasuryFlow/common/downLoadFile?path=${this.example.excelPath}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.requestId}&productName=流水解析`,
         responseType: "blob",
       })
         .then((res) => {
@@ -768,7 +768,6 @@ export default {
               .split(";")[1]
               .split("filename=")[1]
               .replace(/"/gi, "");
-          // console.log(fileName);
           const blob = res.data;
           const type =
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
@@ -926,6 +925,7 @@ export default {
         right: 0;
         border-radius: 0 0 4px 4px;
         text-align: center;
+
         span {
           transform: scale(0.75);
           transform-origin: left;

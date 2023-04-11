@@ -168,20 +168,20 @@
             <span>识别结果</span>
           </div>
           <div>
-          <llsButton
-            type="text"
-            @click="handleClickDownload"
-            v-if="pageMenuPerm['DOWNBSINESSLICENSE']"
-          >
-            <svg-icon class="download" iconClass="下载"></svg-icon>
-            <span>下载</span>
-          </llsButton>
-          <more-Button
-            productName="营业执照解析"
-            :requestBody="requestBody"
-            :servicecon="pageMenuPerm['COLLBSINESSLICENSE']"
-            :collect="pageMenuPerm['SERBSINESSLICENSE']"
-          ></more-Button>
+            <llsButton
+              type="text"
+              @click="handleClickDownload"
+              v-if="pageMenuPerm['DOWNBSINESSLICENSE']"
+            >
+              <svg-icon class="download" iconClass="下载"></svg-icon>
+              <span>下载</span>
+            </llsButton>
+            <more-Button
+              productName="营业执照解析"
+              :requestBody="requestBody"
+              :servicecon="pageMenuPerm['COLLBSINESSLICENSE']"
+              :collect="pageMenuPerm['SERBSINESSLICENSE']"
+            ></more-Button>
           </div>
         </div>
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
@@ -743,6 +743,32 @@ export default {
     },
     // 下载识别结果
     handleClickDownload() {
+      this.$http({
+        method: "get",
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.requestId}&productName=营业执照解析解析`,
+        responseType: "blob",
+      })
+        .then((res) => {
+          const fileName =
+            res.headers["content-disposition"] &&
+            res.headers["content-disposition"]
+              .split(";")[1]
+              .split("filename=")[1]
+              .replace(/"/gi, "");
+          const blob = res.data;
+          const type =
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
+          this.exportByBlob(blob, decodeURIComponent(fileName), type);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$message({
+            message: "网络错误，请稍后再试",
+            type: "error",
+            offset: 72,
+          });
+        });
+      return;
       this.$http({
         method: "get",
         url: `/business-license-analysis-web/invoice/common/download?name=${encodeURIComponent(

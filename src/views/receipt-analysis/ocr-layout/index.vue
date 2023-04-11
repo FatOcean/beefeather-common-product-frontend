@@ -749,7 +749,7 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/receipt-analysis-web/receipt/common/downLoadFile?path=${this.example.excelPath}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.requestId}&productName=回单解析`,
         responseType: "blob",
       })
         .then((res) => {
@@ -759,7 +759,6 @@ export default {
               .split(";")[1]
               .split("filename=")[1]
               .replace(/"/gi, "");
-          // console.log(fileName);
           const blob = res.data;
           const type =
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
@@ -767,10 +766,6 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          // this.$message({
-          //   message: error.data.message,
-          //   type: "error",
-          // });
         });
     },
   },
@@ -957,8 +952,8 @@ export default {
     .svg-mask {
       pointer-events: none;
       position: absolute;
-      top:0px;
-      left:0px;
+      top: 0px;
+      left: 0px;
       z-index: 1;
     }
 

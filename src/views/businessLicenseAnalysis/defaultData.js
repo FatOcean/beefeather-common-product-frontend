@@ -7,6 +7,7 @@ const normalData = [
     name: "示例一.png",
     path: "/product/business_license_analysis/lls/T2022042011708808/",
     url: "excel/示例一.xlsx",
+    requestId: "001",
     show: true,
     images: [
       {
@@ -140,6 +141,7 @@ const normalData = [
     name: "示例二.png",
     path: "/product/business_license_analysis/lls/T2022042013881322/",
     url: "excel/示例二.xlsx",
+    requestId: "002",
     show: true,
     images: [
       {

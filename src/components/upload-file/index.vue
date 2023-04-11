@@ -115,6 +115,14 @@ export default {
             });
           }
         })
+        .catch((err) => {
+          console.log(err);
+          this.$message({
+            message: "网络错误，请稍后再试",
+            type: "error",
+            offset: 72,
+          });
+        })
         .finally(() => {
           this.beeLoading = false;
         });

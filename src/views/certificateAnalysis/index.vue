@@ -282,6 +282,32 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
+        url: `/general-product-web/general/downloadResult?taskId=${this.page.requestId}&productName=资质证书解析解析`,
+        responseType: "blob",
+      })
+        .then((res) => {
+          const fileName =
+            res.headers["content-disposition"] &&
+            res.headers["content-disposition"]
+              .split(";")[1]
+              .split("filename=")[1]
+              .replace(/"/gi, "");
+          const blob = res.data;
+          const type =
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
+          this.exportByBlob(blob, decodeURIComponent(fileName), type);
+        })
+        .catch((error) => {
+          console.log(error);
+          this.$message({
+            message: "网络错误，请稍后再试",
+            type: "error",
+            offset: 72,
+          });
+        });
+      return;
+      this.$http({
+        method: "get",
         url: `/qualification-certificate-analysis-web/qualificationCertificate/downLoadFile?path=${encodeURIComponent(
           this.page.excelPath
         )}`,

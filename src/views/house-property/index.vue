@@ -337,7 +337,6 @@ export default {
     },
     // 下载识别结果
     handleClickDownload() {
-      console.log(this.$refs.ocrlayout.example, "this.$refs.ocrlayout.example");
       this.$http({
         method: "get",
         url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=房产证解析`,
