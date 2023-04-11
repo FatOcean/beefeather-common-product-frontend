@@ -192,7 +192,7 @@ export default {
     },
     getResult() {
       this.loading = true;
-      analysisFile(this.url, this.banks[this.selectValue])
+      analysisFile(this.url, this.banks[this.selectValue],'流水解析')
         .then((res) => {
           res = res.data;
           if (res.code === "200") {

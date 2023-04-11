@@ -83,14 +83,12 @@ export default {
       dataSetUrl: {
         文档OCR: "/ocr-web/collectConfigInfo/queryCollectConfigInfo",
         表格OCR: "/table-ocr-web/collectConfigInfo/queryCollectConfigInfo",
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/querycollectconfiginfo",
+
         增值税发票解析:
           "/vat-general-invoice-web/invoice/common/querycollectconfiginfo",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/querycollectconfiginfo",
-        营业执照解析:
-          "/business-license-analysis-web/invoice/common/querycollectconfiginfo",
+
         身份证解析:
           "/identity-card-analysis-web/identityCard/common//querycollectconfiginfo",
         提货单解析:
@@ -101,9 +99,12 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/querycollectconfiginfo",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/querycollectconfiginfo",
-        流水解析:
-          "/treasury-flow-analysis-web/treasuryFlow/common/querycollectconfiginfo",
-        回单解析: "/receipt-analysis-web/receipt/common/querycollectconfiginfo",
+        营业执照解析:
+          "/general-product-web/collectConfig/queryCollectConfigInfo",
+        资质证书解析:
+          "/general-product-web/collectConfig/queryCollectConfigInfo",
+        流水解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
+        回单解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
         房产证解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
         收入证明解析:
           "/general-product-web/collectConfig/queryCollectConfigInfo",
@@ -115,13 +116,11 @@ export default {
       dataSetListUrl: {
         文档OCR: "/ocr-web/collectConfigInfo/datasetList",
         表格OCR: "/table-ocr-web/collectConfigInfo/datasetList",
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/datasetList",
+
         增值税发票解析: "/vat-general-invoice-web/invoice/common/datasetList",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/datasetList",
-        营业执照解析:
-          "/business-license-analysis-web/invoice/common/datasetList",
+
         身份证解析:
           "/identity-card-analysis-web/identityCard/common//datasetList",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/datasetList",
@@ -130,8 +129,10 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/datasetList",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/datasetList",
-        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/datasetList",
-        回单解析: "/receipt-analysis-web/receipt/common/datasetList",
+        资质证书解析: "/general-product-web/collectConfig/datasetList",
+        营业执照解析: "/general-product-web/collectConfig/datasetList",
+        流水解析: "/general-product-web/collectConfig/datasetList",
+        回单解析: "/general-product-web/collectConfig/datasetList",
         房产证解析: "/general-product-web/collectConfig/datasetList",
         收入证明解析: "/general-product-web/collectConfig/datasetList",
         车辆合格证解析: "/general-product-web/collectConfig/datasetList",
@@ -141,11 +142,9 @@ export default {
       saveDatasetInfoUrl: {
         文档OCR: "/ocr-web/collectConfigInfo/saveDatasetInfo",
         表格OCR: "/table-ocr-web/collectConfigInfo/saveDatasetInfo",
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/saveDatasetInfo",
+
         增值税发票解析: "/vat-general-invoice-web/invoice/common/savedata",
         跨境发票解析: "/vat-cross-border-invoice-web/invoice/common/savedata",
-        营业执照解析: "/business-license-analysis-web/invoice/common/savedata",
         身份证解析: "/identity-card-analysis-web/identityCard/common//savedata",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/savedata",
         印章去除: "/seal-removal-web/sealRemoval/common/savedata",
@@ -153,8 +152,10 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/savedata",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/savedata",
-        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/savedata",
-        回单解析: "/receipt-analysis-web/receipt/common/savedata",
+        资质证书解析: "/general-product-web/collectConfig/saveDatasetInfo",
+        营业执照解析: "/general-product-web/collectConfig/saveDatasetInfo",
+        流水解析: "/general-product-web/collectConfig/saveDatasetInfo",
+        回单解析: "/general-product-web/collectConfig/saveDatasetInfo",
         房产证解析: "/general-product-web/collectConfig/saveDatasetInfo",
         收入证明解析: "/general-product-web/collectConfig/saveDatasetInfo",
         车辆合格证解析: "/general-product-web/collectConfig/saveDatasetInfo",

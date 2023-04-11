@@ -200,7 +200,7 @@ export default {
     getResult() {
       this.loading = true;
       this.$refs.documents.resetPosition();
-      analysisFile(this.url, this.banks[this.selectValue])
+      analysisFile(this.url, this.banks[this.selectValue], "回单解析")
         .then((res) => {
           res = res.data;
           if (res.code === "200" && res.data.tabList) {
@@ -239,11 +239,6 @@ export default {
             this.failedStatus = true;
             this.selectValue = "";
             this.$refs.documents.down_allow = false;
-            // this.$message({
-            //   message: res.message,
-            //   type: "error",
-            //   offset: 72,
-            // });
           }
         })
         .catch((err) => {
@@ -442,6 +437,7 @@ export default {
       vertical-align: middle;
     }
   }
+
   .upload-wrapper {
     position: absolute;
     bottom: 0px;

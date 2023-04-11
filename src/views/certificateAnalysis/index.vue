@@ -139,12 +139,15 @@ export default {
   methods: {
     uploadFileData(res) {
       this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
-        name: res.data[0].name,
+        name: res.data[0].fileName,
         pages: res.data.map((i) => {
           return {
             ...i,
             collectImgUrl: i.img,
-            img: this.resolveUrl(i.img),
+            img: this.resolveUrl(i.imagePath),
+            name:i.fileName,
+            originalHeight:i.height,
+            originalWidth:i.width,
             analysisResult: i.analysisResult.map((item) => {
               return {
                 ...item,

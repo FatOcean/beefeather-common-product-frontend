@@ -178,7 +178,6 @@
             </llsButton>
             <more-Button
               productName="营业执照解析"
-              :requestBody="requestBody"
               :servicecon="pageMenuPerm['COLLBSINESSLICENSE']"
               :collect="pageMenuPerm['SERBSINESSLICENSE']"
             ></more-Button>
@@ -319,12 +318,12 @@ export default {
       draggable: false, // 是否抓住页面
       showImageViewer: false, // 是否启用大图预览
       transition: false, // 是否开启缓动效果
-      requestBody: {
-        url: "/business-license-analysis-web/invoice/common/serviceList",
-        data: {
-          name: "营业执照解析",
-        },
-      },
+      // requestBody: {
+      //   url: "/business-license-analysis-web/invoice/common/serviceList",
+      //   data: {
+      //     name: "营业执照解析",
+      //   },
+      // },
     };
   },
   mounted() {
@@ -768,39 +767,10 @@ export default {
             offset: 72,
           });
         });
-      return;
-      this.$http({
-        method: "get",
-        url: `/business-license-analysis-web/invoice/common/download?name=${encodeURIComponent(
-          this.example.url
-        )}&show=${this.example.show || false}`,
-        responseType: "blob",
-      })
-        .then((res) => {
-          const fileName =
-            res.headers["content-disposition"] &&
-            res.headers["content-disposition"]
-              .split(";")[1]
-              .split("filename=")[1]
-              .replace(/"/gi, "");
-          const blob = res.data;
-          const type =
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
-          this.exportByBlob(blob, decodeURIComponent(fileName), type);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
   },
 
   computed: {
-    downloadButtonPosition() {
-      return this.pageMenuPerm["COLLBSINESSLICENSE"] ||
-        this.pageMenuPerm["SERBSINESSLICENSE"]
-        ? "54px"
-        : "0";
-    },
     // 当前示例信息
     example() {
       return this.data[this.activeDocumentIndex];

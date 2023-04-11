@@ -156,11 +156,9 @@ export default {
       serviceListUrl: {
         文档OCR: `/ocr-web/serviceConfig/serviceList`,
         表格OCR: `/table-ocr-web/serviceConfig/serviceList`,
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/serviceList",
+
         增值税发票解析: "/vat-general-invoice-web/invoice/common/serviceList",
-        营业执照解析:
-          "/business-license-analysis-web/invoice/common/serviceList",
+
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/serviceList",
         身份证解析:
@@ -171,8 +169,10 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/serviceList",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/serviceList",
-        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/serviceList",
-        回单解析: "/receipt-analysis-web/receipt/common/serviceList",
+        资质证书解析: "/general-product-web/serviceConfig/serviceList",
+        营业执照解析: "/general-product-web/serviceConfig/serviceList",
+        流水解析: "/general-product-web/serviceConfig/serviceList",
+        回单解析: "/general-product-web/serviceConfig/serviceList",
         房产证解析: "/general-product-web/serviceConfig/serviceList",
         收入证明解析: "/general-product-web/serviceConfig/serviceList",
         车辆合格证解析: "/general-product-web/serviceConfig/serviceList",
@@ -182,14 +182,12 @@ export default {
       queryServiceConfigInfoUrl: {
         文档OCR: `/ocr-web/serviceConfig/queryServiceConfigInfo`,
         表格OCR: `/table-ocr-web/serviceConfig/queryServiceConfigInfo`,
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/queryServiceConfigInfo",
+
         增值税发票解析:
           "/vat-general-invoice-web/invoice/common/queryserviceconfiginfo",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/queryserviceconfiginfo",
-        营业执照解析:
-          "/business-license-analysis-web/invoice/common/queryserviceconfiginfo",
+
         身份证解析:
           "/identity-card-analysis-web/identityCard/common//queryserviceconfiginfo",
         提货单解析:
@@ -200,9 +198,12 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/queryserviceconfiginfo",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/queryserviceconfiginfo",
-        流水解析:
-          "/treasury-flow-analysis-web/treasuryFlow/common/queryserviceconfiginfo",
-        回单解析: "/receipt-analysis-web/receipt/common/queryserviceconfiginfo",
+        资质证书解析:
+          "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        营业执照解析:
+          "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        流水解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        回单解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
         房产证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
         收入证明解析:
           "/general-product-web/serviceConfig/queryServiceConfigInfo",
@@ -214,14 +215,12 @@ export default {
       saveConfigInfoUrl: {
         文档OCR: `/ocr-web/serviceConfig/saveConfigInfo`,
         表格OCR: `/table-ocr-web/serviceConfig/saveConfigInfo`,
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/saveConfigInfo",
+
         增值税发票解析:
           "/vat-general-invoice-web/invoice/common/saveconfiginfo",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/saveconfiginfo",
-        营业执照解析:
-          "/business-license-analysis-web/invoice/common/saveconfiginfo",
+
         身份证解析:
           "/identity-card-analysis-web/identityCard/common//saveService",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/saveService",
@@ -230,8 +229,10 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/saveconfiginfo",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/saveService",
-        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/saveService",
-        回单解析: "/receipt-analysis-web/receipt/common/saveService",
+        资质证书解析: "/general-product-web/serviceConfig/saveConfigInfo",
+        营业执照解析: "/general-product-web/serviceConfig/saveConfigInfo",
+        流水解析: "/general-product-web/serviceConfig/saveConfigInfo",
+        回单解析: "/general-product-web/serviceConfig/saveConfigInfo",
         房产证解析: "/general-product-web/serviceConfig/saveConfigInfo",
         收入证明解析: "/general-product-web/serviceConfig/saveConfigInfo",
         车辆合格证解析: "/general-product-web/serviceConfig/saveConfigInfo",
@@ -247,13 +248,11 @@ export default {
       checkConnectUrl: {
         文档OCR: `/ocr-web/serviceConfig/checkConnect`,
         表格OCR: `/table-ocr-web/serviceConfig/checkConnect`,
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/checkConnect",
+
         增值税发票解析: "/vat-general-invoice-web/invoice/common/checkconnect",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/checkconnect",
-        营业执照解析:
-          "/business-license-analysis-web/invoice/common/checkconnect",
+
         身份证解析:
           "/identity-card-analysis-web/identityCard/common//checkstatus",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/checkstatus",
@@ -262,8 +261,10 @@ export default {
         印章检测: "/seal-detection-web/seal/detection/checkconnect",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/checkstatus",
-        流水解析: "/treasury-flow-analysis-web/treasuryFlow/common/checkstatus",
-        回单解析: "/receipt-analysis-web/receipt/common/checkstatus",
+        资质证书解析: "/general-product-web/serviceConfig/checkConnect",
+        营业执照解析: "/general-product-web/serviceConfig/checkConnect",
+        流水解析: "/general-product-web/serviceConfig/checkConnect",
+        回单解析: "/general-product-web/serviceConfig/checkConnect",
         房产证解析: "/general-product-web/serviceConfig/checkConnect",
         收入证明解析: "/general-product-web/serviceConfig/checkConnect",
         车辆合格证解析: "/general-product-web/serviceConfig/checkConnect",

@@ -5,8 +5,8 @@ import api from './apiRequest'
 //     return api.post(`/treasury-flow-analysis-web//treasuryFlow/analysis/uploadAndGetFilePath`, data)
 // }
 // 获取解析结果
-export function analysisFile(filePath, bankName) {
-    return api.post(`/receipt-analysis-web/receipt/analysis/uploadAnalysisFile?filePath=${filePath}&bankName=${bankName}`)
+export function analysisFile(filePath, bankName,productName) {
+    return api.post(`general-product-web/general/uploadAnalysisFile?filePath=${filePath}&bankName=${bankName}&productName=${productName}`)
 }
 
 // 获取选项
