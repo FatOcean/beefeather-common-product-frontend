@@ -1,4 +1,3 @@
-
 import api from "./apiRequest";
 
 // 上传文件
@@ -10,9 +9,7 @@ export function uploadAndGetFilePath(data) {
 }
 // 获取解析结果
 export function analysisFile(data) {
-  return api.post(
-    `general-product-web/general/uploadAnalysisFile`,data
-  );
+  return api.post(`/general-product-web/general/uploadAnalysisFile`, data);
 }
 
 // 获取选项

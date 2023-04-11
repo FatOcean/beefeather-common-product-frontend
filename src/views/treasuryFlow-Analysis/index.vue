@@ -232,6 +232,11 @@ export default {
           this.documents.flag = "";
           this.selectValue = "";
           this.$refs.documents.down_allow = false;
+                    this.$message({
+            message: res.message,
+            type: "error",
+            offset: 72,
+          });
         })
         .finally(() => {
           this.loading = false;
