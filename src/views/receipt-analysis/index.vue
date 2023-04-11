@@ -200,7 +200,12 @@ export default {
     getResult() {
       this.loading = true;
       this.$refs.documents.resetPosition();
-      analysisFile(this.url, this.banks[this.selectValue], "回单解析")
+      const param = {
+        filePath: this.url,
+        bankName: this.banks[this.selectValue],
+        productName: "回单解析",
+      };
+      analysisFile(param)
         .then((res) => {
           res = res.data;
           if (res.code === "200" && res.data.tabList) {

@@ -192,11 +192,15 @@ export default {
     },
     getResult() {
       this.loading = true;
-      analysisFile(this.url, this.banks[this.selectValue],'流水解析')
+      const param = {
+        filePath: this.url,
+        bankName: this.banks[this.selectValue],
+        productName: "流水解析",
+      };
+      analysisFile(param)
         .then((res) => {
           res = res.data;
           if (res.code === "200") {
-            // this.documents = res.data;
             if (res.data.resultVO.content.length === 0) {
               this.failedStatus = true;
               this.selectValue = "";

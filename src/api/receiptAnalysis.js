@@ -1,15 +1,15 @@
-import api from './apiRequest'
+import api from "./apiRequest";
 
 // 上传文件
 // export function uploadAndGetFilePath(data) {
 //     return api.post(`/treasury-flow-analysis-web//treasuryFlow/analysis/uploadAndGetFilePath`, data)
 // }
 // 获取解析结果
-export function analysisFile(filePath, bankName,productName) {
-    return api.post(`general-product-web/general/uploadAnalysisFile?filePath=${filePath}&bankName=${bankName}&productName=${productName}`)
+export function analysisFile(data) {
+  return api.post(`general-product-web/general/uploadAnalysisFile`, data);
 }
 
 // 获取选项
 export function getBankList() {
-    return api.get(`/receipt-analysis-web/receipt/analysis/getBankList`)
+  return api.get(`/receipt-analysis-web/receipt/analysis/getBankList`);
 }
