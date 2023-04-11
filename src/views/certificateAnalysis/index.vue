@@ -287,7 +287,7 @@ export default {
         method: "get",
         url: `/general-product-web/general/downloadResult?taskId=${
           this.page.requestId
-        }&productName=资质证书解析解析&path=${encodeURIComponent(
+        }&productName=资质证书解析&path=${encodeURIComponent(
           this.page.excelPath
         )}`,
         responseType: "blob",

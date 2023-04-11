@@ -744,7 +744,7 @@ export default {
     handleClickDownload() {
       this.$http({
         method: 'get',
-        url: `/general-product-web/general/downloadResult?taskId=${this.example.requestId}&productName=营业执照解析解析`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.requestId}&productName=营业执照解析&show=${this.example.show || false}`,
         responseType: 'blob'
       })
         .then((res) => {
