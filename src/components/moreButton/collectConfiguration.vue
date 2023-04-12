@@ -34,9 +34,9 @@
             class="detection-hint-span"
             custom
             to="/systemTools/dataAdmin"
-            v-slot="{ href }"
           >
-            <a :href="href" target="_blank">数据管理</a>
+            <!-- :href="href" v-slot="{ href }" -->
+            <a target="_blank" @click="skipData">数据管理</a>
           </router-link>
           创建
         </div>
@@ -189,6 +189,9 @@ export default {
     },
   },
   methods: {
+    skipData() {
+      window.open(`${window.location.origin}/#/systemTools/dataAdmin`);
+    },
     postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(

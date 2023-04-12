@@ -198,9 +198,9 @@
               ></svg-icon>
               <span>下载</span></llsButton
             >
+              <!-- :requestBody="requestBody" -->
             <more-Button
               productName="回单解析"
-              :requestBody="requestBody"
               :servicecon="pageMenuPerm['SERVICE_RECEIPT']"
               :collect="pageMenuPerm['COLLECT_RECEIPT']"
             ></more-Button>
@@ -340,7 +340,8 @@ export default {
       down_allow: true,
       position: { x: 0, y: 0, w: 0, h: 0 },
       requestBody: {
-        url: "/receipt-analysis-web/receipt/common/serviceList",
+        url: "/general-product-web/serviceConfig/serviceList",
+        // url: "/receipt-analysis-web/receipt/common/serviceList",
         data: {
           name: "回单解析",
         },
@@ -379,7 +380,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromReceiptAnalysis",
+          from: "messageGeneralProduct",
           fixed: fixed,
         },
         "*"

@@ -193,9 +193,9 @@
               ></svg-icon>
               <span>下载</span></llsButton
             >
+              <!-- :requestBody="requestBody" -->
             <more-Button
               productName="流水解析"
-              :requestBody="requestBody"
               :servicecon="pageMenuPerm['SERVICE_TREASURY_FLOW']"
               :collect="pageMenuPerm['COLLECT_TREASURY_FLOW']"
             ></more-Button>
@@ -373,7 +373,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromTreasuryFlow",
+          from: "messageGeneralProduct",
           fixed: fixed,
         },
         "*"

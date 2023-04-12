@@ -137,6 +137,16 @@ export default {
     ...mapState(["pageMenuPerm"]),
   },
   methods: {
+    postFixdMessage(fixed) {
+      // 发送message 页面高度
+      window.parent.postMessage(
+        {
+          from: "messageGeneralProduct",
+          fixed: fixed,
+        },
+        "*"
+      );
+    },
     uploadFileData(res) {
       this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
         name: res.data[0].fileName,
