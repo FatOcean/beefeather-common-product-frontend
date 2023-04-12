@@ -1,5 +1,5 @@
 <template>
-  <div class="vat-invoice-wrapper" :class="{ 'bee-loading': beeLoading }">
+  <div class="vat-invoice-wrapper">
     <ocrlayout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
@@ -7,7 +7,6 @@
       v-model="page"
       :activeTabIndex="activeTabIndex"
       ref="documents"
-      v-if="flag"
       :pageMenuPerm="pageMenuPerm"
     >
       <table cellspacing="0" class="table-data">
@@ -26,13 +25,6 @@
         </ocr-el>
       </table>
     </ocrlayout>
-
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-if="beeLoading"
-    ></bee-loading>
 
     <!-- 错误样本收集 -->
     <div
@@ -57,17 +49,14 @@
 <script>
 import { normalData } from "./defaultData";
 import ocrlayout from "./ocr-layout";
-import beeLoading from "@linklogis/beeLoading";
 import { mapState } from "vuex";
 export default {
   data() {
     return {
       isLoading: false,
-      flag: true,
       starsFlag: null,
       activeTextId: "",
       page: {}, // 当前页面数据信息
-      beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
       activeName: "",
       activeDocumentIndex: 0,
@@ -82,7 +71,7 @@ export default {
       href: window.location.href,
     };
   },
-  components: { [beeLoading.name]: beeLoading, ocrlayout },
+  components: { ocrlayout },
   watch: {
     checked(val) {
       this.activeTextId = null;
@@ -102,12 +91,7 @@ export default {
         : `${window.location.origin}/file-handle-web/file/image`;
     },
   },
-  mounted() {
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      // this.setuserMenuPermList(e.data);
-    });
-  },
+  mounted() {},
   methods: {
     uploadFileData(res) {
       res.data.forEach((i) => {
@@ -231,89 +215,6 @@ export default {
             this.isLoading = false;
           });
       }
-    },
-    // 点击上传
-    handleFile(res) {
-      const file = res.file;
-      const fileSuffix = file.name
-        .substring(file.name.lastIndexOf(".") + 1)
-        .toUpperCase();
-      const whiteList = ["PDF", "JPG", "PNG", "JPEG", "BMP"];
-      const isLt8M = Number(file.size / 1024 / 1024);
-      if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message({
-          message: "上传文件只能是 PDF、JPG、PNG、JPEG、 BMP格式",
-          type: "error",
-          offset: 60,
-        });
-        return false;
-      }
-      if (isLt8M > 8) {
-        this.$message({
-          message: "文件大小超过8M",
-          type: "error",
-          offset: 60,
-        });
-        return false;
-      }
-      this.uploadFile(file);
-    },
-    // 将文件资源传送到服务器
-    uploadFile(file) {
-      this.percent = 0;
-      this.$nextTick((_) => {
-        this.beeLoading = true;
-      });
-      const fd = new FormData();
-      fd.append("file", file);
-      this.$http({
-        url: "/business-license-analysis-web/invoice/common/upload",
-        method: "post",
-        data: fd,
-        onUploadProgress: (progressEvent) => {
-          this.percent =
-            Math.ceil((progressEvent.loaded * 100) / progressEvent.total) - 2;
-        },
-      })
-        .then((res) => {
-          res = res.data;
-          if (res && res.code === "200") {
-            this.beeLoading = false;
-
-            res.data.forEach((i) => {
-              i.isUpload = true;
-            });
-            res.data[0].images.forEach((item) => {
-              item.url = `${this.originLocation}?filename=${encodeURIComponent(
-                item.path
-              )}`;
-            });
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 60,
-            });
-            this.percent = 100;
-            this.starsFlag = false;
-            if (this.documents.length >= 3) {
-              this.documents.shift();
-            }
-            this.documents = res.data.concat(this.documents);
-            this.activeDocumentIndex = 0;
-            console.log(this.example);
-          } else {
-            this.beeLoading = false;
-            this.$message({
-              message: res.message,
-              type: "error",
-              offset: 60,
-            });
-          }
-        })
-        .catch((err) => {
-          this.beeLoading = false;
-          this.$message.error("文件上传失败（如文件未解压等）");
-        });
     },
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="document-ocr-wrapper" :class="{ 'bee-loading': beeLoading }">
+  <div class="document-ocr-wrapper">
     <ocr-layout
       v-model="page"
       ref="ocrLayout"
@@ -41,13 +41,6 @@
       </table>
     </ocr-layout>
 
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
-
     <!-- 错误样本收集 -->
     <div
       class="sample-collection"
@@ -64,63 +57,19 @@
         productName="资质证书解析"
         @uploadFileData="uploadFileData"
       ></upload-File>
-      <!-- <link-upload
-        v-model="files"
-        class="upload-wrapper"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :before-upload="beforeUpload"
-        :on-success="ocrRecognitionExcel"
-        :on-progress="onProgress"
-        :on-error="onError"
-        :showFileList="false"
-        :class="{ dragenter: dragenter }"
-        :accept="['pdf', 'jpg', 'png', 'jpeg', 'bmp']"
-        :messageOffset="120"
-        :maxSize="1024 * 1024 * 8"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </link-upload> -->
     </lls-collapse-transition>
   </div>
 </template>
 <script>
 import documents from "./example";
-import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
 import { mapState } from "vuex";
 export default {
   data() {
     return {
-      files: [],
       page: {}, // 当前页面数据信息
-      beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
       documents: documents,
-      dragenter: false,
       token: window.sessionStorage.getItem("token"),
       origin: window.sessionStorage.getItem("origin"),
       href: window.location.href,
@@ -129,7 +78,6 @@ export default {
     };
   },
   components: {
-    [beeLoading.name]: beeLoading,
     [OcrLayout.name]: OcrLayout,
     [OcrEl.name]: OcrEl,
   },
@@ -225,68 +173,6 @@ export default {
             }
           });
       }
-    },
-    beforeUpload() {
-      window.setTimeout((_) => {
-        console.log("1");
-        this.beeLoading = true;
-      }, 80);
-    },
-    onProgress(event, file) {
-      // console.log();
-      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
-    },
-    onError(res) {
-      // console.log(res);
-      this.files = [];
-      this.beeLoading = false;
-      this.$message.error("文件上传失败（如文件未解压等）");
-    },
-    // 表格ocr识别
-    ocrRecognitionExcel(file) {
-      console.log(file);
-      this.$http
-        .post(
-          `/qualification-certificate-analysis-web/qualificationCertificate/analysis/uploadAnalysis?taskId=${this.files[0].taskId}`
-        )
-        .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            this.beeLoading = false;
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 120,
-            });
-            this.percent = 100;
-            this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
-              name: res.data[0].name,
-              pages: res.data.map((i) => {
-                return {
-                  ...i,
-                  collectImgUrl: i.img,
-                  img: this.resolveUrl(i.img),
-                  analysisResult: i.analysisResult.map((item) => {
-                    return {
-                      ...item,
-                      coordinatesList: item.coordinatesList || [],
-                    };
-                  }),
-                };
-              }),
-            });
-            this.starsFlag = false;
-            this.page = this.documents[0].pages[0];
-          } else {
-            this.beeLoading = false;
-            this.$message({
-              message: res.message,
-              type: "error",
-              offset: 120,
-            });
-          }
-        });
-      this.files = [];
     },
     resolveCol(value) {
       return value && value.replace(/。/gi, "<br/>");
