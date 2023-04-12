@@ -30,14 +30,16 @@
         <div class="detection-hint">
           请选择一个数据集进行难例样本收集，如没有请前往
           <!-- <span class="detection-hint-span" @click="jumpDataSet">数据管理</span> -->
-          <router-link
+          <!-- <router-link
             class="detection-hint-span"
             custom
             to="/systemTools/dataAdmin"
+             v-slot="{ href }" 
           >
-            <!-- :href="href" v-slot="{ href }" -->
-            <a target="_blank" @click="skipData">数据管理</a>
-          </router-link>
+
+            <a target="_blank" :href="href" @click="skipData">数据管理</a>
+          </router-link> -->
+          <lls-button type="text" @click="skipData">数据管理</lls-button>
           创建
         </div>
       </lls-form>
