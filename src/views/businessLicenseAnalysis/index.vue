@@ -161,7 +161,7 @@ export default {
             if (res.data.code === "200") {
               this.starsFlag = true;
               this.documents[this.activeDocumentIndex].loadRecordId =
-                res.data.data.loadRecordId;
+                res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -179,7 +179,7 @@ export default {
         this.$http
           .post(
             `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
-              this.loadRecordId
+              this.documents[this.activeDocumentIndex].loadRecordId
             )}&picAddress=/home/lls_data/${encodeURIComponent(
               picAddress
             )}&name=${data.images[0].name}`

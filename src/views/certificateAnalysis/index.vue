@@ -134,7 +134,7 @@ export default {
           .then((res) => {
             if (res.data.code === "200") {
               this.starsFlag = true;
-              this.loadRecordId = res.data.data.loadRecordId;
+              this.loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
