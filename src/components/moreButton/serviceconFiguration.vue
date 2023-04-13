@@ -401,7 +401,9 @@ export default {
       ).then((res) => {
         if (res.data.code === "200") {
           // console.log(res, '保存默认服务配置')
-          this.dialogVisible = false;
+          // this.dialogVisible = false;
+          this.dialogClose();
+
           this.serviceConfigType = this.configType;
           this.serviceId = this.dataId;
           this.servicePortAddress = this.dataPortAddress;

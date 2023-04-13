@@ -212,6 +212,7 @@ export default {
     },
     // 弹窗关闭
     dialogClose() {
+      console.log("执行执行执行西藏");
       this.dialogVisible = false;
       this.postFixdMessage(false);
     },
@@ -223,7 +224,9 @@ export default {
         this.params
       ).then((res) => {
         if (res.data.code === "200") {
-          this.dialogVisible = false;
+          // this.dialogVisible = false;
+          this.dialogClose();
+
           this.serviceId = this.datasetId;
           this.serviceOptions = this.serviceOptions.filter((item) => {
             return item.serviceStatus !== "不可用";
@@ -234,12 +237,12 @@ export default {
             offset: 72,
           });
         } else {
-          (this.datasetId = ""),
-            this.$message({
-              message: res.data.message,
-              type: "error",
-              offset: 72,
-            });
+          this.datasetId = "";
+          this.$message({
+            message: res.data.message,
+            type: "error",
+            offset: 72,
+          });
         }
       });
     },
