@@ -147,6 +147,7 @@ export default {
       console.log(this.activeTextId, i.id);
     },
     clickSampleCollection() {
+      const data = this.documents[this.activeDocumentIndex];
       const requestId = this.documents[this.activeDocumentIndex].requestId;
       const picAddress = data.images[0].path;
       if (!this.documents.starsFlag) {
@@ -175,7 +176,6 @@ export default {
             }
           });
       } else {
-        const data = this.documents[this.activeDocumentIndex];
         this.$http
           .post(
             `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
