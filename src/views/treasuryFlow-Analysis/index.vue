@@ -270,7 +270,7 @@ export default {
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
-            picAddress: picAddress,
+            picAddress: `/home/lls_data/${picAddress}`,
             productName: "流水解析",
           })
           .then((res) => {
@@ -289,13 +289,13 @@ export default {
                 offset: 72,
               });
             }
-          })
+          });
       } else {
         this.$http
           .post(
             `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.documents.loadRecordId
-            )}&picAddress=${encodeURIComponent(picAddress)}`
+            )}&picAddress=/home/lls_data/${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
             if (res.data.code === "200") {
@@ -312,7 +312,7 @@ export default {
                 offset: 72,
               });
             }
-          })
+          });
       }
       return;
       // const data = this.data[this.activeDocumentIndex];

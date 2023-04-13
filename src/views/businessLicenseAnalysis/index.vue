@@ -150,11 +150,11 @@ export default {
       const data = this.documents[this.activeDocumentIndex];
       const requestId = this.documents[this.activeDocumentIndex].requestId;
       const picAddress = data.images[0].path;
-      if (!this.documents.starsFlag) {
+      if (!this.starsFlag) {
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
-            picAddress: picAddress,
+            picAddress: `/home/lls_data/${picAddress}`,
             productName: "营业执照解析",
           })
           .then((res) => {
@@ -180,9 +180,9 @@ export default {
           .post(
             `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.loadRecordId
-            )}&picAddress=${encodeURIComponent(picAddress)}&name=${
-              data.images[0].name
-            }`
+            )}&picAddress=/home/lls_data/${encodeURIComponent(
+              picAddress
+            )}&name=${data.images[0].name}`
           )
           .then((res) => {
             if (res.data.code === "200") {

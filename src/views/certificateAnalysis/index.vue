@@ -120,13 +120,15 @@ export default {
     },
     // 样本收集点击事件
     clickSampleCollection() {
-      const requestId = this.documents[0].requestId;
+      console.log(this.documents[0]);
+      console.log(this.page);
+      const requestId = this.page.requestId;
       const picAddress = this.page.collectImgUrl;
-      if (!this.documents.starsFlag) {
+      if (!this.starsFlag) {
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
-            picAddress: picAddress,
+            picAddress: `/home/lls_data/${picAddress}`,
             productName: "资质证书解析",
           })
           .then((res) => {
@@ -151,7 +153,7 @@ export default {
           .post(
             `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.loadRecordId
-            )}&picAddress=${encodeURIComponent(picAddress)}`
+            )}&picAddress=/home/lls_data/${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
             if (res.data.code === "200") {

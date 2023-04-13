@@ -302,7 +302,7 @@ export default {
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
-            picAddress: picAddress,
+            picAddress: `/home/lls_data/${picAddress}`,
             productName: "回单解析",
           })
           .then((res) => {
@@ -330,7 +330,7 @@ export default {
           .post(
             `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.instance.loadRecordId
-            )}&picAddress=${encodeURIComponent(picAddress)}`
+            )}&picAddress=/home/lls_data/${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
             if (res.data.code === "200") {
