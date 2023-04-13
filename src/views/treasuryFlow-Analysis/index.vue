@@ -264,8 +264,59 @@ export default {
     // 样本收集点击事件    //快速开发暂时隐藏
     clickHandler(e, i, noParent) {},
     clickSampleCollection() {
+      const requestId = this.data[this.activeDocumentIndex].requestId;
+      const picAddress = this.documents.imagePath;
+      if (!this.documents.starsFlag) {
+        this.$http
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+            requestId: requestId,
+            picAddress: picAddress,
+            productName: "流水解析",
+          })
+          .then((res) => {
+            if (res.data.code === "200") {
+              this.$set(this.documents, "starsFlag", true);
+              this.documents.loadRecordId = res.data.data.loadRecordId;
+              this.$message({
+                message: "样本收集成功",
+                type: "success",
+                offset: 72,
+              });
+            } else {
+              this.$message({
+                message: res.data.message,
+                type: "error",
+                offset: 72,
+              });
+            }
+          })
+      } else {
+        this.$http
+          .post(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.documents.loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}`
+          )
+          .then((res) => {
+            if (res.data.code === "200") {
+              this.documents.starsFlag = false;
+              this.$message({
+                message: "取消收集成功",
+                type: "success",
+                offset: 72,
+              });
+            } else {
+              this.$message({
+                message: res.data.message,
+                type: "error",
+                offset: 72,
+              });
+            }
+          })
+      }
+      return;
       // const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${this.documents.imagePath}`;
+      // const picAddress = `${this.documents.imagePath}`;
       // console.log(data, '000')
       if (!this.documents.starsFlag) {
         const fileId = 1;

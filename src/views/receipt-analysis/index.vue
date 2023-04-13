@@ -296,15 +296,13 @@ export default {
     clickSampleCollection() {
       if (this.isLoading) return;
       this.isLoading = true;
-      // const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${this.instance.imagePath}`;
-      // console.log(data, '000')
+      const requestId = this.data[this.activeDocumentIndex].requestId;
+      const picAddress = this.instance.imagePath;
       if (!this.instance.starsFlag) {
-        const fileId = 1;
         this.$http
-          .post("/receipt-analysis-web/receipt/common/saveCollectInfo", {
-            fileId,
-            picAddress,
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+            requestId: requestId,
+            picAddress: picAddress,
             productName: "回单解析",
           })
           .then((res) => {
@@ -329,10 +327,11 @@ export default {
           });
       } else {
         this.$http
-          .post("/receipt-analysis-web/receipt/common/cancelcollectinfo", {
-            loadRecordId: this.instance.loadRecordId,
-            url: picAddress,
-          })
+          .post(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.instance.loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}`
+          )
           .then((res) => {
             if (res.data.code === "200") {
               this.instance.starsFlag = false;
@@ -354,6 +353,67 @@ export default {
             this.isLoading = false;
           });
       }
+      // return;
+      // if (this.isLoading) return;
+      // this.isLoading = true;
+      // // const data = this.data[this.activeDocumentIndex];
+      // const picAddress = `${this.instance.imagePath}`;
+      // // console.log(data, '000')
+      // if (!this.instance.starsFlag) {
+      //   const fileId = 1;
+      //   this.$http
+      //     .post("/receipt-analysis-web/receipt/common/saveCollectInfo", {
+      //       fileId,
+      //       picAddress,
+      //       productName: "回单解析",
+      //     })
+      //     .then((res) => {
+      //       if (res.data.code === "200") {
+      //         this.$set(this.instance, "starsFlag", true);
+      //         this.instance.loadRecordId = res.data.data.loadRecordId;
+      //         this.$message({
+      //           message: "样本收集成功",
+      //           type: "success",
+      //           offset: 72,
+      //         });
+      //       } else {
+      //         this.$message({
+      //           message: res.data.message,
+      //           type: "error",
+      //           offset: 72,
+      //         });
+      //       }
+      //     })
+      //     .finally((res) => {
+      //       this.isLoading = false;
+      //     });
+      // } else {
+      //   this.$http
+      //     .post("/receipt-analysis-web/receipt/common/cancelcollectinfo", {
+      //       loadRecordId: this.instance.loadRecordId,
+      //       url: picAddress,
+      //     })
+      //     .then((res) => {
+      //       if (res.data.code === "200") {
+      //         this.instance.starsFlag = false;
+
+      //         this.$message({
+      //           message: "取消收集成功",
+      //           type: "success",
+      //           offset: 72,
+      //         });
+      //       } else {
+      //         this.$message({
+      //           message: res.data.message,
+      //           type: "error",
+      //           offset: 72,
+      //         });
+      //       }
+      //     })
+      //     .finally((res) => {
+      //       this.isLoading = false;
+      //     });
+      // }
     },
   },
 };

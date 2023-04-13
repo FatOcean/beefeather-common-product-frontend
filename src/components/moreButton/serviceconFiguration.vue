@@ -577,7 +577,7 @@ export default {
 
 .button-text {
   vertical-align: middle;
-  margin-left: 4px;
+  // margin-left: 4px;
 }
 
 ::v-deep .lls-select:hover .lls-input__inner {

@@ -50,6 +50,7 @@
 import { normalData } from "./defaultData";
 import ocrlayout from "./ocr-layout";
 import { mapState } from "vuex";
+import { data } from "../receipt-analysis/example";
 export default {
   data() {
     return {
@@ -146,75 +147,129 @@ export default {
       console.log(this.activeTextId, i.id);
     },
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      const data = this.documents[this.activeDocumentIndex];
+      const requestId = this.documents[this.activeDocumentIndex].requestId;
       const picAddress = data.images[0].path;
-      if (!this.starsFlag) {
-        const fileId = data.id;
+      if (!this.documents.starsFlag) {
         this.$http
-          .post(
-            "/business-license-analysis-web/invoice/common/savecollectinfo",
-            {
-              fileId,
-              picAddress,
-              productName: "营业执照解析",
-            }
-          )
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+            requestId: requestId,
+            picAddress: picAddress,
+            productName: "营业执照解析",
+          })
           .then((res) => {
             if (res.data.code === "200") {
               this.starsFlag = true;
-
               this.documents[this.activeDocumentIndex].loadRecordId =
                 res.data.data.loadRecordId;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 60,
+                offset: 120,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 60,
+                offset: 72,
               });
             }
-          })
-          .finally((res) => {
-            this.isLoading = false;
           });
       } else {
+        const data = this.documents[this.activeDocumentIndex];
         this.$http
           .post(
-            "/business-license-analysis-web/invoice/common/cancelcollectinfo",
-            {
-              loadRecordId:
-                this.documents[this.activeDocumentIndex].loadRecordId,
-              name: data.images[0].name,
-              url: data.path,
-            }
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}&name=${
+              data.images[0].name
+            }`
           )
           .then((res) => {
             if (res.data.code === "200") {
               this.starsFlag = false;
-
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 60,
+                offset: 120,
               });
             } else {
               this.$message({
-                message: res.data.message,
-                type: "error",
-                offset: 60,
+                message: "取消收集成功",
+                type: "success",
+                offset: 120,
               });
             }
-          })
-          .finally((res) => {
-            this.isLoading = false;
           });
       }
+      // if (this.isLoading) return;
+      // this.isLoading = true;
+      // const data = this.documents[this.activeDocumentIndex];
+      // const picAddress = data.images[0].path;
+      // if (!this.starsFlag) {
+      //   const fileId = data.id;
+      //   this.$http
+      //     .post(
+      //       "/business-license-analysis-web/invoice/common/savecollectinfo",
+      //       {
+      //         fileId,
+      //         picAddress,
+      //         productName: "营业执照解析",
+      //       }
+      //     )
+      //     .then((res) => {
+      //       if (res.data.code === "200") {
+      //         this.starsFlag = true;
+
+      //         this.documents[this.activeDocumentIndex].loadRecordId =
+      //           res.data.data.loadRecordId;
+      //         this.$message({
+      //           message: "样本收集成功",
+      //           type: "success",
+      //           offset: 60,
+      //         });
+      //       } else {
+      //         this.$message({
+      //           message: res.data.message,
+      //           type: "error",
+      //           offset: 60,
+      //         });
+      //       }
+      //     })
+      //     .finally((res) => {
+      //       this.isLoading = false;
+      //     });
+      // } else {
+      //   this.$http
+      //     .post(
+      //       "/business-license-analysis-web/invoice/common/cancelcollectinfo",
+      //       {
+      //         loadRecordId:
+      //           this.documents[this.activeDocumentIndex].loadRecordId,
+      //         name: data.images[0].name,
+      //         url: data.path,
+      //       }
+      //     )
+      //     .then((res) => {
+      //       if (res.data.code === "200") {
+      //         this.starsFlag = false;
+
+      //         this.$message({
+      //           message: "取消收集成功",
+      //           type: "success",
+      //           offset: 60,
+      //         });
+      //       } else {
+      //         this.$message({
+      //           message: res.data.message,
+      //           type: "error",
+      //           offset: 60,
+      //         });
+      //       }
+      //     })
+      //     .finally((res) => {
+      //       this.isLoading = false;
+      //     });
+      // }
     },
   },
 };

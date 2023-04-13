@@ -101,7 +101,7 @@ export default {
         pages: res.data.map((i) => {
           return {
             ...i,
-            collectImgUrl: i.img,
+            collectImgUrl: i.imagePath,
             img: this.resolveUrl(i.imagePath),
             name: i.fileName,
             originalHeight: i.height,
@@ -120,18 +120,15 @@ export default {
     },
     // 样本收集点击事件
     clickSampleCollection() {
+      const requestId = this.documents[0].requestId;
       const picAddress = this.page.collectImgUrl;
-      if (!this.starsFlag) {
-        // const requestId = this.documents[0].requestId;
+      if (!this.documents.starsFlag) {
         this.$http
-          .post(
-            "/qualification-certificate-analysis-web/qualificationCertificate/saveCollectInfo",
-            {
-              // requestId: requestId,
-              picAddress: picAddress,
-              productName: "资质证书解析",
-            }
-          )
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+            requestId: requestId,
+            picAddress: picAddress,
+            productName: "资质证书解析",
+          })
           .then((res) => {
             if (res.data.code === "200") {
               this.starsFlag = true;
@@ -145,16 +142,16 @@ export default {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 120,
+                offset: 72,
               });
             }
           });
       } else {
         this.$http
           .post(
-            `/qualification-certificate-analysis-web/qualificationCertificate/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.loadRecordId
-            )}&url=${encodeURIComponent(picAddress)}`
+            )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
             if (res.data.code === "200") {
@@ -166,13 +163,67 @@ export default {
               });
             } else {
               this.$message({
-                message: res.data.message,
-                type: "error",
+                message: "取消收集成功",
+                type: "success",
                 offset: 120,
               });
             }
           });
       }
+      // return;
+      // const picAddress = this.page.collectImgUrl;
+      // if (!this.starsFlag) {
+      //   // const requestId = this.documents[0].requestId;
+      //   this.$http
+      //     .post(
+      //       "/qualification-certificate-analysis-web/qualificationCertificate/saveCollectInfo",
+      //       {
+      //         // requestId: requestId,
+      //         picAddress: picAddress,
+      //         productName: "资质证书解析",
+      //       }
+      //     )
+      //     .then((res) => {
+      //       if (res.data.code === "200") {
+      //         this.starsFlag = true;
+      //         this.loadRecordId = res.data.data.loadRecordId;
+      //         this.$message({
+      //           message: "样本收集成功",
+      //           type: "success",
+      //           offset: 120,
+      //         });
+      //       } else {
+      //         this.$message({
+      //           message: res.data.message,
+      //           type: "error",
+      //           offset: 120,
+      //         });
+      //       }
+      //     });
+      // } else {
+      //   this.$http
+      //     .post(
+      //       `/qualification-certificate-analysis-web/qualificationCertificate/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+      //         this.loadRecordId
+      //       )}&url=${encodeURIComponent(picAddress)}`
+      //     )
+      //     .then((res) => {
+      //       if (res.data.code === "200") {
+      //         this.starsFlag = false;
+      //         this.$message({
+      //           message: "取消收集成功",
+      //           type: "success",
+      //           offset: 120,
+      //         });
+      //       } else {
+      //         this.$message({
+      //           message: res.data.message,
+      //           type: "error",
+      //           offset: 120,
+      //         });
+      //       }
+      //     });
+      // }
     },
     resolveCol(value) {
       return value && value.replace(/。/gi, "<br/>");
