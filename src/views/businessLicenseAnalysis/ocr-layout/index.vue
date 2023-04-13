@@ -180,6 +180,7 @@
               productName="营业执照解析"
               :servicecon="pageMenuPerm['COLLBSINESSLICENSE']"
               :collect="pageMenuPerm['SERBSINESSLICENSE']"
+              :collectName="true"
             ></more-Button>
           </div>
         </div>

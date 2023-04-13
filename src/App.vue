@@ -24,7 +24,6 @@ export default {
     ...mapMutations(["changePageMenuPerm"]),
     messageIframeProduct(e) {
       if (e && e.data && e.data.pageMenuPerm) {
-        console.log("zhix");
         const pageMenuPerm = e.data.pageMenuPerm;
         this.$nextTick(() => {
           this.changePageMenuPerm(pageMenuPerm);

@@ -193,11 +193,12 @@
               ></svg-icon>
               <span>下载</span></llsButton
             >
-              <!-- :requestBody="requestBody" -->
+            <!-- :requestBody="requestBody" -->
             <more-Button
               productName="流水解析"
               :servicecon="pageMenuPerm['SERVICE_TREASURY_FLOW']"
               :collect="pageMenuPerm['COLLECT_TREASURY_FLOW']"
+              :collectName="true"
             ></more-Button>
           </div>
         </div>

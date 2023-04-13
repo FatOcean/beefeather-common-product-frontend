@@ -198,11 +198,12 @@
               ></svg-icon>
               <span>下载</span></llsButton
             >
-              <!-- :requestBody="requestBody" -->
+            <!-- :requestBody="requestBody" -->
             <more-Button
               productName="回单解析"
               :servicecon="pageMenuPerm['SERVICE_RECEIPT']"
               :collect="pageMenuPerm['COLLECT_RECEIPT']"
+              :collectName="true"
             ></more-Button>
           </div>
         </div>
