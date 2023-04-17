@@ -1013,6 +1013,10 @@ export default {
   .btn-config {
     font-size: 12px;
     color: #0887FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
   }
 
   .dih-page-input {
@@ -1025,6 +1029,7 @@ export default {
     border-bottom: 1px solid #E3E8F0;
     line-height: 14px;
   }
+
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
@@ -1077,6 +1082,7 @@ export default {
         right: 0;
         border-radius: 0 0 4px 4px;
         text-align: center;
+
         span {
           transform: scale(0.75);
           transform-origin: left;

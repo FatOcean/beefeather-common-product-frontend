@@ -5,7 +5,7 @@
       <img
         src="./服务配置.svg"
         alt=""
-        style="vertical-align: middle"
+        style="vertical-align: middle; margin-right: 4px"
         v-if="isicon"
       />
       <span class="button-text">服务配置</span>

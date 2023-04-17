@@ -78,6 +78,13 @@ const routes = [
       title: "印章识别",
     },
   },
+  {
+    path: "/identityCardAnalysis",
+    component: (resolve) => require(["@/views/identityCard"], resolve),
+    meta: {
+      title: "身份证解析",
+    },
+  },
 ];
 
 const router = new VueRouter({
