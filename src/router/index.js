@@ -1,41 +1,36 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-
-import houseProperty from "../views/house-property/index.vue";
-import proofIncome from "../views/proof-income/index.vue";
-import vehicleQualificationCertificate from "../views/vehicle-qualification-certificate/index.vue";
-import drivingLicense from "../views/driving-license/index.vue";
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    redirect: "/drivingLicense",
+    redirect: "/sealRemoval",
   },
   {
     path: "/housePropertyAnalysis",
-    component: houseProperty,
+    component: (resolve) => require(["@/views/house-property"], resolve),
     meta: {
       title: "房产证解析",
     },
   },
   {
     path: "/vehicleQualificationCertificateAnalysis",
-    component: vehicleQualificationCertificate,
+    component: (resolve) => require(["@/views/vehicle-qualification-certificate"], resolve),
     meta: {
       title: "车辆合格证解析",
     },
   },
   {
     path: "/proofIncome",
-    component: proofIncome,
+    component: (resolve) => require(["@/views/proof-income"], resolve),
     meta: {
       title: "收入证明解析",
     },
   },
   {
     path: "/drivingLicense",
-    component: drivingLicense,
+    component: (resolve) => require(["@/views/driving-license"], resolve),
     meta: {
       title: "驾驶证解析",
     },
@@ -69,20 +64,20 @@ const routes = [
       title: "资质证书解析",
     },
   },
-  // {
-  //   path: "/sealRemoval",
-  //   component: (resolve) => require(["@/views/sealRemoval"], resolve),
-  //   meta: {
-  //     title: "印章去除",
-  //   },
-  // },
-  // {
-  //   path: "/sealRecognition",
-  //   component: (resolve) => require(["@/views/sealRecognition"], resolve),
-  //   meta: {
-  //     title: "印章识别",
-  //   },
-  // },
+  {
+    path: "/sealRemoval",
+    component: (resolve) => require(["@/views/sealRemoval"], resolve),
+    meta: {
+      title: "印章去除",
+    },
+  },
+  {
+    path: "/sealRecognition",
+    component: (resolve) => require(["@/views/sealRecognition"], resolve),
+    meta: {
+      title: "印章识别",
+    },
+  },
 ];
 
 const router = new VueRouter({

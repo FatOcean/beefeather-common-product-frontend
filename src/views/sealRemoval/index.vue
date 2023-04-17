@@ -166,6 +166,7 @@ import { data } from "./defaultData";
 import beeLoading from "@linklogis/beeLoading";
 import ImageViewer from "@linklogis/image-viewer";
 import ocrlayout from "./ocr-layout";
+import { mapState } from "vuex";
 function Events() {
   this.clientList = {};
   this.listen = function (key, fn) {
@@ -242,10 +243,6 @@ export default {
       realRenderWidth: 0,
       scale: 1,
       handling: false,
-      pageMenuPerm: {
-        UPLSEALREM: true,
-        DOWSEALREM: true,
-      },
     };
   },
   components: {
@@ -312,10 +309,6 @@ export default {
     this.resizeImg();
     this.$events = new Events();
     this.$events.listen("drag-document", this.transferDocument);
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
-    });
   },
   beforeDestroy() {
     this.$events.remove("drag-document", this.transferDocument);
@@ -323,6 +316,7 @@ export default {
     this.resizeObserver.disconnect();
   },
   computed: {
+    ...mapState(["pageMenuPerm"]),
     pageDetail() {
       return this.page[this.activeTabIndex].identityList;
     },
@@ -477,13 +471,6 @@ export default {
       this.moveX = 0;
       this.moveY = 0;
       this.updateTranslateY();
-    },
-    setuserMenuPermList(data) {
-      if (data.pageMenuPerm) {
-        this.falg = false;
-        this.pageMenuPerm = data.pageMenuPerm;
-        this.falg = true;
-      }
     },
     resizeImg() {
       const el = this.$el;

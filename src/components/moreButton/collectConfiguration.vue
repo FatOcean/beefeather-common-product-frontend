@@ -212,7 +212,6 @@ export default {
     },
     // 弹窗关闭
     dialogClose() {
-      console.log("执行执行执行西藏");
       this.dialogVisible = false;
       this.postFixdMessage(false);
     },

@@ -944,11 +944,6 @@ export default {
     },
   },
   computed: {
-    downloadButtonPosition() {
-      return this.pageMenuPerm["SERSEALREM"] || this.pageMenuPerm["COLSEALREM"]
-        ? "54px"
-        : "0";
-    },
     // 当前示例信息
     example() {
       return this.data[this.activeDocumentIndex];
@@ -1200,6 +1195,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
         .document {
           // transform-origin: 0 0;
           background-size: contain;
