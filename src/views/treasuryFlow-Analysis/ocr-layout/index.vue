@@ -174,7 +174,14 @@
           <div class="ocr-title">
             <slot name="title"></slot>
           </div>
-          <div>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+            "
+          >
             <llsButton
               v-if="pageMenuPerm['DOWNLOAD_TREASURY_FLOW']"
               type="text"

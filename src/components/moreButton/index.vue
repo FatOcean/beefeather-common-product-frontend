@@ -4,7 +4,10 @@
     v-if="servicecon || collect"
     trigger="click"
   >
-    <lls-button type="text" icon="lls-icon-more" style="margin-left: 12px"
+    <lls-button
+      type="text"
+      icon="lls-icon-more"
+      style="margin-left: 12px; padding: 0"
       >更多</lls-button
     >
     <lls-dropdown-menu slot="dropdown" class="configuration-dropdown">
@@ -73,27 +76,9 @@ export default {
   }
 }
 
-.document-ocr-wrapper {
-  position: relative;
-  padding: 0 !important;
-  height: 100%;
-
-  iframe {
-    width: calc(100% + 24px);
-    margin: -48px -12px -12px -12px;
-    height: calc(100% + 60px);
-    overflow: hidden;
-
-    &.fixed {
-      margin: 0;
-      z-index: 9999;
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-    }
-  }
+.configuration-wrapper {
+  display: flex;
+  align-items: center;
+  height: 18px;
 }
 </style>

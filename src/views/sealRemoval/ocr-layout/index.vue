@@ -1421,6 +1421,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  height:18px
 
   .lls-dropdown {
     color: #0887ff;

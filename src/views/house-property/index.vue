@@ -10,13 +10,29 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <div slot="button">
-        <llsButton type="text" @click="handleClickDownload" v-if="pageMenuPerm['downloadHouseProperty']">
-          <svg-icon class="download" iconClass="下载" ></svg-icon>
+      <div
+        slot="button"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 18px;
+        "
+      >
+        <llsButton
+          type="text"
+          @click="handleClickDownload"
+          v-if="pageMenuPerm['downloadHouseProperty']"
+        >
+          <svg-icon class="download" iconClass="下载"></svg-icon>
           <span>下载</span>
         </llsButton>
-        <more-button productName="房产证解析" :collectName="true" :collect="pageMenuPerm['collectHouseProperty']"
-          :servicecon="pageMenuPerm['serviceHouseProperty']"></more-button>
+        <more-button
+          productName="房产证解析"
+          :collectName="true"
+          :collect="pageMenuPerm['collectHouseProperty']"
+          :servicecon="pageMenuPerm['serviceHouseProperty']"
+        ></more-button>
       </div>
       <lls-tabs
         @tab-click="handleClick"
@@ -144,7 +160,7 @@ export default {
     [OcrEl.name]: OcrEl,
   },
   computed: {
-     ...mapState(["pageMenuPerm"]),
+    ...mapState(["pageMenuPerm"]),
     tabResult() {
       return this.page.analysisResult[this.activeTabIndex].tabResult;
     },

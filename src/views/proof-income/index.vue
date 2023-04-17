@@ -10,7 +10,15 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <div slot="button">
+      <div
+        slot="button"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 18px;
+        "
+      >
         <llsButton
           type="text"
           @click="handleClickDownload"
@@ -162,8 +170,7 @@ export default {
     });
     this.activeName = this.tabsArray[0].name;
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     handleClick(value) {
       this.activeTabIndex = Number(value.index);

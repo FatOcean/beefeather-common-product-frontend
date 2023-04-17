@@ -167,7 +167,14 @@
             <svg-icon iconClass="识别结果"></svg-icon>
             <span>识别结果</span>
           </div>
-          <div>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+            "
+          >
             <llsButton
               type="text"
               @click="handleClickDownload"

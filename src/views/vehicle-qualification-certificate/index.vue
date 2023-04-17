@@ -10,7 +10,15 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <div slot="button">
+      <div
+        slot="button"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 18px;
+        "
+      >
         <llsButton
           type="text"
           @click="handleClickDownload"
@@ -157,7 +165,6 @@ export default {
       return this.page.analysisResult[this.activeTabIndex].tabResult;
     },
     ...mapState(["pageMenuPerm"]),
-
   },
   created() {
     this.page = this.documents[0].pages[0];

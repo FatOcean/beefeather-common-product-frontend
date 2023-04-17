@@ -10,7 +10,15 @@
       @on-close-viewer="postFixdMessage(false)"
       @on-change-example="handleChangeExample"
     >
-      <div slot="button">
+      <div
+        slot="button"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 18px;
+        "
+      >
         <llsButton
           type="text"
           @click="handleClickDownload"
