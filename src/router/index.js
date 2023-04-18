@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/formOcr",
+    redirect: "/vatSpecialvAnalysis",
   },
   {
     path: "/housePropertyAnalysis",
@@ -104,6 +104,13 @@ const routes = [
     component: (resolve) => require(["@/views/tableOcr"], resolve),
     meta: {
       title: "表格OCR",
+    },
+  },
+  {
+    path: "/vatSpecialvAnalysis",
+    component: (resolve) => require(["@/views/vatInvoice"], resolve),
+    meta: {
+      title: "增值税发票解析",
     },
   },
 ];

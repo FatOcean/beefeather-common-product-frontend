@@ -10,10 +10,10 @@
         @click="handleClickExample(index)"
       >
         <div class="example-image">
-          <img :src="i.imageUrl" :alt="i.fileName" />
+          <img :src="i.specificData[0].img" :alt="i.name" />
         </div>
         <div class="text">
-          <span>{{ i.fileName.substring(0, i.fileName.indexOf(".")) }}</span>
+          <span>{{ i.name.substring(0, i.name.lastIndexOf(".")) }}</span>
         </div>
       </div>
     </div>
@@ -25,15 +25,24 @@
           <div class="name">
             <lls-tooltip
               effect="dark"
-              :content="imageName"
+              :content="example.name"
               placement="bottom-start"
             >
-              <span>{{ imageName }}</span>
+              <span>{{ example.name }}</span>
             </lls-tooltip>
           </div>
-          <!-- <div>
-            <svg-icon v-if="activePageIndex === 1" class="dis-icon" iconClass="左置灰"></svg-icon>
-            <svg-icon v-else class="big-icon" iconClass="ic-左" @click.native="handleTurnPage(-1)"></svg-icon>
+          <div>
+            <svg-icon
+              v-if="activePageIndex === 1"
+              class="dis-icon"
+              iconClass="左置灰"
+            ></svg-icon>
+            <svg-icon
+              v-else
+              class="big-icon"
+              iconClass="ic-左"
+              @click.native="handleTurnPage(-1)"
+            ></svg-icon>
             <span class="number">
               <input
                 class="dih-page-input"
@@ -41,11 +50,20 @@
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
               />
-              <span>/&nbsp;&nbsp;1</span>
+              <span>/&nbsp;&nbsp;{{ total }}</span>
             </span>
-            <svg-icon v-if="activePageIndex >= total" class="dis-icon" iconClass="右置灰"></svg-icon>
-            <svg-icon v-else class="big-icon" iconClass="ic-右" @click.native="handleTurnPage(1)"></svg-icon>
-          </div> -->
+            <svg-icon
+              v-if="activePageIndex === total"
+              class="dis-icon"
+              iconClass="右置灰"
+            ></svg-icon>
+            <svg-icon
+              v-else
+              class="big-icon"
+              iconClass="ic-右"
+              @click.native="handleTurnPage(1)"
+            ></svg-icon>
+          </div>
           <div>
             <svg-icon
               iconClass="ic-放大"
@@ -67,25 +85,25 @@
               iconClass="ic-全屏"
               @click.native="
                 showImageViewer = true;
-                postFixedMessage(true);
+                postFixdMessage(true);
               "
             ></svg-icon>
           </div>
         </div>
         <div
           class="document-layout"
+          ref="documentLayout"
           @mouseleave="
             (e) => {
               removeEventListener(e, 'drag-document');
             }
           "
-          ref="documentLayout"
           @mousewheel="handleZoom"
         >
           <div
             class="document"
             ref="drag-document"
-            :key="example.id"
+            :key="page.id"
             :class="{ draggable: draggable, transition: transition }"
             @mousedown="
               (e) => {
@@ -93,71 +111,30 @@
               }
             "
             :style="{
-              // backgroundImage: `url(${imageUrl})`,
               height: `${realRenderHeight}px`,
               width: `${realRenderWidth}px`,
               transform: `rotate(${90 * rotateIndex}deg) translateY(${
-                page.translateY + moveY + initTranslateY
+                page.translateY + moveY
               }px) translateX(${page.translateX + moveX}px) scale(${
                 page.rotateScale * zoomScale
               })`,
-              transformOrigin: page.transformOrigin,
             }"
           >
-            <img
+            <!-- <img :src="imageUrl" :alt="example.name" /> -->
+            <img :src="imageUrl" :alt="example.name" />
+
+            <div
+              v-if="activeText"
+              class="frame-mask active"
+              ref="maskEl"
               :style="{
-                transform: `rotate(${example.angle || 0}deg)`,
+                top: `${activeText.startY * imgScale}px`,
+                left: `${activeText.startX * imgScale}px`,
+                height: `${activeText.height * imgScale}px`,
+                width: `${activeText.width * imgScale}px`,
+                transform: `rotate(${activeText.deg}deg)`,
               }"
-              :src="imageUrl"
-              :alt="imageName"
-            />
-            <svg
-              class="svg-seal"
-              :height="realRenderHeight"
-              :width="realRenderWidth"
-            >
-              <!-- <polygon
-                ref="svg-polygon"
-                :points="svgPosition"
-                style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
-              />-->
-              <circle
-                ref="pointEl"
-                v-for="(i, index) in svgCircle"
-                :key="index"
-                :cx="i.cx"
-                :cy="i.cy"
-                r="0.5"
-                fill="none"
-                stroke="none"
-              />
-              <path
-                ref="svg-polygon"
-                :d="svgPosition ? `M ${svgPosition} z` : ''"
-                fill="rgba(8,135,255,0.1)"
-                stroke="#0887FF"
-                stroke-width="1"
-              />
-            </svg>
-            <svg
-              class="svg-seal"
-              :height="realRenderHeight"
-              :width="realRenderWidth"
-            >
-              <!-- <polygon
-                ref="svg-rectangle"
-                :points="rectanglePosition"
-                style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
-              />-->
-              <path
-                ref="svg-rectangle"
-                :d="rectanglePosition ? `M ${rectanglePosition} z` : ''"
-                fill="rgba(8,135,255,0.1)"
-                stroke="#0887FF"
-                stroke-width="2"
-              />
-              <!-- <path d="M 100 100 L 300 100 L 200 300 z" fill="red" stroke="blue" stroke-width="3" /> -->
-            </svg>
+            ></div>
           </div>
         </div>
       </div>
@@ -184,44 +161,32 @@
             <svg-icon iconClass="识别结果"></svg-icon>
             <span>识别结果</span>
           </div>
-          <div class="btn-config">
-            <!-- <more-button
-              productName="印章识别"
-              :requestBody="requestBody"
-              :servicecon="pageMenuPerm['SERSEALRECO']"
-              :collect="pageMenuPerm['COLSEALRECO']"
-            >
-            </more-button> -->
-            <!-- <img src="../image/服务配置.svg" alt=""> -->
-            <servicecon-figuration
-              v-if="pageMenuPerm['SERSEALRECO']"
-              :requestBody="requestBody"
-              productName="印章识别"
-              :isicon="true"
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+            "
+          >
+            <llsButton
               type="text"
-              :plain="false"
-            ></servicecon-figuration>
-            <more-button
-              v-if="pageMenuPerm['COLSEALRECO']"
-              productName="印章识别"
-              :requestBody="requestBody"
-              :servicecon="false"
-              :collect="true"
+              @click="handleClickDownload"
+              v-if="pageMenuPerm['SPECIALDOWNAPP']"
             >
-            </more-button>
+              <svg-icon class="download" iconClass="下载"></svg-icon>
+              <span>下载</span>
+            </llsButton>
+            <more-Button
+              productName="增值税专票解析"
+              :servicecon="pageMenuPerm['SPECIALSERAPP']"
+              :collect="pageMenuPerm['SPECIALCOLLAPP']"
+              :collectName="true"
+            ></more-Button>
           </div>
         </div>
-        <div
-          v-if="this.example.ret.length"
-          class="ocr-text"
-          @scroll="proxy(calculateXy)"
-          ref="ocrTextWrapper"
-        >
+        <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
           <slot></slot>
-        </div>
-        <div class="no-data" v-else>
-          <img :src="require('@/assets/images/暂无数据.png')" alt />
-          <div>暂无解析数据</div>
         </div>
       </div>
       <svg
@@ -265,7 +230,7 @@
       :on-close="
         () => {
           showImageViewer = false;
-          postFixedMessage(false);
+          postFixdMessage(false);
         }
       "
     ></lls-image-viewer>
@@ -309,7 +274,6 @@ function Events() {
     }
   };
 }
-
 export default {
   model: {
     prop: "value",
@@ -317,12 +281,10 @@ export default {
   },
   components: {
     [ImageViewer.name]: ImageViewer,
-    serviceconFiguration: (resolve) =>
-      require(["@/components/moreButton/serviceconFiguration.vue"], resolve), // 服务管理页面
   },
   props: {
     value: {
-      type: Array,
+      type: Object,
       default: function () {
         return null;
       },
@@ -333,28 +295,19 @@ export default {
       required: true,
       default: () => [],
     },
-    activeTabIndex: {
-      type: Number,
-    },
     pageMenuPerm: Object,
   },
   data() {
     return {
-      requestBody: {
-        url: "/seal-recognition-web/seal/recognition/serviceList",
-        data: {
-          name: "印章识别",
-        },
-      },
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
       activeDocumentIndex: 0, // 当前示例索引
       activePageIndex: 1, // 当前页面索引
-      activeTextId: null, // 高亮的文本索引
+      activeText: null, // 高亮的文本
       pathValue: null, // 连线的起点、终点路径
       rotateIndex: 0, // 旋转次数
       zoomScale: 1, // 手动缩放比例
-      zoomStep: 0.1, // 缩放梯度
+      zoomStep: 0.2, // 缩放梯度
       // windowResizeScale: 1, // 浏览器窗口缩放比例
       dragX: 0, // x方向拖动距离
       dragY: 0, // y方向拖动距离
@@ -364,38 +317,19 @@ export default {
       initTranslateY: 0, // 初始位移数据
       draggable: false, // 是否抓住页面
       showImageViewer: false, // 是否启用大图预览
+      transition: false, // 是否开启缓动效果
       realRenderHeight: 0,
       realRenderWidth: 0,
       scale: 1,
-      total: 1,
-      svgPosition: "",
-      rectanglePosition: "",
-      svgCircle: [],
-      vertices: null,
-      rectangle: null,
-      eleItem: null,
-      transition: false,
     };
-  },
-  created() {
-    // console.log(this.example, "example");
-    // console.log(this.data, "data");
-    // console.log(this.value, "value");
-    // console.log(this.page, "page");
-    // console.log(this.text, "text");
-    // console.log(this.imageName, "imageName");
-    // console.log(this.imageUrl, "imageUrl");
   },
   mounted() {
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg();
-
     // 兼容firefox
     this.bind(this.$refs.documentLayout, "DOMMouseScroll", this.handleZoom);
-
     this.$events = new Events();
     this.$events.listen("click-ocr-el", this.handleClickText);
-    this.$events.listen("click-rectangle", this.handleClickRectangle);
     this.$events.listen("drag-document", this.transferDocument);
     this.$events.listen("drag-view", this.transferView);
   },
@@ -404,21 +338,20 @@ export default {
       this.activeDocumentIndex = 0;
       this.reRenderImage();
       this.resetProps();
-      // console.log(val, "watch.val");
     },
   },
   beforeDestroy() {
-    this.$events.remove("click-ocr-el", this.clickOcrEl);
+    this.$events.remove("click-ocr-el", this.handleClickText);
     this.$events.remove("drag-document", this.transferDocument);
     this.$events.remove("drag-view", this.transferView);
     this.resizeObserver.disconnect();
   },
   methods: {
-    postFixedMessage(fixed) {
+    postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromSealRecognition",
+          from: "messageFromVatInvoice",
           fixed: fixed,
         },
         "*"
@@ -432,27 +365,16 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1;
       }
-      const page = this.example.ret;
+      const page = this.example.specificData[this.activePageIndex - 1];
       this.resizeImg();
       this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
     },
     handleClick(index) {
       // 点击右侧tabs
-      // this.resetProps()
-      this.rotateIndex = 0;
-      // this.activePageIndex = 1
-      this.activeTextId = null;
-      this.zoomScale = 1;
-      this.pathValue = null;
-      this.dragX = 0;
-      this.dragY = 0;
-      this.moveX = 0;
-      this.moveY = 0;
-      this.updateTranslateY();
-      this.$emit("resetId");
-      // this.activePageIndex = index + 1
-      const page = this.example.ret;
+      this.resetProps();
+      this.activePageIndex = index + 1;
+      const page = this.example.specificData[index];
       this.resizeImg();
       this.$emit("handle-change", page);
     },
@@ -462,52 +384,11 @@ export default {
         this.proxy((_) => {
           this.documentWidth = this.$refs.documentLayout.clientWidth;
           this.documentHeight = this.$refs.documentLayout.clientHeight;
-          // console.log(this.documentWidth, this.documentHeight);
           // 初始化每张图片的宽高
           this.reRenderImage();
         });
       });
       this.resizeObserver.observe(el);
-    },
-    // 计算图片的的实际渲染大小
-    reRenderImage() {
-      this.data.forEach((page) => {
-        const vm = this;
-        // const img = new Image();
-        // img.src = page.img;
-        // img.onload = function () {
-        // page.originalWidth = this.width // 图片原始宽度
-        // page.originalHeight = this.height // 图片原始高度
-        const widthScale = vm.documentWidth / +page.width;
-        const heightScale = vm.documentHeight / +page.height;
-        page.scale = widthScale < heightScale ? widthScale : heightScale;
-        // page.scale =
-        //   page.height > page.width
-        //     ? vm.documentHeight / +page.height
-        //     : vm.documentWidth / +page.width; // 初始图片缩放比例
-
-        page.realRenderHeight = +page.height * page.scale; // 图片实际渲染高度
-        // if (page.realRenderHeight > vm.documentHeight) {
-        //   page.realRenderHeight = vm.documentHeight;
-        //   page.scale = vm.documentHeight / +page.height;
-        // }
-        page.realRenderWidth = +page.width * page.scale; // 图片实际渲染宽度
-        // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
-        // };
-      });
-      // console.log("render")
-      window.setTimeout((_) => {
-        this.calculateXy();
-      });
-      // this.$nextTick((_) => {
-      //   this.calculateXy();
-      // });
-      this.updateTranslateY();
-      const page = this.data[this.activeDocumentIndex];
-      // console.log(page, "page");
-      this.realRenderHeight = page.realRenderHeight;
-      this.realRenderWidth = page.realRenderWidth;
-      this.scale = page.scale;
     },
     // 切换示例
     handleClickExample(index) {
@@ -516,7 +397,8 @@ export default {
       }
       this.activeDocumentIndex = index;
       this.resetProps();
-      const page = this.example.ret.identityList;
+
+      const page = this.example.specificData[this.activePageIndex - 1];
       this.resizeImg();
       this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
@@ -536,22 +418,22 @@ export default {
       } else if (num < 0) {
         if (this.activeDocumentIndex === 0) {
           this.activeDocumentIndex = this.data.length - 1;
-          this.activePageIndex = this.data[this.activeDocumentIndex].ret.length;
+          this.activePageIndex =
+            this.data[this.activeDocumentIndex].specificData.length;
         } else {
           this.activeDocumentIndex -= 1;
-          this.activePageIndex = this.data[this.activeDocumentIndex].ret.length;
+          this.activePageIndex =
+            this.data[this.activeDocumentIndex].specificData.length;
         }
       } else {
         this.activePageIndex = num + 1;
       }
 
-      const page = this.example.ret[this.activePageIndex - 1];
+      const page = this.example.specificData[this.activePageIndex - 1];
       this.resizeImg();
       this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
-      this.resizeImg();
-      // this.$emit("handle-change", page);
-      // this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
+      this.$emit("changeActivePageIndex", this.activePageIndex - 1);
     },
     // 旋转图片
     handleClickRotate() {
@@ -637,10 +519,8 @@ export default {
       if (this.viewX < -windowWidth * 0.2) {
         this.viewX = -windowWidth * 0.2;
       }
-      this.$refs.ocrResult.style.width = `calc(50% - ${this.viewX}px)`;
-      this.$refs["document-box"].style.width = `calc(50% + ${
-        this.viewX + 8
-      }px)`;
+      this.$refs["document-box"].style.width = `calc(50% + ${this.viewX}px)`;
+      this.$refs["ocrResult"].style.width = `calc(50% - ${this.viewX + 8}px)`;
       this.$nextTick((_) => {
         this.documentWidth = this.$refs.documentLayout.clientWidth;
         this.documentHeight = this.$refs.documentLayout.clientHeight;
@@ -649,17 +529,13 @@ export default {
       });
     },
     // 激活文本
-    handleClickText({ el, id, item }) {
-      this.rectanglePosition = "";
-      this.vertices = item.polygon;
-      this.svgPositionMethods(this.rotateIndex);
+    handleClickText({ el, value }) {
+      // this.resetProps()
       this.activeEl = el;
-      this.activeTextId = id;
-      this.moveImage("svg-polygon");
-    },
-    moveImage(domName) {
+      this.activeText = value;
+      // this.calculateXy()
       this.$nextTick((_) => {
-        const maskEl = this.$refs[domName],
+        const maskEl = this.$refs.maskEl,
           documentLayout = this.$refs.documentLayout,
           maskElRect = maskEl.getBoundingClientRect(),
           documentLayoutRect = documentLayout.getBoundingClientRect(),
@@ -706,87 +582,61 @@ export default {
         }
       });
     },
-    handleClickRectangle({ item }) {
-      this.svgPosition = "";
-      this.pathValue = null;
-      this.rectangle = item.rectangle;
-      this.rectanglePositionMethods();
-      this.moveImage("svg-rectangle");
-    },
-    svgPositionMethods(rotateIndex) {
-      this.svgPosition = this.vertices.reduce((total, cur, index) => {
-        return (total += `${cur.x * this.imgScale} ${cur.y * this.imgScale} `);
-      }, "");
-      this.svgCircle = this.vertices.map((item) => {
-        return {
-          cx: item.x * this.imgScale,
-          cy: item.y * this.imgScale,
-        };
-      });
-    },
-    rectanglePositionMethods() {
-      this.rectanglePosition = this.rectangle.reduce((total, cur, index) => {
-        return (total += `${cur.x * this.imgScale} ${cur.y * this.imgScale} `);
-      }, "");
-    },
     // 计算path起点、终点坐标
     calculateXy() {
-      // if (this.activeTextId == null) {
-      //   return;
-      // }
-      this.rectanglePosition && this.rectanglePositionMethods();
-      if (!this.svgPosition) return;
-      this.svgPositionMethods();
-      const activeTextId = this.activeTextId;
+      if (this.activeText == null) {
+        return;
+      }
+      // const activeTextId = this.activeTextId
       const page = this.page;
       const rotateIndex = this.rotateIndex;
       const zoomScale = this.zoomScale || 1;
       this.$nextTick((_) => {
-        let pointEls, pointEl, pointElsRect, beforeEl, afterEl, otherEl;
-        pointEls = this.$refs.pointEl;
-        pointEl;
-        pointElsRect = pointEls.map((i, index) => {
-          let elRect = i.getBoundingClientRect();
-          if (index == 0 || pointEl.rect.right < elRect.right) {
-            pointEl = { rect: elRect, index };
-          }
-          return { rect: elRect, index };
-        });
-        beforeEl =
-          pointElsRect[
-            pointEl.index == 0 ? pointElsRect.length - 1 : pointEl.index - 1
-          ];
-        afterEl =
-          pointElsRect[
-            pointEl.index == pointElsRect.length - 1 ? 0 : pointEl.index + 1
-          ];
-        otherEl = beforeEl.rect.right > afterEl.rect.right ? beforeEl : afterEl;
-        // const maskEl = this.$refs["svg-polygon"],
-        const documentLayout = this.$refs.documentLayout,
-          ocrTextWrapper = this.$refs.ocrTextWrapper,
-          // maskElRect = maskEl.getBoundingClientRect(),
-          documentLayoutRect = documentLayout.getBoundingClientRect(),
-          activeElRect = this.activeEl.getBoundingClientRect(),
-          ocrTextWrapperRect = ocrTextWrapper.getBoundingClientRect(),
-          lY = documentLayoutRect.top,
-          lX = documentLayoutRect.left;
-        let mY = (otherEl.rect.top + pointEl.rect.top) / 2,
-          mX = (otherEl.rect.right + pointEl.rect.right) / 2,
-          startX = mX - lX,
-          startY = mY - lY,
-          offsetTop = activeElRect.top - ocrTextWrapperRect.top,
-          offsetLeft = activeElRect.left - ocrTextWrapperRect.left,
-          pathEndX = this.documentWidth + offsetLeft + 44,
-          pathEndY = offsetTop + this.activeEl.clientHeight / 2,
-          x = startX,
-          y = startY;
+        const maskEl = this.$refs.maskEl;
+        const documentLayout = this.$refs.documentLayout;
+        const ocrTextWrapper = this.$refs.ocrTextWrapper;
+        const maskElRect = maskEl.getBoundingClientRect();
+        const documentLayoutRect = documentLayout.getBoundingClientRect();
+        const lY = documentLayoutRect.top;
+        const lX = documentLayoutRect.left;
+        const mY = maskElRect.top;
+        const mX = maskElRect.right;
+        const startX = mX - lX;
+        const startY = mY - lY;
+        const offsetTop = this.activeEl.offsetTop + 55;
+        const offsetLeft = this.activeEl.offsetLeft;
+        const scrollTop = ocrTextWrapper.scrollTop;
+        const pathEndX = this.documentWidth + offsetLeft + 52;
+        const pathEndY = offsetTop - scrollTop + this.activeEl.clientHeight / 2;
+        const scale = page.rotateScale * zoomScale * this.imgScale;
+        const w = this.activeText.width;
+        const h = this.activeText.height;
+        const Q = this.activeText.deg;
+        const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2;
+
+        let x = startX;
+        let y = startY + (h * scale) / 2;
+
+        if (rotateIndex % 4 === 1) {
+          x = startX + leanX;
+          y = startY + (w * scale) / 2;
+        }
+        if (rotateIndex % 4 === 2) {
+          x = startX;
+          y = startY + (h * scale) / 2;
+        }
+        if (rotateIndex % 4 === 3) {
+          x = startX + leanX;
+          y = startY + (w * scale) / 2;
+        }
+
+        // 处理边界
         if (x > this.documentWidth) {
           x = this.documentWidth;
         }
-        if (y > this.documentHeight) {
-          y = this.documentHeight;
-        }
-
+        // if (y > this.documentHeight) {
+        //   y = this.documentHeight;
+        // }
         this.pathValue = {
           pathStartX: x,
           pathStartY: y,
@@ -799,12 +649,9 @@ export default {
     resetProps() {
       this.rotateIndex = 0;
       this.activePageIndex = 1;
-      this.activeTextId = null;
+      this.activeText = null;
       this.zoomScale = 1;
       this.pathValue = null;
-      this.svgPosition = "";
-      this.rectanglePosition = "";
-      this.vertices = null;
       this.dragX = 0;
       this.dragY = 0;
       this.moveX = 0;
@@ -825,7 +672,36 @@ export default {
         }
       });
     },
+    // 计算图片的的实际渲染大小
+    reRenderImage() {
+      this.data.forEach((document) => {
+        const vm = this;
+        document.specificData.forEach((page) => {
+          const widthScale = vm.documentWidth / page.originalWidth;
+          const heightScale = vm.documentHeight / page.originalHeight;
+          page.scale = widthScale < heightScale ? widthScale : heightScale;
+          page.realRenderWidth = page.originalWidth * page.scale; // 图片实际渲染宽度
+          page.realRenderHeight = page.originalHeight * page.scale; // 图片实际渲染高度
+          // page.scale = vm.documentWidth / page.originalWidth // 初始图片缩放比例
+          // page.realRenderWidth = page.originalWidth * page.scale // 图片实际渲染宽度
+          // page.realRenderHeight = page.originalHeight * page.scale // 图片实际渲染高度
+          // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
 
+          // };
+        });
+      });
+      window.setTimeout((_) => {
+        this.calculateXy();
+      });
+      this.updateTranslateY();
+      const page =
+        this.data[this.activeDocumentIndex].specificData[
+          this.activePageIndex - 1
+        ];
+      this.realRenderHeight = page.realRenderHeight;
+      this.realRenderWidth = page.realRenderWidth;
+      this.scale = page.scale;
+    },
     handleMousedown(e, elName) {
       const el = this.$refs[elName];
       this.removeEventListener(e, elName);
@@ -856,12 +732,8 @@ export default {
       );
     },
     removeEventListener(e, elName, w) {
-      // console.log(elName);
-      // const el = this.$refs[elName];
-
       window.removeEventListener("mousemove", this[`${elName}Mousemove`]);
       window.removeEventListener("mouseup", this.removeEventListener);
-      // this[`${elName}Mousemove`] = null;
       this.draggable = false;
     },
     fn(arr) {
@@ -892,7 +764,9 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/beefeather-seal-recognition-web/identityCard/common//downLoadFile?path=${this.example.excelPath}`,
+        url: `/vat-general-invoice-web/invoice/common/download?name=${encodeURIComponent(
+          this.example.url
+        )}&show=${this.example.show || false}`,
         responseType: "blob",
       })
         .then((res) => {
@@ -923,53 +797,29 @@ export default {
       return this.data[this.activeDocumentIndex];
     },
     // 总页数
-    // total() {
-    //   return this.data[this.activeDocumentIndex].images[this.activeTabIndex]
-    //     .length;
-    // },
+    total() {
+      return this.example.specificData.length;
+    },
     // 当前页面信息
     page() {
       const translateX = 0;
       const translateY = 0;
       const rotateScale = 1;
       const page = {
-        value: this.value,
+        ...this.value,
         translateX,
         translateY,
         rotateScale, // 旋转导致的缩放比例
       };
       return page;
     },
-    // pageDetail() {
-    //   return this.page.value[this.activeTabIndex].identityList;
-    // },
     // 文档图片地址
     imageUrl() {
-      return this.data[this.activeDocumentIndex].imageUrl;
+      return this.page.img;
     },
-    imageName() {
-      return this.data[this.activeDocumentIndex].fileName;
-    },
-    // fileName() {
-    //   return this.allData[this.activeDocumentIndex].fileName.substring(
-    //     0,
-    //     this.allData[this.activeDocumentIndex].fileName.indexOf(".")
-    //   );
-    // },
     // 大图预览所需数据
     urlList() {
-      return [{ url: this.imageUrl, title: this.imageName }];
-    },
-    // 当前文本信息
-    text() {
-      const { value } = this.page;
-
-      const textArr = [...value];
-      const textValue = textArr[this.activeTabIndex].identityList;
-      // console.log(textValue, "textValue");
-      return textValue.filter((i) => {
-        return i.id === this.activeTextId;
-      })[0];
+      return [{ url: this.page.img, title: this.example.name }];
     },
     // 当前图片初始缩放比例
     imgScale() {
@@ -986,38 +836,8 @@ export default {
   height: 100vh;
   overflow: hidden;
 
-  .lls-dropdown {
-    color: #0887FF;
-    cursor: pointer;
-  }
-
-  .no-data {
-    height: calc(100% - 82px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    div {
-      color: #05121E;
-      font-size: 14px;
-      margin-top: 12px;
-      line-height: 20px;
-      font-weight: bold;
-    }
-  }
-
   * {
     user-select: none;
-  }
-
-  .btn-config {
-    font-size: 12px;
-    color: #0887FF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 18px;
   }
 
   .dih-page-input {
@@ -1027,8 +847,6 @@ export default {
     text-align: center;
     outline: medium;
     color: #999;
-    border-bottom: 1px solid #E3E8F0;
-    line-height: 14px;
   }
 
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
@@ -1084,6 +902,11 @@ export default {
         border-radius: 0 0 4px 4px;
         text-align: center;
 
+        // white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // display: flex;
+        // justify-content: center;
         span {
           transform: scale(0.75);
           transform-origin: left;
@@ -1124,12 +947,6 @@ export default {
       z-index: 1;
     }
 
-    .svg-seal {
-      pointer-events: none;
-      position: absolute;
-      z-index: 1;
-    }
-
     .document-box {
       border: 1px solid #e2e4e9;
       width: 50%;
@@ -1161,10 +978,10 @@ export default {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
-          width: 360px;
         }
 
         .number {
+          border-bottom: 1px solid #E3E8F0;
           padding: 0 8px;
 
           >span {
@@ -1196,11 +1013,24 @@ export default {
         justify-content: center;
         align-items: center;
 
+        // background-image: repeating-linear-gradient(
+        // to right,
+        // transparent 0px,
+        // transparent 14px,
+        // #e3e8f0 14px,
+        // #e3e8f0 15px
+        // ), repeating-linear-gradient(
+        // to bottom,
+        // transparent 0px,
+        // transparent 14px,
+        // #e3e8f0 14px,
+        // #e3e8f0 15px
+        // );
         .document {
           // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          cursor: url('~@/icons/svg/手势-张开.svg'), grab;
+          cursor: url('./icon/手势-张开.svg'), grab;
           background-repeat: no-repeat;
           width: 100%;
 
@@ -1213,7 +1043,7 @@ export default {
           }
 
           &.draggable {
-            cursor: url('~@/icons/svg/手势-握紧.svg'), grabbing;
+            cursor: url('./icon/手势-握紧.svg'), grabbing;
           }
 
           &.transition {
@@ -1334,27 +1164,14 @@ export default {
       }
 
       .ocr-text {
-        &::-webkit-scrollbar {
-          width: 4px;
-          height: 6px;
-        }
-
-        // 滚动区域背景
-        &::-webkit-scrollbar-track-piece {
-          background-color: #f7fbff;
-          -webkit-border-radius: 6px;
-        }
-
-        // 竖向滚动条
-        &::-webkit-scrollbar-thumb:vertical {
-          background-color: rgba(32, 45, 64, 0.5);
-          -webkit-border-radius: 2px;
+        &::-webkit-scrollbar-thumb {
+          background: rgba(32, 45, 64, 0.5);
         }
 
         border: 1px solid #e3e8f0;
         height: calc(100% - 74px);
         overflow: auto;
-        padding: 16px;
+        padding: 0 8px 12px;
         background: #fff;
         position: relative;
 

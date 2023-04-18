@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>左</title>
+    <g id="工作台" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="产品类-功能类-导航页头合并-常规" transform="translate(-324.000000, -88.000000)">
+            <g id="编组-12" transform="translate(88.000000, 76.000000)">
+                <g id="编组-16备份" transform="translate(1.000000, 1.000000)">
+                    <g id="左" transform="translate(236.000000, 12.000000)">
+                        <circle id="椭圆形" stroke="#B6BECA" cx="7" cy="7" r="7"></circle>
+                        <polygon id="路径" fill="#B6BECA" fill-rule="nonzero" points="8.18198052 3.56801948 8.8890873 4.27512627 6.41391154 6.75030202 8.8890873 9.22487373 8.18198052 9.93198052 5 6.75"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
