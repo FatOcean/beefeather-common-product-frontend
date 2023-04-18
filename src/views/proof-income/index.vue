@@ -170,7 +170,6 @@ export default {
     });
     this.activeName = this.tabsArray[0].name;
   },
-  mounted() {},
   methods: {
     handleClick(value) {
       this.activeTabIndex = Number(value.index);

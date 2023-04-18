@@ -131,12 +131,6 @@ export default {
     this.documents = this.data[0];
     this.page = this.documents.ret;
   },
-  mounted() {
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      this.setuserMenuPermList(e.data);
-    });
-  },
   computed: {
     example() {
       return this.data[this.activeDocumentIndex];
@@ -148,12 +142,6 @@ export default {
     },
   },
   methods: {
-    setuserMenuPermList(data) {
-      if (data.pageMenuPerm) {
-        this.pageMenuPerm = data.pageMenuPerm;
-        this.falg = true;
-      }
-    },
     postFixedMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
@@ -553,6 +541,7 @@ export default {
     z-index: 999;
     left: 0;
   }
+
   .sample-collection {
     width: 114px;
     position: fixed;

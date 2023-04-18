@@ -173,14 +173,6 @@ export default {
     });
     this.activeName = this.tabsArray[0].name;
   },
-  mounted() {
-    // console.log("设置cookie")
-    // this.setCookie("AUTHENTICATION", "token____________", 1)
-    // 接收iframe的数据
-    window.addEventListener("message", (e) => {
-      // this.setuserMenuPermList(e.data);
-    });
-  },
   methods: {
     handleClick(value) {
       // console.log(this.$refs.ocrlayout);

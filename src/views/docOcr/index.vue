@@ -1,14 +1,14 @@
 <template>
   <div class="document-ocr-wrapper" :class="{ 'bee-loading': beeLoading }">
     <ocr-layout
-      v-model="page"
       ref="ocrlayout"
       :data="documents"
+      v-model="page"
       locatable
-      isMultiCoordinate
       @on-open-viewer="postFixdMessage(true)"
       @on-close-viewer="postFixdMessage(false)"
-      @on-change-example="handleChangeExample"
+      showAllCoordinate
+      :coordinateData="page.wordData"
     >
       <div
         slot="button"
@@ -22,46 +22,27 @@
         <llsButton
           type="text"
           @click="handleClickDownload"
-          v-if="pageMenuPerm['downloadHouseProperty']"
+          v-if="pageMenuPerm['DOWNDOCUMOCR']"
         >
+          <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
           <svg-icon class="download" iconClass="下载"></svg-icon>
           <span>下载</span>
         </llsButton>
         <more-button
-          productName="房产证解析"
+          productName="文档OCR"
+          :collect="pageMenuPerm['COLLDOCUMOCR']"
+          :servicecon="pageMenuPerm['SERDOCUMOCR']"
           :collectName="true"
-          :collect="pageMenuPerm['collectHouseProperty']"
-          :servicecon="pageMenuPerm['serviceHouseProperty']"
         ></more-button>
       </div>
-      <lls-tabs
-        @tab-click="handleClick"
-        v-model="activeName"
-        v-if="tabsArray.length > 1"
+      <ocr-el
+        v-for="(i, index) in page.wordData"
+        :key="index"
+        :id="i.id"
+        :value="i"
+        :class="[`rect${i.id}`]"
+        >{{ i.text }}</ocr-el
       >
-        <lls-tab-pane
-          v-for="(item, index) in tabsArray"
-          :key="index"
-          :label="item.name"
-          :name="item.name"
-        >
-        </lls-tab-pane>
-      </lls-tabs>
-      <table cellspacing="0" cellpadding="0">
-        <tr>
-          <th>字段名</th>
-          <th>识别结果</th>
-        </tr>
-        <ocr-el
-          tag="tr"
-          :value="row.coordinatesList"
-          v-for="(row, rowIndex) in tabResult"
-          :key="rowIndex"
-        >
-          <td>{{ row.key }}</td>
-          <td style="white-space: pre-line">{{ row.value }}</td>
-        </ocr-el>
-      </table>
     </ocr-layout>
 
     <!--  进度条 -->
@@ -77,14 +58,14 @@
       v-show="page.collectImgUrl"
       @click="clickSampleCollection"
     >
-      <svg-icon :iconClass="starsFlag ? '星星填充' : '星星'"></svg-icon>
-      <span>{{ starsFlag ? "取消" : "难例" }}样本收集</span>
+      <svg-icon :iconClass="page.starsFlag ? '星星填充' : '星星'"></svg-icon>
+      <span>{{ page.starsFlag ? "取消" : "难例" }}样本收集</span>
     </div>
 
     <!-- 上传文件 -->
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
-    action="/beefeather/file-handle-web/file/upload"-->
-    <lls-collapse-transition v-if="pageMenuPerm['uploadHouseProperty']">
+        action="/beefeather/file-handle-web/file/upload" -->
+    <lls-collapse-transition v-if="pageMenuPerm['UPLOADDOCUMOCR']">
       <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <link-upload
         v-model="files"
@@ -92,7 +73,7 @@
         @mouseenter.native="dragenter = true"
         @mouseleave.native="dragenter = false"
         :beforeUpload="beforeUpload"
-        :on-success="ocrRecognitionExcel"
+        :on-success="ocrRecognitionDocument"
         :on-progress="onProgress"
         :on-error="onError"
         :showFileList="false"
@@ -134,7 +115,6 @@ import documents from "./example";
 import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
 import { mapMutations, mapState } from "vuex";
-
 export default {
   data() {
     return {
@@ -147,11 +127,7 @@ export default {
       token: window.sessionStorage.getItem("token"),
       origin: window.sessionStorage.getItem("origin"),
       href: window.location.href,
-      starsFlag: false, // 是否收集
-      loadRecordId: "", // 难例收集id
-      activeName: "",
-      tabsArray: [],
-      activeTabIndex: 0,
+      falg: true,
     };
   },
   components: {
@@ -161,39 +137,16 @@ export default {
   },
   computed: {
     ...mapState(["pageMenuPerm"]),
-    tabResult() {
-      return this.page.analysisResult[this.activeTabIndex].tabResult;
-    },
   },
   created() {
     this.page = this.documents[0].pages[0];
-    this.tabsArray = this.page.analysisResult.map((item) => {
-      return { name: item.tabName };
-    });
-    this.activeName = this.tabsArray[0].name;
   },
   methods: {
-    handleClick(value) {
-      // console.log(value);
-      this.activeTabIndex = Number(value.index);
-      this.$refs.ocrlayout.pathValue = null;
-      this.$refs.ocrlayout.activeText = null;
-      this.$refs.ocrlayout.activeTextId = "";
-    },
-    handleChangeExample() {
-      this.activeTabIndex = 0;
-      this.$nextTick(() => {
-        this.tabsArray = this.page.analysisResult.map((item) => {
-          return { name: item.tabName };
-        });
-        this.activeName = this.tabsArray[0].name;
-      });
-    },
     setuserMenuPermList(data) {
       if (data.pageMenuPerm) {
-        this.$nextTick(() => {
-          this.pageMenuPerm = data.pageMenuPerm;
-        });
+        this.falg = false;
+        this.pageMenuPerm = data.pageMenuPerm;
+        this.falg = true;
       }
     },
     postFixdMessage(fixed) {
@@ -208,20 +161,20 @@ export default {
     },
     // 样本收集点击事件
     clickSampleCollection() {
-      const requestId = this.documents[0].requestId;
-      const picAddress = this.page.collectImgUrl;
-      if (!this.starsFlag) {
-        // const requestId = this.documents[0].requestId;
+      if (!this.page.starsFlag) {
+        const requestId = this.documents[0].id;
+        const picAddress = this.page.collectImgUrl;
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post("/ocr-web/ocrCollectInfo/saveCollectInfo", {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "房产证解析",
+            productName: "OCR",
           })
           .then((res) => {
             if (res.data.code === "200") {
-              this.starsFlag = true;
-              this.loadRecordId = res.data.data;
+              this.$set(this.page, "starsFlag", true);
+              // this.page.starsFlag = true;
+              this.page.loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -238,13 +191,13 @@ export default {
       } else {
         this.$http
           .post(
-            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
-              this.loadRecordId
-            )}&picAddress=${encodeURIComponent(picAddress)}`
+            `/ocr-web/ocrCollectInfo/cancelSaveCollectInfo?loadRecordId=${
+              this.page.loadRecordId
+            }&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
           .then((res) => {
             if (res.data.code === "200") {
-              this.starsFlag = false;
+              this.page.starsFlag = false;
               this.$message({
                 message: "取消收集成功",
                 type: "success",
@@ -260,94 +213,64 @@ export default {
           });
       }
     },
-    beforeUpload(file) {
+    beforeUpload() {
       this.postFixdMessage(true);
-      this.percent = 0;
       window.setTimeout((_) => {
         this.beeLoading = true;
       }, 80);
     },
     onProgress(event, file) {
-      // console.log();
-      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
+      this.percent = Math.min(Math.floor((100 * event.loaded) / file.size), 98);
     },
     onError(res) {
-      // console.log(res);
       this.files = [];
       this.beeLoading = false;
       this.$message.error("文件上传失败（如文件未解压等）");
     },
-    // 表格ocr识别
-    ocrRecognitionExcel(file) {
-      this.$http
-        .post(
-          `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=房产证解析`
-        )
-        .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 72,
-            });
-            this.percent = 100;
-            this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
-              name: res.data.name,
-              requestId: res.data.requestId,
-              pages: res.data.pages.map((i) => {
-                return {
-                  ...i,
-                  collectImgUrl: `${i.img}${i.pageName}`,
-                  img: this.resolveUrl(`${i.img}${i.pageName}`),
-                  originalHeight: /0|2/.test(i.imgRotatingDeg / 90)
-                    ? i.originalHeight
-                    : i.originalWidth,
-                  originalWidth: /0|2/.test(i.imgRotatingDeg / 90)
-                    ? i.originalWidth
-                    : i.originalHeight,
-                  analysisResult: i.analysisResult.map((item) => {
-                    return {
-                      tabName: item.tabName,
-                      tabResult: item.analysisResult.map((j) => {
-                        return {
-                          ...j,
-                          coordinatesList: j.coordinatesList || [],
-                        };
-                      }),
-                    };
-                  }),
-                };
-              }),
-            });
-            this.starsFlag = false;
-            this.page = this.documents[0].pages[0];
-            this.tabsArray = this.page.analysisResult.map((item) => {
-              return { name: item.tabName };
-            });
-            this.activeName = this.tabsArray[0].name;
-          } else {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
-            this.$message({
-              message: res.message,
-              type: "error",
-              offset: 72,
-            });
-          }
-        });
+    // 将文件资源传送到服务器
+    ocrRecognitionDocument(file) {
+      this.$http({
+        url: `/ocr-web/ocr/ocrRecognitionWord?taskId=${this.files[0].taskId}`,
+        method: "post",
+      }).then((res) => {
+        res = res.data;
+        if (res.code === "200") {
+          this.postFixdMessage(false);
+          this.beeLoading = false;
+          this.$message({
+            message: "上传成功",
+            type: "success",
+            offset: 72,
+          });
+          this.percent = 100;
+          let pages = res.data.specificData;
+          pages.forEach((i) => {
+            i.starsFlag = false;
+            i.img = this.resolveUrl(i.img);
+          });
+          this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
+            pages,
+            name: res.data.name,
+            id: res.data.id,
+          });
+          this.page = this.documents[0].pages[0];
+        } else {
+          this.postFixdMessage(false);
+          this.beeLoading = false;
+          this.$message({
+            message: res.message,
+            type: "error",
+            offset: 72,
+          });
+        }
+      });
       this.files = [];
-    },
-    resolveCol(value) {
-      return value && value.replace(/。/gi, "<br/>");
     },
     // 下载识别结果
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=房产证解析`,
+        url: `/ocr-web/ocr/downloadWordFile?requestId=${this.$refs.ocrlayout.example.id}`,
         responseType: "blob",
       })
         .then((res) => {
@@ -373,56 +296,11 @@ export default {
 .document-ocr-wrapper {
   .ocr-layout {
     padding: 76px 24px 24px 24px;
+  }
 
-    .ocr-inner .ocr-result .ocr-text {
-      padding: 16px;
-
-      * {
-        user-select: text;
-      }
-
-      table {
-        border-left: 1px solid #E3E8F0;
-        border-top: 1px solid #E3E8F0;
-        table-layout: fixed;
-        width: 100%;
-      }
-
-      th, td {
-        border: 1px solid transparent;
-        border-right-color: #E3E8F0;
-        border-bottom-color: #E3E8F0;
-        min-width: 120px;
-        padding: 8px;
-        text-align: left;
-        height: 40px;
-        color: #202D40;
-        white-space: initial;
-      }
-
-      .text.active {
-        td, th {
-          border-top-color: #0887ff;
-          border-bottom-color: #0887ff;
-
-          &:first-child {
-            border-left-color: #0887ff;
-          }
-
-          &:last-child {
-            border-right-color: #0887ff;
-          }
-        }
-      }
-
-      th {
-        background-color: #F3F4F6;
-        font-weight: 600;
-      }
-
-      td:first-child {
-        color: #8492A6;
-      }
+  .ocr-result {
+    * {
+      user-select: text;
     }
   }
 
@@ -522,6 +400,7 @@ export default {
   }
 }
 </style>
+
 <style>
 .frame-mask-svg {
   transform: rotate(0deg) !important;

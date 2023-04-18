@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/sealTest",
+    redirect: "/documentOcr",
   },
   {
     path: "/housePropertyAnalysis",
@@ -90,6 +90,13 @@ const routes = [
     component: (resolve) => require(["@/views/identityCard"], resolve),
     meta: {
       title: "身份证解析",
+    },
+  },
+  {
+    path: "/documentOcr",
+    component: (resolve) => require(["@/views/docOcr"], resolve),
+    meta: {
+      title: "文档OCR",
     },
   },
 ];
