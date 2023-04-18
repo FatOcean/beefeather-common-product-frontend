@@ -1,14 +1,14 @@
 <template>
   <div class="document-ocr-wrapper" :class="{ 'bee-loading': beeLoading }">
     <ocr-layout
-      ref="ocrlayout"
-      :data="documents"
       v-model="page"
+      ref="ocrLayout"
+      :data="documents"
       locatable
+      @on-resize="proxy(calculateXy)"
+      @on-scroll="proxy(calculateXy)"
       @on-open-viewer="postFixdMessage(true)"
       @on-close-viewer="postFixdMessage(false)"
-      showAllCoordinate
-      :coordinateData="page.wordData"
     >
       <div
         slot="button"
@@ -22,7 +22,7 @@
         <llsButton
           type="text"
           @click="handleClickDownload"
-          v-if="pageMenuPerm['DOWNDOCUMOCR']"
+          v-if="pageMenuPerm['DOWNFORMOCR']"
         >
           <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
           <svg-icon class="download" iconClass="下载"></svg-icon>
@@ -30,19 +30,53 @@
         </llsButton>
         <more-button
           productName="文档OCR"
-          :collect="pageMenuPerm['COLLDOCUMOCR']"
-          :servicecon="pageMenuPerm['SERDOCUMOCR']"
+          :collect="pageMenuPerm['COLLFORMOCR']"
+          :servicecon="pageMenuPerm['SERFORMOCR']"
           :collectName="true"
         ></more-button>
       </div>
-      <ocr-el
-        v-for="(i, index) in page.wordData"
-        :key="index"
-        :id="i.id"
-        :value="i"
-        :class="[`rect${i.id}`]"
-        >{{ i.text }}</ocr-el
-      >
+      <template v-for="(content, index) in page.tableContentDTOList">
+        <!-- 表格 -->
+        <template v-if="content.excelContentDTO.type">
+          <table-wrapper
+            ref="tableWrapper"
+            :key="`rable${index}${page.pageNo}${page.requestId}`"
+            @scroll="proxy(calculateXy)"
+          >
+            <table cellspacing="0" cellpadding="0">
+              <!-- :width="resolveTableWidth(content.excelContentDTO.data)" -->
+              <tr
+                v-for="(columns, excelIndex) in content.excelContentDTO.data"
+                :key="`table${index}excel${excelIndex}`"
+              >
+                <ocr-el
+                  v-for="(column, columnIndex) in columns"
+                  :key="columnIndex"
+                  :value="column"
+                  :colspan="column.endCol - column.startCol + 1"
+                  :rowspan="column.endRow - column.startRow + 1"
+                  :style="{
+                    height: `${column.height * page.scale}px`,
+                  }"
+                  tag="td"
+                  v-html="resolveCol(column.value)"
+                >
+                </ocr-el>
+              </tr>
+            </table>
+          </table-wrapper>
+        </template>
+        <!-- 文本 -->
+        <template v-if="content.textContentDTO.type">
+          <ocr-el
+            v-for="(text, textIndex) in content.textContentDTO.data"
+            :key="`content${index}text${textIndex}`"
+            :value="text"
+            tag="div"
+            >{{ text.value }}</ocr-el
+          >
+        </template>
+      </template>
     </ocr-layout>
 
     <!--  进度条 -->
@@ -65,7 +99,7 @@
     <!-- 上传文件 -->
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
         action="/beefeather/file-handle-web/file/upload" -->
-    <lls-collapse-transition v-if="pageMenuPerm['UPLOADDOCUMOCR']">
+    <lls-collapse-transition v-if="pageMenuPerm['UPLOADFORMOCR']">
       <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <link-upload
         v-model="files"
@@ -73,7 +107,7 @@
         @mouseenter.native="dragenter = true"
         @mouseleave.native="dragenter = false"
         :beforeUpload="beforeUpload"
-        :on-success="ocrRecognitionDocument"
+        :on-success="ocrRecognitionExcel"
         :on-progress="onProgress"
         :on-error="onError"
         :showFileList="false"
@@ -114,7 +148,7 @@
 import documents from "./example";
 import beeLoading from "@linklogis/beeLoading";
 import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-import { mapMutations, mapState } from "vuex";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -138,9 +172,9 @@ export default {
   computed: {
     ...mapState(["pageMenuPerm"]),
   },
-  created() {
-    this.page = this.documents[0].pages[0];
-  },
+  // created() {
+  //   this.page = this.documents[0].pages[0];
+  // },
   methods: {
     postFixdMessage(fixed) {
       // 发送message 页面高度
@@ -155,13 +189,13 @@ export default {
     // 样本收集点击事件
     clickSampleCollection() {
       if (!this.page.starsFlag) {
-        const requestId = this.documents[0].id;
+        const requestId = this.documents[0].requestId;
         const picAddress = this.page.collectImgUrl;
         this.$http
-          .post("/ocr-web/ocrCollectInfo/saveCollectInfo", {
+          .post("/table-ocr-web/ocrCollectInfo/saveCollectInfo", {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "OCR",
+            productName: "表格OCR",
           })
           .then((res) => {
             if (res.data.code === "200") {
@@ -184,7 +218,7 @@ export default {
       } else {
         this.$http
           .post(
-            `/ocr-web/ocrCollectInfo/cancelSaveCollectInfo?loadRecordId=${
+            `/table-ocr-web/ocrCollectInfo/cancelSaveCollectInfo?loadRecordId=${
               this.page.loadRecordId
             }&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
@@ -220,50 +254,52 @@ export default {
       this.beeLoading = false;
       this.$message.error("文件上传失败（如文件未解压等）");
     },
-    // 将文件资源传送到服务器
-    ocrRecognitionDocument(file) {
-      this.$http({
-        url: `/ocr-web/ocr/ocrRecognitionWord?taskId=${this.files[0].taskId}`,
-        method: "post",
-      }).then((res) => {
-        res = res.data;
-        if (res.code === "200") {
-          this.postFixdMessage(false);
-          this.beeLoading = false;
-          this.$message({
-            message: "上传成功",
-            type: "success",
-            offset: 72,
-          });
-          this.percent = 100;
-          let pages = res.data.specificData;
-          pages.forEach((i) => {
-            i.starsFlag = false;
-            i.img = this.resolveUrl(i.img);
-          });
-          this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
-            pages,
-            name: res.data.name,
-            id: res.data.id,
-          });
-          this.page = this.documents[0].pages[0];
-        } else {
-          this.postFixdMessage(false);
-          this.beeLoading = false;
-          this.$message({
-            message: res.message,
-            type: "error",
-            offset: 72,
-          });
-        }
-      });
+    // 表格ocr识别
+    ocrRecognitionExcel(file) {
+      this.$http
+        .post(
+          `/table-ocr-web/tableOcrInfo/ocrRecognitionExcel?taskId=${this.files[0].taskId}`
+        )
+        .then((res) => {
+          res = res.data;
+          if (res.code === "200") {
+            this.postFixdMessage(false);
+            this.beeLoading = false;
+            this.$message({
+              message: "上传成功",
+              type: "success",
+              offset: 72,
+            });
+            this.percent = 100;
+            this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
+              name: res.data.fileName,
+              requestId: res.data.requestId,
+              pages: res.data.tableFileDTOList.map((i) => {
+                return {
+                  ...i,
+                  img: this.resolveUrl(i.img),
+                  imgRotatingDeg: i.rotateAngle,
+                };
+              }),
+            });
+            this.page = this.documents[0].pages[0];
+          } else {
+            this.postFixdMessage(false);
+            this.beeLoading = false;
+            this.$message({
+              message: res.message,
+              type: "error",
+              offset: 72,
+            });
+          }
+        });
       this.files = [];
     },
     // 下载识别结果
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/ocr-web/ocr/downloadWordFile?requestId=${this.$refs.ocrlayout.example.id}`,
+        url: `/table-ocr-web/tableOcrInfo/downloadExcelFile?requestId=${this.$refs.ocrLayout.example.requestId}`,
         responseType: "blob",
       })
         .then((res) => {
@@ -282,6 +318,29 @@ export default {
           console.log(error);
         });
     },
+    calculateXy() {
+      this.$events.trigger("ocr-text-scroll");
+      this.$refs.ocrLayout.calculateXy();
+    },
+    resolveTableWidth(table) {
+      let width = 0;
+      table[0].forEach((col) => {
+        width += Math.max(col.width * this.page.scale, 100);
+      });
+      return width;
+    },
+    resolveCol(value) {
+      return value.replace(/\n/gi, "<br/>");
+    },
+    proxy(fun, args) {
+      if (this.proxying) return;
+      this.proxying = true;
+
+      window.requestAnimationFrame((_) => {
+        fun.call(this, args);
+        this.proxying = false;
+      });
+    },
   },
 };
 </script>
@@ -289,11 +348,39 @@ export default {
 .document-ocr-wrapper {
   .ocr-layout {
     padding: 76px 24px 24px 24px;
-  }
 
-  .ocr-result {
-    * {
-      user-select: text;
+    // .lls-button.lls-button--text {
+    // margin-right: 54px;
+    // }
+    .ocr-inner .ocr-result .ocr-text {
+      * {
+        user-select: text;
+      }
+
+      .table-wrapper {
+        margin: 8px;
+
+        table {
+          border-left: 1px solid #E3E8F0;
+          border-top: 1px solid #E3E8F0;
+          table-layout: fixed;
+          min-width: 100%;
+        }
+
+        th, td {
+          border-right: 1px solid #E3E8F0;
+          border-bottom: 1px solid #E3E8F0;
+          min-width: 120px;
+          white-space: nowrap;
+          line-height: 1.6;
+          padding: 8px;
+
+          &.active {
+            border-right: 1px solid #0887ff;
+            border-bottom: 1px solid #0887ff;
+          }
+        }
+      }
     }
   }
 

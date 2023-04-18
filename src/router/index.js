@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/documentOcr",
+    redirect: "/formOcr",
   },
   {
     path: "/housePropertyAnalysis",
@@ -97,6 +97,13 @@ const routes = [
     component: (resolve) => require(["@/views/docOcr"], resolve),
     meta: {
       title: "文档OCR",
+    },
+  },
+  {
+    path: "/formOcr",
+    component: (resolve) => require(["@/views/tableOcr"], resolve),
+    meta: {
+      title: "表格OCR",
     },
   },
 ];
