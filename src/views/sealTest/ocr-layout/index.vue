@@ -10,7 +10,7 @@
         @click="handleClickExample(index)"
       >
         <div class="example-image">
-          <img :src="i.imageUrl" :alt="i.fileName" />
+          <img :src="i.imagePath" :alt="i.fileName" />
         </div>
         <div class="text">
           <span>{{ i.fileName.substring(0, i.fileName.indexOf(".")) }}</span>
@@ -59,10 +59,7 @@
               iconClass="ic-旋转"
               @click.native="handleClickRotate"
             ></svg-icon>
-            <svg-icon
-              iconClass="ic-恢复默认"
-              @click.native="resetProps"
-            ></svg-icon>
+            <svg-icon iconClass="ic-恢复默认" @click.native="reset"></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
               @click.native="
@@ -110,6 +107,7 @@
               }"
               :src="imageUrl"
               :alt="imageName"
+              @load="loadImage"
             />
             <svg
               class="svg-seal"
@@ -121,42 +119,15 @@
                 :points="svgPosition"
                 style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
               />-->
-              <circle
-                ref="pointEl"
-                v-for="(i, index) in svgCircle"
-                :key="index"
-                :cx="i.cx"
-                :cy="i.cy"
-                r="0.5"
-                fill="none"
-                stroke="none"
-              />
-              <path
-                ref="svg-polygon"
-                :d="svgPosition ? `M ${svgPosition} z` : ''"
-                fill="rgba(8,135,255,0.1)"
-                stroke="#0887FF"
-                stroke-width="1"
-              />
-            </svg>
-            <svg
-              class="svg-seal"
-              :height="realRenderHeight"
-              :width="realRenderWidth"
-            >
-              <!-- <polygon
+              <polygon
                 ref="svg-rectangle"
                 :points="rectanglePosition"
-                style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
-              />-->
-              <path
-                ref="svg-rectangle"
-                :d="rectanglePosition ? `M ${rectanglePosition} z` : ''"
-                fill="rgba(8,135,255,0.1)"
-                stroke="#0887FF"
-                stroke-width="2"
+                style="
+                  fill: rgba(8, 135, 255, 0.1);
+                  stroke: #0887ff;
+                  stroke-width: 2;
+                "
               />
-              <!-- <path d="M 100 100 L 300 100 L 200 300 z" fill="red" stroke="blue" stroke-width="3" /> -->
             </svg>
           </div>
         </div>
@@ -184,78 +155,53 @@
             <svg-icon iconClass="识别结果"></svg-icon>
             <span>识别结果</span>
           </div>
-          <div class="btn-config">
-            <!-- <more-button
-              productName="印章识别"
-              :requestBody="requestBody"
-              :servicecon="pageMenuPerm['SERSEALRECO']"
-              :collect="pageMenuPerm['COLSEALRECO']"
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+            "
+          >
+            <!-- v-if="pageMenuPerm['DOWSEALTEST]']" -->
+            <lls-dropdown
+              @command="handleCommand"
+              v-if="pageMenuPerm['DOWSEALTEST']"
             >
-            </more-button> -->
-            <!-- <img src="../image/服务配置.svg" alt=""> -->
-            <servicecon-figuration
-              v-if="pageMenuPerm['SERSEALRECO']"
-              :requestBody="requestBody"
-              productName="印章识别"
-              :isicon="true"
-              type="text"
-              :plain="false"
-            ></servicecon-figuration>
-            <more-button
-              productName="印章识别"
-              :requestBody="requestBody"
-              :servicecon="false"
-              :collect="true"
-            >
-            </more-button>
+              <llsButton type="text" class="lls-dropdown-link">
+                <svg-icon class="download" iconClass="下载"></svg-icon>
+                <span>下载</span>
+              </llsButton>
+              <lls-dropdown-menu slot="dropdown">
+                <lls-dropdown-item command="JPG">JPG</lls-dropdown-item>
+                <lls-dropdown-item command="JPEG">JPEG</lls-dropdown-item>
+                <lls-dropdown-item command="PNG">PNG</lls-dropdown-item>
+                <lls-dropdown-item command="BMP">BMP</lls-dropdown-item>
+              </lls-dropdown-menu>
+            </lls-dropdown>
+            <more-Button
+              productName="印章检测"
+              :servicecon="pageMenuPerm['SERSEALTEST']"
+              :collect="pageMenuPerm['COLSEALTEST']"
+              :collectName="true"
+            ></more-Button>
           </div>
         </div>
-        <div
-          v-if="this.example.ret.length"
-          class="ocr-text"
-          @scroll="proxy(calculateXy)"
-          ref="ocrTextWrapper"
-        >
-          <slot></slot>
-        </div>
-        <div class="no-data" v-else>
-          <img :src="require('@/assets/images/暂无数据.png')" alt />
-          <div>暂无解析数据</div>
+        <div class="ocr-text-wrapper">
+          <div
+            class="ocr-text"
+            @scroll="proxy(calculateXy)"
+            ref="ocrTextWrapper"
+            v-if="this.example.ret.length"
+          >
+            <slot></slot>
+          </div>
+          <div class="no-data" v-else>
+            <img :src="require('@/assets/images/暂无数据.png')" alt />
+            <div>暂无解析数据</div>
+          </div>
         </div>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        :width="documentWidth * 2"
-        :height="documentHeight"
-        class="svg-mask"
-        v-if="pathValue"
-      >
-        <path
-          :d="`M${pathValue.pathStartX} ${pathValue.pathStartY} h${
-            documentWidth - pathValue.pathStartX + 8
-          } v${pathValue.pathEndY - pathValue.pathStartY} L${
-            pathValue.pathEndX
-          } ${pathValue.pathEndY}`"
-          stroke-width="1"
-          stroke="#0887FF"
-          stroke-dasharray="5 5"
-          fill="transparent"
-        />
-        <circle
-          v-if="pathValue.pathStartX != documentWidth"
-          :cx="pathValue.pathStartX"
-          :cy="pathValue.pathStartY"
-          r="3"
-          fill="#0887FF"
-        />
-        <circle
-          :cx="pathValue.pathEndX"
-          :cy="pathValue.pathEndY"
-          r="2"
-          fill="#0887FF"
-        />
-      </svg>
     </div>
     <!-- 大图预览 -->
     <lls-image-viewer
@@ -312,20 +258,18 @@ function Events() {
 export default {
   model: {
     prop: "value",
-    event: "handle-change",
+    // event: "handle-change",
   },
   components: {
     [ImageViewer.name]: ImageViewer,
-    serviceconFiguration: (resolve) =>
-      require(["@/components/moreButton/serviceconFiguration.vue"], resolve), // 服务管理页面
   },
   props: {
-    value: {
-      type: Array,
-      default: function () {
-        return null;
-      },
-    },
+    // value: {
+    //   type: Array,
+    //   default: function () {
+    //     return null;
+    //   },
+    // },
     data: {
       // 文档数组
       type: Array,
@@ -339,12 +283,8 @@ export default {
   },
   data() {
     return {
-      requestBody: {
-        url: "/seal-recognition-web/seal/recognition/serviceList",
-        data: {
-          name: "印章识别",
-        },
-      },
+      rectanglePosition: "",
+      selectValue: "",
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
       activeDocumentIndex: 0, // 当前示例索引
@@ -365,36 +305,23 @@ export default {
       showImageViewer: false, // 是否启用大图预览
       realRenderHeight: 0,
       realRenderWidth: 0,
+      transition: false,
       scale: 1,
       total: 1,
-      svgPosition: "",
-      rectanglePosition: "",
-      svgCircle: [],
-      vertices: null,
-      rectangle: null,
-      eleItem: null,
-      transition: false,
+      suffix: "",
+      baseWidth: 0,
     };
-  },
-  created() {
-    // console.log(this.example, "example");
-    // console.log(this.data, "data");
-    // console.log(this.value, "value");
-    // console.log(this.page, "page");
-    // console.log(this.text, "text");
-    // console.log(this.imageName, "imageName");
-    // console.log(this.imageUrl, "imageUrl");
   },
   mounted() {
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg();
+    this.setSelectValue();
 
     // 兼容firefox
     this.bind(this.$refs.documentLayout, "DOMMouseScroll", this.handleZoom);
 
     this.$events = new Events();
     this.$events.listen("click-ocr-el", this.handleClickText);
-    this.$events.listen("click-rectangle", this.handleClickRectangle);
     this.$events.listen("drag-document", this.transferDocument);
     this.$events.listen("drag-view", this.transferView);
   },
@@ -413,11 +340,26 @@ export default {
     this.resizeObserver.disconnect();
   },
   methods: {
+    loadImage(index) {
+      this.example.ret.length && this.setRectangle(this.activeTabIndex);
+    },
+    handleCommand(command) {
+      this.handleClickDownload(command);
+    },
+    setRectangle(index = 0) {
+      const page = this.data[this.activeDocumentIndex];
+      const rectangle = page.ret[index].rectangle;
+      this.rectanglePosition = rectangle.reduce((total, cur) => {
+        const str = (total +=
+          `${cur.x * page.scale},${cur.y * page.scale}` + " ");
+        return str;
+      }, "");
+    },
     postFixedMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromSealRecognition",
+          from: "messageFromSealTest",
           fixed: fixed,
         },
         "*"
@@ -433,27 +375,65 @@ export default {
       }
       const page = this.example.ret;
       this.resizeImg();
-      this.$emit("handle-change", page);
+      // this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
     },
-    handleClick(index) {
-      // 点击右侧tabs
-      // this.resetProps()
-      this.rotateIndex = 0;
-      // this.activePageIndex = 1
-      this.activeTextId = null;
-      this.zoomScale = 1;
-      this.pathValue = null;
-      this.dragX = 0;
-      this.dragY = 0;
-      this.moveX = 0;
-      this.moveY = 0;
-      this.updateTranslateY();
-      this.$emit("resetId");
-      // this.activePageIndex = index + 1
-      const page = this.example.ret;
-      this.resizeImg();
-      this.$emit("handle-change", page);
+    handleClick(index, falg = true) {
+      this.setSelectValue();
+      falg && this.moveImage();
+    },
+    moveImage() {
+      this.$nextTick(() => {
+        const maskEl = this.$refs["svg-rectangle"];
+        const documentLayout = this.$refs.documentLayout;
+        const maskElRect = maskEl.getBoundingClientRect();
+        const documentLayoutRect = documentLayout.getBoundingClientRect();
+        const lY = documentLayoutRect.top;
+        const lX = documentLayoutRect.left;
+        const mY = maskElRect.top;
+        const mX = maskElRect.left;
+        const startX = mX - lX;
+        const startY = mY - lY;
+        // 先判断是否出界 => 1、出界=>move  2、未出界=>计算位置
+        if (
+          startX < 0 ||
+          startY < 0 ||
+          startX > this.documentWidth ||
+          startY > this.documentHeight
+        ) {
+          let disX = 0;
+          let disY = 0;
+          if (startX < 0) {
+            disX = -startX + this.documentWidth / 2;
+          }
+          if (startY < 0) {
+            disY = -startY + this.documentHeight / 2;
+          }
+          if (startX > this.documentWidth) {
+            disX = this.documentWidth / 2 - startX;
+          }
+          if (startY > this.documentHeight) {
+            disY = this.documentHeight / 2 - startY;
+          }
+          this.transferDocument({ disX, disY });
+          this.transition = true;
+          let index = 0;
+          this.timer = window.setInterval((_) => {
+            index++;
+            if (index == 10) {
+              clearInterval(this.timer);
+              this.transition = false;
+            }
+          }, 30);
+        } else {
+        }
+      });
+    },
+    setSelectValue() {
+      this.selectValue = this.example.fileName
+        .substring(this.example.fileName.lastIndexOf(".") + 1)
+        .toUpperCase()
+        .trim();
     },
     resizeImg() {
       const el = this.$el;
@@ -464,6 +444,7 @@ export default {
           // console.log(this.documentWidth, this.documentHeight);
           // 初始化每张图片的宽高
           this.reRenderImage();
+          this.baseWidth = this.realRenderWidth;
         });
       });
       this.resizeObserver.observe(el);
@@ -472,24 +453,12 @@ export default {
     reRenderImage() {
       this.data.forEach((page) => {
         const vm = this;
-        // const img = new Image();
-        // img.src = page.img;
-        // img.onload = function () {
-        // page.originalWidth = this.width // 图片原始宽度
-        // page.originalHeight = this.height // 图片原始高度
-        const widthScale = vm.documentWidth / +page.width;
-        const heightScale = vm.documentHeight / +page.height;
-        page.scale = widthScale < heightScale ? widthScale : heightScale;
-        // page.scale =
-        //   page.height > page.width
-        //     ? vm.documentHeight / +page.height
-        //     : vm.documentWidth / +page.width; // 初始图片缩放比例
-
+        page.scale = vm.documentWidth / +page.width;
         page.realRenderHeight = +page.height * page.scale; // 图片实际渲染高度
-        // if (page.realRenderHeight > vm.documentHeight) {
-        //   page.realRenderHeight = vm.documentHeight;
-        //   page.scale = vm.documentHeight / +page.height;
-        // }
+        if (page.realRenderHeight > vm.documentHeight) {
+          page.realRenderHeight = vm.documentHeight;
+          page.scale = vm.documentHeight / +page.height;
+        }
         page.realRenderWidth = +page.width * page.scale; // 图片实际渲染宽度
         // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
         // };
@@ -503,10 +472,10 @@ export default {
       // });
       this.updateTranslateY();
       const page = this.data[this.activeDocumentIndex];
-      // console.log(page, "page");
       this.realRenderHeight = page.realRenderHeight;
       this.realRenderWidth = page.realRenderWidth;
       this.scale = page.scale;
+      this.handleClick(this.activeTabIndex, false);
     },
     // 切换示例
     handleClickExample(index) {
@@ -515,9 +484,9 @@ export default {
       }
       this.activeDocumentIndex = index;
       this.resetProps();
-      const page = this.example.ret.identityList;
+      // const page = this.example.ret.identityList;
       this.resizeImg();
-      this.$emit("handle-change", page);
+      // this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
     },
     // 翻页
@@ -535,20 +504,20 @@ export default {
       } else if (num < 0) {
         if (this.activeDocumentIndex === 0) {
           this.activeDocumentIndex = this.data.length - 1;
-          this.activePageIndex = this.data[this.activeDocumentIndex].ret.length;
+          this.activePageIndex = 1;
         } else {
           this.activeDocumentIndex -= 1;
-          this.activePageIndex = this.data[this.activeDocumentIndex].ret.length;
+          this.activePageIndex = 1;
         }
       } else {
         this.activePageIndex = num + 1;
       }
 
-      const page = this.example.ret[this.activePageIndex - 1];
+      // const page = this.example.ret[this.activePageIndex - 1];
       this.resizeImg();
-      this.$emit("handle-change", page);
+      // this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
-      this.resizeImg();
+      // this.resizeImg();
       // this.$emit("handle-change", page);
       // this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
     },
@@ -624,167 +593,90 @@ export default {
         this.moveX = -this.dragY;
         this.moveY = this.dragX;
       }
-      this.calculateXy();
+      // this.calculateXy();
     },
     // 移动两侧视口
     transferView({ disX, disY }) {
       this.viewX += disX;
       const windowWidth = window.innerWidth;
-      if (this.viewX > windowWidth * 0.2) {
-        this.viewX = windowWidth * 0.2;
+      if (this.viewX > windowWidth * 0.12) {
+        this.viewX = windowWidth * 0.12;
       }
-      if (this.viewX < -windowWidth * 0.2) {
-        this.viewX = -windowWidth * 0.2;
+      if (this.viewX < -windowWidth * 0.12) {
+        this.viewX = -windowWidth * 0.12;
       }
-      this.$refs.ocrResult.style.width = `calc(50% - ${this.viewX}px)`;
-      this.$refs["document-box"].style.width = `calc(50% + ${
-        this.viewX + 8
-      }px)`;
+      this.$refs.ocrResult.style.width = `calc(50% - ${this.viewX + 8}px)`;
+      this.$refs["document-box"].style.width = `calc(50% + ${this.viewX}px)`;
       this.$nextTick((_) => {
         this.documentWidth = this.$refs.documentLayout.clientWidth;
         this.documentHeight = this.$refs.documentLayout.clientHeight;
         this.reRenderImage();
-        this.calculateXy();
+        this.$emit("reRenderImage");
       });
     },
     // 激活文本
-    handleClickText({ el, id, item }) {
-      this.rectanglePosition = "";
-      this.vertices = item.polygon;
-      this.svgPositionMethods(this.rotateIndex);
+    handleClickText({ el, id }) {
       this.activeEl = el;
       this.activeTextId = id;
-      this.moveImage("svg-polygon");
-    },
-    moveImage(domName) {
-      this.$nextTick((_) => {
-        const maskEl = this.$refs[domName],
-          documentLayout = this.$refs.documentLayout,
-          maskElRect = maskEl.getBoundingClientRect(),
-          documentLayoutRect = documentLayout.getBoundingClientRect(),
-          lY = documentLayoutRect.top,
-          lX = documentLayoutRect.left,
-          mY = maskElRect.top,
-          mX = maskElRect.left,
-          startX = mX - lX,
-          startY = mY - lY;
-        // 先判断是否出界 => 1、出界=>move  2、未出界=>计算位置
-        if (
-          startX <= 0 ||
-          startY <= 0 ||
-          startX >= this.documentWidth ||
-          startY >= this.documentHeight
-        ) {
-          let disX = 0,
-            disY = 0;
-          if (startX <= 0) {
-            disX = -startX + this.documentWidth / 2;
-          }
-          if (startY <= 0) {
-            disY = -startY + this.documentHeight / 2;
-          }
-          if (startX >= this.documentWidth) {
-            disX = this.documentWidth / 2 - startX;
-          }
-          if (startY >= this.documentHeight) {
-            disY = this.documentHeight / 2 - startY;
-          }
-          this.transferDocument({ disX, disY });
-          this.transition = true;
-          let index = 0;
-          this.timer = window.setInterval((_) => {
-            this.calculateXy();
-            index++;
-            if (index == 10) {
-              clearInterval(this.timer);
-              this.transition = false;
-            }
-          }, 30);
-        } else {
-          this.calculateXy();
-        }
-      });
-    },
-    handleClickRectangle({ item }) {
-      this.svgPosition = "";
-      this.pathValue = null;
-      this.rectangle = item.rectangle;
-      this.rectanglePositionMethods();
-      this.moveImage("svg-rectangle");
-    },
-    svgPositionMethods(rotateIndex) {
-      this.svgPosition = this.vertices.reduce((total, cur, index) => {
-        return (total += `${cur.x * this.imgScale} ${cur.y * this.imgScale} `);
-      }, "");
-      this.svgCircle = this.vertices.map((item) => {
-        return {
-          cx: item.x * this.imgScale,
-          cy: item.y * this.imgScale,
-        };
-      });
-    },
-    rectanglePositionMethods() {
-      this.rectanglePosition = this.rectangle.reduce((total, cur, index) => {
-        return (total += `${cur.x * this.imgScale} ${cur.y * this.imgScale} `);
-      }, "");
+      this.calculateXy();
     },
     // 计算path起点、终点坐标
     calculateXy() {
-      // if (this.activeTextId == null) {
-      //   return;
-      // }
-      this.rectanglePosition && this.rectanglePositionMethods();
-      if (!this.svgPosition) return;
-      this.svgPositionMethods();
+      this.setRectangle(this.activeTabIndex);
+      if (this.activeTextId == null) {
+        return;
+      }
       const activeTextId = this.activeTextId;
       const page = this.page;
       const rotateIndex = this.rotateIndex;
       const zoomScale = this.zoomScale || 1;
       this.$nextTick((_) => {
-        let pointEls, pointEl, pointElsRect, beforeEl, afterEl, otherEl;
-        pointEls = this.$refs.pointEl;
-        pointEl;
-        pointElsRect = pointEls.map((i, index) => {
-          let elRect = i.getBoundingClientRect();
-          if (index == 0 || pointEl.rect.right < elRect.right) {
-            pointEl = { rect: elRect, index };
-          }
-          return { rect: elRect, index };
-        });
-        beforeEl =
-          pointElsRect[
-            pointEl.index == 0 ? pointElsRect.length - 1 : pointEl.index - 1
-          ];
-        afterEl =
-          pointElsRect[
-            pointEl.index == pointElsRect.length - 1 ? 0 : pointEl.index + 1
-          ];
-        otherEl = beforeEl.rect.right > afterEl.rect.right ? beforeEl : afterEl;
-        // const maskEl = this.$refs["svg-polygon"],
-        const documentLayout = this.$refs.documentLayout,
-          ocrTextWrapper = this.$refs.ocrTextWrapper,
-          // maskElRect = maskEl.getBoundingClientRect(),
-          documentLayoutRect = documentLayout.getBoundingClientRect(),
-          activeElRect = this.activeEl.getBoundingClientRect(),
-          ocrTextWrapperRect = ocrTextWrapper.getBoundingClientRect(),
-          lY = documentLayoutRect.top,
-          lX = documentLayoutRect.left;
-        let mY = (otherEl.rect.top + pointEl.rect.top) / 2,
-          mX = (otherEl.rect.right + pointEl.rect.right) / 2,
-          startX = mX - lX,
-          startY = mY - lY,
-          offsetTop = activeElRect.top - ocrTextWrapperRect.top,
-          offsetLeft = activeElRect.left - ocrTextWrapperRect.left,
-          pathEndX = this.documentWidth + offsetLeft + 44,
-          pathEndY = offsetTop + this.activeEl.clientHeight / 2,
-          x = startX,
-          y = startY;
+        const // maskValue = page.tableData[activeTextId],
+          maskEl = this.$refs[`maskEl${activeTextId}`][0];
+        const documentLayout = this.$refs.documentLayout;
+        const ocrTextWrapper = this.$refs.ocrTextWrapper;
+        const maskElRect = maskEl.getBoundingClientRect();
+        const documentLayoutRect = documentLayout.getBoundingClientRect();
+        const lY = documentLayoutRect.top;
+        const lX = documentLayoutRect.left;
+        const mY = maskElRect.top;
+        const mX = maskElRect.right;
+        const startX = mX - lX;
+        const startY = mY - lY;
+        const offsetTop = this.activeEl.offsetTop + 69;
+        const offsetLeft = this.activeEl.offsetLeft;
+        const scrollTop = ocrTextWrapper.scrollTop;
+        const pathEndX = this.documentWidth + offsetLeft + 52;
+        const pathEndY = offsetTop - scrollTop + this.activeEl.clientHeight / 2;
+        const scale = page.rotateScale * zoomScale * this.imgScale;
+        const w = this.text.width;
+        const h = this.text.height;
+        // const Q = this.text.deg
+        // const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
+
+        let x = startX;
+        let y = startY + (h * scale) / 2;
+
+        if (rotateIndex % 4 === 1) {
+          // x = startX + leanX;
+          y = startY + (w * scale) / 2;
+        }
+        if (rotateIndex % 4 === 2) {
+          // x = startX;
+          y = startY + (h * scale) / 2;
+        }
+        if (rotateIndex % 4 === 3) {
+          // x = startX + leanX;
+          y = startY + (w * scale) / 2;
+        }
+
+        // 处理边界
         if (x > this.documentWidth) {
           x = this.documentWidth;
         }
-        if (y > this.documentHeight) {
-          y = this.documentHeight;
-        }
+        // if (y > this.documentHeight) {
+        //   y = this.documentHeight;
+        // }
 
         this.pathValue = {
           pathStartX: x,
@@ -799,11 +691,22 @@ export default {
       this.rotateIndex = 0;
       this.activePageIndex = 1;
       this.activeTextId = null;
+      this.rectanglePosition = "";
       this.zoomScale = 1;
       this.pathValue = null;
-      this.svgPosition = "";
-      this.rectanglePosition = "";
-      this.vertices = null;
+      this.dragX = 0;
+      this.dragY = 0;
+      this.moveX = 0;
+      this.moveY = 0;
+      this.updateTranslateY();
+      this.$emit("resetId");
+    },
+    reset() {
+      this.rotateIndex = 0;
+      this.activePageIndex = 1;
+      this.activeTextId = null;
+      this.zoomScale = 1;
+      this.pathValue = null;
       this.dragX = 0;
       this.dragY = 0;
       this.moveX = 0;
@@ -875,7 +778,7 @@ export default {
         node.addEventListener(event, fun, false);
       } else {
         node.detachEvent("on" + event, fun);
-        node.attachEvent("on" + event, fun.call(obj));
+        node.attachEvent("on" + event, fun.call());
       }
     },
     // 代理函数
@@ -944,7 +847,7 @@ export default {
     // },
     // 文档图片地址
     imageUrl() {
-      return this.data[this.activeDocumentIndex].imageUrl;
+      return this.data[this.activeDocumentIndex].imagePath;
     },
     imageName() {
       return this.data[this.activeDocumentIndex].fileName;
@@ -960,19 +863,22 @@ export default {
       return [{ url: this.imageUrl, title: this.imageName }];
     },
     // 当前文本信息
-    text() {
-      const { value } = this.page;
+    // text() {
+    //   const { value } = this.page;
 
-      const textArr = [...value];
-      const textValue = textArr[this.activeTabIndex].identityList;
-      // console.log(textValue, "textValue");
-      return textValue.filter((i) => {
-        return i.id === this.activeTextId;
-      })[0];
-    },
+    //   const textArr = [...value];
+    //   const textValue = textArr[this.activeTabIndex].identityList;
+    //   // console.log(textValue, "textValue");
+    //   return textValue.filter((i) => {
+    //     return i.id === this.activeTextId;
+    //   })[0];
+    // },
     // 当前图片初始缩放比例
     imgScale() {
       return this.scale;
+    },
+    deltaWidth() {
+      return Math.abs(this.realRenderWidth - this.baseWidth) + 5;
     },
   },
 };
@@ -985,13 +891,7 @@ export default {
   height: 100vh;
   overflow: hidden;
 
-  .lls-dropdown {
-    color: #0887FF;
-    cursor: pointer;
-  }
-
   .no-data {
-    height: calc(100% - 82px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1010,26 +910,23 @@ export default {
     user-select: none;
   }
 
-  .btn-config {
-    font-size: 12px;
-    color: #0887FF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 18px;
-  }
-
   .dih-page-input {
     background-color: transparent;
+    border-bottom: 1px solid #E3E8F0;
     max-width: 20px;
     border: none;
     text-align: center;
     outline: medium;
     color: #999;
-    border-bottom: 1px solid #E3E8F0;
     line-height: 14px;
+    border-bottom: 1px solid #e3e8f0;
   }
 
+  // .function_bar {
+  // display:flex,
+  // flex-wrap:nowrap,
+  // justify-content:space-between
+  // }
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
@@ -1083,6 +980,11 @@ export default {
         border-radius: 0 0 4px 4px;
         text-align: center;
 
+        // white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // display: flex;
+        // justify-content: center;
         span {
           transform: scale(0.75);
           transform-origin: left;
@@ -1114,6 +1016,7 @@ export default {
     display: flex;
     position: relative;
     align-items: center;
+    width: calc(100% - 80px);
 
     .svg-mask {
       pointer-events: none;
@@ -1131,9 +1034,10 @@ export default {
 
     .document-box {
       border: 1px solid #e2e4e9;
-      width: 50%;
-      flex-shrink: 0;
-      flex-grow: 0;
+      flex-shrink: 1;
+      flex-grow: 1;
+      width: calc(50% - 4px);
+      position: relative;
       height: 100%;
 
       // margin-right: 8px;
@@ -1195,11 +1099,24 @@ export default {
         justify-content: center;
         align-items: center;
 
+        // background-image: repeating-linear-gradient(
+        // to right,
+        // transparent 0px,
+        // transparent 14px,
+        // #e3e8f0 14px,
+        // #e3e8f0 15px
+        // ), repeating-linear-gradient(
+        // to bottom,
+        // transparent 0px,
+        // transparent 14px,
+        // #e3e8f0 14px,
+        // #e3e8f0 15px
+        // );
         .document {
           // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          cursor: url('~@/icons/svg/手势-张开.svg'), grab;
+          cursor: url('../icon/手势-张开.svg'), grab;
           background-repeat: no-repeat;
           width: 100%;
 
@@ -1212,7 +1129,7 @@ export default {
           }
 
           &.draggable {
-            cursor: url('~@/icons/svg/手势-握紧.svg'), grabbing;
+            cursor: url('../icon/手势-握紧.svg'), grabbing;
           }
 
           &.transition {
@@ -1261,16 +1178,13 @@ export default {
     }
 
     .ocr-result {
-      * {
-        user-select: text;
-      }
-
-      border: 1px solid #0887ff;
-      flex-shrink: 1;
-      flex-grow: 1;
-      padding: 0 16px;
       background: #f7fbff;
+      border: 1px solid #0887ff;
       position: relative;
+      padding: 0 16px;
+      width: calc(50% - 4px);
+      flex-shrink: 0;
+      flex-grow: 0;
       height: 100%;
 
       .border-corner {
@@ -1332,53 +1246,167 @@ export default {
         }
       }
 
-      .ocr-text {
-        &::-webkit-scrollbar {
-          width: 4px;
-          height: 6px;
-        }
+      .ocr-text-wrapper {
+        height: calc(100% - 82px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        // 滚动区域背景
-        &::-webkit-scrollbar-track-piece {
-          background-color: #f7fbff;
-          -webkit-border-radius: 6px;
-        }
+        .ocr-text {
+          height: 100%;
+          width: 100%;
+          border: 1px solid #e3e8f0;
+          padding: 16px;
+          background: #fff;
+          position: relative;
 
-        // 竖向滚动条
-        &::-webkit-scrollbar-thumb:vertical {
-          background-color: rgba(32, 45, 64, 0.5);
-          -webkit-border-radius: 2px;
-        }
+          .tool-bar {
+            border: 1px solid #e3e8f0;
+            border-bottom: none;
+            height: 36px;
+            line-height: 36px;
+            padding: 0 16px;
+            box-shadow: 0px 3px 8px 0px rgba(5, 18, 30, 0.08);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
 
-        border: 1px solid #e3e8f0;
-        height: calc(100% - 74px);
-        overflow: auto;
-        padding: 16px;
-        background: #fff;
-        position: relative;
+            >div {
+              flex: 1;
+              text-align: center;
 
-        .text {
-          line-height: 26px;
-          padding: 0 8px;
-          border: 1px solid #fff;
+              &:last-child {
+                text-align: right;
+              }
+            }
 
-          &:not(:last-child) {
-            margin-bottom: 8px;
+            .name {
+              text-align: left;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              width: 360px;
+            }
+
+            .number {
+              padding: 0 8px;
+
+              >span {
+                color: #8492A6;
+              }
+            }
+
+            .svg-icon {
+              font-size: 12px;
+              margin: 0 6px;
+              cursor: pointer;
+
+              &.big-icon, &.dis-icon {
+                font-size: 15px;
+                margin: 0 4px;
+              }
+
+              &.dis-icon {
+                cursor: default;
+              }
+            }
           }
 
-          &:hover {
-            background: #f6f9fb;
-            cursor: pointer;
-          }
+          .document-layout {
+            border: 1px solid #e3e8f0;
+            overflow: hidden;
+            height: calc(100% - 90px);
+            padding: 20px 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-          &.active {
-            background: rgba(8, 135, 255, 0.1);
-            border: 1px solid #0887ff;
-            border-radius: 4px;
+            // background-image: repeating-linear-gradient(
+            // to right,
+            // transparent 0px,
+            // transparent 14px,
+            // #e3e8f0 14px,
+            // #e3e8f0 15px
+            // ), repeating-linear-gradient(
+            // to bottom,
+            // transparent 0px,
+            // transparent 14px,
+            // #e3e8f0 14px,
+            // #e3e8f0 15px
+            // );
+            .document {
+              // transform-origin: 0 0;
+              background-size: contain;
+              position: relative;
+              cursor: url('../icon/手势-张开.svg'), grab;
+              background-repeat: no-repeat;
+              width: 100%;
+
+              >img {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                pointer-events: none;
+                user-select: none;
+              }
+
+              &.draggable {
+                cursor: url('../icon/手势-握紧.svg'), grabbing;
+              }
+
+              // transition: all 0.3s linear;
+              .frame-mask {
+                position: absolute;
+                cursor: pointer;
+                pointer-events: none;
+
+                &.active, &:hover {
+                  background: rgba(8, 135, 255, 0.1);
+                  border: 1px solid #0887ff;
+                  border-radius: 4px;
+                }
+              }
+            }
           }
         }
       }
     }
   }
+}
+
+.function-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 50px;
+
+  .lls-select {
+    margin-right: -12px;
+    width: 56px;
+    padding: 0;
+
+    .lls-input__inner {
+      border: none;
+      padding: 0;
+      background: inherit;
+      color: #0887ff;
+    }
+
+    .lls-input__suffix {
+      .lls-input__suffix-inner {
+        i {
+          color: #0887ff;
+        }
+      }
+    }
+  }
+}
+
+.lls-select .lls-input .lls-select__caret {
+  transform: scale(0.7) rotateZ(180deg);
+}
+
+.lls-select .lls-input .lls-select__caret.is-reverse {
+  transform: scale(0.7) rotateZ(0deg);
 }
 </style>

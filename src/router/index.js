@@ -5,7 +5,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    redirect: "/sealRemoval",
+    redirect: "/sealTest",
   },
   {
     path: "/housePropertyAnalysis",
@@ -76,6 +76,13 @@ const routes = [
     component: (resolve) => require(["@/views/sealRecognition"], resolve),
     meta: {
       title: "印章识别",
+    },
+  },
+  {
+    path: "/sealTest",
+    component: (resolve) => require(["@/views/sealTest"], resolve),
+    meta: {
+      title: "印章检测",
     },
   },
   {
