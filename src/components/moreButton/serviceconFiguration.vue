@@ -154,19 +154,18 @@ export default {
       serviceId: "", // 服务端保存的服务id
       // 查询服务列表
       serviceListUrl: {
-        文档OCR: `/ocr-web/serviceConfig/serviceList`,
-        表格OCR: `/table-ocr-web/serviceConfig/serviceList`,
+        文档OCR: `/general-product-web/serviceConfig/serviceList`,
+        表格OCR: `/general-product-web/serviceConfig/serviceList`,
 
-        增值税发票解析: "/vat-general-invoice-web/invoice/common/serviceList",
+        增值税发票解析: "/general-product-web/serviceConfig/serviceList",
 
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/serviceList",
-        身份证解析:
-          "/identity-card-analysis-web/identityCard/common//serviceList",
+        身份证解析: "/general-product-web/serviceConfig/serviceList",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/serviceList",
-        印章去除: "/seal-removal-web/sealRemoval/common/serviceList",
-        印章识别: "/seal-recognition-web/seal/recognition/serviceList",
-        印章检测: "/seal-detection-web/seal/detection/serviceList",
+        印章去除: "/general-product-web/serviceConfig/serviceList",
+        印章识别: "/general-product-web/serviceConfig/serviceList",
+        印章检测: "/general-product-web/serviceConfig/serviceList",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/serviceList",
         资质证书解析: "/general-product-web/serviceConfig/serviceList",
@@ -180,22 +179,20 @@ export default {
       },
       // 查询初始化服务配置信息
       queryServiceConfigInfoUrl: {
-        文档OCR: `/ocr-web/serviceConfig/queryServiceConfigInfo`,
-        表格OCR: `/table-ocr-web/serviceConfig/queryServiceConfigInfo`,
+        文档OCR: `/general-product-web/serviceConfig/queryServiceConfigInfo`,
+        表格OCR: `/general-product-web/serviceConfig/queryServiceConfigInfo`,
 
         增值税发票解析:
-          "/vat-general-invoice-web/invoice/common/queryserviceconfiginfo",
+          "/general-product-web/serviceConfig/queryServiceConfigInfo",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/queryserviceconfiginfo",
 
-        身份证解析:
-          "/identity-card-analysis-web/identityCard/common//queryserviceconfiginfo",
+        身份证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
         提货单解析:
           "/cross-border-bill-web/crossBorderBill/common/queryserviceconfiginfo",
-        印章去除: "/seal-removal-web/sealRemoval/common/queryserviceconfiginfo",
-        印章识别:
-          "/seal-recognition-web/seal/recognition/queryserviceconfiginfo",
-        印章检测: "/seal-detection-web/seal/detection/queryserviceconfiginfo",
+        印章去除: "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        印章识别: "/general-product-web/serviceConfig/queryServiceConfigInfo",
+        印章检测: "/general-product-web/serviceConfig/queryServiceConfigInfo",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/queryserviceconfiginfo",
         资质证书解析:
@@ -213,20 +210,18 @@ export default {
       },
       // 保存服务配置信息
       saveConfigInfoUrl: {
-        文档OCR: `/ocr-web/serviceConfig/saveConfigInfo`,
-        表格OCR: `/table-ocr-web/serviceConfig/saveConfigInfo`,
+        文档OCR: `/general-product-web/serviceConfig/saveConfigInfo`,
+        表格OCR: `/general-product-web/serviceConfig/saveConfigInfo`,
 
-        增值税发票解析:
-          "/vat-general-invoice-web/invoice/common/saveconfiginfo",
+        增值税发票解析: "/general-product-web/serviceConfig/saveConfigInfo",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/saveconfiginfo",
 
-        身份证解析:
-          "/identity-card-analysis-web/identityCard/common//saveService",
+        身份证解析: "/general-product-web/serviceConfig/saveConfigInfo",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/saveService",
-        印章去除: "/seal-removal-web/sealRemoval/common/saveService",
-        印章识别: "/seal-recognition-web/seal/recognition/saveconfiginfo",
-        印章检测: "/seal-detection-web/seal/detection/saveconfiginfo",
+        印章去除: "/general-product-web/serviceConfig/saveConfigInfo",
+        印章识别: "/general-product-web/serviceConfig/saveConfigInfo",
+        印章检测: "/general-product-web/serviceConfig/saveConfigInfo",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/saveService",
         资质证书解析: "/general-product-web/serviceConfig/saveConfigInfo",
@@ -246,19 +241,18 @@ export default {
       },
       // 检测接口连通性
       checkConnectUrl: {
-        文档OCR: `/ocr-web/serviceConfig/checkConnect`,
-        表格OCR: `/table-ocr-web/serviceConfig/checkConnect`,
+        文档OCR: `/general-product-web/serviceConfig/checkConnect`,
+        表格OCR: `/general-product-web/serviceConfig/checkConnect`,
 
-        增值税发票解析: "/vat-general-invoice-web/invoice/common/checkconnect",
+        增值税发票解析: "/general-product-web/serviceConfig/checkConnect",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/checkconnect",
 
-        身份证解析:
-          "/identity-card-analysis-web/identityCard/common//checkstatus",
+        身份证解析: "/general-product-web/serviceConfig/checkConnect",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/checkstatus",
-        印章去除: "/seal-removal-web/sealRemoval/common/checkstatus",
-        印章识别: "/seal-recognition-web/seal/recognition/checkconnect",
-        印章检测: "/seal-detection-web/seal/detection/checkconnect",
+        印章去除: "/general-product-web/serviceConfig/checkConnect",
+        印章识别: "/general-product-web/serviceConfig/checkConnect",
+        印章检测: "/general-product-web/serviceConfig/checkConnect",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/checkstatus",
         资质证书解析: "/general-product-web/serviceConfig/checkConnect",
@@ -336,7 +330,7 @@ export default {
         const { serviceListUrl, productName } = this;
         this.queryServiceList(
           defaultServiceConfigurationSelect,
-          serviceListUrl[productName],
+          "/general-product-web/serviceConfig/serviceList",
           productName
         );
       }
@@ -371,7 +365,7 @@ export default {
       }
       this.checkStatus = "checking";
       checkingInterfaceStatus(
-        this.checkConnectUrl[this.productName],
+        "/general-product-web/serviceConfig/checkConnect",
         this.dataPortAddress
       )
         .then((res) => {
@@ -396,7 +390,7 @@ export default {
     // 确定按钮
     confirm() {
       saveServiceConfiguration(
-        this.saveConfigInfoUrl[this.productName],
+        "/general-product-web/serviceConfig/saveConfigInfo",
         this.params
       ).then((res) => {
         if (res.data.code === "200") {
@@ -428,7 +422,7 @@ export default {
     // 默认服务配置接口
     queryDefaultServiceConfig() {
       defaultServiceConfiguration(
-        this.queryServiceConfigInfoUrl[this.productName],
+        "/general-product-web/serviceConfig/queryServiceConfigInfo",
         this.productName
       ).then((res) => {
         if (res.data.code === "200" && res.data.data) {

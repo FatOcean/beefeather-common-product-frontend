@@ -36,13 +36,6 @@
       </div>
     </ocrlayout>
 
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
-
     <!-- 错误样本收集 -->
     <div
       class="sample-collection"
@@ -56,39 +49,10 @@
 
     <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLSEALRECO']">
-      <upload-file
-        v-model="files"
-        class="upload-wrapper"
-        @http-request="handleFile"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :class="{ dragenter: dragenter }"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </upload-file>
+      <upload-File
+        productName="印章识别"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
@@ -190,7 +154,7 @@ export default {
       if (!data.starsFlag) {
         const fileId = data.id || "1";
         this.$http
-          .post("/seal-recognition-web/seal/recognition/savecollectinfo", {
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             fileId,
             picAddress,
             productName: "印章识别",
@@ -218,7 +182,7 @@ export default {
           });
       } else {
         this.$http
-          .post("/seal-recognition-web/seal/recognition/cancelcollectinfo", {
+          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
             url: data.imagePath,
             name: data.fileName,
@@ -244,89 +208,23 @@ export default {
           });
       }
     },
-    // 点击上传
-    handleFile(res) {
-      const file = res.file;
-      const fileSuffix = file.name
-        .substring(file.name.lastIndexOf(".") + 1)
-        .toUpperCase();
-      const whiteList = ["JPG", "PNG", "JPEG", "BMP"];
-      const isLt8M = Number(file.size / 1024 / 1024);
-      if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message({
-          message: "上传文件只能是JPG、PNG、JPEG、 BMP格式",
-          type: "error",
-          offset: 60,
-        });
-        return false;
-      }
-      if (isLt8M > 8) {
-        this.$message({
-          message: "文件大小超过8M",
-          type: "error",
-          offset: 60,
-        });
-        return false;
-      }
-      this.uploadFile(file);
+
+    uploadFileData(res) {
+      res.data.forEach((i) => {
+        i.isUpload = true;
+        i.imageUrl = `${this.originLocation}?filename=${
+          i.imagePath
+        }${encodeURIComponent(i.fileName)}`;
+      });
+      if (this.data.length > 2) this.data.shift();
+      this.data = res.data.concat(this.data);
+      this.documents = this.data[0];
+      this.page = this.documents.ret;
+      // console.log(this.documents, "documents2");
+      this.activeDocumentIndex = 0;
+      this.activeTabIndex = 0;
     },
-    // 将文件资源传送到服务器
-    uploadFile(file) {
-      this.percent = 0;
-      this.beeLoading = true;
-      this.postFixedMessage(true);
-      const fd = new FormData();
-      fd.append("file", file);
-      this.$http({
-        url: "/seal-recognition-web/seal/recognition/upload",
-        method: "post",
-        data: fd,
-        onUploadProgress: (progressEvent) => {
-          this.percent =
-            Math.ceil((progressEvent.loaded * 100) / progressEvent.total) - 2;
-        },
-      })
-        .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            this.postFixedMessage(false);
-            this.beeLoading = false;
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 60,
-            });
-            this.percent = 100;
-            res.data.forEach((i) => {
-              i.isUpload = true;
-              i.imageUrl = `${this.originLocation}?filename=${
-                i.imagePath
-              }${encodeURIComponent(i.fileName)}`;
-            });
-            if (this.data.length > 2) this.data.shift();
-            this.data = res.data.concat(this.data);
-            this.documents = this.data[0];
-            this.page = this.documents.ret;
-            // console.log(this.documents, "documents2");
-            this.activeDocumentIndex = 0;
-            this.activeTabIndex = 0;
-          } else {
-            this.beeLoading = false;
-            this.postFixedMessage(false);
-            this.$message({
-              message: res.message,
-              type: "error",
-              offset: 60,
-            });
-          }
-        })
-        .catch((err) => {
-          this.$message.error("文件上传失败（如文件未解压等）");
-        })
-        .finally((f) => {
-          this.beeLoading = false;
-        });
-    },
+
     handleDragLeave() {
       setTimeout((_) => {
         this.dragenter = false;

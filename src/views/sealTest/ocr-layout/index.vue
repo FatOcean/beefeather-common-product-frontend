@@ -794,7 +794,7 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/beefeather-seal-recognition-web/identityCard/common//downLoadFile?path=${this.example.excelPath}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.index}&productName=印章检测&path=${this.example.excelPath}`,
         responseType: "blob",
       })
         .then((res) => {

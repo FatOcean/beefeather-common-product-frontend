@@ -94,13 +94,6 @@
       ></lls-image-viewer>
     </ocr-layout>
 
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
-
     <!-- 错误样本收集 -->
     <div
       class="sample-collection"
@@ -118,39 +111,10 @@
 
     <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLSEALTEST']">
-      <upload-file
-        v-model="files"
-        class="upload-wrapper"
-        @http-request="handleFile"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :class="{ dragenter: dragenter }"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </upload-file>
+      <upload-File
+        productName="印章检测"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
@@ -626,105 +590,33 @@ export default {
           });
       }
     },
-    // 点击上传
-    handleFile(res) {
-      const file = res.file;
-      const fileSuffix = file.name.substring(file.name.lastIndexOf(".") + 1);
-      const whiteList = [
-        "JPG",
-        "PNG",
-        "JPEG",
-        "BMP",
-        "jpg",
-        "jpeg",
-        "png",
-        "bmp",
-      ];
-      const isLt8M = Number(file.size / 1024 / 1024);
-      if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message({
-          message: "上传文件只能是JPG、PNG、JPEG、BMP格式",
-          type: "error",
-          offset: 60,
-        });
-        return false;
-      }
-      if (isLt8M > 8) {
-        this.$message({
-          message: "文件大小超过8M",
-          type: "error",
-          offset: 60,
-        });
-        return false;
-      }
-      this.uploadFile(file);
-    },
-    // 将文件资源传送到服务器
-    uploadFile(file) {
-      this.percent = 0;
-      this.beeLoading = true;
-      this.postFixedMessage(true);
-      const fd = new FormData();
-      fd.append("file", file);
-      // fd.append("type", type);
-      // fd.append("url", "172.16.88.170:32294");
-      this.$http({
-        url: "/seal-detection-web/seal/detection/upload",
-        method: "post",
-        data: fd,
-        onUploadProgress: (progressEvent) => {
-          this.percent =
-            Math.ceil((progressEvent.loaded * 100) / progressEvent.total) - 2;
-        },
-      })
-        .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            res.data[0]?.ret?.length && this.resizeImg();
-            this.postFixedMessage(false);
-            this.beeLoading = false;
-            this.percent = 100;
-            this.tabsArray = res.data[0].ret.map((item, index) => {
-              return {
-                name: `印章${index + 1}`,
-                index: index,
-              };
-            });
-            this.activeName = this.tabsArray[0]?.name;
-            res.data.forEach((i) => {
-              i.isUpload = true;
-              i.imagePath = `${this.originLocation}?filename=${
-                i.sealPath
-              }${encodeURIComponent(i.fileName)}`;
-            });
-            res.data[0].ret.forEach((item) => {
-              item.sealUrl = `${this.originLocation}?filename=${
-                res.data[0].sealPath
-              }${encodeURIComponent(item.sealName)}`;
-            });
-            if (this.data.length > 2) this.data.shift();
-            this.data = res.data.concat(this.data);
-            // this.data.splice(0, this.data.length > 2 ? 1 : 0,res.data[0]);
+    uploadFileData(res) {
+      res.data[0]?.ret?.length && this.resizeImg();
+      this.tabsArray = res.data[0].ret.map((item, index) => {
+        return {
+          name: `印章${index + 1}`,
+          index: index,
+        };
+      });
+      this.activeName = this.tabsArray[0]?.name;
+      res.data.forEach((i) => {
+        i.isUpload = true;
+        i.imagePath = `${this.originLocation}?filename=${
+          i.sealPath
+        }${encodeURIComponent(i.fileName)}`;
+      });
+      res.data[0].ret.forEach((item) => {
+        item.sealUrl = `${this.originLocation}?filename=${
+          res.data[0].sealPath
+        }${encodeURIComponent(item.sealName)}`;
+      });
+      if (this.data.length > 2) this.data.shift();
+      this.data = res.data.concat(this.data);
+      // this.data.splice(0, this.data.length > 2 ? 1 : 0,res.data[0]);
 
-            this.documents = this.data[0];
-            this.activeDocumentIndex = 0;
-            this.activeTabIndex = 0;
-          } else {
-            this.beeLoading = false;
-            this.postFixedMessage(false);
-            this.$message({
-              message: res.message,
-              type: "error",
-              offset: 60,
-            });
-          }
-        })
-        .catch((err) => {
-          this.$message.error("文件上传失败（如文件未解压等）");
-        })
-        .finally((f) => {
-          this.beeLoading = false;
-        });
+      this.documents = this.data[0];
+      this.activeDocumentIndex = 0;
+      this.activeTabIndex = 0;
     },
     handleDragLeave() {
       setTimeout((_) => {

@@ -45,13 +45,6 @@
       >
     </ocr-layout>
 
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
-
     <!-- 错误样本收集 -->
     <div
       class="sample-collection"
@@ -66,47 +59,10 @@
     <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
         action="/beefeather/file-handle-web/file/upload" -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOADDOCUMOCR']">
-      <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
-      <link-upload
-        v-model="files"
-        class="upload-wrapper"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :beforeUpload="beforeUpload"
-        :on-success="ocrRecognitionDocument"
-        :on-progress="onProgress"
-        :on-error="onError"
-        :showFileList="false"
-        :class="{ dragenter: dragenter }"
-        :messageOffset="120"
-        :maxSize="1024 * 1024 * 8"
-        :accept="['jpg', 'jpeg', 'bmp', 'png', 'pdf']"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </link-upload>
+      <upload-File
+        productName="文档OCR"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
@@ -158,10 +114,10 @@ export default {
         const requestId = this.documents[0].id;
         const picAddress = this.page.collectImgUrl;
         this.$http
-          .post("/ocr-web/ocrCollectInfo/saveCollectInfo", {
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "OCR",
+            productName: "文档OCR",
           })
           .then((res) => {
             if (res.data.code === "200") {
@@ -184,7 +140,7 @@ export default {
       } else {
         this.$http
           .post(
-            `/ocr-web/ocrCollectInfo/cancelSaveCollectInfo?loadRecordId=${
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${
               this.page.loadRecordId
             }&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
@@ -206,64 +162,26 @@ export default {
           });
       }
     },
-    beforeUpload() {
-      this.postFixdMessage(true);
-      window.setTimeout((_) => {
-        this.beeLoading = true;
-      }, 80);
-    },
-    onProgress(event, file) {
-      this.percent = Math.min(Math.floor((100 * event.loaded) / file.size), 98);
-    },
-    onError(res) {
-      this.files = [];
-      this.beeLoading = false;
-      this.$message.error("文件上传失败（如文件未解压等）");
-    },
-    // 将文件资源传送到服务器
-    ocrRecognitionDocument(file) {
-      this.$http({
-        url: `/ocr-web/ocr/ocrRecognitionWord?taskId=${this.files[0].taskId}`,
-        method: "post",
-      }).then((res) => {
-        res = res.data;
-        if (res.code === "200") {
-          this.postFixdMessage(false);
-          this.beeLoading = false;
-          this.$message({
-            message: "上传成功",
-            type: "success",
-            offset: 72,
-          });
-          this.percent = 100;
-          let pages = res.data.specificData;
-          pages.forEach((i) => {
-            i.starsFlag = false;
-            i.img = this.resolveUrl(i.img);
-          });
-          this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
-            pages,
-            name: res.data.name,
-            id: res.data.id,
-          });
-          this.page = this.documents[0].pages[0];
-        } else {
-          this.postFixdMessage(false);
-          this.beeLoading = false;
-          this.$message({
-            message: res.message,
-            type: "error",
-            offset: 72,
-          });
-        }
+
+    uploadFileData(res) {
+      let pages = res.data.specificData;
+      pages.forEach((i) => {
+        i.starsFlag = false;
+        i.img = this.resolveUrl(i.img);
       });
-      this.files = [];
+      this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
+        pages,
+        name: res.data.name,
+        id: res.data.id,
+      });
+      this.page = this.documents[0].pages[0];
     },
+
     // 下载识别结果
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/ocr-web/ocr/downloadWordFile?requestId=${this.$refs.ocrlayout.example.id}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.id}&productName=文档OCR`,
         responseType: "blob",
       })
         .then((res) => {

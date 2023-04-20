@@ -918,7 +918,7 @@ export default {
     handleClickDownload(type) {
       this.$http({
         method: "get",
-        url: `/seal-removal-web/sealRemoval/common/downLoadFile?path=${this.example.imageVO[1].filePath}&type=${type}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.fileId}&productName=印章去除&path=${this.example.imageVO[1].filePath}&type=${type}`,
         responseType: "blob",
       })
         .then((res) => {
@@ -1421,7 +1421,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height:18px
+  height: 18px;
 
   .lls-dropdown {
     color: #0887ff;

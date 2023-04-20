@@ -764,7 +764,9 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/vat-general-invoice-web/invoice/common/download?name=${encodeURIComponent(
+        url: `/general-product-web/general/downloadResult?taskId=${
+          this.example.id
+        }&productName=增值税发票解析&name=${encodeURIComponent(
           this.example.url
         )}&show=${this.example.show || false}`,
         responseType: "blob",

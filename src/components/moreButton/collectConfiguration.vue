@@ -116,19 +116,18 @@ export default {
       },
       // 查询数据集列表
       dataSetListUrl: {
-        文档OCR: "/ocr-web/collectConfigInfo/datasetList",
-        表格OCR: "/table-ocr-web/collectConfigInfo/datasetList",
+        文档OCR: "/general-product-web/collectConfig/datasetList",
+        表格OCR: "/general-product-web/collectConfig/datasetList",
 
-        增值税发票解析: "/vat-general-invoice-web/invoice/common/datasetList",
+        增值税发票解析: "/general-product-web/collectConfig/datasetList",
         跨境发票解析:
           "/vat-cross-border-invoice-web/invoice/common/datasetList",
 
-        身份证解析:
-          "/identity-card-analysis-web/identityCard/common//datasetList",
+        身份证解析: "/general-product-web/collectConfig/datasetList",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/datasetList",
-        印章去除: "/seal-removal-web/sealRemoval/common/datasetList",
-        印章识别: "/seal-recognition-web/seal/recognition/datasetList",
-        印章检测: "/seal-detection-web/seal/detection/datasetList",
+        印章去除: "/general-product-web/collectConfig/datasetList",
+        印章识别: "/general-product-web/collectConfig/datasetList",
+        印章检测: "/general-product-web/collectConfig/datasetList",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/datasetList",
         资质证书解析: "/general-product-web/collectConfig/datasetList",
@@ -142,16 +141,16 @@ export default {
       },
       // 保存收集配置信息
       saveDatasetInfoUrl: {
-        文档OCR: "/ocr-web/collectConfigInfo/saveDatasetInfo",
-        表格OCR: "/table-ocr-web/collectConfigInfo/saveDatasetInfo",
+        文档OCR: "/general-product-web/collectConfig/saveDatasetInfo",
+        表格OCR: "/general-product-web/collectConfig/saveDatasetInfo",
 
-        增值税发票解析: "/vat-general-invoice-web/invoice/common/savedata",
+        增值税发票解析: "/general-product-web/collectConfig/saveDatasetInfo",
         跨境发票解析: "/vat-cross-border-invoice-web/invoice/common/savedata",
-        身份证解析: "/identity-card-analysis-web/identityCard/common//savedata",
+        身份证解析: "/general-product-web/collectConfig/saveDatasetInfo",
         提货单解析: "/cross-border-bill-web/crossBorderBill/common/savedata",
-        印章去除: "/seal-removal-web/sealRemoval/common/savedata",
-        印章识别: "/seal-recognition-web/seal/recognition/savedata",
-        印章检测: "/seal-detection-web/seal/detection/savedata",
+        印章去除: "/general-product-web/collectConfig/saveDatasetInfo",
+        印章识别: "/general-product-web/collectConfig/saveDatasetInfo",
+        印章检测: "/general-product-web/collectConfig/saveDatasetInfo",
         报关单解析:
           "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/savedata",
         资质证书解析: "/general-product-web/collectConfig/saveDatasetInfo",
@@ -219,7 +218,7 @@ export default {
     confirm() {
       // 调用保存接口
       saveDatasetInfo(
-        this.saveDatasetInfoUrl[this.productName],
+        "/general-product-web/collectConfig/saveDatasetInfo",
         this.params
       ).then((res) => {
         if (res.data.code === "200") {
@@ -248,7 +247,7 @@ export default {
     // 查询数据集默认信息
     queryDefaultService() {
       const queryUrl = this.collectName
-        ? `${this.dataSetUrl[this.productName]}?productName=${this.productName}`
+        ? `/general-product-web/collectConfig/queryCollectConfigInfo?productName=${this.productName}`
         : this.dataSetUrl[this.productName];
       queryDataSet(queryUrl).then((res) => {
         if (res.data.code === "200") {
@@ -277,31 +276,35 @@ export default {
       this.$router.push("/systemTools/dataAdmin");
     },
     handleVisibleChange() {
-      dataSetList(this.dataSetListUrl[this.productName]).then((res) => {
+      dataSetList("/general-product-web/collectConfig/datasetList").then(
+        (res) => {
+          // console.log(res, '数据集列表')
+          if (res.data.code === "200") {
+            const data = res.data;
+            if (data.data) {
+              // 赋值下拉框数组
+              this.serviceOptions = data.data;
+            }
+          }
+        }
+      );
+    },
+  },
+  mounted() {
+    // 数据集列表
+    dataSetList("/general-product-web/collectConfig/datasetList").then(
+      (res) => {
         // console.log(res, '数据集列表')
         if (res.data.code === "200") {
           const data = res.data;
           if (data.data) {
             // 赋值下拉框数组
             this.serviceOptions = data.data;
+            this.queryDefaultService();
           }
         }
-      });
-    },
-  },
-  mounted() {
-    // 数据集列表
-    dataSetList(this.dataSetListUrl[this.productName]).then((res) => {
-      // console.log(res, '数据集列表')
-      if (res.data.code === "200") {
-        const data = res.data;
-        if (data.data) {
-          // 赋值下拉框数组
-          this.serviceOptions = data.data;
-          this.queryDefaultService();
-        }
       }
-    });
+    );
   },
 };
 </script>

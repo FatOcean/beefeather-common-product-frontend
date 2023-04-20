@@ -192,7 +192,7 @@ export default {
         const requestId = this.documents[0].requestId;
         const picAddress = this.page.collectImgUrl;
         this.$http
-          .post("/table-ocr-web/ocrCollectInfo/saveCollectInfo", {
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             requestId: requestId,
             picAddress: picAddress,
             productName: "表格OCR",
@@ -218,7 +218,7 @@ export default {
       } else {
         this.$http
           .post(
-            `/table-ocr-web/ocrCollectInfo/cancelSaveCollectInfo?loadRecordId=${
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${
               this.page.loadRecordId
             }&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
@@ -258,7 +258,7 @@ export default {
     ocrRecognitionExcel(file) {
       this.$http
         .post(
-          `/table-ocr-web/tableOcrInfo/ocrRecognitionExcel?taskId=${this.files[0].taskId}`
+          `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=表格OCR`
         )
         .then((res) => {
           res = res.data;
@@ -299,7 +299,7 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/table-ocr-web/tableOcrInfo/downloadExcelFile?requestId=${this.$refs.ocrLayout.example.requestId}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrLayout.example.requestId}&productName=表格OCR`,
         responseType: "blob",
       })
         .then((res) => {

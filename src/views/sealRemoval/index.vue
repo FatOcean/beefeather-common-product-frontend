@@ -103,13 +103,6 @@
       ></lls-image-viewer>
     </ocrlayout>
 
-    <!--  进度条 -->
-    <bee-loading
-      :percent="percent"
-      :needProgress="true"
-      v-show="beeLoading"
-    ></bee-loading>
-
     <!-- 错误样本收集 -->
     <div
       class="sample-collection"
@@ -125,39 +118,10 @@
 
     <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLSEALREM']">
-      <upload-file
-        v-model="files"
-        class="upload-wrapper"
-        @http-request="handleFile"
-        @mouseenter.native="dragenter = true"
-        @mouseleave.native="dragenter = false"
-        :class="{ dragenter: dragenter }"
-      >
-        <div
-          class="upload-innder"
-          @dragenter="dragenter = true"
-          @dragleave="dragenter = false"
-          @dragend="dragenter = false"
-          @dragover="dragenter = true"
-          @drop="dragenter = false"
-          draggable="true"
-        >
-          <div class="put-upload" v-show="!dragenter">
-            <svg-icon iconClass="上传"></svg-icon>
-            <span>上传文件</span>
-          </div>
-          <div v-show="dragenter" class="expand-upload">
-            <svg-icon iconClass="上传"></svg-icon>
-            <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
-              拖拽文件到此处或
-              <span style="color: #0887ff; margin: 4px">点击上传</span>
-            </div>
-            <div class="upload-text">
-              支持JPG、PNG、JPEG、BMP格式，文件大小不超过8M
-            </div>
-          </div>
-        </div>
-      </upload-file>
+      <upload-File
+        productName="印章去除"
+        @uploadFileData="uploadFileData"
+      ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
@@ -719,103 +683,42 @@ export default {
           });
       }
     },
-    // 点击上传
-    handleFile(res) {
-      const file = res.file;
-      const fileSuffix = file.name
-        .substring(file.name.lastIndexOf(".") + 1)
-        .toUpperCase();
-      const whiteList = ["JPG", "PNG", "JPEG", "BMP"];
-      const isLt8M = Number(file.size / 1024 / 1024);
-      if (whiteList.indexOf(fileSuffix) === -1) {
-        this.$message({
-          message: "上传文件只能是JPG、PNG、JPEG、 BMP格式",
-          type: "error",
-          offset: 72,
-        });
-        return false;
-      }
-      if (isLt8M > 8) {
-        this.$message({
-          message: "文件大小超过8M",
-          type: "error",
-          offset: 72,
-        });
-        return false;
-      }
-      this.uploadFile(file);
-    },
-    // 将文件资源传送到服务器
-    uploadFile(file) {
-      this.percent = 0;
-      this.beeLoading = true;
-      this.postFixedMessage(true);
-      const fd = new FormData();
-      fd.append("file", file);
-      // fd.append("type", type);
-      // fd.append("url", "172.16.88.170:32294");
-      this.$http({
-        url: "/seal-removal-web/sealRemoval/analysis/upload",
-        method: "post",
-        data: fd,
-        onUploadProgress: (progressEvent) => {
-          this.percent =
-            Math.ceil((progressEvent.loaded * 100) / progressEvent.total) - 2;
-        },
-      }).then((res) => {
-        this.resizeImg();
-        this.resetProps();
-        res = res.data;
-        if (res.code === "200") {
-          this.postFixedMessage(false);
-          this.beeLoading = false;
-
-          this.percent = 100;
-          res.data.forEach((i) => {
-            i.isUpload = true;
-            i.starsFlag = false;
-          });
-          // res.data.forEach((i) => {
-          //   i.starsFlag = false;
-          // });
-          // console.log(res, "res");
-          this.activeDocumentIndex = 0;
-          if (this.data.length > 2) this.data.shift();
-          this.data = [...res.data, ...this.data];
-          // this.data = res.data.concat(this.data);
-
-          this.documents = this.data[0];
-          this.$refs.documents.selectValue = this.documents.fileName
-            .substring(this.documents.fileName.lastIndexOf(".") + 1)
-            .toUpperCase()
-            .trim();
-          if (this.documents.imageVO.length === 1) {
-            this.documents.imageVO.push({
-              fileName: "",
-              filePath: "",
-            });
-            this.$message({
-              message: "解析失败",
-              type: "error",
-              offset: 72,
-            });
-          } else {
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 72,
-            });
-          }
-        } else {
-          this.beeLoading = false;
-          this.postFixedMessage(false);
-          this.$message({
-            message: res.message,
-            type: "error",
-            offset: 72,
-          });
-        }
+    uploadFileData(res) {
+      res.data.forEach((i) => {
+        i.isUpload = true;
+        i.starsFlag = false;
       });
+      // res.data.forEach((i) => {
+      //   i.starsFlag = false;
+      // });
+      // console.log(res, "res");
+      this.activeDocumentIndex = 0;
+      if (this.data.length > 2) this.data.shift();
+      this.data = [...res.data, ...this.data];
+      // this.data = res.data.concat(this.data);
+
+      this.documents = this.data[0];
+      this.$refs.documents.selectValue = this.documents.fileName
+        .substring(this.documents.fileName.lastIndexOf(".") + 1)
+        .toUpperCase()
+        .trim();
+      if (this.documents.imageVO.length === 1) {
+        this.documents.imageVO.push({
+          fileName: "",
+          filePath: "",
+        });
+        this.$message({
+          message: "解析失败",
+          type: "error",
+          offset: 72,
+        });
+      } else {
+        this.$message({
+          message: "上传成功",
+          type: "success",
+          offset: 72,
+        });
+      }
     },
     handleDragLeave() {
       setTimeout((_) => {
