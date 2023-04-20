@@ -893,7 +893,7 @@ export default {
       this.$http({
         method: "get",
         // url: `/beefeather-seal-recognition-web/identityCard/common//downLoadFile?path=${this.example.excelPath}`,
-        url:`/general-product-web/general/downloadResult?taskId=${this.example.index}&productName=印章识别`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.index}&productName=印章识别`,
         responseType: "blob",
       })
         .then((res) => {
@@ -1201,7 +1201,7 @@ export default {
           // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          cursor: url('~@/icons/svg/手势-张开.svg'), grab;
+          cursor: url('../icon/手势-张开.svg'), grab;
           background-repeat: no-repeat;
           width: 100%;
 
@@ -1214,7 +1214,7 @@ export default {
           }
 
           &.draggable {
-            cursor: url('~@/icons/svg/手势-握紧.svg'), grabbing;
+            cursor: url('../icon/手势-握紧.svg'), grabbing;
           }
 
           &.transition {

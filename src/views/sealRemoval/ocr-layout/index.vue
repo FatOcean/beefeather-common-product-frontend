@@ -1200,7 +1200,7 @@ export default {
           // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          cursor: url('~@/icons/svg/手势-张开.svg'), grab;
+          cursor: url('../image/手势-张开.svg'), grab;
           background-repeat: no-repeat;
           width: 100%;
 
@@ -1213,7 +1213,7 @@ export default {
           }
 
           &.draggable {
-            cursor: url('~@/icons/svg/手势-握紧.svg'), grabbing;
+            cursor: url('../image/手势-握紧.svg'), grabbing;
           }
 
           .frame-mask {
@@ -1381,7 +1381,7 @@ export default {
               background-size: contain;
               height: auto;
               position: relative;
-              cursor: url('~@/icons/svg/手势-张开.svg'), grab;
+              cursor: url('../image/手势-张开.svg'), grab;
               background-repeat: no-repeat;
               width: 100%;
 
@@ -1394,7 +1394,7 @@ export default {
               }
 
               &.draggable {
-                cursor: url('~@/icons/svg/手势-握紧.svg'), grabbing;
+                cursor: url('../image/手势-握紧.svg'), grabbing;
               }
 
               // transition: all 0.3s linear;
