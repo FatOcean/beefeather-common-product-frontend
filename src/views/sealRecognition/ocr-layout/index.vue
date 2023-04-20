@@ -195,7 +195,6 @@
             <!-- <img src="../image/服务配置.svg" alt=""> -->
             <servicecon-figuration
               v-if="pageMenuPerm['SERSEALRECO']"
-              :requestBody="requestBody"
               productName="印章识别"
               :isicon="true"
               type="text"
@@ -204,7 +203,6 @@
             <more-button
               v-if="pageMenuPerm['COLSEALRECO']"
               productName="印章识别"
-              :requestBody="requestBody"
               :servicecon="false"
               :collect="true"
             >
@@ -340,12 +338,6 @@ export default {
   },
   data() {
     return {
-      requestBody: {
-        url: "/seal-recognition-web/seal/recognition/serviceList",
-        data: {
-          name: "印章识别",
-        },
-      },
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
       activeDocumentIndex: 0, // 当前示例索引

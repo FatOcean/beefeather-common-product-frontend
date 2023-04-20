@@ -124,7 +124,6 @@ export default {
     plain: Boolean,
     productName: String,
     type: { type: String, default: "primary" },
-    requestBody: { type: Object, default: () => {} },
     isicon: {
       type: Boolean,
       default: () => {
@@ -319,21 +318,13 @@ export default {
       this.postFixdMessage(true);
       // 默认服务配置接口下拉
       // 这里有些接口的请求参数方式不一样，放在body里的需要判断一下
-      if (this.requestBody?.url) {
-        const { url, data } = this.requestBody;
-        this.queryServiceList(
-          defaultServiceConfigurationSelectForBody,
-          url,
-          data
-        );
-      } else {
         const { serviceListUrl, productName } = this;
         this.queryServiceList(
           defaultServiceConfigurationSelect,
           "/general-product-web/serviceConfig/serviceList",
           productName
         );
-      }
+      
     },
     // 弹窗关闭
     dialogClose() {

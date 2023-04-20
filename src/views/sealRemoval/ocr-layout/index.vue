@@ -242,7 +242,6 @@
             </lls-dropdown>
             <more-button
               productName="印章去除"
-              :requestBody="requestBody"
               :servicecon="pageMenuPerm['SERSEALREM']"
               :collect="pageMenuPerm['COLSEALREM']"
             >
@@ -411,12 +410,6 @@ export default {
           label: "BMP",
         },
       ],
-      requestBody: {
-        url: "/seal-removal-web/sealRemoval/common/serviceList",
-        data: {
-          name: "印章去除",
-        },
-      },
     };
   },
   created() {

@@ -16,7 +16,6 @@
           :productName="productName"
           type="text"
           v-if="servicecon"
-          :requestBody="requestBody"
           style="width: 100%"
         ></servicecon-figuration>
       </lls-dropdown-item>
@@ -36,7 +35,7 @@
 </template>
 <script>
 export default {
-  props: ["productName", "servicecon", "collect", "collectName", "requestBody"],
+  props: ["productName", "servicecon", "collect", "collectName"],
   name: "moreButton",
   components: {
     collectConfiguration: (resolve) =>

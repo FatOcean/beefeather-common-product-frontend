@@ -341,12 +341,6 @@ export default {
       scale: 1,
       total: 1,
       down_allow: true,
-      requestBody: {
-        url: "/treasury-flow-analysis-web/treasuryFlow/common/serviceList",
-        data: {
-          name: "流水解析",
-        },
-      },
     };
   },
   created() {},

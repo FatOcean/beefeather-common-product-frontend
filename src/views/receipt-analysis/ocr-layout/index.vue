@@ -347,13 +347,6 @@ export default {
       total: 1,
       down_allow: true,
       position: { x: 0, y: 0, w: 0, h: 0 },
-      requestBody: {
-        url: "/general-product-web/serviceConfig/serviceList",
-        // url: "/receipt-analysis-web/receipt/common/serviceList",
-        data: {
-          name: "回单解析",
-        },
-      },
       // position: {},
     };
   },
