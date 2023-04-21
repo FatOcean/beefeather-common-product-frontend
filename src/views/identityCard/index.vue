@@ -1,169 +1,228 @@
 <template>
-  <div class="document-ocr-wrapper" :class="{ 'bee-loading': beeLoading }">
+  <div class="identity-card-analysis-wrapper">
     <ocr-layout
+      @resetId="() => (activeTextId = null)"
+      @tabs="tabs"
+      :data="data"
       v-model="page"
-      ref="ocrlayout"
-      :data="documents"
-      locatable
-      isMultiCoordinate
-      @on-open-viewer="postFixdMessage(true)"
-      @on-close-viewer="postFixdMessage(false)"
-      @on-change-example="handleChangeExample"
+      ref="documents"
+      :activeTabIndex="activeTabIndex"
+      :pageMenuPerm="pageMenuPerm"
     >
-      <div
-        slot="button"
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 18px;
-        "
-      >
-        <llsButton
-          type="text"
-          @click="handleClickDownload"
-          v-if="pageMenuPerm['DOWNIDENTITY']"
-        >
-          <!-- v-if="pageMenuPerm['DOWNCERTIFICATE']" -->
-          <svg-icon class="download" iconClass="下载"></svg-icon>
-          <span>下载</span>
-        </llsButton>
-        <more-button
-          productName="身份证解析"
-          :collect="pageMenuPerm['COLLIDENTITY']"
-          :servicecon="pageMenuPerm['SERIDENTITY']"
-        ></more-button>
-      </div>
-      <lls-tabs
-        @tab-click="handleClick"
-        v-model="activeName"
-        v-if="tabsArray.length > 1"
-      >
+      <lls-tabs @tab-click="handleClick" v-model="activeName">
         <lls-tab-pane
           v-for="(item, index) in tabsArray"
           :key="index"
           :label="item.name"
           :name="item.name"
-        >
-        </lls-tab-pane>
+        ></lls-tab-pane>
+        <table cellspacing="0" class="table-data">
+          <thead>
+            <td colspan="2">字段名</td>
+            <td>识别结果</td>
+          </thead>
+          <tbody v-for="i in pageDetail" :key="i.key">
+            <tr
+              :class="{
+                active: activeTextId === i.id,
+                commonCursor: !(i.position && i.position.length > 0),
+              }"
+              @click="(e) => clickHandler(e, i)"
+            >
+              <td colspan="2">{{ i.key }}</td>
+              <td>{{ i.value }}</td>
+            </tr>
+          </tbody>
+        </table>
       </lls-tabs>
-
-      <table cellspacing="0" cellpadding="0">
-        <tr>
-          <th>字段名</th>
-          <th>识别结果</th>
-        </tr>
-        <ocr-el
-          tag="tr"
-          :value="row.coordinatesList"
-          v-for="(row, rowIndex) in tabResult"
-          :key="rowIndex"
-        >
-          <td>{{ row.key }}</td>
-          <td style="white-space: pre-line">{{ row.value }}</td>
-        </ocr-el>
-      </table>
     </ocr-layout>
 
     <!-- 错误样本收集 -->
     <div
       class="sample-collection"
-      v-show="page.collectImgUrl"
       @click="clickSampleCollection"
+      v-show="documents.isUpload"
+      v-loading="isLoading"
     >
-      <svg-icon :iconClass="starsFlag ? '星星填充' : '星星'"></svg-icon>
-      <span>{{ starsFlag ? "取消" : "难例" }}样本收集</span>
+      <svg-icon
+        :iconClass="documents.starsFlag ? '星星填充' : '星星'"
+      ></svg-icon>
+      <span>{{ documents.starsFlag ? "取消" : "难例" }}样本收集</span>
     </div>
 
     <!-- 上传文件 -->
-    <!-- createUrl="/beefeather/file-handle-web/file/createUploadRecord"
-        action="/beefeather/file-handle-web/file/upload" -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOADIDENTITY']">
-      <!-- v-if="pageMenuPerm['UPLOADCERTIFICATE']" -->
       <upload-File
-        productName="身份证解析"
+        productName="回单解析"
         @uploadFileData="uploadFileData"
       ></upload-File>
     </lls-collapse-transition>
   </div>
 </template>
 <script>
-import documents from "./example";
-import beeLoading from "@linklogis/beeLoading";
-import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-import { mapMutations, mapState } from "vuex";
+import { data } from "./example";
+import ocrLayout from "./ocr-layout";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
+      data,
+      isLoading: false,
       files: [],
+      activeTextId: "",
       page: {}, // 当前页面数据信息
       beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
-      documents: documents,
+      activeName: "",
+      servicePortAddress: "",
+      activeDocumentIndex: 0,
+      tabsArray: [],
+      documents: [],
+      // documents: data.analysisResult,
       dragenter: false,
       token: window.sessionStorage.getItem("token"),
       origin: window.sessionStorage.getItem("origin"),
       href: window.location.href,
-      starsFlag: false, // 是否收集
-      loadRecordId: "", // 难例收集id
-      activeName: "",
-      tabsArray: [],
+      search: "",
+      documents_backup: [],
+      checked: false,
+      hideResult: [],
       activeTabIndex: 0,
+      falg: true,
     };
   },
-  components: {
-    [beeLoading.name]: beeLoading,
-    [OcrLayout.name]: OcrLayout,
-    [OcrEl.name]: OcrEl,
+  components: { ocrLayout },
+  created() {
+    // console.log(this.data, "data");
+    this.documents = this.data[0];
+    // console.log(this.documents, "documents");
+    this.page = this.documents.analysisResult;
+    // console.log(this.page, "page");
+    // const frontHash = { 身份证正面: 0 };
+    // const backHash = { 身份证反面: 0 };
+    for (let i = 0; i < this.page.length; i++) {
+      this.tabsArray[i] = { name: this.page[i].analysisName };
+    }
+    // if (this.tabsArray[i].name === "身份证正面") {
+    //   frontHash["身份证正面"]++;
+    // } else {
+    //   backHash["身份证反面"]++;
+    // }
+    // if (frontHash["身份证正面"] === 1) {
+    // } else {
+    //   let num = 1;
+    //   this.tabsArray.forEach((item) => {
+    //     if (item.name === "身份证正面") {
+    //       item.name += `${num}`;
+    //       num++;
+    //     }
+    //   });
+    // }
+    // if (backHash["身份证反面"] === 1) {
+    // } else {
+    //   let num = 1;
+    //   this.tabsArray.forEach((item) => {
+    //     if (item.name === "身份证反面") {
+    //       item.name += `${num}`;
+    //       num++;
+    //     }
+    //   });
+    // }
+
+    // this.tabsArray = this.page.map((item) => {
+    //   return {
+    //     name: item.imageType,
+    //   };
+    // });
+    // console.log(this.tabsArray, "tabsArray");
+    // this.tabsArray.forEach((item) => {
+    //   this.page.forEach(i => {
+    //     if()
+    //   })
+    // })
+    this.activeName = this.tabsArray[0].name;
+    // console.log(this.activeName, "activeName");
+    // console.log(this.data, "data");
+    // this.getServiceName();
+    // console.log(this.example, "example");
   },
   computed: {
     ...mapState(["pageMenuPerm"]),
-    tabResult() {
-      return this.page.analysisResult[this.activeTabIndex].tabResult;
+    pageDetail() {
+      return this.page[this.activeTabIndex].identityList;
     },
-  },
-  created() {
-    this.page = this.documents[0].pages[0];
-    this.tabsArray = this.page.analysisResult.map((item) => {
-      return { name: item.tabName };
-    });
-    this.activeName = this.tabsArray[0].name;
+    example() {
+      return this.data[this.activeDocumentIndex];
+    },
   },
   methods: {
-    handleClick(value) {
-      // console.log(this.$refs.ocrlayout);
-      this.activeTabIndex = Number(value.index);
-      // this.$refs.ocrlayout.resetProps();
-      this.$refs.ocrlayout.pathValue = null;
-      this.$refs.ocrlayout.activeText = null;
-      this.$refs.ocrlayout.activeTextId = "";
-    },
-    handleChangeExample() {
+    tabs(activeDocumentIndex, activePageIndex) {
+      this.activeDocumentIndex = activeDocumentIndex;
+      this.documents = this.data[activeDocumentIndex];
+      this.page = this.documents.analysisResult;
+      // console.log(this.page, "121312312321312312");
       this.activeTabIndex = 0;
-      this.$nextTick(() => {
-        this.tabsArray = this.page.analysisResult.map((item) => {
-          return { name: item.tabName };
-        });
-        this.activeName = this.tabsArray[0].name;
-      });
-    },
+      this.tabsArray = [];
+      for (let i = 0; i < this.page.length; i++) {
+        this.tabsArray[i] = { name: this.page[i].analysisName, index: i };
+      }
+      this.activeName = this.tabsArray[activePageIndex].name;
 
+      // console.log(this.example, "ex2");
+    },
+    handleClick(value) {
+      // console.log(value.index);
+      this.activeTabIndex = Number(value.index);
+      this.$refs.documents.handleClick(value.index);
+      // console.log(this.documents);
+      // console.log(this.page);
+      // this.tabsArray.forEach((item, index) => {
+      //   if (item.name === value.name) {
+      //     console.log(index);
+      //     this.activeTabIndex = index;
+      //     this.$refs.documents.handleClick(index);
+      //   }
+      // });
+    },
     // 样本收集点击事件
+    clickHandler(e, i, noParent) {
+      const el = e.target.parentNode.firstChild;
+
+      if (!(i.position && i.position.length > 0)) {
+        // this.$refs.documents.resetProps();
+        // this.activeTextId = i.id;
+        // this.$refs.documents.pathValue = null;
+        // this.$refs.documents.activeTextId = null;
+        // this.$refs.documents.rectanglePosition = [];
+        return;
+      }
+      e = e || window.event;
+      this.$refs.documents.$events.trigger("click-ocr-el", {
+        el,
+        id: i.id,
+        // imageIndex: i.imageIndex,
+      });
+      this.activeTextId = this.$refs.documents.activeTextId;
+      // console.log(this.activeTextId, "activeTextId");
+    },
     clickSampleCollection() {
-      const requestId = this.documents[0].requestId;
-      const picAddress = this.page.collectImgUrl;
-      if (!this.starsFlag) {
-        // const requestId = this.documents[0].requestId;
+      if (this.isLoading) return;
+      this.isLoading = true;
+      // const data = this.data[this.activeDocumentIndex];
+      const picAddress = `${this.documents.filePath}`;
+      // console.log(data, '000')
+      if (!this.documents.starsFlag) {
+        const fileId = this.documents.fileId;
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
-            requestId: requestId,
-            picAddress: picAddress,
+            fileId,
+            picAddress,
             productName: "身份证解析",
           })
           .then((res) => {
             if (res.data.code === "200") {
-              this.starsFlag = true;
-              this.loadRecordId = res.data.data;
+              this.$set(this.documents, "starsFlag", true);
+              this.documents.loadRecordId = res.data.data.loadRecordId;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -176,17 +235,20 @@ export default {
                 offset: 72,
               });
             }
+          })
+          .finally((res) => {
+            this.isLoading = false;
           });
       } else {
         this.$http
-          .post(
-            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
-              this.loadRecordId
-            )}&picAddress=${encodeURIComponent(picAddress)}`
-          )
+          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
+            loadRecordId: this.documents.loadRecordId,
+            url: picAddress,
+          })
           .then((res) => {
             if (res.data.code === "200") {
-              this.starsFlag = false;
+              this.documents.starsFlag = false;
+
               this.$message({
                 message: "取消收集成功",
                 type: "success",
@@ -199,131 +261,237 @@ export default {
                 offset: 72,
               });
             }
+          })
+          .finally((res) => {
+            this.isLoading = false;
           });
       }
     },
     uploadFileData(res) {
-      this.documents.splice(0, this.documents.length > 2 ? 1 : 0, {
-        name: res.data.name,
-        requestId: res.data.requestId,
-        pages: res.data.pages.map((i) => {
-          return {
-            ...i,
-            collectImgUrl: `${i.img}${i.pageName}`,
-            img: this.resolveUrl(`${i.img}${i.pageName}`),
-            originalHeight: /0|2/.test(i.imgRotatingDeg / 90)
-              ? i.originalHeight
-              : i.originalWidth,
-            originalWidth: /0|2/.test(i.imgRotatingDeg / 90)
-              ? i.originalWidth
-              : i.originalHeight,
-            analysisResult: i.analysisResult.map((item) => {
-              return {
-                tabName: item.tabName,
-                tabResult: item.analysisResult.map((j) => {
-                  return {
-                    ...j,
-                    coordinatesList: j.coordinatesList || [],
-                  };
-                }),
-              };
-            }),
-          };
-        }),
+      res.data.forEach((i) => {
+        i.isUpload = true;
+        i.starsFlag = false;
       });
-      this.starsFlag = false;
-      this.page = this.documents[0].pages[0];
-      this.tabsArray = this.page.analysisResult.map((item) => {
-        return { name: item.tabName };
-      });
+      if (this.data.length > 2) this.data.shift();
+      this.data = res.data.concat(this.data);
+      this.documents = this.data[0];
+      this.page = this.documents.analysisResult;
+      // console.log(this.documents, "documents2");
+      this.activeDocumentIndex = 0;
+      this.activeTabIndex = 0;
+      this.tabsArray = [];
+      for (let i = 0; i < this.page.length; i++) {
+        this.tabsArray[i] = {
+          name: this.page[i].analysisName
+            ? this.page[i].analysisName
+            : `未识别${i + 1}`,
+        };
+      }
       this.activeName = this.tabsArray[0].name;
     },
-    resolveCol(value) {
-      return value && value.replace(/。/gi, "<br/>");
-    },
-    // 下载识别结果
-    handleClickDownload() {
-      this.$http({
-        method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=身份证解析`,
-        responseType: "blob",
-      })
-        .then((res) => {
-          const fileName =
-            res.headers["content-disposition"] &&
-            res.headers["content-disposition"]
-              .split(";")[1]
-              .split("filename=")[1]
-              .replace(/"/gi, "");
-          const blob = res.data;
-          const type =
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
-          this.exportByBlob(blob, decodeURIComponent(fileName), type);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    handleDragLeave() {
+      setTimeout((_) => {
+        this.dragenter = false;
+      }, 200);
     },
   },
 };
 </script>
 <style lang="stylus">
-.document-ocr-wrapper {
-  .ocr-layout {
-    padding: 76px 24px 24px 24px;
+.identify-data {
+  .identify-header {
+    display: flex;
+    background: #F3F4F6;
 
-    .ocr-inner .ocr-result .ocr-text {
-      padding: 16px;
+    div {
+      width: 50%;
+      line-height: 40px;
+      padding-left: 8px;
+      border: 1px solid #E3E8F0;
 
-      * {
-        user-select: text;
-      }
-
-      table {
-        border-left: 1px solid #E3E8F0;
-        border-top: 1px solid #E3E8F0;
-        table-layout: fixed;
-        width: 100%;
-      }
-
-      th, td {
-        border: 1px solid transparent;
-        border-right-color: #E3E8F0;
-        border-bottom-color: #E3E8F0;
-        min-width: 120px;
-        padding: 8px;
-        text-align: left;
-        height: 40px;
-        color: #202D40;
-        white-space: initial;
-      }
-
-      .text.active {
-        td, th {
-          border-top-color: #0887ff;
-          border-bottom-color: #0887ff;
-
-          &:first-child {
-            border-left-color: #0887ff;
-          }
-
-          &:last-child {
-            border-right-color: #0887ff;
-          }
-        }
-      }
-
-      th {
-        background-color: #F3F4F6;
-        font-weight: 600;
-      }
-
-      td:first-child {
-        color: #8492A6;
+      &:last-child {
+        border-left: none;
       }
     }
   }
 
+  .identify-content {
+    .identify-content-top {
+      display: flex;
+
+      div {
+        width: 50%;
+        line-height: 40px;
+        padding-left: 8px;
+        border: 1px solid #E3E8F0;
+        border-top: none;
+
+        &:last-child {
+          border-left: none;
+        }
+      }
+    }
+
+    .identify-content-other {
+      border: 1px solid #E3E8F0;
+      border-top: none;
+      display: flex;
+      box-sizing: border-box;
+
+      .other-list {
+        width: 50%;
+        box-sizing: border-box;
+
+        div {
+          border-bottom: 1px solid #E3E8F0;
+          line-height: 40px;
+          padding-left: 8px;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+
+      .other-left {
+        align-content: center;
+        width: 50%;
+        box-sizing: border-box;
+        display: flex;
+
+        .other-info {
+          border-bottom: 1px solid #E3E8F0;
+          border-right: 1px solid #E3E8F0;
+          border-left: 1px solid #E3E8F0;
+          line-height: 40px;
+          padding-left: 8px;
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .lls-checkbox__label {
+    padding-left: 4px;
+    color: #202D40;
+  }
+
+  .lls-checkbox {
+    margin-left: 32px;
+  }
+
+  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+    color: #202D40;
+  }
+}
+
+.pre-line {
+  white-space: pre-line;
+}
+
+.table-data {
+  width: 100%;
+  margin-bottom: 16px;
+
+  tbody {
+    tr {
+      td {
+        p {
+          border-bottom: 1px solid #e3e8f0;
+          white-space: pre-line;
+
+          &:last-child {
+            border: none;
+          }
+        }
+      }
+    }
+  }
+
+  thead {
+    background: #F3F4F6;
+
+    td {
+      border-top: 1px solid #E3E8F0;
+      font-weight: bold;
+      color: #202D40;
+
+      &:last-child {
+        width: 50%;
+        color: #202D40;
+        border-right: 1px solid #E3E8F0;
+      }
+    }
+  }
+
+  tr td:last-child {
+    width: 50%;
+    color: #202D40;
+    border-right: 1px solid #E3E8F0;
+  }
+
+  .td-title {
+    width: 33% !important;
+    border-right: none !important;
+  }
+
+  tr {
+    &:hover {
+      background: #f6f9fb;
+      cursor: pointer;
+    }
+
+    &.commonCursor {
+      cursor: default;
+      background: none;
+    }
+
+    &.active {
+      .activeTd {
+        background: rgba(8, 135, 255, 0.1);
+        border: 1px solid #0887ff;
+        border-right: none;
+        border-left: none;
+      }
+
+      td:first-child {
+        background: rgba(8, 135, 255, 0.1);
+        border: 1px solid #0887ff;
+        border-top-left-radius: 4px;
+        border-right: none;
+        border-bottom-left-radius: 4px;
+      }
+
+      td:last-child {
+        background: rgba(8, 135, 255, 0.1);
+        border: 1px solid #0887ff;
+        border-left: 1px solid #E3E8F0;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+  }
+
+  td {
+    line-height: 40px;
+    padding-left: 8px;
+    color: #5F6C80;
+    border-bottom: 1px solid #E3E8F0;
+    border-left: 1px solid #E3E8F0;
+    white-space: pre-line;
+  }
+}
+
+.identity-card-analysis-wrapper {
   // loadin 样式
   .analyzing {
     display: flex;
@@ -340,6 +508,16 @@ export default {
     left: 0;
   }
 
+  // .checked {
+  // position: absolute;
+  // right: 0;
+  // }
+
+  // .function_bar {
+  // display:flex,
+  // flex-wrap:nowrap,
+  // justify-content:space-between
+  // }
   .sample-collection {
     width: 114px;
     position: fixed;
@@ -351,6 +529,15 @@ export default {
     background: #0887ff;
     border-radius: 100px 0px 0px 100px;
 
+    .lls-loading-spinner {
+      margin-top: -10px;
+
+      .circular {
+        height: 21px;
+        width: 21px;
+      }
+    }
+
     &:hover {
       right: 0px;
     }
@@ -360,7 +547,6 @@ export default {
     }
 
     span {
-      display: inline-block;
       width: 72px;
       color: #fff;
       margin-left: 4px;

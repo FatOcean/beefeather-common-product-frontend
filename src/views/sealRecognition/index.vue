@@ -86,6 +86,7 @@ export default {
       hideResult: [],
       activeTabIndex: 0,
       falg: false,
+      requestId: "",
     };
   },
   components: { [beeLoading.name]: beeLoading, ocrlayout },
@@ -158,12 +159,12 @@ export default {
             fileId,
             picAddress,
             productName: "印章识别",
+            requestId: this.requestId,
           })
           .then((res) => {
             if (res.data.code === "200") {
               this.$set(this.data[this.activeDocumentIndex], "starsFlag", true);
-              this.data[this.activeDocumentIndex].loadRecordId =
-                res.data.data.loadRecordId;
+              this.data[this.activeDocumentIndex].loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -184,8 +185,7 @@ export default {
         this.$http
           .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
-            url: data.imagePath,
-            name: data.fileName,
+            picAddress,
           })
           .then((res) => {
             if (res.data.code === "200") {
@@ -223,6 +223,7 @@ export default {
       // console.log(this.documents, "documents2");
       this.activeDocumentIndex = 0;
       this.activeTabIndex = 0;
+      this.requestId = res.traceId;
     },
 
     handleDragLeave() {

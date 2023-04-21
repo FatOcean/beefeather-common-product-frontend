@@ -627,6 +627,7 @@ export default {
             fileId,
             picAddress,
             productName: "印章去除",
+            requestId: data.requestId,
           })
           .then((res) => {
             this.handling = false;
@@ -659,6 +660,7 @@ export default {
           .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
             url: picAddress,
+            requestId: data.requestId,
           })
           .then((res) => {
             this.handling = false;
