@@ -615,13 +615,12 @@ export default {
     clickSampleCollection() {
       if (this.isLoading) return;
       this.isLoading = true;
-
       const data = this.data[this.activeDocumentIndex];
-      const picAddress = data.filePath;
+      const picAddress = data.imagePath;
       this.handling = true;
       // console.log(data, '000')
       if (!data.starsFlag) {
-        const fileId = data.fileId;
+        const fileId = data.id;
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             fileId,

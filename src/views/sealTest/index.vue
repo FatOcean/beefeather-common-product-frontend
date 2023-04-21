@@ -540,6 +540,7 @@ export default {
             fileId,
             picAddress,
             productName: "印章检测",
+            requestId: data.requestId,
           })
           .then((res) => {
             if (res.data.code === "200") {
@@ -568,6 +569,7 @@ export default {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
             url: data.sealPath,
             name: data.fileName,
+            picAddress,
           })
           .then((res) => {
             if (res.data.code === "200") {
