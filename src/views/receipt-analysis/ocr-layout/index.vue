@@ -210,7 +210,6 @@
               productName="回单解析"
               :servicecon="pageMenuPerm['SERVICE_RECEIPT']"
               :collect="pageMenuPerm['COLLECT_RECEIPT']"
-              :collectName="true"
             ></more-Button>
           </div>
         </div>

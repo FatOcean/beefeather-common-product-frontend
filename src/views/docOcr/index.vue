@@ -32,7 +32,6 @@
           productName="文档OCR"
           :collect="pageMenuPerm['COLLDOCUMOCR']"
           :servicecon="pageMenuPerm['SERDOCUMOCR']"
-          :collectName="true"
         ></more-button>
       </div>
       <ocr-el

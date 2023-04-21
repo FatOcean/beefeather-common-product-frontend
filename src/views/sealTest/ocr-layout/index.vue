@@ -183,7 +183,6 @@
               productName="印章检测"
               :servicecon="pageMenuPerm['SERSEALTEST']"
               :collect="pageMenuPerm['COLSEALTEST']"
-              :collectName="true"
             ></more-Button>
           </div>
         </div>

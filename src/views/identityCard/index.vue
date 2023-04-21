@@ -32,7 +32,6 @@
           productName="身份证解析"
           :collect="pageMenuPerm['COLLIDENTITY']"
           :servicecon="pageMenuPerm['SERIDENTITY']"
-          :collectName="true"
         ></more-button>
       </div>
       <lls-tabs

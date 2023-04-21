@@ -23,7 +23,6 @@
         <collect-configuration
           :productName="productName"
           type="text"
-          :collectName="collectName"
           :plain="false"
           v-if="collect"
           style="width: 100%"
@@ -35,7 +34,7 @@
 </template>
 <script>
 export default {
-  props: ["productName", "servicecon", "collect", "collectName"],
+  props: ["productName", "servicecon", "collect"],
   name: "moreButton",
   components: {
     collectConfiguration: (resolve) =>

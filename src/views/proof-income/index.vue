@@ -31,7 +31,6 @@
           productName="收入证明解析"
           :collect="pageMenuPerm['collectProofIncome']"
           :servicecon="pageMenuPerm['serviceProofIncome']"
-          :collectName="true"
         ></more-button>
       </div>
       <lls-tabs

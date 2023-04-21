@@ -69,7 +69,6 @@ export default {
     plain: { type: Boolean, default: true },
     productName: String,
     type: { type: String, default: "primary" },
-    collectName: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -81,87 +80,6 @@ export default {
       datasetId: "",
       // 调用服务名称下拉框选项
       serviceOptions: [],
-      // 查询收集配置信息
-      dataSetUrl: {
-        文档OCR: "/ocr-web/collectConfigInfo/queryCollectConfigInfo",
-        表格OCR: "/table-ocr-web/collectConfigInfo/queryCollectConfigInfo",
-
-        增值税发票解析:
-          "/vat-general-invoice-web/invoice/common/querycollectconfiginfo",
-        跨境发票解析:
-          "/vat-cross-border-invoice-web/invoice/common/querycollectconfiginfo",
-
-        身份证解析:
-          "/identity-card-analysis-web/identityCard/common//querycollectconfiginfo",
-        提货单解析:
-          "/cross-border-bill-web/crossBorderBill/common/querycollectconfiginfo",
-        印章去除: "/seal-removal-web/sealRemoval/common/querycollectconfiginfo",
-        印章识别:
-          "/seal-recognition-web/seal/recognition/querycollectconfiginfo",
-        印章检测: "/seal-detection-web/seal/detection/querycollectconfiginfo",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/querycollectconfiginfo",
-        营业执照解析:
-          "/general-product-web/collectConfig/queryCollectConfigInfo",
-        资质证书解析:
-          "/general-product-web/collectConfig/queryCollectConfigInfo",
-        流水解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
-        回单解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
-        房产证解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
-        收入证明解析:
-          "/general-product-web/collectConfig/queryCollectConfigInfo",
-        车辆合格证解析:
-          "/general-product-web/collectConfig/queryCollectConfigInfo",
-        驾驶证解析: "/general-product-web/collectConfig/queryCollectConfigInfo",
-      },
-      // 查询数据集列表
-      dataSetListUrl: {
-        文档OCR: "/general-product-web/collectConfig/datasetList",
-        表格OCR: "/general-product-web/collectConfig/datasetList",
-
-        增值税发票解析: "/general-product-web/collectConfig/datasetList",
-        跨境发票解析:
-          "/vat-cross-border-invoice-web/invoice/common/datasetList",
-
-        身份证解析: "/general-product-web/collectConfig/datasetList",
-        提货单解析: "/cross-border-bill-web/crossBorderBill/common/datasetList",
-        印章去除: "/general-product-web/collectConfig/datasetList",
-        印章识别: "/general-product-web/collectConfig/datasetList",
-        印章检测: "/general-product-web/collectConfig/datasetList",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/datasetList",
-        资质证书解析: "/general-product-web/collectConfig/datasetList",
-        营业执照解析: "/general-product-web/collectConfig/datasetList",
-        流水解析: "/general-product-web/collectConfig/datasetList",
-        回单解析: "/general-product-web/collectConfig/datasetList",
-        房产证解析: "/general-product-web/collectConfig/datasetList",
-        收入证明解析: "/general-product-web/collectConfig/datasetList",
-        车辆合格证解析: "/general-product-web/collectConfig/datasetList",
-        驾驶证解析: "/general-product-web/collectConfig/datasetList",
-      },
-      // 保存收集配置信息
-      saveDatasetInfoUrl: {
-        文档OCR: "/general-product-web/collectConfig/saveDatasetInfo",
-        表格OCR: "/general-product-web/collectConfig/saveDatasetInfo",
-
-        增值税发票解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        跨境发票解析: "/vat-cross-border-invoice-web/invoice/common/savedata",
-        身份证解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        提货单解析: "/cross-border-bill-web/crossBorderBill/common/savedata",
-        印章去除: "/general-product-web/collectConfig/saveDatasetInfo",
-        印章识别: "/general-product-web/collectConfig/saveDatasetInfo",
-        印章检测: "/general-product-web/collectConfig/saveDatasetInfo",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/savedata",
-        资质证书解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        营业执照解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        流水解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        回单解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        房产证解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        收入证明解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        车辆合格证解析: "/general-product-web/collectConfig/saveDatasetInfo",
-        驾驶证解析: "/general-product-web/collectConfig/saveDatasetInfo",
-      },
     };
   },
   computed: {
@@ -246,9 +164,7 @@ export default {
     },
     // 查询数据集默认信息
     queryDefaultService() {
-      const queryUrl = this.collectName
-        ? `/general-product-web/collectConfig/queryCollectConfigInfo?productName=${this.productName}`
-        : this.dataSetUrl[this.productName];
+      const queryUrl = `/general-product-web/collectConfig/queryCollectConfigInfo?productName=${this.productName}`;
       queryDataSet(queryUrl).then((res) => {
         if (res.data.code === "200") {
           // this.dialogVisible = true

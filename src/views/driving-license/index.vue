@@ -32,7 +32,6 @@
           productName="驾驶证解析"
           :collect="pageMenuPerm['collectDrivingLicense']"
           :servicecon="pageMenuPerm['serviceDrivingLicense']"
-          :collectName="true"
         ></more-button>
       </div>
       <lls-tabs

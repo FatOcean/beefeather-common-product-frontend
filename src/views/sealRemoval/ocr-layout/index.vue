@@ -244,7 +244,6 @@
               productName="印章去除"
               :servicecon="pageMenuPerm['SERSEALREM']"
               :collect="pageMenuPerm['COLSEALREM']"
-              :collectName="true"
             >
             </more-button>
           </div>

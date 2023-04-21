@@ -29,10 +29,9 @@
           <span>下载</span>
         </llsButton>
         <more-button
-          productName="文档OCR"
+          productName="表格OCR"
           :collect="pageMenuPerm['COLLFORMOCR']"
           :servicecon="pageMenuPerm['SERFORMOCR']"
-          :collectName="true"
         ></more-button>
       </div>
       <template v-for="(content, index) in page.tableContentDTOList">

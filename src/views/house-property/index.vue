@@ -29,7 +29,6 @@
         </llsButton>
         <more-button
           productName="房产证解析"
-          :collectName="true"
           :collect="pageMenuPerm['collectHouseProperty']"
           :servicecon="pageMenuPerm['serviceHouseProperty']"
         ></more-button>

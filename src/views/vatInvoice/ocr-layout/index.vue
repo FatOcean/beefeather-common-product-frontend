@@ -178,10 +178,9 @@
               <span>下载</span>
             </llsButton>
             <more-Button
-              productName="增值税专票解析"
+              productName="增值税发票解析"
               :servicecon="pageMenuPerm['SPECIALSERAPP']"
               :collect="pageMenuPerm['SPECIALCOLLAPP']"
-              :collectName="true"
             ></more-Button>
           </div>
         </div>

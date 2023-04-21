@@ -30,7 +30,6 @@
         </llsButton>
         <more-button
           productName="车辆合格证解析"
-          :collectName="true"
           :servicecon="pageMenuPerm['serviceVehicleQualification']"
           :collect="pageMenuPerm['collectVehicleQualification']"
         ></more-button>

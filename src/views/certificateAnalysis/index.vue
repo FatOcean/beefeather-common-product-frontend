@@ -29,7 +29,6 @@
           productName="资质证书解析"
           :collect="pageMenuPerm['COLLCERTIFICATE']"
           :servicecon="pageMenuPerm['SERCERTIFICATE']"
-          :collectName="true"
         ></more-button>
       </div>
       <table cellspacing="0" cellpadding="0">

@@ -151,118 +151,6 @@ export default {
       servicePortAddress: "", // // 服务端保存的自定义地址
       dataId: "", // 当前录入的服务id
       serviceId: "", // 服务端保存的服务id
-      // 查询服务列表
-      serviceListUrl: {
-        文档OCR: `/general-product-web/serviceConfig/serviceList`,
-        表格OCR: `/general-product-web/serviceConfig/serviceList`,
-
-        增值税发票解析: "/general-product-web/serviceConfig/serviceList",
-
-        跨境发票解析:
-          "/vat-cross-border-invoice-web/invoice/common/serviceList",
-        身份证解析: "/general-product-web/serviceConfig/serviceList",
-        提货单解析: "/cross-border-bill-web/crossBorderBill/common/serviceList",
-        印章去除: "/general-product-web/serviceConfig/serviceList",
-        印章识别: "/general-product-web/serviceConfig/serviceList",
-        印章检测: "/general-product-web/serviceConfig/serviceList",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/serviceList",
-        资质证书解析: "/general-product-web/serviceConfig/serviceList",
-        营业执照解析: "/general-product-web/serviceConfig/serviceList",
-        流水解析: "/general-product-web/serviceConfig/serviceList",
-        回单解析: "/general-product-web/serviceConfig/serviceList",
-        房产证解析: "/general-product-web/serviceConfig/serviceList",
-        收入证明解析: "/general-product-web/serviceConfig/serviceList",
-        车辆合格证解析: "/general-product-web/serviceConfig/serviceList",
-        驾驶证解析: "/general-product-web/serviceConfig/serviceList",
-      },
-      // 查询初始化服务配置信息
-      queryServiceConfigInfoUrl: {
-        文档OCR: `/general-product-web/serviceConfig/queryServiceConfigInfo`,
-        表格OCR: `/general-product-web/serviceConfig/queryServiceConfigInfo`,
-
-        增值税发票解析:
-          "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        跨境发票解析:
-          "/vat-cross-border-invoice-web/invoice/common/queryserviceconfiginfo",
-
-        身份证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        提货单解析:
-          "/cross-border-bill-web/crossBorderBill/common/queryserviceconfiginfo",
-        印章去除: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        印章识别: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        印章检测: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/queryserviceconfiginfo",
-        资质证书解析:
-          "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        营业执照解析:
-          "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        流水解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        回单解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        房产证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        收入证明解析:
-          "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        车辆合格证解析:
-          "/general-product-web/serviceConfig/queryServiceConfigInfo",
-        驾驶证解析: "/general-product-web/serviceConfig/queryServiceConfigInfo",
-      },
-      // 保存服务配置信息
-      saveConfigInfoUrl: {
-        文档OCR: `/general-product-web/serviceConfig/saveConfigInfo`,
-        表格OCR: `/general-product-web/serviceConfig/saveConfigInfo`,
-
-        增值税发票解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        跨境发票解析:
-          "/vat-cross-border-invoice-web/invoice/common/saveconfiginfo",
-
-        身份证解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        提货单解析: "/cross-border-bill-web/crossBorderBill/common/saveService",
-        印章去除: "/general-product-web/serviceConfig/saveConfigInfo",
-        印章识别: "/general-product-web/serviceConfig/saveConfigInfo",
-        印章检测: "/general-product-web/serviceConfig/saveConfigInfo",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/saveService",
-        资质证书解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        营业执照解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        流水解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        回单解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        房产证解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        收入证明解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        车辆合格证解析: "/general-product-web/serviceConfig/saveConfigInfo",
-        驾驶证解析: "/general-product-web/serviceConfig/saveConfigInfo",
-      },
-      selfConfigInfoUrl: {
-        文档OCR: `/ocr-web/serviceConfig/selfConfigInfo`,
-        表格OCR: `/table-ocr-web/serviceConfig/selfConfigInfo`,
-        资质证书解析:
-          "/qualification-certificate-analysis-web/qualificationCertificate/selfConfigInfo",
-      },
-      // 检测接口连通性
-      checkConnectUrl: {
-        文档OCR: `/general-product-web/serviceConfig/checkConnect`,
-        表格OCR: `/general-product-web/serviceConfig/checkConnect`,
-
-        增值税发票解析: "/general-product-web/serviceConfig/checkConnect",
-        跨境发票解析:
-          "/vat-cross-border-invoice-web/invoice/common/checkconnect",
-
-        身份证解析: "/general-product-web/serviceConfig/checkConnect",
-        提货单解析: "/cross-border-bill-web/crossBorderBill/common/checkstatus",
-        印章去除: "/general-product-web/serviceConfig/checkConnect",
-        印章识别: "/general-product-web/serviceConfig/checkConnect",
-        印章检测: "/general-product-web/serviceConfig/checkConnect",
-        报关单解析:
-          "/cross-border-customs-declaration-analysis-web/customsDeclaration/common/checkstatus",
-        资质证书解析: "/general-product-web/serviceConfig/checkConnect",
-        营业执照解析: "/general-product-web/serviceConfig/checkConnect",
-        流水解析: "/general-product-web/serviceConfig/checkConnect",
-        回单解析: "/general-product-web/serviceConfig/checkConnect",
-        房产证解析: "/general-product-web/serviceConfig/checkConnect",
-        收入证明解析: "/general-product-web/serviceConfig/checkConnect",
-        车辆合格证解析: "/general-product-web/serviceConfig/checkConnect",
-        驾驶证解析: "/general-product-web/serviceConfig/checkConnect",
-      },
     };
   },
   computed: {
@@ -318,13 +206,12 @@ export default {
       this.postFixdMessage(true);
       // 默认服务配置接口下拉
       // 这里有些接口的请求参数方式不一样，放在body里的需要判断一下
-        const { serviceListUrl, productName } = this;
-        this.queryServiceList(
-          defaultServiceConfigurationSelect,
-          "/general-product-web/serviceConfig/serviceList",
-          productName
-        );
-      
+      const { serviceListUrl, productName } = this;
+      this.queryServiceList(
+        defaultServiceConfigurationSelect,
+        "/general-product-web/serviceConfig/serviceList",
+        productName
+      );
     },
     // 弹窗关闭
     dialogClose() {
