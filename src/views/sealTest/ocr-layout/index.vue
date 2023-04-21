@@ -791,10 +791,25 @@ export default {
       });
     },
     // 下载识别结果
-    handleClickDownload() {
+    handleClickDownload(type) {
+      let path;
+      if (this.example.show) {
+        const newType = type.toLowerCase();
+        path =
+          this.example.pathName === "示例一"
+            ? `zip/${newType}/示例一.zip`
+            : `zip/${newType}/示例二.${newType}`;
+      } else {
+        path = `${this.example.sealPath}${this.example.fileName}`;
+      }
+
       this.$http({
         method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.example.index}&productName=印章检测&path=${this.example.excelPath}`,
+        url: `/general-product-web/general/downloadResult?taskId=${
+          this.example.index
+        }&productName=印章检测&path=${path}&type=${type}&show=${
+          this.example.show || false
+        }`,
         responseType: "blob",
       })
         .then((res) => {

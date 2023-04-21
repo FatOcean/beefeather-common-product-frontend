@@ -108,7 +108,7 @@
           "
         >
           <div
-            v-show="newScale === 1"
+            v-if="newScale === 1"
             class="document"
             ref="drag-document"
             :key="example.id"
@@ -154,7 +154,7 @@
             ></div> -->
           </div>
           <div
-            v-show="newScale !== 1"
+            v-if="newScale !== 1"
             class="document"
             ref="drag-document"
             :key="example.id"
@@ -244,6 +244,7 @@
               productName="印章去除"
               :servicecon="pageMenuPerm['SERSEALREM']"
               :collect="pageMenuPerm['COLSEALREM']"
+              :collectName="true"
             >
             </more-button>
           </div>
@@ -411,15 +412,6 @@ export default {
         },
       ],
     };
-  },
-  created() {
-    // console.log(this.example, "example");
-    // console.log(this.data, "data");
-    // console.log(this.value, "value");
-    // console.log(this.page, "page");
-    // console.log(this.text, "text");
-    // console.log(this.imageName, "imageName");
-    // console.log(this.imageUrl, "imageUrl");
   },
   mounted() {
     // 监听窗口变化 并读取文档的宽度
@@ -845,7 +837,6 @@ export default {
     },
 
     handleMousedown(e, elName) {
-      console.log(e, "e");
       const el = this.$refs[elName];
       this.removeEventListener(e, elName);
       e = e || window.event;
@@ -959,9 +950,9 @@ export default {
       };
       return page;
     },
-    pageDetail() {
-      return this.page.value[this.activeTabIndex].identityList;
-    },
+    // pageDetail() {
+    //   return this.page.value[this.activeTabIndex].identityList;
+    // },
     originalLocation() {
       return `${window.location.origin}/file-handle-web/file/image?filename=`;
     },
@@ -988,16 +979,16 @@ export default {
       return [{ url: this.imageUrl, title: this.imageName }];
     },
     // 当前文本信息
-    text() {
-      const { value } = this.page;
+    // text() {
+    //   const { value } = this.page;
 
-      const textArr = [...value];
-      const textValue = textArr[this.activeTabIndex].identityList;
-      // console.log(textValue, "textValue");
-      return textValue.filter((i) => {
-        return i.id === this.activeTextId;
-      })[0];
-    },
+    //   const textArr = [...value];
+    //   const textValue = textArr[this.activeTabIndex].identityList;
+    //   // console.log(textValue, "textValue");
+    //   return textValue.filter((i) => {
+    //     return i.id === this.activeTextId;
+    //   })[0];
+    // },
     // 当前图片初始缩放比例
     imgScale() {
       return this.scale;

@@ -32,14 +32,14 @@ const data = [
     imageVO: [
       {
         filePath:
-          "https://beefeather-ng-front.lianyirong.com.cn/beefeather-file-handle-web/file/img?filename=/home/lls_data/product/seal_removal/demo/2/示例二.jpg",
+          "product/seal_removal/demo/2/示例二.jpg",
         width: 1700,
         height: 2338,
         image: example2,
       },
       {
         filePath:
-          "https://beefeather-ng-front.lianyirong.com.cn/beefeather-file-handle-web/file/img?filename=/home/lls_data/product/seal_removal/demo/2/示例二印章去除.jpg",
+          "product/seal_removal/demo/2/示例二印章去除.jpg",
         width: 1700,
         height: 2338,
         image: example2_removal,

@@ -207,6 +207,12 @@ export default {
       realRenderWidth: 0,
       scale: 1,
       handling: false,
+      // pageMenuPerm: {
+      //   COLSEALREM: true,
+      //   DOWSEALREM: true,
+      //   SERSEALREM: true,
+      //   UPLSEALREM: true,
+      // },
     };
   },
   components: {
@@ -281,9 +287,9 @@ export default {
   },
   computed: {
     ...mapState(["pageMenuPerm"]),
-    pageDetail() {
-      return this.page[this.activeTabIndex].identityList;
-    },
+    // pageDetail() {
+    //   return this.page[this.activeTabIndex].identityList;
+    // },
     originalLocation() {
       return `${window.location.origin}/file-handle-web/file/image?filename=`;
     },
@@ -525,7 +531,6 @@ export default {
       const page = this.data[this.activeDocumentIndex].imageVO[0];
       // console.log(page, "page");
       const baseHeight = this.$refs["documents"].getBoundingClientRect().height;
-      console.log(baseHeight, "baseheight");
       const newScale =
         page.realRenderHeight > 0.72 * baseHeight
           ? (0.72 * baseHeight) / page.realRenderHeight
