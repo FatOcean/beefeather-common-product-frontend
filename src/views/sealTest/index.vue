@@ -536,7 +536,7 @@ export default {
       if (!data.starsFlag) {
         const fileId = data.id || "1";
         this.$http
-          .post("/seal-detection-web/seal/detection/savecollectinfo", {
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             fileId,
             picAddress,
             productName: "印章检测",
@@ -564,7 +564,7 @@ export default {
           });
       } else {
         this.$http
-          .post("/seal-detection-web/seal/detection/cancelcollectinfo", {
+          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
             url: data.sealPath,
             name: data.fileName,

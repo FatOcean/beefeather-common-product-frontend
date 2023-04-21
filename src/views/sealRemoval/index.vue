@@ -623,7 +623,7 @@ export default {
       if (!data.starsFlag) {
         const fileId = data.fileId;
         this.$http
-          .post("/seal-removal-web/sealRemoval/common/saveCollectInfo", {
+          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             fileId,
             picAddress,
             productName: "印章去除",
@@ -656,7 +656,7 @@ export default {
           });
       } else {
         this.$http
-          .post("/seal-removal-web/sealRemoval/common/cancelcollectinfo", {
+          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
             url: picAddress,
           })
