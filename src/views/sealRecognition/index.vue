@@ -468,6 +468,7 @@ export default {
     }
 
     span {
+      display: inline-block;
       width: 72px;
       color: #fff;
       margin-left: 4px;
