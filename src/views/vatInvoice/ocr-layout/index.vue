@@ -765,7 +765,7 @@ export default {
         method: "get",
         url: `/general-product-web/general/downloadResult?taskId=${
           this.example.id
-        }&productName=增值税发票解析&name=${encodeURIComponent(
+        }&productName=增值税发票解析&path=${encodeURIComponent(
           this.example.url
         )}&show=${this.example.show || false}`,
         responseType: "blob",
