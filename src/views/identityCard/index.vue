@@ -53,7 +53,7 @@
     <!-- 上传文件 -->
     <lls-collapse-transition v-if="pageMenuPerm['UPLOADIDENTITY']">
       <upload-File
-        productName="回单解析"
+        productName="身份证解析"
         @uploadFileData="uploadFileData"
       ></upload-File>
     </lls-collapse-transition>
@@ -78,7 +78,7 @@ export default {
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
-      // documents: data.analysisResult,
+      // documents: data.imageAnalysisResult,
       dragenter: false,
       token: window.sessionStorage.getItem("token"),
       origin: window.sessionStorage.getItem("origin"),
@@ -96,7 +96,7 @@ export default {
     // console.log(this.data, "data");
     this.documents = this.data[0];
     // console.log(this.documents, "documents");
-    this.page = this.documents.analysisResult;
+    this.page = this.documents.imageAnalysisResult;
     // console.log(this.page, "page");
     // const frontHash = { 身份证正面: 0 };
     // const backHash = { 身份证反面: 0 };
@@ -159,7 +159,7 @@ export default {
     tabs(activeDocumentIndex, activePageIndex) {
       this.activeDocumentIndex = activeDocumentIndex;
       this.documents = this.data[activeDocumentIndex];
-      this.page = this.documents.analysisResult;
+      this.page = this.documents.imageAnalysisResult;
       // console.log(this.page, "121312312321312312");
       this.activeTabIndex = 0;
       this.tabsArray = [];
@@ -275,7 +275,7 @@ export default {
       if (this.data.length > 2) this.data.shift();
       this.data = res.data.concat(this.data);
       this.documents = this.data[0];
-      this.page = this.documents.analysisResult;
+      this.page = this.documents.imageAnalysisResult;
       // console.log(this.documents, "documents2");
       this.activeDocumentIndex = 0;
       this.activeTabIndex = 0;

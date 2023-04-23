@@ -545,8 +545,7 @@ export default {
           .then((res) => {
             if (res.data.code === "200") {
               this.$set(this.data[this.activeDocumentIndex], "starsFlag", true);
-              this.data[this.activeDocumentIndex].loadRecordId =
-                res.data.data.loadRecordId;
+              this.data[this.activeDocumentIndex].loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -616,6 +615,7 @@ export default {
       // this.data.splice(0, this.data.length > 2 ? 1 : 0,res.data[0]);
 
       this.documents = this.data[0];
+      this.documents.requestId = res.traceId;
       this.activeDocumentIndex = 0;
       this.activeTabIndex = 0;
     },

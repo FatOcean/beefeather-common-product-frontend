@@ -8,7 +8,7 @@ const data = [
     "fileId": 1,
     "filePath": "/home/lls_data/product/id_card_analysis/demo/front/身份证人像页.png",
     "excelPath": "/home/lls_data/product/id_card_analysis/demo/front/身份证人像页.xlsx",
-    "analysisResult": [
+    "imageAnalysisResult": [
       {
         "imageType": "身份证人像页",
         "identityList": [
@@ -164,7 +164,7 @@ const data = [
     "fileId": 2,
     "filePath": "/home/lls_data/product/id_card_analysis/demo/behind/身份证国徽页.png",
     "excelPath": "/home/lls_data/product/id_card_analysis/demo/behind/身份证国徽页.xlsx",
-    "analysisResult": [
+    "imageAnalysisResult": [
       {
         "imageType": "身份证国徽页",
         "identityList": [

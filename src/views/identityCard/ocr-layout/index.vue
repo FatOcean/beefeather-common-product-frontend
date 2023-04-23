@@ -410,7 +410,7 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1;
       }
-      const page = this.example.analysisResult;
+      const page = this.example.imageAnalysisResult;
       this.resizeImg();
       this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
@@ -430,7 +430,7 @@ export default {
       this.updateTranslateY();
       this.$emit("resetId");
       // this.activePageIndex = index + 1
-      const page = this.example.analysisResult;
+      const page = this.example.imageAnalysisResult;
       this.resizeImg();
       this.$emit("handle-change", page);
     },
@@ -493,7 +493,7 @@ export default {
       }
       this.activeDocumentIndex = index;
       this.resetProps();
-      const page = this.example.analysisResult.identityList;
+      const page = this.example.imageAnalysisResult.identityList;
       this.resizeImg();
       this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
@@ -514,17 +514,17 @@ export default {
         if (this.activeDocumentIndex === 0) {
           this.activeDocumentIndex = this.data.length - 1;
           this.activePageIndex =
-            this.data[this.activeDocumentIndex].analysisResult.length;
+            this.data[this.activeDocumentIndex].imageAnalysisResult.length;
         } else {
           this.activeDocumentIndex -= 1;
           this.activePageIndex =
-            this.data[this.activeDocumentIndex].analysisResult.length;
+            this.data[this.activeDocumentIndex].imageAnalysisResult.length;
         }
       } else {
         this.activePageIndex = num + 1;
       }
 
-      const page = this.example.analysisResult[this.activePageIndex - 1];
+      const page = this.example.imageAnalysisResult[this.activePageIndex - 1];
       this.resizeImg();
       this.$emit("handle-change", page);
       this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
