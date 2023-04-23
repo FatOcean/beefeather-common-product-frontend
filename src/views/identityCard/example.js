@@ -6,7 +6,7 @@ import back from "../../assets/images/document-images/identityCardAnalysis/身�
 const data = [
   {
     "fileId": 1,
-    "filePath": "/home/lls_data/product/id_card_analysis/demo/front/身份证人像页.png",
+    "imagePath": "/home/lls_data/product/id_card_analysis/demo/front/身份证人像页.png",
     "excelPath": "/home/lls_data/product/id_card_analysis/demo/front/身份证人像页.xlsx",
     "imageAnalysisResult": [
       {
@@ -156,13 +156,13 @@ const data = [
     ],
     "fileName": "身份证人像页.png",
     // "imagePath": "https://beefeather-ng-front.lianyirong.com.cnPNG?filename=/home/lls_data/product/id_card_analysis/demo/front/身份证人像页.png",
-    imagePath: front,
+    filePath: front,
     "width": 660,
     "height": 417
   },
   {
     "fileId": 2,
-    "filePath": "/home/lls_data/product/id_card_analysis/demo/behind/身份证国徽页.png",
+    "imagePath": "/home/lls_data/product/id_card_analysis/demo/behind/身份证国徽页.png",
     "excelPath": "/home/lls_data/product/id_card_analysis/demo/behind/身份证国徽页.xlsx",
     "imageAnalysisResult": [
       {
@@ -220,7 +220,7 @@ const data = [
     ],
     "fileName": "身份证国徽页.png",
     // "imagePath": "https://beefeather-ng-front.lianyirong.com.cnPNG?filename=/home/lls_data/product/id_card_analysis/demo/behind/身份证国徽页.png",
-    imagePath: back,
+    filePath: back,
     "width": 4762,
     "height": 2971
   }

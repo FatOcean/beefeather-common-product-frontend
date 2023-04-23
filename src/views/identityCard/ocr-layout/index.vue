@@ -12,9 +12,9 @@
         <div class="example-image">
           <img
             :src="
-              i.imagePath
-                ? i.imagePath
-                : originalLocation + encodeURIComponent(i.filePath)
+              i.filePath
+                ? i.filePath
+                : originalLocation + encodeURIComponent(i.imagePath)
             "
             :alt="i.fileName"
             @load="loaded"
@@ -953,10 +953,10 @@ export default {
     },
     // 文档图片地址
     imageUrl() {
-      return this.data[this.activeDocumentIndex].imagePath
-        ? this.data[this.activeDocumentIndex].imagePath
+      return this.data[this.activeDocumentIndex].filePath
+        ? this.data[this.activeDocumentIndex].filePath
         : this.originalLocation +
-            encodeURIComponent(this.data[this.activeDocumentIndex].filePath);
+            encodeURIComponent(this.data[this.activeDocumentIndex].imagePath);
     },
     imageName() {
       return this.data[this.activeDocumentIndex].fileName;
