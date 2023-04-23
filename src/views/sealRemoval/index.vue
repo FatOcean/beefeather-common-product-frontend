@@ -620,10 +620,8 @@ export default {
       this.handling = true;
       // console.log(data, '000')
       if (!data.starsFlag) {
-        const fileId = data.id;
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
-            fileId,
             picAddress,
             productName: "印章去除",
             requestId: data.requestId,

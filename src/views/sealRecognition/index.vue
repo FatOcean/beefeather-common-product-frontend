@@ -153,10 +153,8 @@ export default {
       const data = this.data[this.activeDocumentIndex];
       const picAddress = `${data.imagePath}${data.fileName}`;
       if (!data.starsFlag) {
-        const fileId = data.id || "1";
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
-            fileId,
             picAddress,
             productName: "印章识别",
             requestId: this.requestId,

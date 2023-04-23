@@ -209,13 +209,11 @@ export default {
       if (this.isLoading) return;
       this.isLoading = true;
       // const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${this.documents.filePath}`;
+      const picAddress = `${this.documents.imagePath}`;
       // console.log(data, '000')
       if (!this.documents.starsFlag) {
-        const fileId = this.documents.fileId;
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
-            fileId,
             picAddress,
             productName: "身份证解析",
           })
@@ -243,7 +241,7 @@ export default {
         this.$http
           .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.documents.loadRecordId,
-            url: picAddress,
+            picAddress,
           })
           .then((res) => {
             if (res.data.code === "200") {

@@ -534,10 +534,8 @@ export default {
       const picAddress = `${data.sealPath}${data.fileName}`;
       // console.log(data, '000')
       if (!data.starsFlag) {
-        const fileId = data.id || "1";
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
-            fileId,
             picAddress,
             productName: "印章检测",
             requestId: data.requestId,

@@ -202,10 +202,8 @@ export default {
         data.specificData[this.activePageIndex].name
       }`;
       if (!this.activeImage.starsFlag) {
-        const fileId = data.id;
         this.$http
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
-            fileId,
             picAddress,
             productName: "增值税发票解析",
           })
