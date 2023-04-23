@@ -410,7 +410,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromSealRecognition",
+          from: "messageGeneralProduct",
           fixed: fixed,
         },
         "*"

@@ -396,7 +396,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromIdentityCardAnalysis",
+          from: "messageGeneralProduct",
           fixed: fixed,
         },
         "*"
