@@ -220,7 +220,7 @@ export default {
               );
               // this.page.starsFlag = true;
               this.documents[this.activeDocumentIndex].loadRecordId =
-                res.data.data.loadRecordId;
+                res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -239,11 +239,11 @@ export default {
           });
       } else {
         this.$http
-          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
-            loadRecordId: this.documents[this.activeDocumentIndex].loadRecordId,
-            url: data.path,
-            name: data.specificData[this.activePageIndex].name,
-          })
+          .post(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.documents[this.activeDocumentIndex].loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}`
+          )
           .then((res) => {
             if (res.data.code === "200") {
               this.$set(

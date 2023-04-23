@@ -655,11 +655,11 @@ export default {
           });
       } else {
         this.$http
-          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
-            loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
-            picAddress,
-            requestId: data.requestId,
-          })
+          .post(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.data[this.activeDocumentIndex].loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}`
+          )
           .then((res) => {
             this.handling = false;
             if (res.data.code === "200") {

@@ -217,9 +217,9 @@ export default {
       } else {
         this.$http
           .post(
-            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
               this.page.loadRecordId
-            }&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
+            )}&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
           .then((res) => {
             if (res.data.code === "200") {

@@ -183,10 +183,11 @@ export default {
           });
       } else {
         this.$http
-          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
-            loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
-            picAddress,
-          })
+          .post(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.data[this.activeDocumentIndex].loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}`
+          )
           .then((res) => {
             if (res.data.code === "200") {
               this.data[this.activeDocumentIndex].starsFlag = false;
