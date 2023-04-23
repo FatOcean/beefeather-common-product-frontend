@@ -636,8 +636,7 @@ export default {
               // console.log(data.starsFlag, "11111");
               // console.log(this.example.starsFlag, "111111111111");
               // this.page.starsFlag = true;
-              this.data[this.activeDocumentIndex].loadRecordId =
-                res.data.data.loadRecordId;
+              this.data[this.activeDocumentIndex].loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -658,19 +657,13 @@ export default {
         this.$http
           .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
             loadRecordId: this.data[this.activeDocumentIndex].loadRecordId,
-            url: picAddress,
+            picAddress,
             requestId: data.requestId,
           })
           .then((res) => {
             this.handling = false;
             if (res.data.code === "200") {
-              // data.starsFlag = false;
-              // this.data[this.activeDocumentIndex].starsFlag = false;
-
               data.starsFlag = false;
-
-              // console.log(data.starsFlag, "22222");
-              // console.log(this.example.starsFlag, "22222222222222");
               this.$message({
                 message: "取消收集成功",
                 type: "success",
