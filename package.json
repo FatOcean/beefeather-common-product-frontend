@@ -12,7 +12,7 @@
 		"@linklogis/beeLoading": "^1.0.0",
 		"@linklogis/image-viewer": "^1.1.1",
 		"@linklogis/link-upload": "^1.0.9",
-		"@linklogis/ocr-layout": "^1.2.4",
+		"@linklogis/ocr-layout": "^1.2.5",
 		"axios": "^0.21.1",
 		"core-js": "^3.6.5",
 		"link-ui-web": "^2.0.19",

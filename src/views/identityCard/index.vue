@@ -216,11 +216,12 @@ export default {
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             picAddress,
             productName: "身份证解析",
+            requestId: this.documents.requestId,
           })
           .then((res) => {
             if (res.data.code === "200") {
               this.$set(this.documents, "starsFlag", true);
-              this.documents.loadRecordId = res.data.data.loadRecordId;
+              this.documents.loadRecordId = res.data.data;
               this.$message({
                 message: "样本收集成功",
                 type: "success",
@@ -239,14 +240,14 @@ export default {
           });
       } else {
         this.$http
-          .post("/general-product-web/hardCaseCollect/cancelSaveCollectInfo", {
-            loadRecordId: this.documents.loadRecordId,
-            picAddress,
-          })
+          .post(
+            `/general-product-web/hardCaseCollect/cancelSaveCollectInfo?loadRecordId=${encodeURIComponent(
+              this.documents.loadRecordId
+            )}&picAddress=${encodeURIComponent(picAddress)}`
+          )
           .then((res) => {
             if (res.data.code === "200") {
               this.documents.starsFlag = false;
-
               this.$message({
                 message: "取消收集成功",
                 type: "success",

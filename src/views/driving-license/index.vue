@@ -201,7 +201,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromDocumentOcr",
+          from: "messageGeneralProduct",
           fixed: fixed,
         },
         "*"

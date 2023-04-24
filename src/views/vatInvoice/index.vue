@@ -150,7 +150,7 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageFromVatInvoice",
+          from: "messageGeneralProduct",
           fixed: fixed,
         },
         "*"
@@ -206,6 +206,7 @@ export default {
           .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
             picAddress,
             productName: "增值税发票解析",
+            requestId: data.requestId,
           })
           .then((res) => {
             if (res.data.code === "200") {
