@@ -107,7 +107,7 @@ const routes = [
     },
   },
   {
-    path: "/vatSpecialvAnalysis",
+    path: "/vatInvoiceAnalysis",
     component: (resolve) => require(["@/views/vatInvoice"], resolve),
     meta: {
       title: "增值税发票解析",
