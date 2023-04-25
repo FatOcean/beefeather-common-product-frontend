@@ -411,7 +411,7 @@ const data = [
     fileName: "示例二.png",
     imagePath: "product/receipt_analysis/demo/data/示例二.png",
     // "pdfPath": "product/treasury_flow_analysis/lls/T2022062111243343/data/1-交易明细表(1).pdf",
-    excelPath: "product/receipt_analysis/demo/result/示例二.png",
+    excelPath: "product/receipt_analysis/demo/result/示例二.xlsx",
     tabList: [
       {
         id: 1,
@@ -617,7 +617,7 @@ const data = [
     fileName: "示例三.jpg",
     imagePath: "product/receipt_analysis/demo/data/示例三.jpg",
     // "pdfPath": "product/treasury_flow_analysis/lls/T2022062111243343/data/1-交易明细表(1).pdf",
-    excelPath: "product/receipt_analysis/demo/result/示例三.jpg",
+    excelPath: "product/receipt_analysis/demo/result/示例三.xlsx",
     tabList: [
       {
         id: 1,
