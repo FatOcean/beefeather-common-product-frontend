@@ -2,7 +2,7 @@ import specialOne from './image/示例一.png'
 import specialTwo from './image/示例二.png'
 import specialThere from './image/示例三.png'
 
-const specialData = [
+const documents = [
     {
         id: '1',
         name: '示例一.png',
@@ -893,6 +893,5 @@ const specialData = [
     }
 ]
 
-export {
-    specialData
-}
+export default documents
+
