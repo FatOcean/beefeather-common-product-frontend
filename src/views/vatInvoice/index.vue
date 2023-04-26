@@ -128,14 +128,13 @@ export default {
     },
   },
   created() {
-    console.log(this.documents, "documents");
-    // this.documents.forEach((item) => {
-    //   item.specificData.forEach((ele) => {
-    //     ele.otherData = ele.otherData.map((item, index) => {
-    //       return item.commodity;
-    //     });
-    //   });
-    // });
+    this.documents.forEach((item) => {
+      item.specificData.forEach((ele) => {
+        ele.otherData = ele.otherData.map((item, index) => {
+          return item.commodity;
+        });
+      });
+    });
     this.page = this.documents[0].specificData[0];
     this.tabsArray = this.documents[0].specificData.map((item, index) => {
       return {

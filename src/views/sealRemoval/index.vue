@@ -726,7 +726,7 @@ export default {
   },
 };
 </script>
-<style lang="stylus">
+<style lang="stylus" >
 .identify-data {
   .identify-header {
     display: flex;

@@ -998,7 +998,7 @@ export default {
   },
 };
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .ocr-layout {
   padding: 76px 24px 24px 24px;
   display: flex;
@@ -1156,12 +1156,10 @@ export default {
         }
 
         .svg-icon {
-          font-size: 15px;
           margin: 0 6px;
           cursor: pointer;
 
           &.big-icon, &.dis-icon {
-            font-size: 15px;
             margin: 0 4px;
           }
 
@@ -1342,12 +1340,10 @@ export default {
             }
 
             .svg-icon {
-              font-size: 15px;
               margin: 0 6px;
               cursor: pointer;
 
               &.big-icon, &.dis-icon {
-                font-size: 15px;
                 margin: 0 4px;
               }
             }
