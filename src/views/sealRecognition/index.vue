@@ -51,6 +51,7 @@
     <lls-collapse-transition v-if="pageMenuPerm['UPLSEALRECO']">
       <upload-File
         productName="印章识别"
+        :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"
         @uploadFileData="uploadFileData"
       ></upload-File>
     </lls-collapse-transition>

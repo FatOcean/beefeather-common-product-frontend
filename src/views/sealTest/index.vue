@@ -113,6 +113,7 @@
     <lls-collapse-transition v-if="pageMenuPerm['UPLSEALTEST']">
       <upload-File
         productName="印章检测"
+        :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"
         @uploadFileData="uploadFileData"
       ></upload-File>
     </lls-collapse-transition>

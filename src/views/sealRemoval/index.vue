@@ -120,6 +120,7 @@
     <lls-collapse-transition v-if="pageMenuPerm['UPLSEALREM']">
       <upload-File
         productName="印章去除"
+        :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"
         @uploadFileData="uploadFileData"
       ></upload-File>
     </lls-collapse-transition>

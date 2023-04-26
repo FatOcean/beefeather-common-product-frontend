@@ -19,7 +19,7 @@
       :class="{ dragenter: dragenter }"
       :messageOffset="120"
       :maxSize="1024 * 1024 * 8"
-      :accept="['jpg', 'jpeg', 'bmp', 'png', 'pdf']"
+      :accept="fileTypes"
     >
       <div
         class="upload-innder"
@@ -41,7 +41,7 @@
             <span style="color: #0887ff; margin: 4px">点击上传</span>
           </div>
           <div class="upload-text">
-            支持PDF、JPG、PNG、JPEG、BMP格式，文件大小不超过8M
+            支持{{ fileTypes.join("、").toUpperCase() }}格式，文件大小不超过8M
           </div>
         </div>
       </div>
@@ -56,6 +56,12 @@ export default {
   props: {
     productName: {
       type: String,
+    },
+    fileTypes: {
+      type: Array,
+      default: () => {
+        return ["pdf", "jpg", "png", "jpeg", "bmp"];
+      },
     },
   },
   data() {
