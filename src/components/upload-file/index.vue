@@ -104,11 +104,12 @@ export default {
           if (res.code === "200") {
             this.postFixdMessage(false);
             this.beeLoading = false;
-            this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 72,
-            });
+            if (this.productName !== "印章去除")
+              this.$message({
+                message: "上传成功",
+                type: "success",
+                offset: 72,
+              });
             this.percent = 100;
             this.$emit("uploadFileData", res);
           } else {
