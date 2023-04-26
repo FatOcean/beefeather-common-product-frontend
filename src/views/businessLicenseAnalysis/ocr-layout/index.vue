@@ -45,7 +45,6 @@
             ></svg-icon>
             <span class="number">
               <lls-input
-                type="number"
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
               />
@@ -961,7 +960,7 @@ export default {
           .lls-input {
             width: auto;
 
-            .lls-input__inner {
+            ::v-deep .lls-input__inner {
               max-width: 30px;
               position: relative;
               left: -4px;
