@@ -1388,34 +1388,6 @@ export default {
   }
 }
 
-.function-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-right: 50px;
-
-  .lls-select {
-    margin-right: -12px;
-    width: 56px;
-    padding: 0;
-
-    .lls-input__inner {
-      border: none;
-      padding: 0;
-      background: inherit;
-      color: #0887ff;
-    }
-
-    .lls-input__suffix {
-      .lls-input__suffix-inner {
-        i {
-          color: #0887ff;
-        }
-      }
-    }
-  }
-}
-
 .lls-select .lls-input .lls-select__caret {
   transform: scale(0.7) rotateZ(180deg);
 }

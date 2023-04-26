@@ -1411,10 +1411,6 @@ export default {
 
     .lls-dropdown-link {
       cursor: pointer;
-
-      .svg-icon {
-        margin-right: 0 !important;
-      }
     }
   }
 }
