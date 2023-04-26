@@ -255,7 +255,7 @@ export default {
         message: "文件上传失败（如文件未解压等）",
         type: "error",
         offset: 60,
-      })
+      });
     },
     // 表格ocr识别
     ocrRecognitionExcel(file) {
@@ -351,6 +351,15 @@ export default {
 .document-ocr-wrapper {
   .ocr-layout {
     padding: 76px 24px 24px 24px;
+
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(32, 45, 64, 0.5);
+    }
 
     // .lls-button.lls-button--text {
     // margin-right: 54px;

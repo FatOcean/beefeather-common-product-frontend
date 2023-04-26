@@ -208,6 +208,15 @@ export default {
     padding: 76px 24px 24px 24px;
   }
 
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(32, 45, 64, 0.5);
+  }
+
   .ocr-result {
     * {
       user-select: text;

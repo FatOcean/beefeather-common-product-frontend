@@ -1146,15 +1146,13 @@ export default {
       }
 
       .ocr-text {
-        &::-webkit-scrollbar {
+        ::-webkit-scrollbar {
           width: 4px;
-          height: 6px;
+          height: 8px;
         }
 
-        // 滚动区域背景
-        &::-webkit-scrollbar-track-piece {
-          background-color: #f7fbff;
-          -webkit-border-radius: 6px;
+        ::-webkit-scrollbar-thumb {
+          background: rgba(32, 45, 64, 0.5);
         }
 
         // 竖向滚动条
