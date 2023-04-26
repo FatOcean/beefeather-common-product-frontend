@@ -836,7 +836,7 @@ export default {
   },
 };
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .ocr-layout {
   padding: 76px 24px 24px 24px;
   display: flex;
