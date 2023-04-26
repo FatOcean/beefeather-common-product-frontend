@@ -474,22 +474,6 @@ export default {
         "*"
       );
     },
-    getServiceName() {
-      this.$http({
-        url: "/seal-removal-web/identityCard/common//serviceList",
-        method: "post",
-        data: {
-          name: "印章去除",
-        },
-      }).then((result) => {
-        const res = result.data;
-        if (res.code === "200") {
-          this.servicePortAddress = res.data[0].servicePortAddress;
-        } else {
-          this.$message.error("请求错误");
-        }
-      });
-    },
     reRenderImage() {
       this.data.forEach((document) => {
         const page = document.imageVO[1];
@@ -639,13 +623,13 @@ export default {
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           })
@@ -666,13 +650,13 @@ export default {
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           })
@@ -708,13 +692,13 @@ export default {
         this.$message({
           message: "解析失败",
           type: "error",
-          offset: 72,
+          offset: 60,
         });
       } else {
         this.$message({
           message: "上传成功",
           type: "success",
-          offset: 72,
+          offset: 60,
         });
       }
     },

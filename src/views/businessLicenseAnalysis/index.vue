@@ -50,7 +50,6 @@
 import { normalData } from "./defaultData";
 import ocrlayout from "./ocr-layout";
 import { mapState } from "vuex";
-import { data } from "../receipt-analysis/example";
 export default {
   data() {
     return {
@@ -165,13 +164,13 @@ export default {
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 120,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           });
@@ -190,13 +189,13 @@ export default {
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 120,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 120,
+                offset: 60,
               });
             }
           });
@@ -274,7 +273,7 @@ export default {
   },
 };
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .identify-data {
   .identify-header {
     display: flex;

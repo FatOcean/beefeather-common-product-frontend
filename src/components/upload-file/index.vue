@@ -17,7 +17,7 @@
       :on-error="onError"
       :showFileList="false"
       :class="{ dragenter: dragenter }"
-      :messageOffset="120"
+      :messageOffset="60"
       :maxSize="1024 * 1024 * 8"
       :accept="fileTypes"
     >
@@ -89,7 +89,11 @@ export default {
     onError(res) {
       this.files = [];
       this.beeLoading = false;
-      this.$message.error("文件上传失败（如文件未解压等）");
+      this.$message({
+        message: "文件上传失败（如文件未解压等）",
+        type: "error",
+        offset: 60,
+      });
     },
     onProgress(event, file) {
       this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
@@ -108,7 +112,7 @@ export default {
               this.$message({
                 message: "上传成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             this.percent = 100;
             this.$emit("uploadFileData", res);
@@ -118,7 +122,7 @@ export default {
             this.$message({
               message: res.message,
               type: "error",
-              offset: 72,
+              offset: 60,
             });
           }
         })
@@ -127,7 +131,7 @@ export default {
           this.$message({
             message: "网络错误，请稍后再试",
             type: "error",
-            offset: 72,
+            offset: 60,
           });
         })
         .finally(() => {

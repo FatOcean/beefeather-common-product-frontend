@@ -96,7 +96,7 @@
         :on-error="onError"
         :showFileList="false"
         :class="{ dragenter: dragenter }"
-        :messageOffset="120"
+        :messageOffset="60"
         :maxSize="1024 * 1024 * 8"
         :accept="['jpg', 'jpeg', 'bmp', 'png', 'pdf']"
       >
@@ -224,13 +224,13 @@ export default {
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           });
@@ -247,13 +247,13 @@ export default {
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           });
@@ -274,7 +274,11 @@ export default {
       // console.log(res);
       this.files = [];
       this.beeLoading = false;
-      this.$message.error("文件上传失败（如文件未解压等）");
+      this.$message({
+        message: "文件上传失败（如文件未解压等）",
+        type: "error",
+        offset: 60,
+      });
     },
     // 表格ocr识别
     ocrRecognitionExcel(file) {
@@ -290,7 +294,7 @@ export default {
             this.$message({
               message: "上传成功",
               type: "success",
-              offset: 72,
+              offset: 60,
             });
             this.percent = 100;
             this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
@@ -333,7 +337,7 @@ export default {
             this.$message({
               message: res.message,
               type: "error",
-              offset: 72,
+              offset: 60,
             });
           }
         });

@@ -14,7 +14,7 @@ Vue.prototype.exportByBlob = function (blob_, fileName, type) {
       this.$message({
         message: data.message,
         type: "error",
-        offset: 72,
+        offset: 60,
       });
     };
     reader.readAsText(blob_, "utf-8");

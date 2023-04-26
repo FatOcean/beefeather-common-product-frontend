@@ -254,7 +254,7 @@ export default {
           this.$message({
             message: res.message,
             type: "error",
-            offset: 72,
+            offset: 60,
           });
         })
         .finally(() => {
@@ -312,13 +312,13 @@ export default {
               this.$message({
                 message: "样本收集成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           })
@@ -339,13 +339,13 @@ export default {
               this.$message({
                 message: "取消收集成功",
                 type: "success",
-                offset: 72,
+                offset: 60,
               });
             } else {
               this.$message({
                 message: res.data.message,
                 type: "error",
-                offset: 72,
+                offset: 60,
               });
             }
           })

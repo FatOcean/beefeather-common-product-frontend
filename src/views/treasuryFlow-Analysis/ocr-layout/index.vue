@@ -778,7 +778,7 @@ export default {
           this.$message({
             message: "网络错误，请稍后再试",
             type: "error",
-            offset: 72,
+            offset: 60,
           });
         });
     },

@@ -282,7 +282,7 @@ export default {
           this.$message({
             message: res.data.message,
             type: "success",
-            offset: 72,
+            offset: 60,
           });
           this.serviceOptions = this.serviceOptions.filter((item) => {
             return item.serviceStatus !== "不可用";
@@ -292,7 +292,7 @@ export default {
           this.$message({
             message: res.data.message,
             type: "error",
-            offset: 72,
+            offset: 60,
           });
         }
       });

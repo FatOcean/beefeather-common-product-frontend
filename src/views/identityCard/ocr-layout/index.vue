@@ -901,7 +901,7 @@ export default {
             this.$message({
               message: "下载文件异常，请稍后再试",
               type: "error",
-              offset: 72,
+              offset: 60,
             });
           }
         })

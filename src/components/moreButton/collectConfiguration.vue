@@ -150,14 +150,14 @@ export default {
           this.$message({
             message: "收集配置成功",
             type: "success",
-            offset: 72,
+            offset: 60,
           });
         } else {
           this.datasetId = "";
           this.$message({
             message: res.data.message,
             type: "error",
-            offset: 72,
+            offset: 60,
           });
         }
       });
