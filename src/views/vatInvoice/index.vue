@@ -94,7 +94,6 @@ export default {
     return {
       activePageIndex: 0,
       isLoading: false,
-      selectData: specialData,
       files: [],
       activeTextId: "",
       page: {}, // 当前页面数据信息
@@ -105,7 +104,7 @@ export default {
       activeDocumentIndex: 0,
       tabsArray: [],
       // documents: [],
-      documents: [],
+      documents: specialData,
       dragenter: false,
       token: window.sessionStorage.getItem("token"),
       origin: window.sessionStorage.getItem("origin"),
@@ -129,14 +128,14 @@ export default {
     },
   },
   created() {
-    this.documents = this.selectData;
-    this.documents.forEach((item) => {
-      item.specificData.forEach((ele) => {
-        ele.otherData = ele.otherData.map((item, index) => {
-          return item.commodity;
-        });
-      });
-    });
+    console.log(this.documents, "documents");
+    // this.documents.forEach((item) => {
+    //   item.specificData.forEach((ele) => {
+    //     ele.otherData = ele.otherData.map((item, index) => {
+    //       return item.commodity;
+    //     });
+    //   });
+    // });
     this.page = this.documents[0].specificData[0];
     this.tabsArray = this.documents[0].specificData.map((item, index) => {
       return {
