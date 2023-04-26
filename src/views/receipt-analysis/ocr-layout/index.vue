@@ -50,12 +50,11 @@
             ></svg-icon>
 
             <span class="number">
-              <input
-                class="dih-page-input"
+              <lls-input
                 type="number"
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
-              /><span>/&nbsp;&nbsp;1</span></span
+              /><span>/1</span></span
             >
             <svg-icon
               v-if="activePageIndex === total"
@@ -997,8 +996,27 @@ export default {
           border-bottom: 1px solid #E3E8F0;
           padding: 0 8px;
 
-          >span {
-            color: #8492A6;
+          .lls-input {
+            width: auto;
+
+            .lls-input__inner {
+              max-width: 30px;
+              position: relative;
+              left: -4px;
+              border: none;
+              height: 14px;
+              padding: 0;
+              border-radius: 0;
+              text-align: center;
+
+              &:focus {
+                border-color: #0887ff;
+              }
+            }
+          }
+
+          span {
+            font-size: 12px;
           }
         }
 
