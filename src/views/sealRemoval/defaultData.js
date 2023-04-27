@@ -21,6 +21,7 @@ const data = [
         width: 2504,
         height: 3496,
         image: example1_removal,
+        hwFlag: true
       },
     ],
   },
@@ -43,6 +44,7 @@ const data = [
         width: 1700,
         height: 2338,
         image: example2_removal,
+        hwFlag: true
       },
     ],
   },

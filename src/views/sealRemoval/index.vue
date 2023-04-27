@@ -58,7 +58,7 @@
           :style="{
             // backgroundImage: `url(${imageUrl})`,
             height: `${realRenderHeight}px`,
-            width: `${realRenderWidth}px`,
+            width: hwFlag && `${realRenderWidth}px`,
             transform: `rotate(${90 * rotateIndex}deg) translateY(${
               page.translateY + moveY
             }px) translateX(${page.translateX + moveX}px) scale(${
@@ -304,6 +304,9 @@ export default {
             encodeURIComponent(
               this.data[this.activeDocumentIndex].imageVO[1].filePath
             );
+    },
+    hwFlag() {
+      return this.data[this.activeDocumentIndex].imageVO[1].hwFlag;
     },
     imageName() {
       return this.data[this.activeDocumentIndex].fileName;
@@ -669,6 +672,8 @@ export default {
       res.data.forEach((i) => {
         i.isUpload = true;
         i.starsFlag = false;
+        if (i.imageVO[1] && i.imageVO[1].height && i.imageVO[1].width)
+          i.imageVO[1].hwFlag = i.imageVO[1].height > i.imageVO[1].width;
       });
       // res.data.forEach((i) => {
       //   i.starsFlag = false;
