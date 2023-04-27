@@ -1,5 +1,5 @@
 <template>
-  <div class="vat-invoice-wrapper">
+  <div class="business-license">
     <ocrlayout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
@@ -274,129 +274,6 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.identify-data {
-  .identify-header {
-    display: flex;
-    background: #F3F4F6;
-
-    div {
-      width: 50%;
-      line-height: 40px;
-      padding-left: 8px;
-      border: 1px solid #E3E8F0;
-
-      &:last-child {
-        border-left: none;
-      }
-    }
-  }
-
-  .identify-content {
-    .identify-content-top {
-      display: flex;
-
-      div {
-        width: 50%;
-        line-height: 40px;
-        padding-left: 8px;
-        border: 1px solid #E3E8F0;
-        border-top: none;
-
-        &:last-child {
-          border-left: none;
-        }
-      }
-    }
-
-    .identify-content-other {
-      border: 1px solid #E3E8F0;
-      border-top: none;
-      display: flex;
-      box-sizing: border-box;
-
-      .other-list {
-        width: 50%;
-        box-sizing: border-box;
-
-        div {
-          border-bottom: 1px solid #E3E8F0;
-          line-height: 40px;
-          padding-left: 8px;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
-
-      ::-webkit-scrollbar {
-        background: rgba(#202D40);
-        opacity: 0.5;
-        width: 4px;
-      }
-
-      /* 滚动槽 */
-      ::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
-        border-radius: 10px;
-      }
-
-      /* 滚动条滑块 */
-      ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.1);
-        -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
-      }
-
-      ::-webkit-scrollbar-thumb:window-inactive {
-        background: rgba(0, 0, 0, 0.3);
-      }
-
-      .other-left {
-        align-content: center;
-        width: 50%;
-        box-sizing: border-box;
-        display: flex;
-
-        .other-info {
-          border-bottom: 1px solid #E3E8F0;
-          border-right: 1px solid #E3E8F0;
-          border-left: 1px solid #E3E8F0;
-          line-height: 40px;
-          padding-left: 8px;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
-    }
-  }
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-
-  .lls-checkbox__label {
-    padding-left: 4px;
-    color: #202D40;
-  }
-
-  .lls-checkbox {
-    margin-left: 32px;
-  }
-
-  .lls-checkbox__input.is-checked+.lls-checkbox__label {
-    color: #202D40;
-  }
-}
-
-.pre-line {
-  white-space: pre-line;
-}
-
 .table-data {
   width: 100%;
   margin-bottom: 16px;
@@ -463,7 +340,7 @@ export default {
   }
 }
 
-.vat-invoice-wrapper {
+.business-license {
   // loadin 样式
   .analyzing {
     display: flex;
