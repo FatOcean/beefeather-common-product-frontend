@@ -273,7 +273,7 @@ export default {
   },
 };
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
 .table-data {
   width: 100%;
   margin-bottom: 16px;
@@ -415,6 +415,60 @@ export default {
       color: #fff;
       margin-left: 4px;
       vertical-align: middle;
+    }
+  }
+}
+</style>
+
+<style lang="stylus">
+.upload-wrapper {
+  position: absolute;
+  bottom: 0px;
+  z-index: 9;
+
+  .dragger-wrapper {
+    width: 302px;
+    height: initial;
+    min-height: initial;
+    background: #ffffff;
+    border: 1px solid #b4dbff;
+    border-radius: 16px 16px 0px 0px;
+    box-shadow: 0px -3px 6px 0px rgba(5, 18, 30, 0.04);
+    text-align: center;
+    cursor: pointer;
+
+    .upload-innder {
+      margin: 0;
+      padding: 16px 36px;
+
+      .put-upload {
+        color: #0887ff;
+        font-size: 16px;
+        pointer-events: none;
+
+        .svg-icon {
+          font-size: 16px;
+        }
+
+        >span {
+          vertical-align: middle;
+          margin-left: 8px;
+        }
+      }
+
+      .expand-upload {
+        padding: 16px 0;
+        pointer-events: none;
+
+        .svg-icon {
+          font-size: 24px;
+        }
+
+        .upload-text {
+          color: #8492a6;
+          margin-top: 8px;
+        }
+      }
     }
   }
 }
