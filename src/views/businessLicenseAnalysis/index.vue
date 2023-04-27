@@ -273,7 +273,7 @@ export default {
   },
 };
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
 .table-data {
   width: 100%;
   margin-bottom: 16px;
