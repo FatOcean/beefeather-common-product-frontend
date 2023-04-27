@@ -1346,7 +1346,7 @@ export default {
 
         border: 1px solid #e3e8f0;
         height: calc(100% - 74px);
-        overflow: auto;
+        overflow: hidden;
         padding: 16px;
         background: #fff;
         position: relative;

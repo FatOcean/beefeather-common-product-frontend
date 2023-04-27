@@ -1273,6 +1273,7 @@ export default {
           padding: 16px;
           background: #fff;
           position: relative;
+          overflow: hidden;
 
           .tool-bar {
             border: 1px solid #e3e8f0;

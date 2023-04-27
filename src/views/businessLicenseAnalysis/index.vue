@@ -421,6 +421,21 @@ export default {
 </style>
 
 <style lang="stylus">
+.analyzing {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background: #000000;
+  position: fixed !important;
+  z-index: 999 !important;
+  left: 0;
+}
+
 .upload-wrapper {
   position: absolute;
   bottom: 0px;

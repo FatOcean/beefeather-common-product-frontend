@@ -421,6 +421,7 @@ export default {
       this.activeTextId = null;
       this.zoomScale = 1;
       this.pathValue = null;
+      this.rectanglePosition = "";
       this.dragX = 0;
       this.dragY = 0;
       this.moveX = 0;
@@ -795,6 +796,7 @@ export default {
       this.activeTextId = null;
       this.zoomScale = 1;
       this.pathValue = null;
+      this.rectanglePosition = "";
       this.dragX = 0;
       this.dragY = 0;
       this.moveX = 0;
