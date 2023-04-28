@@ -901,7 +901,7 @@ export default {
     handleClickDownload(type) {
       this.$http({
         method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.example.fileId}&productName=印章去除&path=${this.example.imageVO[1].filePath}&type=${type}`,
+        url: `/general-product-web/general/downloadResult?taskId=${this.example.fileId}&productName=印章去除&path=${encodeURIComponent( this.example.imageVO[1].filePath)}&type=${type}`,
         responseType: "blob",
       })
         .then((res) => {

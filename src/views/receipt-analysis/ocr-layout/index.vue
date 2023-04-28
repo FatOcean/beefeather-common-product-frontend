@@ -748,7 +748,11 @@ export default {
     handleClickDownload() {
       this.$http({
         method: "get",
-        url: `/general-product-web/general/downloadResult?taskId=${this.example.requestId}&productName=回单解析&path=${this.example.excelPath}`,
+        url: `/general-product-web/general/downloadResult?taskId=${
+          this.example.requestId
+        }&productName=回单解析&path=${encodeURIComponent(
+          this.example.excelPath
+        )}`,
         responseType: "blob",
       })
         .then((res) => {

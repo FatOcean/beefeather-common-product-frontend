@@ -193,7 +193,7 @@ export default {
     getResult() {
       this.loading = true;
       const param = {
-        filePath: this.url,
+        filePath: encodeURIComponent(this.url),
         bankName: this.banks[this.selectValue],
         productName: "流水解析",
       };

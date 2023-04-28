@@ -201,7 +201,7 @@ export default {
       this.loading = true;
       this.$refs.documents.resetPosition();
       const param = {
-        filePath: this.url,
+        filePath: encodeURIComponent(this.url),
         bankName: this.banks[this.selectValue],
         productName: "回单解析",
       };

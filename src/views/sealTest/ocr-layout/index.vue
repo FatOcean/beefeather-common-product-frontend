@@ -806,7 +806,7 @@ export default {
         method: "get",
         url: `/general-product-web/general/downloadResult?taskId=${
           this.example.index
-        }&productName=印章检测&path=${path}&type=${type}&show=${
+        }&productName=印章检测&path=${encodeURIComponent( path)}&type=${type}&show=${
           this.example.show || false
         }`,
         responseType: "blob",
