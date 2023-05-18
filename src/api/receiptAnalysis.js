@@ -13,5 +13,5 @@ export function analysisFile(data) {
 
 // 获取选项
 export function getBankList() {
-  return api.get(`/receipt-analysis-web/receipt/analysis/getBankList`);
+  return api.get(`/general-product-web/general/getBankList`);
 }
