@@ -103,12 +103,12 @@
   </div>
 </template>
 <script>
-import { data } from "./example";
-import failed from "@/assets/images/failed.png";
-import searching from "@/assets/images/searching.png";
-import { getBankList, analysisFile } from "../../api/receiptAnalysis";
-import ocrLayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { data } from './example'
+import failed from '@/assets/images/failed.png'
+import searching from '@/assets/images/searching.png'
+import { getBankList, analysisFile } from '../../api/receiptAnalysis'
+import ocrLayout from './ocr-layout'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -116,17 +116,17 @@ export default {
       failed,
       searching,
       data,
-      activeTextId: "",
+      activeTextId: '',
       page: {}, // 当前页面数据信息
-      activeName: "",
-      servicePortAddress: "",
+      activeName: '',
+      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
       // documents: data.analysisResult,
       dragenter: false,
       href: window.location.href,
-      search: "",
+      search: '',
       documents_backup: [],
       checked: false,
       hideResult: [],
@@ -134,197 +134,197 @@ export default {
       falg: true,
       hasTab: false,
       tabList: [],
-      selectValue: "",
+      selectValue: '',
       options: [],
-      url: "",
+      url: '',
       loading: false,
       banks: null,
       failedStatus: false,
       taskId: 0,
-      instance: {},
-    };
+      instance: {}
+    }
   },
   components: {
-    ocrLayout,
+    ocrLayout
   },
   created() {
     getBankList()
       .then((res) => {
-        if (res.data.code === "200") {
+        if (res.data.code === '200') {
           this.options = res.data.data.map((item) => {
             return {
               id: item.id,
               label: item.bankCh,
-              value: item.bankCh,
-            };
-          });
+              value: item.bankCh
+            }
+          })
           this.banks = res.data.data.reduce((acc, cur) => {
-            acc[cur.bankCh] = cur.bankEn;
-            return acc;
-          }, {});
+            acc[cur.bankCh] = cur.bankEn
+            return acc
+          }, {})
         }
       })
-      .catch((err) => {});
-    this.instance = this.data[0];
-    this.documents = this.instance.tabList;
-    this.page = this.documents[0];
+      .catch((err) => {})
+    this.instance = this.data[0]
+    this.documents = this.instance.tabList
+    this.page = this.documents[0]
     this.tabsArray = this.documents.map((item, index) => {
-      return { name: item.tabName };
-    });
-    this.activeName = this.tabsArray[0].name;
-    this.selectValue = this.instance.flag;
-    this.url = this.instance.imagePath;
+      return { name: item.tabName }
+    })
+    this.activeName = this.tabsArray[0].name
+    this.selectValue = this.instance.flag
+    this.url = this.instance.imagePath
   },
   mounted() {
-    this.$refs.documents.handleClick(this.page.position);
+    this.$refs.documents.handleClick(this.page.position)
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     example() {
-      return this.data[this.activeDocumentIndex];
-    },
+      return this.data[this.activeDocumentIndex]
+    }
   },
   methods: {
     uploadFileData(res) {
-      res.data.isUpload = true;
-      res.data.starsFlag = false;
-      this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath;
-      if (this.data.length > 3) this.data.shift();
-      this.data.unshift(res.data);
-      this.instance = this.data[0];
-      this.instance.flag = "";
-      this.selectValue = "";
-      this.$refs.documents.down_allow = false;
-      this.$refs.documents.resetPosition();
+      res.data.isUpload = true
+      res.data.starsFlag = false
+      this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath
+      if (this.data.length > 3) this.data.shift()
+      this.data.unshift(res.data)
+      this.instance = this.data[0]
+      this.instance.flag = ''
+      this.selectValue = ''
+      this.$refs.documents.down_allow = false
+      this.$refs.documents.resetPosition()
     },
     getResult() {
-      this.loading = true;
-      this.$refs.documents.resetPosition();
+      this.loading = true
+      this.$refs.documents.resetPosition()
       const param = {
         filePath: encodeURIComponent(this.url),
         bankName: this.banks[this.selectValue],
-        productName: "回单解析",
-      };
+        productName: '回单解析'
+      }
       analysisFile(param)
         .then((res) => {
-          res = res.data;
-          if (res.code === "200" && res.data.tabList) {
+          res = res.data
+          if (res.code === '200' && res.data.tabList) {
             // this.documents = res.data;
-            let num = 0;
+            let num = 0
             res.data.tabList.forEach((item) => {
               if (item.contentList.length !== 0) {
-                num += 1;
+                num += 1
               }
-            });
+            })
             if (num === 0) {
-              this.failedStatus = true;
-              this.selectValue = "";
-              this.$refs.documents.down_allow = false;
+              this.failedStatus = true
+              this.selectValue = ''
+              this.$refs.documents.down_allow = false
             } else {
-              this.instance.tabList = res.data.tabList;
-              this.instance.imagePath = res.data.imagePath;
-              this.instance.excelPath = res.data.excelPath;
-              this.instance.height = res.data.height;
-              this.instance.width = res.data.width;
-              this.$refs.documents.resizeImg();
-              this.instance.flag = this.selectValue;
-              this.documents = this.instance.tabList;
+              this.instance.tabList = res.data.tabList
+              this.instance.imagePath = res.data.imagePath
+              this.instance.excelPath = res.data.excelPath
+              this.instance.height = res.data.height
+              this.instance.width = res.data.width
+              this.$refs.documents.resizeImg()
+              this.instance.flag = this.selectValue
+              this.documents = this.instance.tabList
               this.tabsArray = this.documents.map((item, index) => {
-                return { name: item.tabName };
-              });
-              this.activeName = this.tabsArray[0].name;
-              this.page = this.documents[0];
-              this.$refs.documents.down_allow = true;
-              this.failedStatus = false;
+                return { name: item.tabName }
+              })
+              this.activeName = this.tabsArray[0].name
+              this.page = this.documents[0]
+              this.$refs.documents.down_allow = true
+              this.failedStatus = false
               this.$refs.documents.handleClick(
                 this.page.position ? this.page.position : {}
-              );
+              )
             }
           } else {
-            this.failedStatus = true;
-            this.selectValue = "";
-            this.$refs.documents.down_allow = false;
+            this.failedStatus = true
+            this.selectValue = ''
+            this.$refs.documents.down_allow = false
           }
         })
         .catch((err) => {
-          this.failedStatus = true;
-          this.instance.flag = "";
-          this.selectValue = "";
-          this.$refs.documents.down_allow = false;
+          this.failedStatus = true
+          this.instance.flag = ''
+          this.selectValue = ''
+          this.$refs.documents.down_allow = false
           this.$message({
             message: res.message,
-            type: "error",
-            offset: 60,
-          });
+            type: 'error',
+            offset: 60
+          })
         })
         .finally(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
     tabs(activeDocumentIndex, activePageIndex) {
-      this.failedStatus = false;
-      this.activeDocumentIndex = activeDocumentIndex;
-      this.instance = this.data[activeDocumentIndex];
+      this.failedStatus = false
+      this.activeDocumentIndex = activeDocumentIndex
+      this.instance = this.data[activeDocumentIndex]
       this.url = this.instance.pdfPath
         ? this.instance.pdfPath
-        : this.instance.imagePath;
-      this.$refs.documents.resetPosition();
-      this.documents = this.instance.tabList;
-      this.selectValue = this.instance.flag;
-      if (this.selectValue !== "") {
-        this.page = this.documents[0];
+        : this.instance.imagePath
+      this.$refs.documents.resetPosition()
+      this.documents = this.instance.tabList
+      this.selectValue = this.instance.flag
+      if (this.selectValue !== '') {
+        this.page = this.documents[0]
         this.tabsArray = this.documents.map((item, index) => {
-          return { name: item.tabName };
-        });
-        this.activeName = this.tabsArray[0].name;
+          return { name: item.tabName }
+        })
+        this.activeName = this.tabsArray[0].name
         this.$refs.documents.handleClick(
           this.page.position ? this.page.position : {}
-        );
-        this.$refs.documents.down_allow = true;
+        )
+        this.$refs.documents.down_allow = true
       }
     },
     handleClick(value) {
-      this.$refs.documents.resetPosition();
-      this.activeTabIndex = Number(value.index);
-      this.page = this.documents[this.activeTabIndex];
+      this.$refs.documents.resetPosition()
+      this.activeTabIndex = Number(value.index)
+      this.page = this.documents[this.activeTabIndex]
       this.$refs.documents.handleClick(
         this.page.position ? this.page.position : {}
-      );
+      )
     },
     // 样本收集点击事件    //快速开发暂时隐藏
     clickHandler(e, i, noParent) {},
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      const requestId = this.data[this.activeDocumentIndex].requestId;
-      const picAddress = this.instance.imagePath;
+      if (this.isLoading) return
+      this.isLoading = true
+      const requestId = this.data[this.activeDocumentIndex].requestId
+      const picAddress = this.instance.imagePath
       if (!this.instance.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             requestId: requestId,
             picAddress: `/home/lls_data/${picAddress}`,
-            productName: "回单解析",
+            productName: '回单解析'
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.instance, "starsFlag", true);
-              this.instance.loadRecordId = res.data.data;
+            if (res.data.code === '200') {
+              this.$set(this.instance, 'starsFlag', true)
+              this.instance.loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       } else {
         this.$http
           .post(
@@ -333,25 +333,25 @@ export default {
             )}&picAddress=/home/lls_data/${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.instance.starsFlag = false;
+            if (res.data.code === '200') {
+              this.instance.starsFlag = false
 
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       }
       // return;
       // if (this.isLoading) return;
@@ -414,9 +414,9 @@ export default {
       //       this.isLoading = false;
       //     });
       // }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .table-data {

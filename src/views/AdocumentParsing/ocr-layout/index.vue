@@ -1,22 +1,7 @@
-<template>
+scriptscript<template>
   <div class="ocr-layout" :class="{ 'show-image-viewer': showImageViewer }">
     <!-- 示例区-缩略图 -->
-    <div class="examples-wrapper">
-      <div
-        class="example"
-        :class="{ active: activeDocumentIndex == index }"
-        v-for="(i, index) in data"
-        :key="index"
-        @click="handleClickExample(index)"
-      >
-        <div class="example-image">
-          <img :src="i.images[0].url" :alt="i.name" />
-        </div>
-        <div class="text">
-          <span>{{ i.name.substring(0, i.name.lastIndexOf(".")) }}</span>
-        </div>
-      </div>
-    </div>
+    <RightSelect></RightSelect>
     <!-- ocr -->
     <div class="ocr-inner">
       <!-- 文档 -->
@@ -160,71 +145,53 @@
           class="border-corner"
           :class="[`border-corner-${i}`]"
         ></div>
-        <div class="ocr-title-bar">
-          <div class="ocr-title">
-            <svg-icon iconClass="识别结果"></svg-icon>
-            <span>识别结果</span>
-          </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 18px;
-            "
-          >
-            <llsButton
-              type="text"
-              @click="handleClickDownload"
-              v-if="pageMenuPerm['DOWNBSINESSLICENSE']"
+        <svg-icon iconClass="识别结果" class="svgClass"></svg-icon>
+        <lls-tabs v-model="activeName" height="50px" @tab-click="handleClick">
+          <lls-tab-pane label="识别结果" name="first">
+            <div
+              class="ocr-text"
+              @scroll="proxy(calculateXy)"
+              ref="ocrTextWrapper"
             >
-              <svg-icon class="download" iconClass="下载"></svg-icon>
-              <span>下载</span>
-            </llsButton>
-            <more-Button
-              productName="营业执照解析"
-              :servicecon="pageMenuPerm['COLLBSINESSLICENSE']"
-              :collect="pageMenuPerm['SERBSINESSLICENSE']"
-            ></more-Button>
-          </div>
-        </div>
-        <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
-          <slot></slot>
-        </div>
+              <slot></slot>
+            </div>
+          </lls-tab-pane>
+          <lls-tab-pane label="Json结果" name="second">
+            <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
+              <b-code-editor
+                :indent-unit="4"
+                v-model="codeTest"
+                :readonly="true"
+                :gutter="false"
+                ref="editor"
+                mode="application/json"
+                theme="eclipse"
+                :height="'calc(100vh - 198px)'"
+                :show-number="false"
+              ></b-code-editor>
+            </div>
+          </lls-tab-pane>
+          <template v-slot:button>
+            <lls-button type="text"
+              ><i class="lls-icon-download"></i>
+              {{
+                `下载${activeName === "first" ? "识别" : "Json"}结果`
+              }}</lls-button
+            >
+          </template>
+        </lls-tabs>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        :width="documentWidth * 2"
-        :height="documentHeight"
-        class="svg-mask"
-        v-if="pathValue"
-      >
-        <path
-          :d="`M${pathValue.pathStartX} ${pathValue.pathStartY} h${
-            documentWidth - pathValue.pathStartX + 8
-          } v${pathValue.pathEndY - pathValue.pathStartY} L${
-            pathValue.pathEndX
-          } ${pathValue.pathEndY}`"
-          stroke-width="1"
-          stroke="#0887FF"
-          stroke-dasharray="5 5"
-          fill="transparent"
-        />
-        <circle
-          v-if="pathValue.pathStartX != documentWidth"
-          :cx="pathValue.pathStartX"
-          :cy="pathValue.pathStartY"
-          r="3"
-          fill="#0887FF"
-        />
-        <circle
-          :cx="pathValue.pathEndX"
-          :cy="pathValue.pathEndY"
-          r="2"
-          fill="#0887FF"
-        />
-      </svg>
+      <SvgPath
+        :pathValue="pathValue"
+        :documentWidth="documentWidth"
+        :documentHeight="documentHeight"
+      ></SvgPath>
+      <lls-collapse-transition>
+        <upload-File
+          productName="营业执照解析"
+          @uploadFileData="uploadFileData"
+        ></upload-File>
+      </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <lls-image-viewer
@@ -237,12 +204,14 @@
         }
       "
     ></lls-image-viewer>
+    <!-- 上传文件 -->
   </div>
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-
+import RightSelect from './rightselect.vue'
+import SvgPath from './svgPath.vue'
 function Events() {
   this.clientList = {}
   this.listen = function (key, fn) {
@@ -285,7 +254,9 @@ export default {
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer
+    [ImageViewer.name]: ImageViewer,
+    RightSelect,
+    SvgPath
   },
   props: {
     value: {
@@ -301,8 +272,11 @@ export default {
     },
     pageMenuPerm: Object
   },
+
   data() {
     return {
+      codeTest: null,
+      activeName: 'first',
       data_: [],
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
@@ -367,6 +341,18 @@ export default {
     this.resizeObserver.disconnect()
   },
   methods: {
+    handleClick(tab, event) {
+      this.pathValue = null
+      if (this.activeName === 'second') {
+        this.$nextTick(() => {
+          this.codeTest = '{"aa":123}'
+          this.$refs.editor.formatCode()
+        })
+
+        this.activeText = null
+      }
+    },
+    uploadFileData() {},
     postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
@@ -389,17 +375,6 @@ export default {
       this.reRenderImage()
       this.$emit('handle-change', page)
       // this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
-    },
-    // 切换示例
-    handleClickExample(index) {
-      if (this.activeDocumentIndex == index) {
-        return
-      }
-      this.activeDocumentIndex = index
-      this.resetProps()
-      this.reRenderImage()
-      // const page = this.example.items[this.activePageIndex];
-      // this.$emit("handle-change", page);
     },
     // 翻页
     handleTurnPage(val) {
@@ -513,14 +488,12 @@ export default {
     },
     // 激活文本
     handleClickText({ el, value }) {
-      console.log(el, value)
       if (!value.value || value.value === '新乡县') {
         return
       } else {
         this.activeEl = el
         this.activeText = value
       }
-      console.log(this.activeText)
       this.$nextTick((_) => {
         const maskEl = this.$refs.maskEl
         const documentLayout = this.$refs.documentLayout
@@ -818,383 +791,17 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.ocr-layout {
-  padding: 76px 24px 24px 24px;
-  display: flex;
-  color: #202d40;
-  height: 100vh;
-  overflow: hidden;
+@import './index.styl';
 
-  * {
-    user-select: none;
-  }
+::v-deep .CodeMirror {
+  height: calc(100vh - 200px);
+}
 
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
+::v-deep .CodeMirror-gutters {
+  display: none;
+}
 
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
-  .examples-wrapper {
-    width: 80px;
-    flex-shrink: 0;
-    flex-grow: 0;
-
-    .example {
-      width: 64px;
-      height: 88px;
-      position: relative;
-      border-radius: 4px;
-      background-color: #ffffff;
-      border: 1px solid #dadfe6;
-      cursor: pointer;
-
-      .example-image {
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        margin: 4px;
-        height: calc(100% - 20px);
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-
-        >img {
-          width: 100%;
-        }
-      }
-
-      &:not(:last-child) {
-        margin-bottom: 4px;
-      }
-
-      .text {
-        position: absolute;
-        height: 12px;
-        line-height: 12px;
-        font-size: 12px;
-        background: #e2e2e2;
-        width: 100%;
-        bottom: -1px;
-        right: 0;
-        border-radius: 0 0 4px 4px;
-        text-align: center;
-
-        span {
-          transform: scale(0.75);
-          transform-origin: left;
-          display: block;
-          width: 82.7px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-
-      &.active {
-        border: 1px solid #0887ff;
-        background-color: rgba(8, 135, 255, 0.08);
-        border-radius: 4px;
-
-        .text {
-          color: #fff;
-          background: #0887ff;
-        }
-      }
-    }
-  }
-
-  .ocr-inner {
-    flex-shrink: 1;
-    flex-grow: 1;
-    display: flex;
-    position: relative;
-    align-items: center;
-
-    .svg-mask {
-      pointer-events: none;
-      position: absolute;
-      top: 60px;
-      left: 16px;
-      z-index: 1;
-    }
-
-    .document-box {
-      border: 1px solid #e2e4e9;
-      width: 50%;
-      flex-shrink: 0;
-      flex-grow: 0;
-      height: 100%;
-
-      .tool-bar {
-        height: 38px;
-        line-height: 38px;
-        padding: 0 16px;
-        box-shadow: 0px 3px 8px 0px rgba(5, 18, 30, 0.08);
-        font-size: 12px;
-        display: flex;
-        justify-content: space-between;
-        background-color: #fff;
-
-        >div {
-          flex: 1;
-          text-align: center;
-
-          &:last-child {
-            text-align: right;
-          }
-        }
-
-        .name {
-          text-align: left;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-        }
-
-        .number {
-          border-bottom: 1px solid #e3e8f0;
-          padding: 0 8px;
-
-          .lls-input {
-            width: auto;
-
-            ::v-deep .lls-input__inner {
-              max-width: 30px;
-              position: relative;
-              left: -4px;
-              border: none;
-              height: 14px;
-              padding: 0;
-              border-radius: 0;
-              text-align: center;
-
-              &:focus {
-                border-color: #0887ff;
-              }
-            }
-          }
-
-          span {
-            font-size: 12px;
-          }
-        }
-
-        .svg-icon {
-          font-size: 12px;
-          margin: 0 6px;
-          cursor: pointer;
-
-          &.big-icon, &.dis-icon {
-            font-size: 15px;
-            margin: 0 4px;
-          }
-
-          &.dis-icon {
-            cursor: default;
-          }
-        }
-      }
-
-      .document-layout {
-        overflow: hidden;
-        height: calc(100% - 78px);
-        margin: 20px 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .document {
-          // transform-origin: 0 0;
-          background-size: contain;
-          position: relative;
-          // cursor: url('../image/手势-张开.svg'), grab;
-          background-repeat: no-repeat;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          &.transition {
-            transition: all 0.3s;
-          }
-
-          >img {
-            // position: absolute;
-            // top: 0;
-            width: 100%;
-            pointer-events: none;
-            user-select: none;
-          }
-
-          &.draggable {
-            // cursor: url('../iamge/手势-握紧.svg'), grabbing;
-          }
-
-          // transition: all 0.3s linear;
-          .frame-mask {
-            position: absolute;
-            cursor: pointer;
-            pointer-events: none;
-
-            &.active, &:hover {
-              background: rgba(8, 135, 255, 0.1);
-              border: 1px solid #0887ff;
-              border-radius: 4px;
-            }
-          }
-        }
-      }
-    }
-
-    .drag-view {
-      width: 8px;
-      // height: 30px;
-      flex-shrink: 0;
-      flex-grow: 0;
-      cursor: col-resize;
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 100%;
-
-      &:after {
-        content: '';
-        width: 100%;
-        height: 30px;
-        background-image: repeating-linear-gradient(
-          to bottom,
-          #E5E7EC 0px,
-          #E5E7EC 1px,
-          transparent 1px,
-          transparent 4px
-        );
-      }
-    }
-
-    .ocr-result {
-      * {
-        user-select: text;
-      }
-
-      border: 1px solid #0887ff;
-      flex-shrink: 1;
-      flex-grow: 1;
-      padding: 0 16px;
-      background: #f7fbff;
-      position: relative;
-      height: 100%;
-
-      .border-corner {
-        position: absolute;
-        height: 20px;
-        width: 20px;
-        border: 4px solid #0887FF;
-
-        &.border-corner-1 {
-          top: 0;
-          left: 0;
-          border-right: none;
-          border-bottom: none;
-        }
-
-        &.border-corner-2 {
-          top: 0;
-          right: 0;
-          border-left: none;
-          border-bottom: none;
-        }
-
-        &.border-corner-3 {
-          bottom: 0;
-          left: 0;
-          border-right: none;
-          border-top: none;
-        }
-
-        &.border-corner-4 {
-          bottom: 0;
-          right: 0;
-          border-left: none;
-          border-top: none;
-        }
-      }
-
-      .ocr-title-bar {
-        display: flex;
-        height: 58px;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 16px;
-
-        .svg-icon {
-          margin-right: 8px;
-
-          &.download {
-            margin-right: 4px;
-          }
-        }
-
-        .ocr-title {
-          font-weight: 600;
-        }
-
-        span {
-          vertical-align: middle;
-        }
-      }
-
-      .ocr-text {
-        ::-webkit-scrollbar {
-          width: 4px;
-          height: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: rgba(32, 45, 64, 0.5);
-        }
-
-        // 竖向滚动条
-        &::-webkit-scrollbar-thumb:vertical {
-          background-color: rgba(32, 45, 64, 0.5);
-          -webkit-border-radius: 2px;
-        }
-
-        border: 1px solid #e3e8f0;
-        height: calc(100% - 74px);
-        overflow: auto;
-        padding: 12px 8px;
-        background: #fff;
-        position: relative;
-
-        .text {
-          line-height: 26px;
-          padding: 0 8px;
-          border: 1px solid #fff;
-
-          &:not(:last-child) {
-            margin-bottom: 8px;
-          }
-
-          &:hover {
-            background: #f6f9fb;
-            cursor: pointer;
-          }
-
-          &.not-point:hover {
-            background: #fff;
-            cursor: default;
-          }
-
-          &.active {
-            background: rgba(8, 135, 255, 0.1);
-            border: 1px solid #0887ff;
-            border-radius: 4px;
-          }
-        }
-      }
-    }
-  }
+::v-deep .cm-string {
+  color: red;
 }
 </style>

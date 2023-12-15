@@ -101,16 +101,16 @@
   </div>
 </template>
 <script>
-import { data } from "./example";
-import failed from "@/assets/images/failed.png";
-import searching from "@/assets/images/searching.png";
-import { getBankList, analysisFile } from "../../api/treasuryFlow";
-import ocrLayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { data } from './example'
+import failed from '@/assets/images/failed.png'
+import searching from '@/assets/images/searching.png'
+import { getBankList, analysisFile } from '../../api/treasuryFlow'
+import ocrLayout from './ocr-layout'
+import { mapState } from 'vuex'
 export default {
-  name: "treasuryFlowAnalysis",
+  name: 'treasuryFlowAnalysis',
   components: {
-    ocrLayout,
+    ocrLayout
   },
   data() {
     return {
@@ -118,20 +118,20 @@ export default {
       searching,
       data,
       files: [],
-      activeTextId: "",
+      activeTextId: '',
       page: {}, // 当前页面数据信息
       percent: 0, // 进度条
-      activeName: "",
-      servicePortAddress: "",
+      activeName: '',
+      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
       // documents: data.analysisResult,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      search: "",
+      search: '',
       documents_backup: [],
       checked: false,
       hideResult: [],
@@ -139,157 +139,155 @@ export default {
       falg: true,
       hasTab: false,
       tabList: [],
-      selectValue: "",
+      selectValue: '',
       options: [],
-      url: "",
+      url: '',
       loading: false,
       banks: null,
       failedStatus: false,
-      taskId: 0,
-    };
+      taskId: 0
+    }
   },
   created() {
     getBankList()
       .then((res) => {
-        if (res.data.code === "200") {
+        if (res.data.code === '200') {
           this.options = res.data.data.map((item) => {
             return {
               id: item.id,
               label: item.bankCh,
-              value: item.bankCh,
-            };
-          });
+              value: item.bankCh
+            }
+          })
           this.banks = res.data.data.reduce((acc, cur) => {
-            acc[cur.bankCh] = cur.bankEn;
-            return acc;
-          }, {});
+            acc[cur.bankCh] = cur.bankEn
+            return acc
+          }, {})
         }
       })
-      .catch((err) => {});
-    this.documents = this.data[0];
-    this.page = this.documents.resultVO;
-    this.selectValue = this.documents.flag;
-    this.url = this.documents.imagePath;
+      .catch((err) => {})
+    this.documents = this.data[0]
+    this.page = this.documents.resultVO
+    this.selectValue = this.documents.flag
+    this.url = this.documents.imagePath
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     example() {
-      return this.data[this.activeDocumentIndex];
-    },
+      return this.data[this.activeDocumentIndex]
+    }
   },
   methods: {
     uploadFileData(res) {
-      res.data.isUpload = true;
-      res.data.starsFlag = false;
-      this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath;
-      if (this.data.length > 3) this.data.shift();
-      this.data.unshift(res.data);
-      this.documents = this.data[0];
-      this.documents.flag = "";
-      this.selectValue = "";
-      const scrollDiv = document.getElementsByClassName("hasContent")[0];
-      scrollDiv.scrollLeft = 0;
+      res.data.isUpload = true
+      res.data.starsFlag = false
+      this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath
+      if (this.data.length > 3) this.data.shift()
+      this.data.unshift(res.data)
+      this.documents = this.data[0]
+      this.documents.flag = ''
+      this.selectValue = ''
+      const scrollDiv = document.getElementsByClassName('hasContent')[0]
+      scrollDiv.scrollLeft = 0
     },
     getResult() {
-      this.loading = true;
+      this.loading = true
       const param = {
         filePath: encodeURIComponent(this.url),
         bankName: this.banks[this.selectValue],
-        productName: "流水解析",
-      };
+        productName: '流水解析'
+      }
       analysisFile(param)
         .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
+          res = res.data
+          if (res.code === '200') {
             if (res.data.resultVO.content.length === 0) {
-              this.failedStatus = true;
-              this.selectValue = "";
-              this.$refs.documents.down_allow = false;
+              this.failedStatus = true
+              this.selectValue = ''
+              this.$refs.documents.down_allow = false
             } else {
-              this.documents.resultVO = res.data.resultVO;
-              this.documents.excelPath = res.data.excelPath;
-              this.documents.flag = this.selectValue;
-              this.page = this.documents.resultVO;
-              this.$refs.documents.down_allow = true;
-              this.failedStatus = false;
+              this.documents.resultVO = res.data.resultVO
+              this.documents.excelPath = res.data.excelPath
+              this.documents.flag = this.selectValue
+              this.page = this.documents.resultVO
+              this.$refs.documents.down_allow = true
+              this.failedStatus = false
               const scrollDiv =
-                document.getElementsByClassName("hasContent")[0];
-              scrollDiv.scrollLeft = 0;
+                document.getElementsByClassName('hasContent')[0]
+              scrollDiv.scrollLeft = 0
             }
           } else {
-            this.failedStatus = true;
-            this.selectValue = "";
-            this.$refs.documents.down_allow = false;
+            this.failedStatus = true
+            this.selectValue = ''
+            this.$refs.documents.down_allow = false
           }
         })
         .catch((err) => {
-          this.failedStatus = true;
-          this.documents.flag = "";
-          this.selectValue = "";
-          this.$refs.documents.down_allow = false;
+          this.failedStatus = true
+          this.documents.flag = ''
+          this.selectValue = ''
+          this.$refs.documents.down_allow = false
           this.$message({
             message: res.message,
-            type: "error",
-            offset: 60,
-          });
+            type: 'error',
+            offset: 60
+          })
         })
         .finally(() => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
     tabs(activeDocumentIndex, activePageIndex) {
-      this.failedStatus = false;
-      this.activeDocumentIndex = activeDocumentIndex;
-      this.documents = this.data[activeDocumentIndex];
+      this.failedStatus = false
+      this.activeDocumentIndex = activeDocumentIndex
+      this.documents = this.data[activeDocumentIndex]
       this.url = this.documents.pdfPath
         ? this.documents.pdfPath
-        : this.documents.imagePath;
-      this.selectValue = this.documents.flag;
-      if (this.selectValue !== "") {
-        this.page = this.documents.resultVO;
-        if (this.page.content.length > 0)
-          this.$refs.documents.down_allow = true;
-        else this.$refs.documents.down_allow = false;
-      } else this.$refs.documents.down_allow = false;
+        : this.documents.imagePath
+      this.selectValue = this.documents.flag
+      if (this.selectValue !== '') {
+        this.page = this.documents.resultVO
+        if (this.page.content.length > 0) { this.$refs.documents.down_allow = true } else this.$refs.documents.down_allow = false
+      } else this.$refs.documents.down_allow = false
     },
     handleClick(value) {
       // console.log(value.index);
-      this.activeTabIndex = Number(value.index);
-      this.$refs.documents.handleClick(value.index);
-      this.page = this.tabList[this.activeTabIndex].productsConverterList;
+      this.activeTabIndex = Number(value.index)
+      this.$refs.documents.handleClick(value.index)
+      this.page = this.tabList[this.activeTabIndex].productsConverterList
       this.page = this.page.filter((item) => {
-        return item.value !== "";
-      });
+        return item.value !== ''
+      })
     },
     // 样本收集点击事件    //快速开发暂时隐藏
     clickHandler(e, i, noParent) {},
     clickSampleCollection() {
-      const requestId = this.data[this.activeDocumentIndex].requestId;
-      const picAddress = this.documents.imagePath;
+      const requestId = this.data[this.activeDocumentIndex].requestId
+      const picAddress = this.documents.imagePath
       if (!this.documents.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             requestId: requestId,
             picAddress: `/home/lls_data/${picAddress}`,
-            productName: "流水解析",
+            productName: '流水解析'
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.documents, "starsFlag", true);
-              this.documents.loadRecordId = res.data.data;
+            if (res.data.code === '200') {
+              this.$set(this.documents, 'starsFlag', true)
+              this.documents.loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       } else {
         this.$http
           .post(
@@ -298,84 +296,84 @@ export default {
             )}&picAddress=/home/lls_data/${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.documents.starsFlag = false;
+            if (res.data.code === '200') {
+              this.documents.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       }
-      return;
+      return
       // const data = this.data[this.activeDocumentIndex];
       // const picAddress = `${this.documents.imagePath}`;
       // console.log(data, '000')
       if (!this.documents.starsFlag) {
-        const fileId = 1;
+        const fileId = 1
         this.$http
           .post(
-            "/treasury-flow-analysis-web/treasuryFlow/common/saveCollectInfo",
+            '/treasury-flow-analysis-web/treasuryFlow/common/saveCollectInfo',
             {
               fileId,
               picAddress,
-              productName: "流水解析",
+              productName: '流水解析'
             }
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.documents, "starsFlag", true);
-              this.documents.loadRecordId = res.data.data.loadRecordId;
+            if (res.data.code === '200') {
+              this.$set(this.documents, 'starsFlag', true)
+              this.documents.loadRecordId = res.data.data.loadRecordId
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 72,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 72
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 72,
-              });
+                type: 'error',
+                offset: 72
+              })
             }
-          });
+          })
       } else {
         this.$http
           .post(
-            "/treasury-flow-analysis-web/treasuryFlow/common/cancelcollectinfo",
+            '/treasury-flow-analysis-web/treasuryFlow/common/cancelcollectinfo',
             {
               loadRecordId: this.documents.loadRecordId,
-              url: picAddress,
+              url: picAddress
             }
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.documents.starsFlag = false;
+            if (res.data.code === '200') {
+              this.documents.starsFlag = false
 
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 72,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 72
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 72,
-              });
+                type: 'error',
+                offset: 72
+              })
             }
-          });
+          })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .table-data {

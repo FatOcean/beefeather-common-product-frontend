@@ -47,133 +47,133 @@
   </div>
 </template>
 <script>
-import { normalData } from "./defaultData";
-import ocrlayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { normalData } from './defaultData'
+import ocrlayout from './ocr-layout'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       isLoading: false,
       starsFlag: null,
-      activeTextId: "",
+      activeTextId: '',
       page: {}, // 当前页面数据信息
       percent: 0, // 进度条
-      activeName: "",
+      activeName: '',
       activeDocumentIndex: 0,
-      search: "",
+      search: '',
       checked: false,
       tabsArray: [],
       documents: normalData,
       activeTabIndex: 0,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
-      href: window.location.href,
-    };
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
+      href: window.location.href
+    }
   },
   components: { ocrlayout },
   watch: {
     checked(val) {
-      this.activeTextId = null;
-      this.$refs.documents.activeTextId = null;
-      this.$refs.documents.pathValue = null;
-      this.filterEmpty(val);
-    },
+      this.activeTextId = null
+      this.$refs.documents.activeTextId = null
+      this.$refs.documents.pathValue = null
+      this.filterEmpty(val)
+    }
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     example() {
-      return this.documents[this.activeDocumentIndex];
+      return this.documents[this.activeDocumentIndex]
     },
     originLocation() {
-      return process.env.NODE_ENV === "development"
-        ? "https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image"
-        : `${window.location.origin}/file-handle-web/file/image`;
-    },
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
+    }
   },
   mounted() {},
   methods: {
     uploadFileData(res) {
       res.data.forEach((i) => {
-        i.isUpload = true;
-      });
+        i.isUpload = true
+      })
       res.data[0].images.forEach((item) => {
         item.url = `${this.originLocation}?filename=${encodeURIComponent(
           item.path
-        )}`;
-      });
-      this.starsFlag = false;
+        )}`
+      })
+      this.starsFlag = false
       if (this.documents.length >= 3) {
-        this.documents.shift();
+        this.documents.shift()
       }
-      this.documents = res.data.concat(this.documents);
-      this.activeDocumentIndex = 0;
+      this.documents = res.data.concat(this.documents)
+      this.activeDocumentIndex = 0
     },
     tabs(activeDocumentIndex, activePageIndex) {
-      this.checked = false;
-      this.filterEmpty(false);
+      this.checked = false
+      this.filterEmpty(false)
       // this.searchData()
-      this.activeDocumentIndex = activeDocumentIndex;
+      this.activeDocumentIndex = activeDocumentIndex
     },
     filterEmpty(flag) {
-      this.page.items = this.emptyData(this.page.items, flag);
+      this.page.items = this.emptyData(this.page.items, flag)
       // this.page.describes = this.emptyData(this.page.describes, flag)
     },
     emptyData(arr, flag) {
       const newArr = arr.map((item) => {
         return {
           ...item,
-          notEmpty: flag ? item.value === "" || !item.value : false,
-        };
-      });
-      return newArr;
+          notEmpty: flag ? item.value === '' || !item.value : false
+        }
+      })
+      return newArr
     },
     // 样本收集点击事件
     clickHandler(e, i, noParent) {
-      const el = e.target.parentNode.firstChild;
+      const el = e.target.parentNode.firstChild
       if (!i.startX || !i.startY || !i.width || !i.height) {
-        this.$refs.documents.pathValue = null;
-        this.$refs.documents.activeTextId = null;
-        this.activeTextId = i.id;
-        return;
+        this.$refs.documents.pathValue = null
+        this.$refs.documents.activeTextId = null
+        this.activeTextId = i.id
+        return
       }
-      e = e || window.event;
-      this.$refs.documents.$events.trigger("click-ocr-el", {
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
-        id: i.id,
-      });
-      this.activeTextId = this.$refs.documents.activeTextId;
-      console.log(this.activeTextId, i.id);
+        id: i.id
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
+      console.log(this.activeTextId, i.id)
     },
     clickSampleCollection() {
-      const data = this.documents[this.activeDocumentIndex];
-      const requestId = this.documents[this.activeDocumentIndex].requestId;
-      const picAddress = data.images[0].path;
+      const data = this.documents[this.activeDocumentIndex]
+      const requestId = this.documents[this.activeDocumentIndex].requestId
+      const picAddress = data.images[0].path
       if (!this.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             requestId: requestId,
             picAddress: `/home/lls_data/${picAddress}`,
-            productName: "营业执照解析",
+            productName: '营业执照解析'
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.starsFlag = true;
+            if (res.data.code === '200') {
+              this.starsFlag = true
               this.documents[this.activeDocumentIndex].loadRecordId =
-                res.data.data;
+                res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       } else {
         this.$http
           .post(
@@ -184,21 +184,21 @@ export default {
             )}&name=${data.images[0].name}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.starsFlag = false;
+            if (res.data.code === '200') {
+              this.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             }
-          });
+          })
       }
       // if (this.isLoading) return;
       // this.isLoading = true;
@@ -269,9 +269,9 @@ export default {
       //       this.isLoading = false;
       //     });
       // }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 <style lang="stylus" scoped>
 .table-data {

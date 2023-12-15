@@ -130,10 +130,10 @@
   </div>
 </template>
 <script>
-import documents from "./example";
-import beeLoading from "@linklogis/beeLoading";
-import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-import { mapMutations, mapState } from "vuex";
+import documents from './example'
+import beeLoading from '@linklogis/beeLoading'
+import { OcrLayout, OcrEl } from '@linklogis/ocr-layout'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   data() {
@@ -144,98 +144,97 @@ export default {
       percent: 0, // 进度条
       documents: documents,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
       starsFlag: false, // 是否收集
-      loadRecordId: "", // 难例收集id
-      activeName: "",
+      loadRecordId: '', // 难例收集id
+      activeName: '',
       tabsArray: [],
-      activeTabIndex: 0,
-    };
+      activeTabIndex: 0
+    }
   },
   components: {
     [beeLoading.name]: beeLoading,
     [OcrLayout.name]: OcrLayout,
-    [OcrEl.name]: OcrEl,
+    [OcrEl.name]: OcrEl
   },
   computed: {
     tabResult() {
-      return this.page.analysisResult[this.activeTabIndex].tabResult;
+      return this.page.analysisResult[this.activeTabIndex].tabResult
     },
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm'])
   },
   created() {
-    this.page = this.documents[0].pages[0];
+    this.page = this.documents[0].pages[0]
     this.tabsArray = this.page.analysisResult.map((item) => {
-      return { name: item.tabName };
-    });
-    this.activeName = this.tabsArray[0].name;
+      return { name: item.tabName }
+    })
+    this.activeName = this.tabsArray[0].name
   },
   methods: {
     handleClick(value) {
       // console.log(value);
-      this.activeTabIndex = Number(value.index);
-      this.$refs.ocrlayout.pathValue = null;
-      this.$refs.ocrlayout.activeText = null;
-      this.$refs.ocrlayout.activeTextId = "";
+      this.activeTabIndex = Number(value.index)
+      this.$refs.ocrlayout.pathValue = null
+      this.$refs.ocrlayout.activeText = null
+      this.$refs.ocrlayout.activeTextId = ''
     },
     handleChangeExample() {
-      this.activeTabIndex = 0;
+      this.activeTabIndex = 0
       this.$nextTick(() => {
         this.tabsArray = this.page.analysisResult.map((item) => {
-          return { name: item.tabName };
-        });
-        this.activeName = this.tabsArray[0].name;
-      });
+          return { name: item.tabName }
+        })
+        this.activeName = this.tabsArray[0].name
+      })
     },
     setuserMenuPermList(data) {
       if (data.pageMenuPerm) {
         this.$nextTick(() => {
-          this.pageMenuPerm = data.pageMenuPerm;
-        });
+          this.pageMenuPerm = data.pageMenuPerm
+        })
       }
     },
     postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     // 样本收集点击事件
     clickSampleCollection() {
-      const requestId = this.documents[0].requestId;
-      const picAddress = this.page.collectImgUrl;
+      const requestId = this.documents[0].requestId
+      const picAddress = this.page.collectImgUrl
       if (!this.starsFlag) {
         // const requestId = this.documents[0].requestId;
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "车辆合格证解析",
+            productName: '车辆合格证解析'
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.starsFlag = true;
-              this.loadRecordId = res.data.data;
+            if (res.data.code === '200') {
+              this.starsFlag = true
+              this.loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
-              嗯;
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       } else {
         this.$http
           .post(
@@ -244,42 +243,42 @@ export default {
             )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.starsFlag = false;
+            if (res.data.code === '200') {
+              this.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       }
     },
     beforeUpload(file) {
-      this.postFixdMessage(true);
-      this.percent = 0;
+      this.postFixdMessage(true)
+      this.percent = 0
       window.setTimeout((_) => {
-        this.beeLoading = true;
-      }, 80);
+        this.beeLoading = true
+      }, 80)
     },
     onProgress(event, file) {
       // console.log();
-      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
+      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98)
     },
     onError(res) {
-      this.files = [];
-      this.beeLoading = false;
+      this.files = []
+      this.beeLoading = false
       this.$message({
-        message: "文件上传失败（如文件未解压等）",
-        type: "error",
-        offset: 60,
-      });
+        message: '文件上传失败（如文件未解压等）',
+        type: 'error',
+        offset: 60
+      })
       // console.log(res);
     },
     // 表格ocr识别
@@ -289,16 +288,16 @@ export default {
           `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=车辆合格证解析`
         )
         .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
+          res = res.data
+          if (res.code === '200') {
+            this.postFixdMessage(false)
+            this.beeLoading = false
             this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 60,
-            });
-            this.percent = 100;
+              message: '上传成功',
+              type: 'success',
+              offset: 60
+            })
+            this.percent = 100
             this.documents.splice(0, this.documents.length > 1 ? 1 : 0, {
               name: res.data.name,
               requestId: res.data.requestId,
@@ -319,61 +318,61 @@ export default {
                       tabResult: item.analysisResult.map((j) => {
                         return {
                           ...j,
-                          coordinatesList: j.coordinatesList || [],
-                        };
-                      }),
-                    };
-                  }),
-                };
-              }),
-            });
-            this.starsFlag = false;
-            this.page = this.documents[0].pages[0];
+                          coordinatesList: j.coordinatesList || []
+                        }
+                      })
+                    }
+                  })
+                }
+              })
+            })
+            this.starsFlag = false
+            this.page = this.documents[0].pages[0]
             this.tabsArray = this.page.analysisResult.map((item) => {
-              return { name: item.tabName };
-            });
-            this.activeName = this.tabsArray[0].name;
+              return { name: item.tabName }
+            })
+            this.activeName = this.tabsArray[0].name
           } else {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
+            this.postFixdMessage(false)
+            this.beeLoading = false
             this.$message({
               message: res.message,
-              type: "error",
-              offset: 60,
-            });
+              type: 'error',
+              offset: 60
+            })
           }
-        });
-      this.files = [];
+        })
+      this.files = []
     },
     resolveCol(value) {
-      return value && value.replace(/。/gi, "<br/>");
+      return value && value.replace(/。/gi, '<br/>')
     },
     // 下载识别结果
     handleClickDownload() {
-      console.log(this.$refs.ocrlayout.example, "this.$refs.ocrlayout.example");
+      console.log(this.$refs.ocrlayout.example, 'this.$refs.ocrlayout.example')
       this.$http({
-        method: "get",
+        method: 'get',
         url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.requestId}&productName=车辆合格证解析`,
-        responseType: "blob",
+        responseType: 'blob'
       })
         .then((res) => {
           const fileName =
-            res.headers["content-disposition"] &&
-            res.headers["content-disposition"]
-              .split(";")[1]
-              .split("filename=")[1]
-              .replace(/"/gi, "");
-          const blob = res.data;
+            res.headers['content-disposition'] &&
+            res.headers['content-disposition']
+              .split(';')[1]
+              .split('filename=')[1]
+              .replace(/"/gi, '')
+          const blob = res.data
           const type =
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
-          this.exportByBlob(blob, decodeURIComponent(fileName), type);
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'
+          this.exportByBlob(blob, decodeURIComponent(fileName), type)
         })
         .catch((error) => {
-          console.log(error);
-        });
-    },
-  },
-};
+          console.log(error)
+        })
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .document-ocr-wrapper {

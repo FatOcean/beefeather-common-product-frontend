@@ -50,53 +50,53 @@
 </template>
 
 <script>
-import beeLoading from "@linklogis/beeLoading";
+import beeLoading from '@linklogis/beeLoading'
 export default {
-  name: "upload-file",
+  name: 'upload-file',
   props: {
     productName: {
-      type: String,
+      type: String
     },
     fileTypes: {
       type: Array,
       default: () => {
-        return ["pdf", "jpg", "png", "jpeg", "bmp"];
-      },
-    },
+        return ['pdf', 'jpg', 'png', 'jpeg', 'bmp']
+      }
+    }
   },
   data() {
     return {
       dragenter: false,
       files: [],
       beeLoading: false, // 上传进度条显示隐藏
-      percent: 0, // 进度条
-    };
+      percent: 0 // 进度条
+    }
   },
   components: {
-    [beeLoading.name]: beeLoading,
+    [beeLoading.name]: beeLoading
   },
   methods: {
     postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     onError(res) {
-      this.files = [];
-      this.beeLoading = false;
+      this.files = []
+      this.beeLoading = false
       this.$message({
-        message: "文件上传失败（如文件未解压等）",
-        type: "error",
-        offset: 60,
-      });
+        message: '文件上传失败（如文件未解压等）',
+        type: 'error',
+        offset: 60
+      })
     },
     onProgress(event, file) {
-      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98);
+      this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98)
     },
     ocrRecognitionExcel(file) {
       this.$http
@@ -104,57 +104,59 @@ export default {
           `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=${this.productName}`
         )
         .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
-            if (this.productName !== "印章去除")
+          res = res.data
+          if (res.code === '200') {
+            this.postFixdMessage(false)
+            this.beeLoading = false
+            if (this.productName !== '印章去除') {
               this.$message({
-                message: "上传成功",
-                type: "success",
-                offset: 60,
-              });
-            this.percent = 100;
-            this.$emit("uploadFileData", res);
+                message: '上传成功',
+                type: 'success',
+                offset: 60
+              })
+            }
+            this.percent = 100
+            this.$emit('uploadFileData', res)
           } else {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
+            this.postFixdMessage(false)
+            this.beeLoading = false
             this.$message({
               message: res.message,
-              type: "error",
-              offset: 60,
-            });
+              type: 'error',
+              offset: 60
+            })
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err)
           this.$message({
-            message: "网络错误，请稍后再试",
-            type: "error",
-            offset: 60,
-          });
+            message: '网络错误，请稍后再试',
+            type: 'error',
+            offset: 60
+          })
         })
         .finally(() => {
-          this.beeLoading = false;
-        });
-      this.files = [];
+          this.beeLoading = false
+        })
+      this.files = []
     },
     beforeUpload(file) {
-      this.postFixdMessage(true);
-      this.percent = 0;
+      this.postFixdMessage(true)
+      this.percent = 0
       window.setTimeout((_) => {
-        this.beeLoading = true;
-      }, 80);
-    },
-  },
-};
+        this.beeLoading = true
+      }, 80)
+    }
+  }
+}
 </script>
 
 <style lang="stylus">
 .upload-wrapper {
   position: absolute;
-  bottom: 0px;
+  bottom: -8px;
   z-index: 9;
+  left: 0px;
 
   .dragger-wrapper {
     width: 302px;
