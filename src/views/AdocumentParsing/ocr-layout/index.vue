@@ -616,7 +616,14 @@ export default {
   methods: {
     setisshowRight(data) {
       this.isshowRight = data
-      this.calculateXy()
+      this.proxy((_) => {
+        this.documentWidth = this.$refs.documentLayout.clientWidth
+        this.documentHeight = this.$refs.documentLayout.clientHeight
+        this.ocrResultWidth = this.$refs.ocrResult.clientWidth
+        // 初始化每张图片的宽高
+        this.reRenderImage()
+        this.$emit('on-resize')
+      })
     },
     setProductName(data) {
       this.productObj = data
@@ -1028,7 +1035,12 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import './ocr-layout.styl';
-
+.ocr-layout{
+  background-image:url('~@/assets/images/bj.png')
+}
+.document-layout{
+  background-color:#fff;
+}
 ::v-deep .CodeMirror {
   height: calc(100vh - 200px);
 }

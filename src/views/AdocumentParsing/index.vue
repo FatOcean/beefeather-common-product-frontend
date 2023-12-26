@@ -98,19 +98,6 @@ export default {
   computed: {
     documents() {
       const document = JSON.parse(JSON.stringify(staticData[this.productName]))
-      // if (this.staticName !== 'id_card') {
-      //   const content = [
-      //     { imageType: this.productName, identityList: document[0].content }
-      //   ]
-      //   document.content = content
-      // } else {
-      // this.activeName = ''
-      // this.tabsArray = []
-      // for (let i = 0; i <script this.page.content.length; i++) {
-      //   this.tabsArray[i] = { name: this.page.content[i].imageType }
-      // }
-      // this.activeName = this.tabsArray[0].name
-      // }
       return document
     },
     page() {
@@ -184,20 +171,6 @@ export default {
       })
       this.staticData[this.productName] = data
       this.isIdcard()
-      return
-      res.data.forEach((i) => {
-        i.isUpload = true
-      })
-      res.data[0].images.forEach((item) => {
-        item.url = `${this.originLocation}?filename=${encodeURIComponent(
-          item.path
-        )}`
-      })
-      if (this.documents.length >= 3) {
-        this.documents.shift()
-      }
-      this.documents = res.data.concat(this.documents)
-      this.activeDocumentIndex = 0
     },
     tabs(activeDocumentIndex, activePageIndex) {
       this.checked = false

@@ -510,7 +510,7 @@ const data = [
         value: '企业财报等材料的解析服务。'
       }
     ],
-    fileName: '1.jpg',
+    fileName: '文档OCR.jpg',
     height: 2560,
     imagePath,
     json: {

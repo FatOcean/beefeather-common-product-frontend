@@ -12,54 +12,14 @@
       :pageMenuPerm="pageMenuPerm"
       @resetId="() => (activeTextId = null)"
     >
-      <lls-tabs
-        @tab-click="handleClick"
-        v-model="activeName"
-        v-if="productName === 'id_card'"
+     <ocr-el
+        v-for="(i, index) in page.content"
+        :key="index"
+        :id="i.id"
+        :value="i"
+        :class="[`rect${i.id}`]"
+        >{{ i.text }}</ocr-el
       >
-        <lls-tab-pane
-          v-for="(item, index) in tabsArray"
-          :key="index"
-          :label="item.name"
-          :name="item.name"
-        ></lls-tab-pane>
-        <table cellspacing="0" class="table-data" id="table-data">
-          <thead>
-            <td colspan="2">字段名</td>
-            <td>识别结果</td>
-          </thead>
-          <tbody v-for="i in pageDetail" :key="i.key">
-            <tr
-              :class="{
-                active: activeTextId === i.id,
-                commonCursor: !(i.position && i.position.length > 0),
-              }"
-              @click="(e) => clickHandler(e, i)"
-            >
-              <td colspan="2">{{ i.key }}</td>
-              <td>{{ i.value }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </lls-tabs>
-      <table cellspacing="0" class="table-data" v-else id="table-data">
-        <thead>
-          <td colspan="2">字段名</td>
-          <td>识别结果</td>
-        </thead>
-        <tbody v-for="i in page.content" :key="i.key">
-          <tr
-            :class="{
-              active: activeTextId === i.id,
-              commonCursor: !(i.position && i.position.length > 0),
-            }"
-            @click="(e) => clickHandler(e, i)"
-          >
-            <td colspan="2">{{ i.key }}</td>
-            <td>{{ i.value }}</td>
-          </tr>
-        </tbody>
-      </table>
     </ocrlayout>
   </div>
 </template>
@@ -77,7 +37,6 @@ export default {
       activeDocumentIndex: 0,
       checked: false,
       staticData,
-      // documents: staticData.id_card,
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
@@ -98,19 +57,6 @@ export default {
   computed: {
     documents() {
       const document = JSON.parse(JSON.stringify(staticData[this.productName]))
-      // if (this.staticName !== 'id_card') {
-      //   const content = [
-      //     { imageType: this.productName, identityList: document[0].content }
-      //   ]
-      //   document.content = content
-      // } else {
-      // this.activeName = ''
-      // this.tabsArray = []
-      // for (let i = 0; i <script this.page.content.length; i++) {
-      //   this.tabsArray[i] = { name: this.page.content[i].imageType }
-      // }
-      // this.activeName = this.tabsArray[0].name
-      // }
       return document
     },
     page() {

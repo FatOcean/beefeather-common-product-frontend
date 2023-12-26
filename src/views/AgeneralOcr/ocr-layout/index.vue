@@ -1028,7 +1028,12 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import './ocr-layout.styl';
-
+.ocr-layout{
+  background-image:url('~@/assets/images/bj.png')
+}
+.document-layout{
+  background-color:#fff;
+}
 ::v-deep .CodeMirror {
   height: calc(100vh - 200px);
 }

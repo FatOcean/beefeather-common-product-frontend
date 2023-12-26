@@ -66,10 +66,10 @@
   </div>
 </template>
 <script>
-import documents from "./example";
-import beeLoading from "@linklogis/beeLoading";
-import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-import { mapMutations, mapState } from "vuex";
+import documents from './example'
+import beeLoading from '@linklogis/beeLoading'
+import { OcrLayout, OcrEl } from '@linklogis/ocr-layout'
+import { mapMutations, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -79,63 +79,63 @@ export default {
       percent: 0, // 进度条
       documents: documents,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      falg: true,
-    };
+      falg: true
+    }
   },
   components: {
     [beeLoading.name]: beeLoading,
     [OcrLayout.name]: OcrLayout,
-    [OcrEl.name]: OcrEl,
+    [OcrEl.name]: OcrEl
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm'])
   },
   created() {
-    this.page = this.documents[0].pages[0];
+    this.page = this.documents[0].pages[0]
   },
   methods: {
     postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     // 样本收集点击事件
     clickSampleCollection() {
       if (!this.page.starsFlag) {
-        const requestId = this.documents[0].id;
-        const picAddress = this.page.collectImgUrl;
+        const requestId = this.documents[0].id
+        const picAddress = this.page.collectImgUrl
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "文档OCR",
+            productName: '文档OCR'
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.page, "starsFlag", true);
+            if (res.data.code === '200') {
+              this.$set(this.page, 'starsFlag', true)
               // this.page.starsFlag = true;
-              this.page.loadRecordId = res.data.data;
+              this.page.loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       } else {
         this.$http
           .post(
@@ -144,63 +144,63 @@ export default {
             )}&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.page.starsFlag = false;
+            if (res.data.code === '200') {
+              this.page.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       }
     },
 
     uploadFileData(res) {
-      let pages = res.data.specificData;
+      const pages = res.data.specificData
       pages.forEach((i) => {
-        i.starsFlag = false;
-        i.img = this.resolveUrl(i.img);
-      });
+        i.starsFlag = false
+        i.img = this.resolveUrl(i.img)
+      })
       this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
         pages,
         name: res.data.name,
-        id: res.data.id,
-      });
-      this.page = this.documents[0].pages[0];
+        id: res.data.id
+      })
+      this.page = this.documents[0].pages[0]
     },
 
     // 下载识别结果
     handleClickDownload() {
       this.$http({
-        method: "get",
+        method: 'get',
         url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrlayout.example.id}&productName=文档OCR`,
-        responseType: "blob",
+        responseType: 'blob'
       })
         .then((res) => {
           const fileName =
-            res.headers["content-disposition"] &&
-            res.headers["content-disposition"]
-              .split(";")[1]
-              .split("filename=")[1]
-              .replace(/"/gi, "");
-          const blob = res.data;
+            res.headers['content-disposition'] &&
+            res.headers['content-disposition']
+              .split(';')[1]
+              .split('filename=')[1]
+              .replace(/"/gi, '')
+          const blob = res.data
           const type =
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
-          this.exportByBlob(blob, decodeURIComponent(fileName), type);
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'
+          this.exportByBlob(blob, decodeURIComponent(fileName), type)
         })
         .catch((error) => {
-          console.log(error);
-        });
-    },
-  },
-};
+          console.log(error)
+        })
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .document-ocr-wrapper {
