@@ -28,7 +28,7 @@ module.exports = {
     proxy: {
       '/beefeather': {
         // https://beefeather-ng-front.lianyirong.com.cn/beefeather/
-        target: "https://beefeather-ng-front.lianyirong.com.cn", // 微服务
+        target: 'https://beefeather-ng-front.lianyirong.com.cn', // 微服务
         // target: 'https://beefeather-ng-front.hrlyit.com',
         changeOrigin: true,
         pathRewrite: {

@@ -1,35 +1,29 @@
 .ocr-layout {
   display: flex;
-  margin-top: 6px;
   color: #202d40;
-  height: calc(100vh - 122px);
+height: calc(100vh - 122px);
   overflow: hidden;
-  position: relative;
 
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(124, 125, 125, 0.5);
+  }
   * {
     user-select: none;
+    box-sizing: border-box;
   }
-
-    .svg-seal {
-    pointer-events: none;
-    position: absolute;
-    z-index: 1;
-  }
-
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
   .ocr-inner {
-    flex-shrink: 1;
-    flex-grow: 1;
+    flex-shrink: 0;
+    flex-grow: 0;
     display: flex;
     position: relative;
     align-items: center;
+    width: calc(100% - 68px);
 
     .svg-mask {
       pointer-events: none;
@@ -40,6 +34,7 @@
     }
 
     .document-box {
+      border: 1px solid #e2e4e9;
       width: 50%;
       flex-shrink: 0;
       flex-grow: 0;
@@ -55,7 +50,7 @@
         justify-content: space-between;
         background-color: #fff;
 
-        >div {
+        > div {
           flex: 1;
           text-align: center;
 
@@ -72,25 +67,21 @@
         }
 
         .number {
-          border-bottom: 1px solid #e3e8f0;
-          padding: 0 8px;
+          width: 40px;
 
-          .lls-input {
-            width: auto;
+          ::v-deep .lls-input__inner {
+            width: 20px;
+            position: relative;
+            left: -8px;
+            border: none;
+            border-bottom: 1px solid #e3e8f0;
+            height: 14px;
+            padding: 0;
+            border-radius: 0;
+            text-align: center;
 
-            ::v-deep .lls-input__inner {
-              max-width: 30px;
-              position: relative;
-              left: -4px;
-              border: none;
-              height: 14px;
-              padding: 0;
-              border-radius: 0;
-              text-align: center;
-
-              &:focus {
-                border-color: #0887ff;
-              }
+            &:focus {
+              border-color: #0887ff;
             }
           }
 
@@ -104,11 +95,11 @@
           margin: 0 6px;
           cursor: pointer;
 
-          &.big-icon, &.dis-icon {
+          &.big-icon,
+          &.dis-icon {
             font-size: 15px;
             margin: 0 4px;
           }
-
           &.dis-icon {
             cursor: default;
           }
@@ -124,10 +115,9 @@
         align-items: center;
 
         .document {
-          // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          // cursor: url('../image/手势-张开.svg'), grab;
+          cursor: url("./icon/手势-张开.svg"), grab;
           background-repeat: no-repeat;
           display: flex;
           align-items: center;
@@ -137,23 +127,35 @@
             transition: all 0.3s;
           }
 
-          >img {
+          > img {
             width: 100%;
             pointer-events: none;
             user-select: none;
           }
 
           &.draggable {
-            // cursor: url('../iamge/手势-握紧.svg'), grabbing;
+            cursor: url("./icon/手势-握紧.svg"), grabbing;
           }
 
+          .frame-mask-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            .rect-active {
+              opacity: 1 !important;
+              stroke-width: 0.5 !important;
+              stroke: rgb(8, 135, 255) !important;
+              fill: rgba(8, 135, 255, 0.1) !important;
+            }
+          }
           // transition: all 0.3s linear;
           .frame-mask {
             position: absolute;
             cursor: pointer;
             pointer-events: none;
 
-            &.active, &:hover {
+            &.active,
+            &:hover {
               background: rgba(8, 135, 255, 0.1);
               border: 1px solid #0887ff;
               border-radius: 4px;
@@ -165,6 +167,7 @@
 
     .drag-view {
       width: 8px;
+      // height: 30px;
       flex-shrink: 0;
       flex-grow: 0;
       cursor: col-resize;
@@ -174,13 +177,13 @@
       height: 100%;
 
       &:after {
-        content: '';
+        content: "";
         width: 100%;
         height: 30px;
         background-image: repeating-linear-gradient(
           to bottom,
-          #E5E7EC 0px,
-          #E5E7EC 1px,
+          #e5e7ec 0px,
+          #e5e7ec 1px,
           transparent 1px,
           transparent 4px
         );
@@ -188,11 +191,7 @@
     }
 
     .ocr-result {
-      * {
-        user-select: text;
-      }
-
-      .svg-icon {
+    .svg-icon {
         font-size: 16px;
         position: relative;
         top: 28px;
@@ -214,20 +213,20 @@
       ::v-deep .lls-tabs__active-bar {
         margin-left: 22px;
       }
-
       border: 1px solid #0887ff;
       flex-shrink: 1;
       flex-grow: 1;
-      padding: 16px;
-      padding-top: 0px;
+      padding: 0 16px;
+      background: #f7fbff;
       position: relative;
       height: 100%;
+      width: calc(50% - 8px);
 
       .border-corner {
         position: absolute;
         height: 20px;
         width: 20px;
-        border: 4px solid #0887FF;
+        border: 4px solid #0887ff;
 
         &.border-corner-1 {
           top: 0;
@@ -258,24 +257,33 @@
         }
       }
 
+      .ocr-title-bar {
+        display: flex;
+        height: 58px;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+
+        .svg-icon {
+          margin-right: 8px;
+
+          &.download {
+            margin-right: 4px;
+          }
+        }
+
+        .ocr-title {
+          font-weight: 600;
+        }
+
+        span {
+          vertical-align: middle;
+        }
+      }
+
       .ocr-text {
-        ::-webkit-scrollbar {
-          width: 4px;
-          height: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: rgba(32, 45, 64, 0.5);
-        }
-
-        // 竖向滚动条
-        &::-webkit-scrollbar-thumb:vertical {
-          background-color: rgba(32, 45, 64, 0.5);
-          -webkit-border-radius: 2px;
-        }
-
         border: 1px solid #e3e8f0;
-        height: calc(100vh - 206px);
+         height: calc(100vh - 206px);
         overflow: auto;
         padding: 12px 8px;
         background: #fff;
@@ -285,6 +293,7 @@
           line-height: 26px;
           padding: 0 8px;
           border: 1px solid #fff;
+          font-size: 12px;
 
           &:not(:last-child) {
             margin-bottom: 8px;
@@ -294,7 +303,6 @@
             background: #f6f9fb;
             cursor: pointer;
           }
-
           &.not-point:hover {
             background: #fff;
             cursor: default;
@@ -309,5 +317,7 @@
       }
     }
   }
-
+  .ocrInnerWidth{
+    width:calc(100% - 250px) !important;
+  }
 }

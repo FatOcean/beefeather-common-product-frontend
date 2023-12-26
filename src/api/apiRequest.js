@@ -1,6 +1,6 @@
-import axios from "axios";
-import router from "../router";
-import { Message } from "link-ui-web";
+import axios from 'axios'
+import router from '../router'
+import { Message } from 'link-ui-web'
 // import { getSession } from "@/utils/session";
 
 // const baseURL = document.location.protocol === 'https:'
@@ -10,61 +10,61 @@ import { Message } from "link-ui-web";
 const api = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000000,
-  withCredentials: true,
-});
+  withCredentials: true
+})
 // 请求拦截
 api.interceptors.request.use(
   (config) => {
-    const token = sessionStorage.getItem("token"),
-      origin = sessionStorage.getItem("origin");
-    // config.url =
-    //   (process.env.NODE_ENV == "development"
-    //     ? "/beefeather"
-    //     : decodeURIComponent(origin)) + config.url;
-    if (token) {
-      config.headers.Authorization = token;
-    }
-    return config;
+    // const token = sessionStorage.getItem('token')
+    // const origin = sessionStorage.getItem('origin')
+    // // config.url =
+    // //   (process.env.NODE_ENV == "development"
+    // //     ? "/beefeather"
+    // //     : decodeURIComponent(origin)) + config.url;
+    // if (token) {
+    //   config.headers.Authorization = token
+    // }
+    return config
   },
   (err) => {
-    return Promise.reject(err);
+    return Promise.reject(err)
   }
-);
+)
 
 // 响应拦截
 api.interceptors.response.use(
   (response) => {
     if (
-      response.request.responseType === "blob" ||
-      response.config.url.indexOf(".json") > -1
+      response.request.responseType === 'blob' ||
+      response.config.url.indexOf('.json') > -1
     ) {
-      return response;
+      return response
     }
-    const code = response.data.code;
+    const code = response.data.code
     if (code === 401) {
-      Message.error({ message: "用户未登录！", offset: 72 });
-      router.push("/login");
-      return Promise.reject(new Error("用户未登录！"));
+      Message.error({ message: '用户未登录！', offset: 72 })
+      router.push('/login')
+      return Promise.reject(new Error('用户未登录！'))
     } else if (
-      code !== "200" &&
+      code !== '200' &&
       code !== undefined &&
       code !== 0 &&
       response.config.showError &&
-      !response.config.url.includes("/gateway-web/oauth/check_token")
+      !response.config.url.includes('/gateway-web/oauth/check_token')
     ) {
       Message({
-        message: response.data.message || "error",
-        type: "error",
-        duration: 3 * 1000,
-      });
-      return response;
+        message: response.data.message || 'error',
+        type: 'error',
+        duration: 3 * 1000
+      })
+      return response
     } else {
-      return response;
+      return response
     }
   },
   (err) => {
-    return Promise.reject(err);
+    return Promise.reject(err)
   }
-);
+)
 
-export default api;
+export default api

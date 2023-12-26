@@ -1,5 +1,5 @@
 <template>
-  <div class="right-select" :style="{ width: isshowRight ? '200px' : '60px' }">
+  <div class="right-select" :style="{ width: isshowRight ? '250px' : '60px' }">
     <div v-show="isshowRight">
       <div class="serInput">
         <lls-input
@@ -76,13 +76,14 @@ export default {
   methods: {
     productNameClick(item, index) {
       this.activebgName = item.name
-      console.log(this.activebgName)
+      this.$parent.setProductName(item)
     },
     showChildren(item) {
       item.isShowChildren = !item.isShowChildren
     },
     showRight() {
       this.isshowRight = !this.isshowRight
+      this.$parent.setisshowRight(this.isshowRight)
     },
     findProductName(val) {
       if (val !== '') {

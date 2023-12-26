@@ -62,6 +62,12 @@ export default {
       default: () => {
         return ['pdf', 'jpg', 'png', 'jpeg', 'bmp']
       }
+    },
+    productObj: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
   data() {
@@ -99,22 +105,23 @@ export default {
       this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98)
     },
     ocrRecognitionExcel(file) {
+      console.log(this.productObj)
       this.$http
         .post(
-          `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=${this.productName}`
+          `/general-product-web/general/analysis?uploadId=${
+            this.files[0].taskId
+          }&application=${this.productObj.staticName.toUpperCase()}`
         )
         .then((res) => {
           res = res.data
           if (res.code === '200') {
             this.postFixdMessage(false)
             this.beeLoading = false
-            if (this.productName !== '印章去除') {
-              this.$message({
-                message: '上传成功',
-                type: 'success',
-                offset: 60
-              })
-            }
+            this.$message({
+              message: '上传成功',
+              type: 'success',
+              offset: 60
+            })
             this.percent = 100
             this.$emit('uploadFileData', res)
           } else {
@@ -152,6 +159,21 @@ export default {
 </script>
 
 <style lang="stylus">
+  .analyzing {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    background: #000000;
+    position: fixed !important;
+    z-index: 999 !important;
+    left: 0;
+  }
+
 .upload-wrapper {
   position: absolute;
   bottom: -8px;

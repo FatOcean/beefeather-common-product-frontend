@@ -93,7 +93,8 @@ const routes = [
     }
   },
   {
-    path: '/identityCardAnalysis',
+    // path: '/identityCardAnalysis',
+    path: '/2',
     component: (resolve) => require(['@/views/identityCard'], resolve),
     meta: {
       title: '身份证解析'
@@ -101,7 +102,8 @@ const routes = [
   },
   {
     path: '/documentOcr',
-    component: (resolve) => require(['@/views/docOcr'], resolve),
+    component: (resolve) => require(['@/views/AdocumentParsing'], resolve),
+    // component: (resolve) => require(['@/views/docOcr'], resolve),
     meta: {
       title: '文档OCR'
     }

@@ -7,43 +7,40 @@
     }"
   >
     <!-- 示例区-缩略图 -->
-    <RightSelect ref="RightSelectRefs"></RightSelect>
+    <div class="examples-wrapper">
+      <div
+        class="example"
+        :class="{ active: activeDocumentIndex == index }"
+        v-for="(i, index) in data"
+        :key="index"
+        @click="handleClickExample(index)"
+      >
+        <div class="example-image">
+          <img :src="i.pages[0].img" :alt="i.name" />
+        </div>
+        <div class="text">
+          <span>{{ i.name.substring(0, i.name.lastIndexOf(".")) }}</span>
+        </div>
+      </div>
+    </div>
     <!-- ocr -->
-    <div
-      :class="{
-        'ocr-inner': true,
-        ocrInnerWidth: isshowRight,
-      }"
-    >
+    <div class="ocr-inner">
       <!-- 文档 -->
       <div class="document-box" ref="documentBox">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
-              effect="dark"
-              :content="page.fileName"
-              placement="bottom-start"
-            >
-              <span>{{ page.fileName }}</span>
+            <lls-tooltip effect="dark" :content="example.name" placement="bottom-start">
+              <span>{{ example.name }}</span>
             </lls-tooltip>
           </div>
           <div>
-            <svg-icon
-              v-if="pageIndex === 1"
-              class="dis-icon"
-              iconClass="左置灰"
-            ></svg-icon>
-            <svg-icon
-              v-else
-              class="big-icon"
-              iconClass="ic-左"
-              @click.native="handleTurnPage(-1)"
-            ></svg-icon>
+            <svg-icon v-if="pageIndex === 1" class="dis-icon" iconClass="左置灰"></svg-icon>
+            <svg-icon v-else class="big-icon" iconClass="ic-左" @click.native="handleTurnPage(-1)"></svg-icon>
             <lls-input
               :min="1"
               :max="total"
               class="number"
-              v-model.number="pageIndex"
+              v-model="pageIndex"
               @change="
                 (e) => {
                   handleTurnPage(0, e);
@@ -59,39 +56,15 @@
               ></span
             >-->
 
-            <svg-icon
-              v-if="pageIndex === total"
-              class="dis-icon"
-              iconClass="右置灰"
-            ></svg-icon>
-            <svg-icon
-              v-else
-              class="big-icon"
-              iconClass="ic-右"
-              @click.native="handleTurnPage(1)"
-            ></svg-icon>
+            <svg-icon v-if="pageIndex === total" class="dis-icon" iconClass="右置灰"></svg-icon>
+            <svg-icon v-else class="big-icon" iconClass="ic-右" @click.native="handleTurnPage(1)"></svg-icon>
           </div>
           <div>
-            <svg-icon
-              iconClass="ic-放大"
-              @click.native="handleZoom(zoomStep)"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-缩小"
-              @click.native="handleZoom(-zoomStep)"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-旋转"
-              @click.native="handleClickRotate"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-恢复默认"
-              @click.native="resetProps"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-全屏"
-              @click.native="handleFullScreen"
-            ></svg-icon>
+            <svg-icon iconClass="ic-放大" @click.native="handleZoom(zoomStep)"></svg-icon>
+            <svg-icon iconClass="ic-缩小" @click.native="handleZoom(-zoomStep)"></svg-icon>
+            <svg-icon iconClass="ic-旋转" @click.native="handleClickRotate"></svg-icon>
+            <svg-icon iconClass="ic-恢复默认" @click.native="resetProps"></svg-icon>
+            <svg-icon iconClass="ic-全屏" @click.native="handleFullScreen"></svg-icon>
           </div>
         </div>
         <div
@@ -131,10 +104,10 @@
                 transform: `rotate(${-page.imgRotatingDeg || 0}deg)`,
               }"
               :src="imageUrl"
-              :alt="page.fileName"
+              :alt="example.name"
             />
             <svg
-              v-if="showAllCoordinate && !isMultiCoordinate"
+              v-if="showAllCoordinate&&!isMultiCoordinate"
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
               class="frame-mask-svg"
@@ -162,9 +135,9 @@
                   :ref="`maskEl${item.id}`"
                   stroke-linejoin="round"
                   stroke-linecap="round"
-                  style="fill: #dea2f3; opacity: 0.4"
+                  style="fill: #dea2f3 ;opacity: 0.4"
                   :class="{ 'rect-active': activeTextId === item.id }"
-                  @click.stop="(e) => clickRect(e, item)"
+                  @click.stop="(e) => clickRect(e,item)"
                   :d="polygonPathValue(item)"
                 />
               </template>
@@ -180,13 +153,13 @@
                   :height="item.height * imgScale || 1"
                   :ref="`maskEl${item.id}`"
                   :class="{ 'rect-active': activeTextId === item.id }"
-                  style="fill: #dea2f3; opacity: 0.4"
-                  @click.stop="(e) => clickRect(e, item)"
+                  style="fill: #dea2f3 ;opacity: 0.4"
+                  @click.stop="(e) => clickRect(e,item)"
                 />
               </template>
             </svg>
             <svg
-              v-if="activeText && !showAllCoordinate && !isMultiCoordinate"
+              v-if="activeText&&!showAllCoordinate&&!isMultiCoordinate"
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
               class="frame-mask-svg"
@@ -234,7 +207,7 @@
               />
             </svg>
             <svg
-              v-if="activeText && isMultiCoordinate"
+              v-if="activeText&&isMultiCoordinate"
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
               class="frame-mask-svg"
@@ -247,7 +220,7 @@
               <template v-for="(item, index) in activeText">
                 <template v-if="index === 0">
                   <circle
-                    v-for="(i, idx) in item"
+                    v-for="(i,idx) in item"
                     :key="`cir${index}${idx}`"
                     ref="pointEl"
                     :cx="i.x * imgScale"
@@ -284,52 +257,17 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <div
-          v-for="i in 4"
-          :key="i"
-          class="border-corner"
-          :class="[`border-corner-${i}`]"
-        ></div>
-        <svg-icon iconClass="识别结果" class="svgClass"></svg-icon>
-        <lls-tabs
-          v-model="activeName"
-          height="50px"
-          @tab-click="handleClickTabs"
-        >
-          <lls-tab-pane label="识别结果" name="first">
-            <div
-              class="ocr-text"
-              @scroll="proxy(calculateXy)"
-              ref="ocrTextWrapper"
-            >
-              <slot></slot>
-            </div>
-          </lls-tab-pane>
-          <lls-tab-pane label="Json结果" name="second">
-            <div style="border: 1px solid #e3e8f0">
-              <b-code-editor
-                :indent-unit="4"
-                v-model="codeTest"
-                :readonly="true"
-                :gutter="false"
-                ref="editor"
-                mode="application/json"
-                theme="eclipse"
-                :height="'calc(100vh - 198px)'"
-                :show-number="false"
-                :auto-format="true"
-              ></b-code-editor>
-            </div>
-          </lls-tab-pane>
-          <template v-slot:button>
-            <lls-button type="text"
-              ><i class="lls-icon-download"></i>
-              {{
-                `下载${activeName === "first" ? "识别" : "Json"}结果`
-              }}</lls-button
-            >
-          </template>
-        </lls-tabs>
+        <div v-for="i in 4" :key="i" class="border-corner" :class="[`border-corner-${i}`]"></div>
+        <div class="ocr-title-bar">
+          <div class="ocr-title">
+            <svg-icon iconClass="识别结果"></svg-icon>
+            <span>识别结果</span>
+          </div>
+          <slot name="button"></slot>
+        </div>
+        <div class="ocr-text" @scroll="handleScroll" ref="ocrTextWrapper">
+          <slot></slot>
+        </div>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -357,35 +295,19 @@
           r="3"
           fill="#0887FF"
         />
-        <circle
-          :cx="pathValue.pathEndX"
-          :cy="pathValue.pathEndY"
-          r="2"
-          fill="#0887FF"
-        />
+        <circle :cx="pathValue.pathEndX" :cy="pathValue.pathEndY" r="2" fill="#0887FF" />
       </svg>
-      <lls-collapse-transition>
-        <upload-File
-          @uploadFileData="$parent.uploadFileData"
-          :productObj="productObj"
-        ></upload-File>
-      </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
-    <lls-image-viewer
-      v-if="showImageViewer"
-      :urlList="urlList"
-      :on-close="handleClose"
-    ></lls-image-viewer>
+    <lls-image-viewer v-if="showImageViewer" :urlList="urlList" :on-close="handleClose"></lls-image-viewer>
   </div>
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-import RightSelect from './rightselect.vue'
 import '../icons'
 
-function Events() {
+function Events () {
   this.clientList = {}
   this.listen = function (key, fn) {
     if (!this.clientList[key]) {
@@ -428,8 +350,7 @@ export default {
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer,
-    RightSelect
+    [ImageViewer.name]: ImageViewer
   },
   props: {
     value: {
@@ -450,7 +371,7 @@ export default {
     // 是否将出界的高亮区自动定位到画布中央
     locatable: {
       type: Boolean,
-      default: true
+      default: false
     },
     // 是否展示所有坐标
     showAllCoordinate: {
@@ -464,17 +385,17 @@ export default {
     },
     isMultiCoordinate: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
-  data() {
+  data () {
     return {
-      activeName: 'first',
       data_: [],
       activeTextId: '',
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
       ocrResultWidth: null, // 识别结果的宽度
+      activeDocumentIndex: 0, // 当前示例索引
       pageIndex: 1, // 手动输入的页数
       activePageIndex: 0, // 当前页面索引
       activeText: null, // 高亮的文本
@@ -491,96 +412,14 @@ export default {
       initTranslateY: 0, // 初始位移数据
       draggable: false, // 是否抓住页面
       showImageViewer: false, // 是否启用大图预览
-      transition: false, // 是否开启缓动效果
-      scale: 1,
-      newpage: {},
-      productObj: {
-        name: '身份证',
-        staticName: 'id_card'
-      },
-      isshowRight: true
+      transition: false // 是否开启缓动效果
     }
   },
-  computed: {
-    // 当前示例信息
-    // example() {
-    //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-    //   this.codeTest = JSON.stringify(this.data[this.activePageIndex].json)
-    //   return this.data[this.activePageIndex]
-    // },
-    // 总页数
-    total() {
-      return this.data.length
-    },
-    // 当前页面信息
-    page() {
-      const translateX = 0
-      const translateY = 0
-      const rotateScale = 1
-      const page = {
-        ...this.value,
-        ...this.newpage,
-        translateX,
-        translateY,
-        rotateScale // 旋转导致的缩放比例
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.codeTest = JSON.stringify(page.json)
-      return page
-    },
-    // 文档图片地址
-    imageUrl() {
-      return this.page.imagePath
-    },
-    // 大图预览所需数据
-    urlList() {
-      return [{ url: this.page.imagePath, title: this.page.fileName }]
-    },
-    // 当前图片初始缩放比例
-    imgScale() {
-      return this.scale
-    },
-    // 是否是多边形
-    polygon() {
-      return (
-        Object.prototype.toString.call(this.activeText) === '[object Array]'
-      )
-    },
-    // 多边形路径
-    maskElPathValue() {
-      if (!this.activeText || Object.keys(this.activeText).length === 0) {
-        return
-      }
-      let d = ''
-      this.activeText.forEach((i, index) => {
-        d += `${index === 0 ? 'M' : 'L'}${i.x * this.imgScale} ${
-          i.y * this.imgScale
-        } `
-        // d += `${i.x * this.imgScale} ${i.y * this.imgScale}, `
-      })
-      return d + 'Z'
-      // return d
-    },
-    allPolygon() {
-      return (
-        this.showAllCoordinate &&
-        this.coordinateData &&
-        this.coordinateData[0] &&
-        this.coordinateData[0].coordinatesList
-      )
-    },
-    svgCircle() {
-      const value = this.coordinateData.find(
-        (val) => val.id === this.activeTextId
-      )
-      return value ? value.coordinatesList : []
-    }
-  },
-  mounted() {
+  mounted () {
     // 监听窗口变化 并读取文档的宽度
     const el = this.$el
-    this.resizeObserver = new ResizeObserver((_) => {
-      this.proxy((_) => {
+    this.resizeObserver = new ResizeObserver(_ => {
+      this.proxy(_ => {
         this.documentWidth = this.$refs.documentLayout.clientWidth
         this.documentHeight = this.$refs.documentLayout.clientHeight
         this.ocrResultWidth = this.$refs.ocrResult.clientWidth
@@ -600,47 +439,43 @@ export default {
     this.$ocrLayoutEvents.listen('drag-view', this.transferView)
   },
   watch: {
-    data() {
+    data () {
+      this.activeDocumentIndex = 0
       this.pageIndex = 1
       this.activePageIndex = 0
       this.reRenderImage()
       this.resetProps()
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$ocrLayoutEvents.remove('click-ocr-el', this.handleClickText)
     this.$ocrLayoutEvents.remove('drag-document', this.transferDocument)
     this.$ocrLayoutEvents.remove('drag-view', this.transferView)
     this.resizeObserver.disconnect()
   },
   methods: {
-    setisshowRight(data) {
-      this.isshowRight = data
-      this.calculateXy()
-    },
-    setProductName(data) {
-      this.productObj = data
-
-      this.resetProps()
-      if (this.activeName !== 'first') this.handleClickTabs()
-      this.$parent.setProductName(data)
-    },
-    handleClickTabs() {
-      this.$nextTick(() => {
-        this.$refs.editor.formatCode()
-      })
-      this.resetProps()
-    },
-    handleFullScreen() {
+    handleFullScreen () {
       this.$emit('on-open-viewer')
       this.showImageViewer = true
     },
-    handleClose() {
+    handleClose () {
       this.showImageViewer = false
       this.$emit('on-close-viewer')
     },
+    // 切换示例
+    handleClickExample (index) {
+      if (this.activeDocumentIndex === index) {
+        return
+      }
+      this.activeDocumentIndex = index
+      this.pageIndex = 1
+      this.activePageIndex = 0
+      this.$emit('on-change-example', index)
+      this.resetProps()
+      this.reRenderImage()
+    },
     // 翻页
-    handleTurnPage(val, page) {
+    handleTurnPage (val, page) {
       const pageIndex = this.activePageIndex
       this.activePageIndex = this.activePageIndex + val
       if (this.activePageIndex === -1) {
@@ -652,7 +487,7 @@ export default {
         this.activePageIndex = page - 1
       }
       this.pageIndex = this.activePageIndex + 1
-      if (pageIndex === this.activePageIndex) {
+      if (pageIndex == this.activePageIndex) {
         return
       }
       this.rotateIndex = 0
@@ -666,18 +501,18 @@ export default {
       this.reRenderImage()
     },
     // 旋转图片
-    handleClickRotate() {
+    handleClickRotate () {
       this.rotateIndex++
       this.dragX = 0
       this.dragY = 0
       this.moveX = 0
       this.moveY = 0
-      this.$nextTick((_) => {
+      this.$nextTick(_ => {
         this.calculateXy()
       })
     },
     // 缩放图片
-    handleZoom(e) {
+    handleZoom (e) {
       this.initTranslateY = 0
       let scale = this.zoomScale
       let scrollDis
@@ -701,7 +536,7 @@ export default {
       return false
     },
     // 计算鼠标移动距离
-    calculateDragDis(offset) {
+    calculateDragDis (offset) {
       const disX = offset.offsetX - this.offsetX
       const disY = offset.offsetY - this.offsetY
       this.$ocrLayoutEvents.trigger(offset.elName, { disX, disY })
@@ -709,7 +544,7 @@ export default {
       this.offsetY = offset.offsetY
     },
     // 移动文档图片
-    transferDocument({ disX, disY }) {
+    transferDocument ({ disX, disY }) {
       this.dragX += disX
       this.dragY += disY
       this.moveX = this.dragX
@@ -729,7 +564,7 @@ export default {
       this.calculateXy()
     },
     // 移动两侧视口
-    transferView({ disX, disY }) {
+    transferView ({ disX, disY }) {
       this.viewX += disX
       const windowWidth = window.innerWidth
       if (this.viewX > windowWidth * 0.2) {
@@ -740,7 +575,7 @@ export default {
       }
       this.$refs.documentBox.style.width = `calc(50% + ${this.viewX}px)`
       this.$refs.ocrResult.style.width = `calc(50% - ${this.viewX + 8}px)`
-      this.$nextTick((_) => {
+      this.$nextTick(_ => {
         this.documentWidth = this.$refs.documentLayout.clientWidth
         this.documentHeight = this.$refs.documentLayout.clientHeight
         this.ocrResultWidth = this.$refs.ocrResult.clientWidth
@@ -748,18 +583,18 @@ export default {
         this.calculateXy()
       })
     },
-    clickRect(e, value) {
+    clickRect (e, value) {
       const el = document.getElementsByClassName(`rect${value.id}`)[0]
       const ocrElText = document.getElementsByClassName('ocr-text')[0]
       this.handleClickText({ el, value }, false)
       ocrElText.scrollTop = el.offsetTop
     },
     // 激活文本
-    handleClickText({ el, value, id = '' }, locate = true) {
+    handleClickText ({ el, value, id = '' }, locate = true) {
       this.activeEl = el
       this.activeText = value
       if (this.showAllCoordinate) this.activeTextId = value.id || id
-      if (value == null || Object.keys(value).length === 0) {
+      if (value == null || Object.keys(value).length == 0) {
         this.pathValue = null
         return
       }
@@ -770,8 +605,8 @@ export default {
       }
     },
     // 自动定位
-    locate() {
-      this.$nextTick((_) => {
+    locate () {
+      this.$nextTick(_ => {
         const el = this.$refs[`maskEl${this.activeTextId}`]
         const maskEl = el.length ? el[0] : el
         const documentLayout = this.$refs.documentLayout
@@ -807,10 +642,10 @@ export default {
           this.transferDocument({ disX, disY })
           this.transition = true
           let index = 0
-          this.timer = window.setInterval((_) => {
+          this.timer = window.setInterval(_ => {
             this.calculateXy()
             index++
-            if (index === 10) {
+            if (index == 10) {
               clearInterval(this.timer)
               this.transition = false
             }
@@ -821,50 +656,47 @@ export default {
       })
     },
     // 滚动识别结果区域
-    handleScroll() {
+    handleScroll () {
       this.proxy(this.calculateXy)
       this.$emit('on-scroll')
     },
     // 多边形路径
-    polygonPathValue(value) {
+    polygonPathValue (value) {
       if (!value.coordinatesList.length) return
       let d = ''
       value.coordinatesList.forEach((i, index) => {
-        d += `${index === 0 ? 'M' : 'L'}${i.x * this.imgScale} ${
-          i.y * this.imgScale
-        } `
+        d += `${index == 0 ? 'M' : 'L'}${i.x * this.imgScale} ${i.y *
+          this.imgScale} `
         // d += `${i.x * this.imgScale} ${i.y * this.imgScale}, `
       })
       return d + 'Z'
       // return d
     },
     // 计算path起点、终点坐标
-    calculateXy() {
-      if (
-        this.activeText == null ||
-        Object.keys(this.activeText).length === 0
-      ) {
+    calculateXy () {
+      if (this.activeText == null || Object.keys(this.activeText).length == 0) {
         return
       }
-      this.$nextTick((_) => {
+      this.$nextTick(_ => {
         let pointEls, pointEl, pointElsRect, beforeEl, afterEl, otherEl
         // 多边形点连线
         if (this.polygon) {
           pointEls = this.$refs.pointEl
+          pointEl
           pointElsRect = pointEls.map((i, index) => {
             const elRect = i.getBoundingClientRect()
-            if (index === 0 || pointEl.rect.right < elRect.right) {
+            if (index == 0 || pointEl.rect.right < elRect.right) {
               pointEl = { rect: elRect, index }
             }
             return { rect: elRect, index }
           })
           beforeEl =
             pointElsRect[
-              pointEl.index === 0 ? pointElsRect.length - 1 : pointEl.index - 1
+              pointEl.index == 0 ? pointElsRect.length - 1 : pointEl.index - 1
             ]
           afterEl =
             pointElsRect[
-              pointEl.index === pointElsRect.length - 1 ? 0 : pointEl.index + 1
+              pointEl.index == pointElsRect.length - 1 ? 0 : pointEl.index + 1
             ]
           otherEl =
             beforeEl.rect.right > afterEl.rect.right ? beforeEl : afterEl
@@ -899,7 +731,7 @@ export default {
         if (x > this.documentWidth) {
           x = this.documentWidth
         }
-        if (pathEndX <= this.documentWidth + 48) {
+        if (pathEndX < this.documentWidth + 48) {
           pathEndX = this.documentWidth + 48
         }
 
@@ -912,7 +744,7 @@ export default {
       })
     },
     // 还原
-    resetProps() {
+    resetProps () {
       this.rotateIndex = 0
       this.activePageIndex = 0
       this.activeText = null
@@ -925,45 +757,43 @@ export default {
       this.moveY = 0
     },
     // 计算图片的的实际渲染大小
-    reRenderImage() {
-      console.log('reRenderImage')
+    reRenderImage () {
       this.data_ = []
       this.data.forEach((document, index) => {
         this.data_.push(document)
         const vm = this
-        if (index === this.activePageIndex) {
-          const page = {
-            ...document,
-            imgRotatingDeg: document.angle,
-            originalWidth: document.width,
-            originalHeight: document.height,
-            img: document.imagePath
-          }
-          page.scale = vm.documentWidth / +page.originalWidth // 初始图片缩放比例
-          page.realRenderHeight = +page.originalHeight * page.scale // 图片实际渲染高度
-          if (page.realRenderHeight > vm.documentHeight) {
-            page.realRenderHeight = vm.documentHeight
-            page.scale = vm.documentHeight / +page.originalHeight
-          }
-          page.realRenderWidth = +page.originalWidth * page.scale // 图片实际渲染宽度
+        if (index == this.activeDocumentIndex) {
+          document.pages.forEach((page, index_) => {
+            page.scale = vm.documentWidth / +page.originalWidth // 初始图片缩放比例
+            page.realRenderHeight = +page.originalHeight * page.scale // 图片实际渲染高度
+            if (page.realRenderHeight > vm.documentHeight) {
+              page.realRenderHeight = vm.documentHeight
+              page.scale = vm.documentHeight / +page.originalHeight
+            }
+            page.realRenderWidth = +page.originalWidth * page.scale // 图片实际渲染宽度
 
-          if (/0|2/.test(page.imgRotatingDeg / 90)) {
-            page.imgRenderWidth = page.realRenderWidth
-            page.imgRenderHeight = page.realRenderHeight
-          }
-          if (/1|3/.test(page.imgRotatingDeg / 90)) {
-            page.imgRenderWidth = page.realRenderHeight
-            page.imgRenderHeight = page.realRenderWidth
-          }
-          vm.scale = page.scale
-          vm.newpage = page
+            if (/0|2/.test(page.imgRotatingDeg / 90)) {
+              page.imgRenderWidth = page.realRenderWidth
+              page.imgRenderHeight = page.realRenderHeight
+            }
+            if (/1|3/.test(page.imgRotatingDeg / 90)) {
+              page.imgRenderWidth = page.realRenderHeight
+              page.imgRenderHeight = page.realRenderWidth
+            }
+
+            document.pages.splice(index_, 1, { ...page })
+            if (vm.activePageIndex == index_) {
+              vm.$emit('handle-change', { ...page })
+            }
+            vm.data_.splice(index, 1, { ...document })
+          })
         }
       })
-      window.setTimeout((_) => {
+      window.setTimeout(_ => {
         this.calculateXy()
       })
     },
-    handleMousedown(e, elName) {
+    handleMousedown (e, elName) {
       const el = this.$refs[elName]
       this.removeEventListener(e, elName)
       e = e || window.event
@@ -971,7 +801,7 @@ export default {
       this.offsetY = e.pageY
       window.addEventListener(
         'mousemove',
-        (this[`${elName}Mousemove`] = (e) => {
+        (this[`${elName}Mousemove`] = e => {
           e = e || window.event
           this.proxy(this.calculateDragDis, {
             offsetX: e.pageX,
@@ -987,64 +817,500 @@ export default {
         this.removeEventListener.bind(this, e, elName)
       )
     },
-    removeEventListener(e, elName, w) {
+    removeEventListener (e, elName, w) {
       window.removeEventListener('mousemove', this[`${elName}Mousemove`])
       window.removeEventListener('mouseup', this.removeEventListener)
       this.draggable = false
     },
-    multiMaskElPathValue(value) {
-      if (!value || Object.keys(value).length === 0) {
+    multiMaskElPathValue (value) {
+      if (!value || Object.keys(value).length == 0) {
         return
       }
       let d = ''
       value.forEach((i, index) => {
-        d += `${index === 0 ? 'M' : 'L'}${i.x * this.imgScale} ${
-          i.y * this.imgScale
-        } `
+        d += `${index == 0 ? 'M' : 'L'}${i.x * this.imgScale} ${i.y *
+          this.imgScale} `
         // d += `${i.x * this.imgScale} ${i.y * this.imgScale}, `
       })
       return d + 'Z'
     },
     // 绑定事件函数
-    bind(node, event, fun) {
+    bind (node, event, fun) {
       if (node.addEventListener) {
         node.removeEventListener(event, fun)
         node.addEventListener(event, fun, false)
       } else {
         node.detachEvent('on' + event, fun)
-        node.attachEvent('on' + event, fun.call())
+        node.attachEvent('on' + event, fun.call(obj))
       }
     },
     // 代理函数
-    proxy(fun, args) {
+    proxy (fun, args) {
       if (this.proxying) return
       this.proxying = true
-      window.requestAnimationFrame((_) => {
+      window.requestAnimationFrame(_ => {
         fun.call(this, args)
         this.proxying = false
       })
     }
+  },
+  computed: {
+    // 当前示例信息
+    example () {
+      return this.data[this.activeDocumentIndex]
+    },
+    // 总页数
+    total () {
+      return this.example.pages.length
+    },
+    // activeTextId() {
+    //   return this.showAllCoordinate ? this.activeText.id : "";
+    // },
+    // 当前页面信息
+    page () {
+      const translateX = 0
+      const translateY = 0
+      const rotateScale = 1
+      const page = {
+        ...this.value,
+        translateX,
+        translateY,
+        rotateScale // 旋转导致的缩放比例
+      }
+      return page
+    },
+    // 文档图片地址
+    imageUrl () {
+      return this.page.img
+    },
+    // 大图预览所需数据
+    urlList () {
+      return [{ url: this.page.img, title: this.example.name }]
+    },
+    // 当前图片初始缩放比例
+    imgScale () {
+      return this.page.scale
+    },
+    // 是否是多边形
+    polygon () {
+      return (
+        Object.prototype.toString.call(this.activeText) === '[object Array]'
+      )
+    },
+    // 多边形路径
+    maskElPathValue () {
+      if (!this.activeText || Object.keys(this.activeText).length == 0) {
+        return
+      }
+      let d = ''
+      this.activeText.forEach((i, index) => {
+        d += `${index == 0 ? 'M' : 'L'}${i.x * this.imgScale} ${i.y *
+          this.imgScale} `
+        // d += `${i.x * this.imgScale} ${i.y * this.imgScale}, `
+      })
+      return d + 'Z'
+      // return d
+    },
+    allPolygon () {
+      return (
+        this.showAllCoordinate &&
+        this.coordinateData &&
+        this.coordinateData[0] &&
+        this.coordinateData[0].coordinatesList
+      )
+    },
+    svgCircle () {
+      const value = this.coordinateData.find(
+        val => val.id === this.activeTextId
+      )
+      return value ? value.coordinatesList : []
+    }
   }
 }
 </script>
-<style lang="stylus" scoped>
-@import './ocr-layout.styl';
+<style lang="scss">
+.ocr-layout {
+  display: flex;
+  color: #202d40;
+  height: 100vh;
+  overflow: hidden;
 
-::v-deep .CodeMirror {
-  height: calc(100vh - 200px);
-}
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(124, 125, 125, 0.5);
+  }
+  * {
+    user-select: none;
+    box-sizing: border-box;
+  }
 
-::v-deep .CodeMirror-gutters {
-  display: none;
-}
+  .examples-wrapper {
+    width: 80px;
+    flex-shrink: 0;
+    flex-grow: 0;
 
-::v-deep .cm-string {
-  color: red;
-}
+    .example {
+      width: 64px;
+      height: 88px;
+      position: relative;
+      border-radius: 4px;
+      background-color: #ffffff;
+      border: 1px solid #dadfe6;
+      cursor: pointer;
 
-.ocr-text {
-  ::v-deep .lls-tabs__active-bar {
-    margin-left: 0px !important;
+      .example-image {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin: 4px;
+        height: calc(100% - 20px);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        > img {
+          width: 100%;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 4px;
+      }
+
+      .text {
+        position: absolute;
+        height: 12px;
+        line-height: 12px;
+        font-size: 12px;
+        background: #e2e2e2;
+        width: 100%;
+        bottom: -1px;
+        right: 0;
+        border-radius: 0 0 4px 4px;
+        text-align: center;
+
+        span {
+          transform: scale(0.75);
+          transform-origin: left;
+          display: block;
+          width: 82.7px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      &.active {
+        border: 1px solid #0887ff;
+        background-color: rgba(8, 135, 255, 0.08);
+        border-radius: 4px;
+
+        .text {
+          color: #fff;
+          background: #0887ff;
+        }
+      }
+    }
+  }
+
+  .ocr-inner {
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: calc(100% - 80px);
+
+    .svg-mask {
+      pointer-events: none;
+      position: absolute;
+      top: 60px;
+      left: 16px;
+      z-index: 1;
+    }
+
+    .document-box {
+      border: 1px solid #e2e4e9;
+      width: 50%;
+      flex-shrink: 0;
+      flex-grow: 0;
+      height: 100%;
+
+      .tool-bar {
+        height: 38px;
+        line-height: 38px;
+        padding: 0 16px;
+        box-shadow: 0px 3px 8px 0px rgba(5, 18, 30, 0.08);
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+
+        > div {
+          flex: 1;
+          text-align: center;
+
+          &:last-child {
+            text-align: right;
+          }
+        }
+
+        .name {
+          text-align: left;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .number {
+          width: 40px;
+
+          .lls-input__inner {
+            width: 20px;
+            position: relative;
+            left: -8px;
+            border: none;
+            border-bottom: 1px solid #e3e8f0;
+            height: 14px;
+            padding: 0;
+            border-radius: 0;
+            text-align: center;
+
+            &:focus {
+              border-color: #0887ff;
+            }
+          }
+
+          span {
+            font-size: 12px;
+          }
+        }
+
+        .svg-icon {
+          font-size: 12px;
+          margin: 0 6px;
+          cursor: pointer;
+
+          &.big-icon,
+          &.dis-icon {
+            font-size: 15px;
+            margin: 0 4px;
+          }
+          &.dis-icon {
+            cursor: default;
+          }
+        }
+      }
+
+      .document-layout {
+        overflow: hidden;
+        height: calc(100% - 78px);
+        margin: 20px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        // background-image: repeating-linear-gradient(
+        // to right,
+        // transparent 0px,
+        // transparent 14px,
+        // #e3e8f0 14px,
+        // #e3e8f0 15px
+        // ), repeating-linear-gradient(
+        // to bottom,
+        // transparent 0px,
+        // transparent 14px,
+        // #e3e8f0 14px,
+        // #e3e8f0 15px
+        // );
+        .document {
+          // transform-origin: 0 0;
+          background-size: contain;
+          position: relative;
+          cursor: url("./icon/手势-张开.svg"), grab;
+          background-repeat: no-repeat;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &.transition {
+            transition: all 0.3s;
+          }
+
+          > img {
+            // position: absolute;
+            // top: 0;
+            width: 100%;
+            pointer-events: none;
+            user-select: none;
+          }
+
+          &.draggable {
+            cursor: url("./icon/手势-握紧.svg"), grabbing;
+          }
+
+          .frame-mask-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            .rect-active {
+              opacity: 1 !important;
+              stroke-width: 0.5 !important;
+              stroke: rgb(8, 135, 255) !important;
+              fill: rgba(8, 135, 255, 0.1) !important;
+            }
+          }
+          // transition: all 0.3s linear;
+          .frame-mask {
+            position: absolute;
+            cursor: pointer;
+            pointer-events: none;
+
+            &.active,
+            &:hover {
+              background: rgba(8, 135, 255, 0.1);
+              border: 1px solid #0887ff;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+    }
+
+    .drag-view {
+      width: 8px;
+      // height: 30px;
+      flex-shrink: 0;
+      flex-grow: 0;
+      cursor: col-resize;
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      &:after {
+        content: "";
+        width: 100%;
+        height: 30px;
+        background-image: repeating-linear-gradient(
+          to bottom,
+          #e5e7ec 0px,
+          #e5e7ec 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      }
+    }
+
+    .ocr-result {
+      border: 1px solid #0887ff;
+      flex-shrink: 1;
+      flex-grow: 1;
+      padding: 0 16px;
+      background: #f7fbff;
+      position: relative;
+      height: 100%;
+      width: calc(50% - 8px);
+
+      .border-corner {
+        position: absolute;
+        height: 20px;
+        width: 20px;
+        border: 4px solid #0887ff;
+
+        &.border-corner-1 {
+          top: 0;
+          left: 0;
+          border-right: none;
+          border-bottom: none;
+        }
+
+        &.border-corner-2 {
+          top: 0;
+          right: 0;
+          border-left: none;
+          border-bottom: none;
+        }
+
+        &.border-corner-3 {
+          bottom: 0;
+          left: 0;
+          border-right: none;
+          border-top: none;
+        }
+
+        &.border-corner-4 {
+          bottom: 0;
+          right: 0;
+          border-left: none;
+          border-top: none;
+        }
+      }
+
+      .ocr-title-bar {
+        display: flex;
+        height: 58px;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+
+        .svg-icon {
+          margin-right: 8px;
+
+          &.download {
+            margin-right: 4px;
+          }
+        }
+
+        .ocr-title {
+          font-weight: 600;
+        }
+
+        span {
+          vertical-align: middle;
+        }
+      }
+
+      .ocr-text {
+        border: 1px solid #e3e8f0;
+        height: calc(100% - 74px);
+        overflow: auto;
+        padding: 12px 8px;
+        background: #fff;
+        position: relative;
+
+        .text {
+          line-height: 26px;
+          padding: 0 8px;
+          border: 1px solid #fff;
+          font-size: 12px;
+
+          &:not(:last-child) {
+            margin-bottom: 8px;
+          }
+
+          &:hover {
+            background: #f6f9fb;
+            cursor: pointer;
+          }
+          &.not-point:hover {
+            background: #fff;
+            cursor: default;
+          }
+
+          &.active {
+            background: rgba(8, 135, 255, 0.1);
+            border: 1px solid #0887ff;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
   }
 }
 </style>

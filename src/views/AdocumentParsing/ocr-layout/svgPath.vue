@@ -5,7 +5,6 @@
     :width="documentWidth * 2"
     :height="documentHeight"
     class="svg-mask"
-    v-if="pathValue"
   >
     <path
       :d="`M${pathValue.pathStartX} ${pathValue.pathStartY} h${

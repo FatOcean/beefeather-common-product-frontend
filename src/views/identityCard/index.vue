@@ -60,48 +60,48 @@
   </div>
 </template>
 <script>
-import { data } from "./example";
-import ocrLayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { data } from './example'
+import ocrLayout from './ocr-layout'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       data,
       isLoading: false,
       files: [],
-      activeTextId: "",
+      activeTextId: '',
       page: {}, // 当前页面数据信息
       beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
-      activeName: "",
-      servicePortAddress: "",
+      activeName: '',
+      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
       // documents: data.imageAnalysisResult,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      search: "",
+      search: '',
       documents_backup: [],
       checked: false,
       hideResult: [],
       activeTabIndex: 0,
-      falg: true,
-    };
+      falg: true
+    }
   },
   components: { ocrLayout },
   created() {
     // console.log(this.data, "data");
-    this.documents = this.data[0];
+    this.documents = this.data[0]
     // console.log(this.documents, "documents");
-    this.page = this.documents.imageAnalysisResult;
+    this.page = this.documents.imageAnalysisResult
     // console.log(this.page, "page");
     // const frontHash = { 身份证正面: 0 };
     // const backHash = { 身份证反面: 0 };
     for (let i = 0; i < this.page.length; i++) {
-      this.tabsArray[i] = { name: this.page[i].analysisName };
+      this.tabsArray[i] = { name: this.page[i].analysisName }
     }
     // if (this.tabsArray[i].name === "身份证正面") {
     //   frontHash["身份证正面"]++;
@@ -140,40 +140,40 @@ export default {
     //     if()
     //   })
     // })
-    this.activeName = this.tabsArray[0].name;
+    this.activeName = this.tabsArray[0].name
     // console.log(this.activeName, "activeName");
     // console.log(this.data, "data");
     // this.getServiceName();
     // console.log(this.example, "example");
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     pageDetail() {
-      return this.page[this.activeTabIndex].identityList;
+      return this.page[this.activeTabIndex].identityList
     },
     example() {
-      return this.data[this.activeDocumentIndex];
-    },
+      return this.data[this.activeDocumentIndex]
+    }
   },
   methods: {
     tabs(activeDocumentIndex, activePageIndex) {
-      this.activeDocumentIndex = activeDocumentIndex;
-      this.documents = this.data[activeDocumentIndex];
-      this.page = this.documents.imageAnalysisResult;
+      this.activeDocumentIndex = activeDocumentIndex
+      this.documents = this.data[activeDocumentIndex]
+      this.page = this.documents.imageAnalysisResult
       // console.log(this.page, "121312312321312312");
-      this.activeTabIndex = 0;
-      this.tabsArray = [];
+      this.activeTabIndex = 0
+      this.tabsArray = []
       for (let i = 0; i < this.page.length; i++) {
-        this.tabsArray[i] = { name: this.page[i].analysisName, index: i };
+        this.tabsArray[i] = { name: this.page[i].analysisName, index: i }
       }
-      this.activeName = this.tabsArray[activePageIndex].name;
+      this.activeName = this.tabsArray[activePageIndex].name
 
       // console.log(this.example, "ex2");
     },
     handleClick(value) {
       // console.log(value.index);
-      this.activeTabIndex = Number(value.index);
-      this.$refs.documents.handleClick(value.index);
+      this.activeTabIndex = Number(value.index)
+      this.$refs.documents.handleClick(value.index)
       // console.log(this.documents);
       // console.log(this.page);
       // this.tabsArray.forEach((item, index) => {
@@ -186,7 +186,7 @@ export default {
     },
     // 样本收集点击事件
     clickHandler(e, i, noParent) {
-      const el = e.target.parentNode.firstChild;
+      const el = e.target.parentNode.firstChild
 
       if (!(i.position && i.position.length > 0)) {
         // this.$refs.documents.resetProps();
@@ -194,50 +194,50 @@ export default {
         // this.$refs.documents.pathValue = null;
         // this.$refs.documents.activeTextId = null;
         // this.$refs.documents.rectanglePosition = [];
-        return;
+        return
       }
-      e = e || window.event;
-      this.$refs.documents.$events.trigger("click-ocr-el", {
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
-        id: i.id,
+        id: i.id
         // imageIndex: i.imageIndex,
-      });
-      this.activeTextId = this.$refs.documents.activeTextId;
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
       // console.log(this.activeTextId, "activeTextId");
     },
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
+      if (this.isLoading) return
+      this.isLoading = true
       // const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${this.documents.imagePath}`;
+      const picAddress = `${this.documents.imagePath}`
       // console.log(data, '000')
       if (!this.documents.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             picAddress,
-            productName: "身份证解析",
-            requestId: this.documents.requestId,
+            productName: '身份证解析',
+            requestId: this.documents.requestId
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.documents, "starsFlag", true);
-              this.documents.loadRecordId = res.data.data;
+            if (res.data.code === '200') {
+              this.$set(this.documents, 'starsFlag', true)
+              this.documents.loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       } else {
         this.$http
           .post(
@@ -246,55 +246,55 @@ export default {
             )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.documents.starsFlag = false;
+            if (res.data.code === '200') {
+              this.documents.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       }
     },
     uploadFileData(res) {
       res.data.forEach((i) => {
-        i.isUpload = true;
-        i.starsFlag = false;
-      });
-      if (this.data.length > 2) this.data.shift();
-      this.data = res.data.concat(this.data);
-      this.documents = this.data[0];
-      this.page = this.documents.imageAnalysisResult;
+        i.isUpload = true
+        i.starsFlag = false
+      })
+      if (this.data.length > 2) this.data.shift()
+      this.data = res.data.concat(this.data)
+      this.documents = this.data[0]
+      this.page = this.documents.imageAnalysisResult
       // console.log(this.documents, "documents2");
-      this.activeDocumentIndex = 0;
-      this.activeTabIndex = 0;
-      this.tabsArray = [];
+      this.activeDocumentIndex = 0
+      this.activeTabIndex = 0
+      this.tabsArray = []
       for (let i = 0; i < this.page.length; i++) {
         this.tabsArray[i] = {
           name: this.page[i].analysisName
             ? this.page[i].analysisName
-            : `未识别${i + 1}`,
-        };
+            : `未识别${i + 1}`
+        }
       }
-      this.activeName = this.tabsArray[0].name;
+      this.activeName = this.tabsArray[0].name
     },
     handleDragLeave() {
       setTimeout((_) => {
-        this.dragenter = false;
-      }, 200);
-    },
-  },
-};
+        this.dragenter = false
+      }, 200)
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .identify-data {
