@@ -5,11 +5,18 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/documentParsing'
+    redirect: '/generalOcr'
   },
   {
     path: '/documentParsing',
     component: (resolve) => require(['@/views/AdocumentParsing'], resolve),
+    meta: {
+      title: '证件解析'
+    }
+  },
+  {
+    path: '/generalOcr',
+    component: (resolve) => require(['@/views/AgeneralOcr'], resolve),
     meta: {
       title: '证件解析'
     }
