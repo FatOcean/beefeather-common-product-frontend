@@ -109,8 +109,7 @@ const routes = [
   },
   {
     path: '/documentOcr',
-    component: (resolve) => require(['@/views/AdocumentParsing'], resolve),
-    // component: (resolve) => require(['@/views/docOcr'], resolve),
+    component: (resolve) => require(['@/views/docOcr'], resolve),
     meta: {
       title: '文档OCR'
     }
