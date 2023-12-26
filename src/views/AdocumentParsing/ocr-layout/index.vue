@@ -663,6 +663,7 @@ export default {
       this.dragY = 0
       this.moveX = 0
       this.moveY = 0
+      this.$parent.setTableData(this.pageIndex)
       this.reRenderImage()
     },
     // 旋转图片
@@ -926,10 +927,8 @@ export default {
     },
     // 计算图片的的实际渲染大小
     reRenderImage() {
-      console.log('reRenderImage')
-      this.data_ = []
       this.data.forEach((document, index) => {
-        this.data_.push(document)
+        // this.data_.push(document)
         const vm = this
         if (index === this.activePageIndex) {
           const page = {

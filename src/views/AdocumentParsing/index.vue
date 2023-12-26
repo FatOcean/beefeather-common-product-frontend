@@ -2,7 +2,7 @@
   <div class="document-parsing">
     <lls-page-header @back="goBack" content="证件解析" bottom-line>
     </lls-page-header>
-    <button @click="pushtest">测试</button>
+    <!-- <button @click="pushtest">测试</button> -->
     <ocrlayout
       @tabs="tabs"
       :data="documents"
@@ -81,7 +81,8 @@ export default {
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
-      productName: 'id_card'
+      productName: 'id_card',
+      activePageIndex: 0
     }
   },
 
@@ -92,12 +93,7 @@ export default {
     }
   },
   created() {
-    if (this.productName === 'id_card') {
-      for (let i = 0; i < this.page.content.length; i++) {
-        this.tabsArray[i] = { name: this.page.content[i].imageType }
-      }
-      this.activeName = this.tabsArray[0].name
-    }
+    this.isIdcard()
   },
   computed: {
     documents() {
@@ -110,7 +106,7 @@ export default {
       // } else {
       // this.activeName = ''
       // this.tabsArray = []
-      // for (let i = 0; i < this.page.content.length; i++) {
+      // for (let i = 0; i <script this.page.content.length; i++) {
       //   this.tabsArray[i] = { name: this.page.content[i].imageType }
       // }
       // this.activeName = this.tabsArray[0].name
@@ -118,7 +114,7 @@ export default {
       return document
     },
     page() {
-      return this.documents[this.documents.length - 1]
+      return this.documents[this.activePageIndex]
     },
     pageDetail() {
       return this.page.content[this.activeTabIndex].identityList
@@ -135,6 +131,17 @@ export default {
   },
   mounted() {},
   methods: {
+    isIdcard() {
+      if (this.productName === 'id_card') {
+        for (let i = 0; i < this.page.content.length; i++) {
+          this.tabsArray[i] = { name: this.page.content[i].imageType }
+        }
+        this.activeName = this.tabsArray[0].name
+      }
+    },
+    setTableData(index) {
+      this.activePageIndex = this.$refs.documents.activePageIndex
+    },
     setProductName(data) {
       this.activeTextId = 0
       this.productName = data.staticName
@@ -157,488 +164,26 @@ export default {
     },
     handleClick(value) {
       this.activeTabIndex = Number(value.index)
-      this.$refs.documents.handleClick(value.index)
       this.$refs.documents.resetProps()
     },
     goBack() {},
     pushtest() {
-      const data = [
-        {
-          taskId: 'U2023122519902441',
-          status: 1,
-          fileName: '身份证.jpg',
-          imagePath:
-            '/home/lls_data/product/license_analysis/id_card/systemadmin/U2023122519902441/身份证.jpg',
-          height: 800,
-          width: 600,
-          content: [
-            {
-              imageType: '身份证人像页',
-              identityList: [
-                {
-                  id: 1,
-                  key: '姓名',
-                  position: [
-                    [
-                      {
-                        x: 121,
-                        y: 66
-                      },
-                      {
-                        x: 192,
-                        y: 68
-                      },
-                      {
-                        x: 191,
-                        y: 95
-                      },
-                      {
-                        x: 120,
-                        y: 94
-                      }
-                    ]
-                  ],
-                  value: '王■'
-                },
-                {
-                  id: 2,
-                  key: '性别',
-                  position: [
-                    [
-                      {
-                        x: 119,
-                        y: 116
-                      },
-                      {
-                        x: 143,
-                        y: 116
-                      },
-                      {
-                        x: 143,
-                        y: 141
-                      },
-                      {
-                        x: 119,
-                        y: 141
-                      }
-                    ]
-                  ],
-                  value: '男'
-                },
-                {
-                  id: 3,
-                  key: '民族',
-                  position: [
-                    [
-                      {
-                        x: 234,
-                        y: 114
-                      },
-                      {
-                        x: 259,
-                        y: 114
-                      },
-                      {
-                        x: 259,
-                        y: 140
-                      },
-                      {
-                        x: 234,
-                        y: 140
-                      }
-                    ]
-                  ],
-                  value: '汉'
-                },
-                {
-                  id: 4,
-                  key: '出生日期',
-                  position: [
-                    [
-                      {
-                        x: 124,
-                        y: 160
-                      },
-                      {
-                        x: 303,
-                        y: 160
-                      },
-                      {
-                        x: 303,
-                        y: 180
-                      },
-                      {
-                        x: 124,
-                        y: 180
-                      }
-                    ]
-                  ],
-                  value: '1987年2月10日'
-                },
-                {
-                  id: 5,
-                  key: '住址',
-                  position: [
-                    [
-                      {
-                        x: 121,
-                        y: 207
-                      },
-                      {
-                        x: 351,
-                        y: 207
-                      },
-                      {
-                        x: 351,
-                        y: 254
-                      },
-                      {
-                        x: 121,
-                        y: 254
-                      }
-                    ]
-                  ],
-                  value: '福建省厦门市思明区莲前■日'
-                },
-                {
-                  id: 6,
-                  key: '公民身份号码',
-                  position: [
-                    [
-                      {
-                        x: 211,
-                        y: 321
-                      },
-                      {
-                        x: 482,
-                        y: 321
-                      },
-                      {
-                        x: 482,
-                        y: 343
-                      },
-                      {
-                        x: 211,
-                        y: 343
-                      }
-                    ]
-                  ],
-                  value: '35020119870210'
-                }
-              ]
-            },
-            {
-              imageType: '身份证国徽页',
-              identityList: [
-                {
-                  id: 1,
-                  key: '签发机关',
-                  position: [
-                    [
-                      {
-                        x: 247,
-                        y: 678
-                      },
-                      {
-                        x: 379,
-                        y: 678
-                      },
-                      {
-                        x: 379,
-                        y: 703
-                      },
-                      {
-                        x: 247,
-                        y: 703
-                      }
-                    ]
-                  ],
-                  value: '新市公安局'
-                },
-                {
-                  id: 2,
-                  key: '有效期限',
-                  position: [
-                    [
-                      {
-                        x: 252,
-                        y: 725
-                      },
-                      {
-                        x: 414,
-                        y: 725
-                      },
-                      {
-                        x: 414,
-                        y: 746
-                      },
-                      {
-                        x: 252,
-                        y: 746
-                      }
-                    ]
-                  ],
-                  value: '2010.07.01-长期'
-                }
-              ]
-            }
-          ],
-          angle: 0,
-          json: {
-            predict_status: 'success',
-            predict_result: {
-              code: 200,
-              image_size: {
-                width: 600,
-                height: 800
-              },
-              content: [
-                {
-                  data: {
-                    active_time: {
-                      bounding_box: {
-                        top: 725,
-                        left: 252,
-                        width: 162,
-                        height: 21
-                      },
-                      vertices: [
-                        {
-                          x: 252,
-                          y: 725
-                        },
-                        {
-                          x: 414,
-                          y: 725
-                        },
-                        {
-                          x: 414,
-                          y: 746
-                        },
-                        {
-                          x: 252,
-                          y: 746
-                        }
-                      ],
-                      text: '2010.07.01-长期'
-                    },
-                    issuing_authority: {
-                      bounding_box: {
-                        top: 678,
-                        left: 247,
-                        width: 132,
-                        height: 25
-                      },
-                      vertices: [
-                        {
-                          x: 247,
-                          y: 678
-                        },
-                        {
-                          x: 379,
-                          y: 678
-                        },
-                        {
-                          x: 379,
-                          y: 703
-                        },
-                        {
-                          x: 247,
-                          y: 703
-                        }
-                      ],
-                      text: '新市公安局'
-                    }
-                  },
-                  angle: 0,
-                  type: 'idcard_back'
-                },
-                {
-                  data: {
-                    birthday: {
-                      bounding_box: {
-                        top: 160,
-                        left: 124,
-                        width: 179,
-                        height: 20
-                      },
-                      vertices: [
-                        {
-                          x: 124,
-                          y: 160
-                        },
-                        {
-                          x: 303,
-                          y: 160
-                        },
-                        {
-                          x: 303,
-                          y: 180
-                        },
-                        {
-                          x: 124,
-                          y: 180
-                        }
-                      ],
-                      text: '1987年2月10日'
-                    },
-                    id_number: {
-                      bounding_box: {
-                        top: 321,
-                        left: 211,
-                        width: 271,
-                        height: 22
-                      },
-                      vertices: [
-                        {
-                          x: 211,
-                          y: 321
-                        },
-                        {
-                          x: 482,
-                          y: 321
-                        },
-                        {
-                          x: 482,
-                          y: 343
-                        },
-                        {
-                          x: 211,
-                          y: 343
-                        }
-                      ],
-                      text: '35020119870210'
-                    },
-                    address: {
-                      bounding_box: {
-                        top: 207,
-                        left: 121,
-                        width: 230,
-                        height: 47
-                      },
-                      vertices: [
-                        {
-                          x: 121,
-                          y: 207
-                        },
-                        {
-                          x: 351,
-                          y: 207
-                        },
-                        {
-                          x: 351,
-                          y: 254
-                        },
-                        {
-                          x: 121,
-                          y: 254
-                        }
-                      ],
-                      text: '福建省厦门市思明区莲前■日'
-                    },
-                    gender: {
-                      bounding_box: {
-                        top: 116,
-                        left: 119,
-                        width: 24,
-                        height: 25
-                      },
-                      vertices: [
-                        {
-                          x: 119,
-                          y: 116
-                        },
-                        {
-                          x: 143,
-                          y: 116
-                        },
-                        {
-                          x: 143,
-                          y: 141
-                        },
-                        {
-                          x: 119,
-                          y: 141
-                        }
-                      ],
-                      text: '男'
-                    },
-                    nation: {
-                      bounding_box: {
-                        top: 114,
-                        left: 234,
-                        width: 25,
-                        height: 26
-                      },
-                      vertices: [
-                        {
-                          x: 234,
-                          y: 114
-                        },
-                        {
-                          x: 259,
-                          y: 114
-                        },
-                        {
-                          x: 259,
-                          y: 140
-                        },
-                        {
-                          x: 234,
-                          y: 140
-                        }
-                      ],
-                      text: '汉'
-                    },
-                    name: {
-                      bounding_box: {
-                        top: 66,
-                        left: 120,
-                        width: 72,
-                        height: 29
-                      },
-                      vertices: [
-                        {
-                          x: 121,
-                          y: 66
-                        },
-                        {
-                          x: 192,
-                          y: 68
-                        },
-                        {
-                          x: 191,
-                          y: 95
-                        },
-                        {
-                          x: 120,
-                          y: 94
-                        }
-                      ],
-                      text: '王■'
-                    }
-                  },
-                  angle: 0,
-                  type: 'idcard_front'
-                }
-              ]
-            }
-          }
-        }
-      ]
+      const data = []
       data.map((item) => {
         item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
           item.imagePath
         )}`
       })
-      this.staticData[this.productName] =
-        this.staticData[this.productName].concat(data)
-      // this.$refs.documents.activePageIndex = this.staticData[this.productName].length - 1
     },
     uploadFileData(res) {
-      this.staticData[this.productName] = this.staticData[
-        this.productName
-      ].concat(res.data)
+      const data = res.data
+      data.map((item) => {
+        item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
+          item.imagePath
+        )}`
+      })
+      this.staticData[this.productName] = data
+      this.isIdcard()
       return
       res.data.forEach((i) => {
         i.isUpload = true

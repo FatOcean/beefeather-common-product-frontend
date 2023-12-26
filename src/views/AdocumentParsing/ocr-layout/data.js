@@ -122,6 +122,5 @@ const productList = [
     ]
   }
 ]
-const jsonTest = '{"title":"测试json数据","children":[{"name":"子项名称", "desc":"子项说明" },{"name":"子项名称1", "desc":"子项说明1" }]}'
 
-export { productList, jsonTest }
+export { productList }
