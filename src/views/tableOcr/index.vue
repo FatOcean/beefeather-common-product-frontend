@@ -144,10 +144,10 @@
   </div>
 </template>
 <script>
-import documents from "./example";
-import beeLoading from "@linklogis/beeLoading";
-import { OcrLayout, OcrEl } from "@linklogis/ocr-layout";
-import { mapState } from "vuex";
+import documents from './example'
+import beeLoading from '@linklogis/beeLoading'
+import { OcrLayout, OcrEl } from '@linklogis/ocr-layout'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -157,19 +157,19 @@ export default {
       percent: 0, // 进度条
       documents: documents,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      falg: true,
-    };
+      falg: true
+    }
   },
   components: {
     [beeLoading.name]: beeLoading,
     [OcrLayout.name]: OcrLayout,
-    [OcrEl.name]: OcrEl,
+    [OcrEl.name]: OcrEl
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm'])
   },
   // created() {
   //   this.page = this.documents[0].pages[0];
@@ -179,41 +179,41 @@ export default {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     // 样本收集点击事件
     clickSampleCollection() {
       if (!this.page.starsFlag) {
-        const requestId = this.documents[0].requestId;
-        const picAddress = this.page.collectImgUrl;
+        const requestId = this.documents[0].requestId
+        const picAddress = this.page.collectImgUrl
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             requestId: requestId,
             picAddress: picAddress,
-            productName: "表格OCR",
+            productName: '表格OCR'
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.page, "starsFlag", true);
+            if (res.data.code === '200') {
+              this.$set(this.page, 'starsFlag', true)
               // this.page.starsFlag = true;
-              this.page.loadRecordId = res.data.data;
+              this.page.loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       } else {
         this.$http
           .post(
@@ -222,40 +222,40 @@ export default {
             )}&picAddress=${encodeURIComponent(this.page.collectImgUrl)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.page.starsFlag = false;
+            if (res.data.code === '200') {
+              this.page.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
-          });
+          })
       }
     },
     beforeUpload() {
-      this.postFixdMessage(true);
+      this.postFixdMessage(true)
       window.setTimeout((_) => {
-        this.beeLoading = true;
-      }, 80);
+        this.beeLoading = true
+      }, 80)
     },
     onProgress(event, file) {
-      this.percent = Math.min(Math.floor((100 * event.loaded) / file.size), 98);
+      this.percent = Math.min(Math.floor((100 * event.loaded) / file.size), 98)
     },
     onError(res) {
-      this.files = [];
-      this.beeLoading = false;
+      this.files = []
+      this.beeLoading = false
       this.$message({
-        message: "文件上传失败（如文件未解压等）",
-        type: "error",
-        offset: 60,
-      });
+        message: '文件上传失败（如文件未解压等）',
+        type: 'error',
+        offset: 60
+      })
     },
     // 表格ocr识别
     ocrRecognitionExcel(file) {
@@ -264,16 +264,16 @@ export default {
           `/general-product-web/general/productRecognition?taskId=${this.files[0].taskId}&productName=表格OCR`
         )
         .then((res) => {
-          res = res.data;
-          if (res.code === "200") {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
+          res = res.data
+          if (res.code === '200') {
+            this.postFixdMessage(false)
+            this.beeLoading = false
             this.$message({
-              message: "上传成功",
-              type: "success",
-              offset: 60,
-            });
-            this.percent = 100;
+              message: '上传成功',
+              type: 'success',
+              offset: 60
+            })
+            this.percent = 100
             this.documents.splice(0, this.documents.length > 3 ? 1 : 0, {
               name: res.data.fileName,
               requestId: res.data.requestId,
@@ -281,71 +281,71 @@ export default {
                 return {
                   ...i,
                   img: this.resolveUrl(i.img),
-                  imgRotatingDeg: i.rotateAngle,
-                };
-              }),
-            });
-            this.page = this.documents[0].pages[0];
+                  imgRotatingDeg: i.rotateAngle
+                }
+              })
+            })
+            this.page = this.documents[0].pages[0]
           } else {
-            this.postFixdMessage(false);
-            this.beeLoading = false;
+            this.postFixdMessage(false)
+            this.beeLoading = false
             this.$message({
               message: res.message,
-              type: "error",
-              offset: 60,
-            });
+              type: 'error',
+              offset: 60
+            })
           }
-        });
-      this.files = [];
+        })
+      this.files = []
     },
     // 下载识别结果
     handleClickDownload() {
       this.$http({
-        method: "get",
+        method: 'get',
         url: `/general-product-web/general/downloadResult?taskId=${this.$refs.ocrLayout.example.requestId}&productName=表格OCR`,
-        responseType: "blob",
+        responseType: 'blob'
       })
         .then((res) => {
           const fileName =
-            res.headers["content-disposition"] &&
-            res.headers["content-disposition"]
-              .split(";")[1]
-              .split("filename=")[1]
-              .replace(/"/gi, "");
-          const blob = res.data;
+            res.headers['content-disposition'] &&
+            res.headers['content-disposition']
+              .split(';')[1]
+              .split('filename=')[1]
+              .replace(/"/gi, '')
+          const blob = res.data
           const type =
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8";
-          this.exportByBlob(blob, decodeURIComponent(fileName), type);
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'
+          this.exportByBlob(blob, decodeURIComponent(fileName), type)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     calculateXy() {
-      this.$events.trigger("ocr-text-scroll");
-      this.$refs.ocrLayout.calculateXy();
+      this.$events.trigger('ocr-text-scroll')
+      this.$refs.ocrLayout.calculateXy()
     },
     resolveTableWidth(table) {
-      let width = 0;
+      let width = 0
       table[0].forEach((col) => {
-        width += Math.max(col.width * this.page.scale, 100);
-      });
-      return width;
+        width += Math.max(col.width * this.page.scale, 100)
+      })
+      return width
     },
     resolveCol(value) {
-      return value.replace(/\n/gi, "<br/>");
+      return value.replace(/\n/gi, '<br/>')
     },
     proxy(fun, args) {
-      if (this.proxying) return;
-      this.proxying = true;
+      if (this.proxying) return
+      this.proxying = true
 
       window.requestAnimationFrame((_) => {
-        fun.call(this, args);
-        this.proxying = false;
-      });
-    },
-  },
-};
+        fun.call(this, args)
+        this.proxying = false
+      })
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .document-ocr-wrapper {

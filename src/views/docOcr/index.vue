@@ -4,9 +4,9 @@
       ref="ocrlayout"
       :data="documents"
       v-model="page"
-      locatable
       @on-open-viewer="postFixdMessage(true)"
       @on-close-viewer="postFixdMessage(false)"
+      locatable
       showAllCoordinate
       :coordinateData="page.wordData"
     >

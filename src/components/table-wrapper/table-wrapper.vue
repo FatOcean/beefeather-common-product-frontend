@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import ResizeObserver from "resize-observer-polyfill";
+import ResizeObserver from 'resize-observer-polyfill'
 
 export default {
   data() {
@@ -21,60 +21,59 @@ export default {
       clientWidth: null,
       scrollWidth: null,
       scrollLeft: null,
-      disY: null,
-    };
+      disY: null
+    }
   },
   mounted() {
-    const el = this.$el;
+    const el = this.$el
     this.resizeObserver = new ResizeObserver((_) => {
       this.proxy((_) => {
-        this.clientWidth = this.$el.clientWidth;
-        this.scrollWidth = this.$el.scrollWidth;
-        this.updateVirtual();
-      });
-    });
+        this.clientWidth = this.$el.clientWidth
+        this.scrollWidth = this.$el.scrollWidth
+        this.updateVirtual()
+      })
+    })
     // console.log("listen")
-    this.$events.listen("ocr-text-scroll", this.updateVirtual);
-    this.resizeObserver.observe(el);
+    this.$events.listen('ocr-text-scroll', this.updateVirtual)
+    this.resizeObserver.observe(el)
   },
   beforeDestroy() {
-    this.$events.remove("ocr-text-scroll");
-    this.resizeObserver.disconnect();
+    this.$events.remove('ocr-text-scroll')
+    this.resizeObserver.disconnect()
   },
   methods: {
     scroll(e) {
-      this.scrollLeft = e.target.scrollLeft;
-      this.$el.scrollLeft = this.scrollLeft;
-      this.$refs.virtual.scrollLeft = this.scrollLeft;
-      this.$emit("scroll");
+      this.scrollLeft = e.target.scrollLeft
+      this.$el.scrollLeft = this.scrollLeft
+      this.$refs.virtual.scrollLeft = this.scrollLeft
+      this.$emit('scroll')
     },
     updateVirtual() {
-
       // console.log("scroll")
 
-      this.scrollLeft = this.$el.scrollLeft;
-      this.$refs.virtual.scrollLeft = this.scrollLeft;
+      this.scrollLeft = this.$el.scrollLeft
+      this.$refs.virtual.scrollLeft = this.scrollLeft
 
-      let elRect = this.$el.getBoundingClientRect(),
-        parentRect = this.$el.parentNode.getBoundingClientRect(),
-        elBottom = elRect.bottom,
-        parentBottom = parentRect.bottom,
-        disY = elBottom - parentBottom;
+      const elRect = this.$el.getBoundingClientRect()
+      const parentRect = this.$el.parentNode.getBoundingClientRect()
+      const elBottom = elRect.bottom
+      const parentBottom = parentRect.bottom
+      const disY = elBottom - parentBottom
 
       // console.log(elBottom, parentBottom);
 
-      this.disY = disY;
+      this.disY = disY
     },
     proxy(fun, args) {
-      if (this.proxying) return;
-      this.proxying = true;
+      if (this.proxying) return
+      this.proxying = true
       window.requestAnimationFrame((_) => {
-        fun.call(this, args);
-        this.proxying = false;
-      });
-    },
-  },
-};
+        fun.call(this, args)
+        this.proxying = false
+      })
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .table-wrapper {

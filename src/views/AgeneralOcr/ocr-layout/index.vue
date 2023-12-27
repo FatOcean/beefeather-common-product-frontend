@@ -172,12 +172,12 @@
                 <rect
                   v-for="item in coordinateData"
                   :key="item.id"
-                  :x="item.startX * imgScale || 1"
-                  :y="item.startY * imgScale || 1"
+                  :x="item.boundingBox.left * imgScale || 1"
+                  :y="item.boundingBox.top * imgScale || 1"
                   :rx="4"
                   :ry="4"
-                  :width="item.width * imgScale || 1"
-                  :height="item.height * imgScale || 1"
+                  :width="item.boundingBox.width * imgScale || 1"
+                  :height="item.boundingBox.height * imgScale || 1"
                   :ref="`maskEl${item.id}`"
                   :class="{ 'rect-active': activeTextId === item.id }"
                   style="fill: #dea2f3; opacity: 0.4"
@@ -221,12 +221,12 @@
               <!-- 矩形 -->
               <rect
                 v-else
-                :x="activeText.startX * imgScale"
-                :y="activeText.startY * imgScale"
+                :x="activeText.boundingBox.left * imgScale"
+                :y="activeText.boundingBox.top * imgScale"
                 :rx="4"
                 :ry="4"
-                :width="activeText.width * imgScale"
-                :height="activeText.height * imgScale"
+                :width="activeText.boundingBox.width * imgScale"
+                :height="activeText.boundingBox.height * imgScale"
                 ref="maskEl"
                 stroke-width="0.5"
                 stroke="#0887FF"
@@ -464,7 +464,7 @@ export default {
     },
     isMultiCoordinate: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   data() {
@@ -495,8 +495,8 @@ export default {
       scale: 1,
       newpage: {},
       productObj: {
-        name: '身份证',
-        staticName: 'id_card'
+        name: '印章识别',
+        staticName: 'seal_recognition'
       },
       isshowRight: true
     }
@@ -525,7 +525,7 @@ export default {
         rotateScale // 旋转导致的缩放比例
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.codeTest = JSON.stringify(page.json)
+      this.codeTest = JSON.stringify(page?.json || '')
       return page
     },
     // 文档图片地址
@@ -614,6 +614,9 @@ export default {
     this.resizeObserver.disconnect()
   },
   methods: {
+    getPosition(item) {
+      return item.position[0]
+    },
     setisshowRight(data) {
       this.isshowRight = data
       this.calculateXy()
@@ -759,6 +762,7 @@ export default {
     handleClickText({ el, value, id = '' }, locate = true) {
       this.activeEl = el
       this.activeText = value
+      console.log(el, value, id)
       if (this.showAllCoordinate) this.activeTextId = value.id || id
       if (value == null || Object.keys(value).length === 0) {
         this.pathValue = null
@@ -928,7 +932,6 @@ export default {
     // 计算图片的的实际渲染大小
     reRenderImage() {
       this.data.forEach((document, index) => {
-        // this.data_.push(document)
         const vm = this
         if (index === this.activePageIndex) {
           const page = {
@@ -954,6 +957,7 @@ export default {
             page.imgRenderWidth = page.realRenderHeight
             page.imgRenderHeight = page.realRenderWidth
           }
+
           vm.scale = page.scale
           vm.newpage = page
         }
@@ -1028,12 +1032,15 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import './ocr-layout.styl';
-.ocr-layout{
-  background-image:url('~@/assets/images/bj.png')
+
+.ocr-layout {
+  background-image: url('~@/assets/images/bj.png');
 }
-.document-layout{
-  background-color:#fff;
+
+.document-layout {
+  background-color: #fff;
 }
+
 ::v-deep .CodeMirror {
   height: calc(100vh - 200px);
 }
@@ -1045,10 +1052,41 @@ export default {
 ::v-deep .cm-string {
   color: red;
 }
-
+</style>
+<style lang="stylus">
 .ocr-text {
-  ::v-deep .lls-tabs__active-bar {
-    margin-left: 0px !important;
+  border: 1px solid #e3e8f0;
+  height: calc(100vh - 206px);
+  overflow: auto;
+  padding: 12px 8px;
+  background: #fff;
+  position: relative;
+
+  .text {
+    line-height: 26px;
+    padding: 0 8px;
+    border: 1px solid #fff;
+    font-size: 12px;
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    &:hover {
+      background: #f6f9fb;
+      cursor: pointer;
+    }
+
+    &.not-point:hover {
+      background: #fff;
+      cursor: default;
+    }
+
+    &.active {
+      background: rgba(8, 135, 255, 0.1);
+      border: 1px solid #0887ff;
+      border-radius: 4px;
+    }
   }
 }
 </style>

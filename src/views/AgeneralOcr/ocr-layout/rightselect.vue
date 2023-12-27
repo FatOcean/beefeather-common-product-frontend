@@ -42,7 +42,7 @@ export default {
       productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: '文档OCR'
+      activebgName: '印章识别'
     }
   },
   mounted() {},

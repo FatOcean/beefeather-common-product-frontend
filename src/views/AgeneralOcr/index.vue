@@ -2,24 +2,111 @@
   <div class="document-parsing">
     <lls-page-header @back="goBack" content="通用OCR工具" bottom-line>
     </lls-page-header>
-    <!-- <button @click="pushtest">测试</button> -->
     <ocrlayout
-      @tabs="tabs"
+      v-if="productName === 'document_ocr'"
       :data="documents"
       v-model="page"
       :activeTabIndex="activeTabIndex"
       ref="documents"
       :pageMenuPerm="pageMenuPerm"
       @resetId="() => (activeTextId = null)"
+      :coordinateData="page.content"
+      locatable
+      showAllCoordinate
     >
-     <ocr-el
+      <ocr-el
         v-for="(i, index) in page.content"
         :key="index"
         :id="i.id"
         :value="i"
         :class="[`rect${i.id}`]"
-        >{{ i.text }}</ocr-el
+        >{{ i.value }}</ocr-el
       >
+    </ocrlayout>
+    <ocrlayout
+      v-if="productName === 'form_ocr'"
+      v-model="page"
+      ref="ocrLayout"
+      :data="documents"
+      locatable
+      @on-resize="proxy(calculateXy)"
+      @on-scroll="proxy(calculateXy)"
+    >
+      <template v-for="(content, index) in page.content">
+        <!-- 表格 -->
+        <template v-if="content.table">
+          <table-wrapper
+            ref="tableWrapper"
+            :key="`rable${index}${page.pageNo}${page.requestId}`"
+            @scroll="proxy(calculateXy)"
+          >
+            <table cellspacing="0" cellpadding="0">
+              <tr
+                v-for="(columns, excelIndex) in content.table"
+                :key="`table${index}excel${excelIndex}`"
+              >
+                <ocr-el
+                  v-for="(column, columnIndex) in columns"
+                  :key="columnIndex"
+                  :value="column"
+                  :colspan="column.endCol - column.startCol + 1"
+                  :rowspan="column.endRow - column.startRow + 1"
+                  :style="{
+                    height: `${column.height * page.scale}px`,
+                  }"
+                  tag="td"
+                  v-html="resolveCol(column.value)"
+                >
+                </ocr-el>
+              </tr>
+            </table>
+          </table-wrapper>
+        </template>
+        <!-- 文本 -->
+        <template v-if="content.text">
+          <ocr-el
+            v-for="(text, textIndex) in content.text"
+            :key="`content${index}text${textIndex}`"
+            :value="text"
+            tag="div"
+            >{{ text.value }}</ocr-el
+          >
+        </template>
+      </template>
+    </ocrlayout>
+    <ocrlayout
+      v-if="productName === 'seal_recognition'"
+      @resetId="
+        () => {
+          activeTextId = null;
+          activeId = null;
+        }
+      "
+      :data="documents"
+      v-model="page"
+      ref="documents"
+      :activeTabIndex="activeTabIndex"
+    >
+      <div class="result-list">
+        <div
+          class="list-item"
+          v-for="item in page.content"
+          @click="(e) => listClick(e, item)"
+          :class="{ active: activeId === item.id }"
+          :key="item.id"
+        >
+          <div class="head">{{ item.sealType }}</div>
+          <div
+            class="content"
+            v-for="i in item.texts"
+            :class="{ contentActive: activeTextId === i.id }"
+            @click.stop="(e) => clickHandler(e, i, item)"
+            :key="i.key"
+          >
+            {{ i.text }}
+          </div>
+        </div>
+      </div>
     </ocrlayout>
   </div>
 </template>
@@ -40,8 +127,9 @@ export default {
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
-      productName: 'document_ocr',
-      activePageIndex: 0
+      productName: 'seal_recognition',
+      activePageIndex: 0,
+      activeId: ''
     }
   },
 
@@ -52,7 +140,7 @@ export default {
     }
   },
   created() {
-    this.isIdcard()
+    console.log(this.staticData)
   },
   computed: {
     documents() {
@@ -66,9 +154,6 @@ export default {
       return this.page.content[this.activeTabIndex].identityList
     },
     ...mapState(['pageMenuPerm']),
-    // example() {
-    //   return this.documents[this.activeDocumentIndex]
-    // },
     originLocation() {
       return process.env.NODE_ENV === 'development'
         ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
@@ -77,13 +162,28 @@ export default {
   },
   mounted() {},
   methods: {
-    isIdcard() {
-      if (this.productName === 'id_card') {
-        for (let i = 0; i < this.page.content.length; i++) {
-          this.tabsArray[i] = { name: this.page.content[i].imageType }
-        }
-        this.activeName = this.tabsArray[0].name
-      }
+    listClick(e, i) {
+      if (this.activeId === i.id) return
+      this.activeTextId = null
+      this.activeId = i.id
+      this.$refs.documents.$events.trigger('click-rectangle', {
+        item: i
+      })
+    },
+    clickHandler(e, i, parent) {
+      const el = e.target
+      this.activeId = parent.id
+      e = e || window.event
+      this.$refs.documents.handleClickText({
+        el,
+        id: i.id,
+        value: i
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
+    },
+    calculateXy() {
+      this.$events.trigger('ocr-text-scroll')
+      this.$refs.ocrLayout.calculateXy()
     },
     setTableData(index) {
       this.activePageIndex = this.$refs.documents.activePageIndex
@@ -93,25 +193,6 @@ export default {
       this.productName = data.staticName
     },
     resetId() {},
-    clickHandler(e, i) {
-      const el = e.target.parentNode.firstChild
-      if (!(i.position && i.position.length > 0)) {
-        return
-      }
-      e = e || window.event
-      if (i.value) {
-        this.$refs.documents.handleClickText({
-          el,
-          value: i.position,
-          id: i.id
-        })
-        this.activeTextId = i.id
-      }
-    },
-    handleClick(value) {
-      this.activeTabIndex = Number(value.index)
-      this.$refs.documents.resetProps()
-    },
     goBack() {},
     pushtest() {
       const data = []
@@ -129,140 +210,22 @@ export default {
         )}`
       })
       this.staticData[this.productName] = data
-      this.isIdcard()
-      return
-      res.data.forEach((i) => {
-        i.isUpload = true
-      })
-      res.data[0].images.forEach((item) => {
-        item.url = `${this.originLocation}?filename=${encodeURIComponent(
-          item.path
-        )}`
-      })
-      if (this.documents.length >= 3) {
-        this.documents.shift()
-      }
-      this.documents = res.data.concat(this.documents)
-      this.activeDocumentIndex = 0
     },
-    tabs(activeDocumentIndex, activePageIndex) {
-      this.checked = false
-      this.filterEmpty(false)
-      this.activeDocumentIndex = activeDocumentIndex
+    resolveCol(value) {
+      return value.replace(/\n/gi, '<br/>')
     },
-    filterEmpty(flag) {
-      this.page.items = this.emptyData(this.page.items, flag)
-      // this.page.describes = this.emptyData(this.page.describes, flag)
-    },
-    emptyData(arr, flag) {
-      const newArr = arr.map((item) => {
-        return {
-          ...item,
-          notEmpty: flag ? item.value === '' || !item.value : false
-        }
+    proxy(fun, args) {
+      if (this.proxying) return
+      this.proxying = true
+
+      window.requestAnimationFrame((_) => {
+        fun.call(this, args)
+        this.proxying = false
       })
-      return newArr
     }
   }
 }
 </script>
 <style lang="stylus" scoped>
-.table-data {
-  width: 100%;
-  margin-bottom: 16px;
-
-  thead {
-    background: #F3F4F6;
-
-    td {
-      border-top: 1px solid #E3E8F0;
-      font-weight: bold;
-      color: #202D40;
-
-      &:last-child {
-        width: 50%;
-        color: #202D40;
-        border-right: 1px solid #E3E8F0;
-      }
-    }
-  }
-
-  tr td:last-child {
-    width: 50%;
-    color: #202D40;
-    border-right: 1px solid #E3E8F0;
-  }
-
-  .td-title {
-    width: 33% !important;
-    border-right: none !important;
-  }
-
-  tr {
-    &:hover {
-      background: #f6f9fb;
-      cursor: pointer;
-    }
-
-    &.active {
-      td:first-child {
-        background: rgba(8, 135, 255, 0.1);
-        border-top-left-radius: 4px;
-        border-right: none;
-        border-bottom-left-radius: 4px;
-        border-color: #0887ff;
-      }
-
-      td:last-child {
-        background: rgba(8, 135, 255, 0.1);
-        border: 1px solid #0887ff;
-        border-left: 1px solid #E3E8F0;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-      }
-    }
-  }
-
-  td {
-    line-height: 40px;
-    padding-left: 8px;
-    color: #5F6C80;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #E3E8F0;
-    border-left: 1px solid #E3E8F0;
-  }
-}
-
-.document-parsing {
-  padding: 60px 12px 2px 12px;
-
-  .lls-page-header {
-    padding-bottom: 12px;
-    border-bottom: 1px solid #E5E7EC;
-  }
-
-  ::-webkit-scrollbar {
-    width: 4px;
-    background: rgba(#202D40);
-    opacity: 0.5;
-  }
-
-  /* 滚动槽 */
-  ::-webkit-scrollbar-track {
-    padding-right: 4px;
-    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-  }
-
-  /* 滚动条滑块 */
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
-  }
-
-  ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(0, 0, 0, 0.3);
-  }
-}
+@import './index.styl';
 </style>

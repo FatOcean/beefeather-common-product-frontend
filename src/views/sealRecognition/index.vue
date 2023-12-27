@@ -58,128 +58,128 @@
   </div>
 </template>
 <script>
-import { data } from "./defaultData";
-import beeLoading from "@linklogis/beeLoading";
-import ocrlayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { data } from './defaultData'
+import beeLoading from '@linklogis/beeLoading'
+import ocrlayout from './ocr-layout'
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
       isLoading: false,
       data,
       files: [],
-      activeTextId: "",
-      activeId: "",
+      activeTextId: '',
+      activeId: '',
       page: {}, // 当前页面数据信息
       beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
-      activeName: "",
-      servicePortAddress: "",
+      activeName: '',
+      servicePortAddress: '',
       activeDocumentIndex: 0,
       documents: [],
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      search: "",
+      search: '',
       documents_backup: [],
       checked: false,
       hideResult: [],
       activeTabIndex: 0,
       falg: false,
-      requestId: "",
-    };
+      requestId: ''
+    }
   },
   components: { [beeLoading.name]: beeLoading, ocrlayout },
   created() {
-    this.documents = this.data[0];
-    this.page = this.documents.ret;
+    this.documents = this.data[0]
+    this.page = this.documents.ret
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     example() {
-      return this.data[this.activeDocumentIndex];
+      return this.data[this.activeDocumentIndex]
     },
     originLocation() {
-      return process.env.NODE_ENV === "development"
-        ? "https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image"
-        : `${window.location.origin}/file-handle-web/file/image`;
-    },
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
+    }
   },
   methods: {
     postFixedMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     tabs(activeDocumentIndex, activePageIndex) {
-      this.activeDocumentIndex = activeDocumentIndex;
-      this.documents = this.data[activeDocumentIndex];
-      this.page = this.documents.ret;
-      this.activeTabIndex = 0;
+      this.activeDocumentIndex = activeDocumentIndex
+      this.documents = this.data[activeDocumentIndex]
+      this.page = this.documents.ret
+      this.activeTabIndex = 0
     },
     handleClick(value) {
-      this.activeTabIndex = Number(value.index);
-      this.$refs.documents.handleClick(value.index);
+      this.activeTabIndex = Number(value.index)
+      this.$refs.documents.handleClick(value.index)
     },
     listClick(e, i) {
-      if (this.activeId === i.index) return;
-      this.activeTextId = null;
-      this.activeId = i.index;
-      this.$refs.documents.$events.trigger("click-rectangle", {
-        item: i,
-      });
+      if (this.activeId === i.index) return
+      this.activeTextId = null
+      this.activeId = i.index
+      this.$refs.documents.$events.trigger('click-rectangle', {
+        item: i
+      })
     },
     // 样本收集点击事件
     clickHandler(e, i, parent) {
-      const el = e.target;
-      this.activeId = parent.index;
-      e = e || window.event;
-      this.$refs.documents.$events.trigger("click-ocr-el", {
+      const el = e.target
+      this.activeId = parent.index
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
         id: i.id,
-        item: i,
+        item: i
         // imageIndex: i.imageIndex,
-      });
-      this.activeTextId = this.$refs.documents.activeTextId;
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
     },
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${data.imagePath}${data.fileName}`;
+      if (this.isLoading) return
+      this.isLoading = true
+      const data = this.data[this.activeDocumentIndex]
+      const picAddress = `${data.imagePath}${data.fileName}`
       if (!data.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             picAddress,
-            productName: "印章识别",
-            requestId: this.requestId,
+            productName: '印章识别',
+            requestId: this.requestId
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.data[this.activeDocumentIndex], "starsFlag", true);
-              this.data[this.activeDocumentIndex].loadRecordId = res.data.data;
+            if (res.data.code === '200') {
+              this.$set(this.data[this.activeDocumentIndex], 'starsFlag', true)
+              this.data[this.activeDocumentIndex].loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       } else {
         this.$http
           .post(
@@ -188,51 +188,51 @@ export default {
             )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.data[this.activeDocumentIndex].starsFlag = false;
+            if (res.data.code === '200') {
+              this.data[this.activeDocumentIndex].starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       }
     },
 
     uploadFileData(res) {
       res.data.forEach((i) => {
-        i.isUpload = true;
+        i.isUpload = true
         i.imageUrl = `${this.originLocation}?filename=${
           i.imagePath
-        }${encodeURIComponent(i.fileName)}`;
-      });
-      if (this.data.length > 2) this.data.shift();
-      this.data = res.data.concat(this.data);
-      this.documents = this.data[0];
-      this.page = this.documents.ret;
+        }${encodeURIComponent(i.fileName)}`
+      })
+      if (this.data.length > 2) this.data.shift()
+      this.data = res.data.concat(this.data)
+      this.documents = this.data[0]
+      this.page = this.documents.ret
       // console.log(this.documents, "documents2");
-      this.activeDocumentIndex = 0;
-      this.activeTabIndex = 0;
-      this.requestId = res.traceId;
+      this.activeDocumentIndex = 0
+      this.activeTabIndex = 0
+      this.requestId = res.traceId
     },
 
     handleDragLeave() {
       setTimeout((_) => {
-        this.dragenter = false;
-      }, 200);
-    },
-  },
-};
+        this.dragenter = false
+      }, 200)
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .identify-data {
