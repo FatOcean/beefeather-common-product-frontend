@@ -1039,7 +1039,7 @@ export default {
 }
 
 .document-layout {
-  background-color: #fff;
+      background: rgba(255,255,255,0.7)
 }
 
 ::v-deep .CodeMirror {

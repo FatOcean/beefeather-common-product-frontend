@@ -1037,9 +1037,11 @@ export default {
 @import './ocr-layout.styl';
 .ocr-layout{
   background-image:url('~@/assets/images/bj.png')
+  background-size: auto 100%;
+  background-position: center;
 }
 .document-layout{
-  background-color:#fff;
+      background: rgba(255,255,255,0.7)
 }
 ::v-deep .CodeMirror {
   height: calc(100vh - 200px);

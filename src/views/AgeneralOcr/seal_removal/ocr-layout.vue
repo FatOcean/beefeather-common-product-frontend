@@ -94,7 +94,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <rightTab> <slot></slot></rightTab>
+        <rightTab :codeTest="codeTest"> <slot></slot></rightTab>
       </div>
       <lls-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
@@ -201,6 +201,7 @@ export default {
       selectValue: '',
       baseWidth: 0,
       newScale: 1,
+      codeTest: '{}',
       selectOptions: [
         {
           value: 'JPG',

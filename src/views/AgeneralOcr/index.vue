@@ -28,7 +28,7 @@
     <ocrlayout
       v-if="productName === 'form_ocr'"
       v-model="page"
-      ref="ocrLayout"
+      ref="documents"
       :data="documents"
       locatable
       @on-resize="proxy(calculateXy)"
@@ -201,7 +201,7 @@ export default {
     },
     calculateXy() {
       this.$events.trigger('ocr-text-scroll')
-      this.$refs.ocrLayout.calculateXy()
+      this.$refs.documents.calculateXy()
     },
     setTableData(index) {
       this.activePageIndex = this.$refs.documents.activePageIndex
@@ -210,6 +210,7 @@ export default {
       this.activeTextId = 0
       this.productName = data.staticName
       this.productObj = data
+      if (data.name === '文档OCR' || data.name === '表格OCR') this.$refs.documents.activeName = 'first'
     },
     resetId() {},
     goBack() {},

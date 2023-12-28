@@ -17,7 +17,7 @@
         <div style="border: 1px solid #e3e8f0">
           <b-code-editor
             :indent-unit="4"
-            v-model="codeTest"
+            v-model="newCodeTest"
             :readonly="true"
             :gutter="false"
             ref="editor"
@@ -44,10 +44,28 @@
 <script>
 export default {
   name: '',
+  props: {
+    codeTest: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       activeName: 'first',
-      codeTest: ''
+      newCodeTest: ''
+    }
+  },
+  watch: {
+    codeTest: {
+      handler(codeTest) {
+        this.newCodeTest = codeTest
+        this.$nextTick(() => {
+          this.$refs.editor.formatCode()
+        })
+      },
+      deep: true,
+      immediate: true
     }
   },
   mounted() {},

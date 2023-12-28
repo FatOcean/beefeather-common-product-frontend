@@ -128,7 +128,7 @@ script<template>
       ></div>
 
       <div class="ocr-result" ref="ocrResult">
-        <rightTab ref="ocrResult"> <slot></slot></rightTab>
+        <rightTab ref="ocrResult" :codeTest="codeTest"> <slot></slot></rightTab>
       </div>
 
       <!-- ocr识别结果 -->
@@ -281,7 +281,8 @@ export default {
       scale: 1,
       total: 1,
       suffix: '',
-      baseWidth: 0
+      baseWidth: 0,
+      codeTest: ''
     }
   },
   mounted() {
@@ -801,6 +802,8 @@ export default {
   computed: {
     // 当前示例信息
     example() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.codeTest = JSON.stringify(this.data[this.activeDocumentIndex].json || '')
       return this.data[this.activeDocumentIndex]
     },
     // 总页数
