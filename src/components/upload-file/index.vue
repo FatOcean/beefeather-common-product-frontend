@@ -112,11 +112,12 @@ export default {
     },
     ocrRecognitionExcel(file) {
       let productObj
-      if (this.$route.path === '/generalOcr') {
-        productObj = this.ocrProductObj
-      } else {
+      if (this.$route.path === '/documentParsing') {
         productObj = this.productObj
+      } else {
+        productObj = this.ocrProductObj
       }
+      console.log(productObj)
       this.$http
         .post(
           `/general-product-web/general/analysis?uploadId=${

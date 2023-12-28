@@ -1,22 +1,5 @@
 <template>
-  <div class="ocr-layout">
-    <!-- 示例区-缩略图 -->
-    <div class="examples-wrapper">
-      <div
-        class="example"
-        :class="{ active: activeDocumentIndex == index }"
-        v-for="(i, index) in data"
-        :key="index"
-        @click="handleClickExample(index)"
-      >
-        <div class="example-image">
-          <img :src="i.specificData[0].img" :alt="i.name" />
-        </div>
-        <div class="text">
-          <span>{{ i.name.substring(0, i.name.lastIndexOf(".")) }}</span>
-        </div>
-      </div>
-    </div>
+  <div class="ocr-layout" >
     <!-- ocr -->
     <div class="ocr-inner">
       <!-- 文档 -->
@@ -25,10 +8,10 @@
           <div class="name">
             <lls-tooltip
               effect="dark"
-              :content="example.name"
+              :content="example.fileName"
               placement="bottom-start"
             >
-              <span>{{ example.name }}</span>
+              <span>{{ example.fileName }}</span>
             </lls-tooltip>
           </div>
           <div>
@@ -120,19 +103,41 @@
           >
             <!-- <img :src="imageUrl" :alt="example.name" /> -->
             <img :src="imageUrl" :alt="example.name" />
-
-            <div
-              v-if="activeText"
-              class="frame-mask active"
-              ref="maskEl"
+           <svg
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              class="frame-mask-svg"
+              :width="realRenderWidth"
+              :height="realRenderHeight"
               :style="{
-                top: `${activeText.startY * imgScale}px`,
-                left: `${activeText.startX * imgScale}px`,
-                height: `${activeText.height * imgScale}px`,
-                width: `${activeText.width * imgScale}px`,
-                transform: `rotate(${activeText.deg}deg)`,
+                transform: `rotate(${imgRotatingDeg || 0}deg)`,
               }"
-            ></div>
+            >
+             <template v-for="(item, index) in activeText">
+                <template v-if="index === 0">
+                  <circle
+                    v-for="(i, idx) in item"
+                    :key="`cir${index}${idx}`"
+                    ref="pointEl"
+                    :cx="i.x * imgScale"
+                    :cy="i.y * imgScale"
+                    r="0.5"
+                    fill="none"
+                    stroke="none"
+                  />
+                </template>
+                <path
+                  :key="index"
+                  ref="maskEl"
+                  stroke-width="0.5"
+                  stroke="#0887FF"
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                  fill="rgba(8, 135, 255, 0.1)"
+                  :d="multiMaskElPathValue(item)"
+                />
+              </template>
+                </svg>
           </div>
         </div>
       </div>
@@ -148,7 +153,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <div
+        <!-- <div
           v-for="i in 4"
           :key="i"
           class="border-corner"
@@ -159,32 +164,11 @@
             <svg-icon iconClass="识别结果"></svg-icon>
             <span>识别结果</span>
           </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 18px;
-            "
-          >
-            <llsButton
-              type="text"
-              @click="handleClickDownload"
-              v-if="pageMenuPerm['SPECIALDOWNAPP']"
-            >
-              <svg-icon class="download" iconClass="下载"></svg-icon>
-              <span>下载</span>
-            </llsButton>
-            <more-Button
-              productName="增值税发票解析"
-              :servicecon="pageMenuPerm['SPECIALSERAPP']"
-              :collect="pageMenuPerm['SPECIALCOLLAPP']"
-            ></more-Button>
-          </div>
         </div>
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
           <slot></slot>
-        </div>
+        </div> -->
+        <RightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></RightTab>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -219,6 +203,9 @@
           fill="#0887FF"
         />
       </svg>
+      <lls-collapse-transition>
+        <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
+      </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <lls-image-viewer
@@ -317,7 +304,9 @@ export default {
       transition: false, // 是否开启缓动效果
       realRenderHeight: 0,
       realRenderWidth: 0,
-      scale: 1
+      imgRotatingDeg: 0,
+      scale: 1,
+      codeTest: '{}'
     }
   },
   mounted() {
@@ -344,6 +333,19 @@ export default {
     this.resizeObserver.disconnect()
   },
   methods: {
+    multiMaskElPathValue(value) {
+      if (!value || Object.keys(value).length === 0) {
+        return
+      }
+      let d = ''
+      value.forEach((i, index) => {
+        d += `${index === 0 ? 'M' : 'L'}${i.x * this.imgScale} ${
+          i.y * this.imgScale
+        } `
+        // d += `${i.x * this.imgScale} ${i.y * this.imgScale}, `
+      })
+      return d + 'Z'
+    },
     postFixdMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
@@ -389,7 +391,7 @@ export default {
     },
     // 切换示例
     handleClickExample(index) {
-      if (this.activeDocumentIndex == index) {
+      if (this.activeDocumentIndex === index) {
         return
       }
       this.activeDocumentIndex = index
@@ -527,12 +529,11 @@ export default {
     },
     // 激活文本
     handleClickText({ el, value }) {
-      // this.resetProps()
       this.activeEl = el
       this.activeText = value
       // this.calculateXy()
       this.$nextTick((_) => {
-        const maskEl = this.$refs.maskEl
+        const maskEl = this.$refs.maskEl[0]
         const documentLayout = this.$refs.documentLayout
         const maskElRect = maskEl.getBoundingClientRect()
         const documentLayoutRect = documentLayout.getBoundingClientRect()
@@ -588,10 +589,11 @@ export default {
       const page = this.page
       const rotateIndex = this.rotateIndex
       const zoomScale = this.zoomScale || 1
+
       this.$nextTick((_) => {
-        const maskEl = this.$refs.maskEl
+        const maskEl = this.$refs.maskEl[0]
         const documentLayout = this.$refs.documentLayout
-        const ocrTextWrapper = this.$refs.ocrTextWrapper
+        const ocrTextWrapper = this.$refs.rightTab.$refs.ocrTextWrapper
         const maskElRect = maskEl.getBoundingClientRect()
         const documentLayoutRect = documentLayout.getBoundingClientRect()
         const lY = documentLayoutRect.top
@@ -600,21 +602,19 @@ export default {
         const mX = maskElRect.right
         const startX = mX - lX
         const startY = mY - lY
-        const offsetTop = this.activeEl.offsetTop + 55
+        const offsetTop = this.activeEl.offsetTop + 80
         const offsetLeft = this.activeEl.offsetLeft
         const scrollTop = ocrTextWrapper.scrollTop
         const pathEndX = this.documentWidth + offsetLeft + 52
         const pathEndY = offsetTop - scrollTop + this.activeEl.clientHeight / 2
-        console.log(page.rotateScale, zoomScale, this.imgScale)
         const scale = page.rotateScale * zoomScale * this.imgScale
-        const w = this.activeText.width
-        const h = this.activeText.height
-        const Q = this.activeText.deg
+        const w = maskElRect.width
+        const h = maskElRect.height
+        const Q = maskElRect.deg || 0.0
         const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
 
         let x = startX
         let y = startY + (h * scale) / 2
-
         if (rotateIndex % 4 === 1) {
           x = startX + leanX
           y = startY + (w * scale) / 2
@@ -632,9 +632,7 @@ export default {
         if (x > this.documentWidth) {
           x = this.documentWidth
         }
-        // if (y > this.documentHeight) {
-        //   y = this.documentHeight;
-        // }
+
         this.pathValue = {
           pathStartX: x,
           pathStartY: y,
@@ -672,48 +670,35 @@ export default {
     },
     // 计算图片的的实际渲染大小
     reRenderImage() {
-      this.data.forEach((document) => {
-        const vm = this
-        document.specificData.forEach((page) => {
-          const widthScale = vm.documentWidth / page.originalWidth
-          const heightScale = vm.documentHeight / page.originalHeight
-          page.scale = widthScale < heightScale ? widthScale : heightScale
-          page.realRenderWidth = page.originalWidth * page.scale // 图片实际渲染宽度
-          page.realRenderHeight = page.originalHeight * page.scale // 图片实际渲染高度
-          // page.scale = vm.documentWidth / page.originalWidth // 初始图片缩放比例
-          // page.realRenderWidth = page.originalWidth * page.scale // 图片实际渲染宽度
-          // page.realRenderHeight = page.originalHeight * page.scale // 图片实际渲染高度
-          // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
-
-          // };
-        })
+      const vm = this
+      this.data.forEach((page) => {
+        const imgRotatingDeg = page.angle
+        const widthScale = vm.documentWidth / page.width
+        const heightScale = vm.documentHeight / page.height
+        page.scale = widthScale < heightScale ? widthScale : heightScale
+        page.realRenderWidth = page.width * page.scale // 图片实际渲染宽度
+        page.realRenderHeight = page.height * page.scale // 图片实际渲染高度
+        vm.realRenderHeight = page.realRenderHeight
+        vm.realRenderWidth = page.realRenderWidth
+        vm.imgRotatingDeg = imgRotatingDeg
+        vm.scale = page.scale
       })
       window.setTimeout((_) => {
         this.calculateXy()
       })
       this.updateTranslateY()
-      const page =
-        this.data[this.activeDocumentIndex].specificData[
-          this.activePageIndex - 1
-        ]
-      this.realRenderHeight = page.realRenderHeight
-      this.realRenderWidth = page.realRenderWidth
-      this.scale = page.scale
     },
     handleMousedown(e, elName) {
       const el = this.$refs[elName]
       this.removeEventListener(e, elName)
       e = e || window.event
-      // if (e.target !== el) {
-      //   return;
-      // }
       this.offsetX = e.pageX
       this.offsetY = e.pageY
+      console.log(e, elName)
       window.addEventListener(
         'mousemove',
         (this[`${elName}Mousemove`] = (e) => {
           e = e || window.event
-          // const el = this.$refs[elName];
           this.proxy(this.calculateDragDis, {
             offsetX: e.pageX,
             offsetY: e.pageY,
@@ -721,7 +706,6 @@ export default {
           })
           el.removeEventListener('mousedown', this.handleMousedown)
           this.draggable = true
-          // console.log(e, elName, this[`${elName}Mousemove`]);
         })
       )
       window.addEventListener(
@@ -746,8 +730,11 @@ export default {
         node.addEventListener(event, fun, false)
       } else {
         node.detachEvent('on' + event, fun)
-        node.attachEvent('on' + event, fun.call(obj))
+        node.attachEvent('on' + event, fun.call())
       }
+    },
+    parentProxy() {
+      this.proxy(this.calculateXy)
     },
     // 代理函数
     proxy(fun, args) {
@@ -757,38 +744,6 @@ export default {
         fun.call(this, args)
         this.proxying = false
       })
-    },
-    // 下载识别结果
-    handleClickDownload() {
-      this.$http({
-        method: 'get',
-        url: `/general-product-web/general/downloadResult?requestId=${
-          this.example.id
-        }&productName=增值税发票解析&path=${encodeURIComponent(
-          this.example.url
-        )}&show=${this.example.show || false}`,
-        responseType: 'blob'
-      })
-        .then((res) => {
-          const fileName =
-            res.headers['content-disposition'] &&
-            res.headers['content-disposition']
-              .split(';')[1]
-              .split('filename=')[1]
-              .replace(/"/gi, '')
-          // console.log(fileName);
-          const blob = res.data
-          const type =
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'
-          this.exportByBlob(blob, decodeURIComponent(fileName), type)
-        })
-        .catch((error) => {
-          console.log(error)
-          // this.$message({
-          //   message: error.data.message,
-          //   type: "error",
-          // });
-        })
     }
   },
   computed: {
@@ -798,7 +753,7 @@ export default {
     },
     // 总页数
     total() {
-      return this.example.specificData.length
+      return this.data.length
     },
     // 当前页面信息
     page() {
@@ -811,15 +766,17 @@ export default {
         translateY,
         rotateScale // 旋转导致的缩放比例
       }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.codeTest = JSON.stringify(page.json) || ''
       return page
     },
     // 文档图片地址
     imageUrl() {
-      return this.page.img
+      return this.page.imagePath
     },
     // 大图预览所需数据
     urlList() {
-      return [{ url: this.page.img, title: this.example.name }]
+      return [{ url: this.page.imagePath, title: this.example.fileName }]
     },
     // 当前图片初始缩放比例
     imgScale() {
@@ -828,12 +785,13 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
+<style lang="stylus">
+// @import '../ocr-layout/ocr-layout.styl'
 .ocr-layout {
-  padding: 76px 24px 24px 24px;
+  // padding: 76px 24px 24px 24px;
   display: flex;
   color: #202d40;
-  height: 100vh;
+  height: calc(100vh - 122px);
   overflow: hidden;
 
   * {
@@ -902,11 +860,6 @@ export default {
         border-radius: 0 0 4px 4px;
         text-align: center;
 
-        // white-space: nowrap;
-        // overflow: hidden;
-        // text-overflow: ellipsis;
-        // display: flex;
-        // justify-content: center;
         span {
           transform: scale(0.75);
           transform-origin: left;
@@ -987,7 +940,7 @@ export default {
           .lls-input {
             width: auto;
 
-            ::v-deep.lls-input__inner {
+            .lls-input__inner {
               max-width: 30px;
               position: relative;
               left: -4px;
@@ -1031,25 +984,11 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-
-        // background-image: repeating-linear-gradient(
-        // to right,
-        // transparent 0px,
-        // transparent 14px,
-        // #e3e8f0 14px,
-        // #e3e8f0 15px
-        // ), repeating-linear-gradient(
-        // to bottom,
-        // transparent 0px,
-        // transparent 14px,
-        // #e3e8f0 14px,
-        // #e3e8f0 15px
-        // );
         .document {
           // transform-origin: 0 0;
           background-size: contain;
           position: relative;
-          cursor: url('./icon/手势-张开.svg'), grab;
+          cursor: url('../icon/手势-张开.svg'), grab;
           background-repeat: no-repeat;
           width: 100%;
 
@@ -1062,7 +1001,7 @@ export default {
           }
 
           &.draggable {
-            cursor: url('./icon/手势-握紧.svg'), grabbing;
+            cursor: url('../icon/手势-握紧.svg'), grabbing;
           }
 
           &.transition {
@@ -1188,7 +1127,7 @@ export default {
         }
 
         border: 1px solid #e3e8f0;
-        height: calc(100% - 74px);
+        height: calc(100vh - 223px);
         overflow: auto;
         padding: 0 8px 12px;
         background: #fff;

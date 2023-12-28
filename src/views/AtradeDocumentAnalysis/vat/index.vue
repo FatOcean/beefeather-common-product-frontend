@@ -1,0 +1,193 @@
+<template>
+  <div class="vat-invoice-wrapper" style="width: 100%;">
+    <ocr-layout
+      @resetId="() => (activeTextId = null)"
+      @tabs="tabs"
+      @changeActivePageIndex="changeActivePageIndex"
+      :data="documents"
+      v-model="page"
+      ref="documents"
+      :pageMenuPerm="pageMenuPerm"
+    >
+      <!-- <ocr-el v-for="(i, index) in page.tableData" :key="index" :id="i.id">
+        {{ i.text }}{{i.value}}
+      </ocr-el>-->
+      <lls-tabs @tab-click="handleClick" v-model="activeName">
+        <lls-tab-pane
+          v-for="(item, index) in tabsArray"
+          :key="index"
+          :label="item.name"
+          :name="item.name"
+        ></lls-tab-pane>
+      </lls-tabs>
+      <table cellspacing="0" class="table-data">
+        <thead>
+          <td colspan="2">字段名</td>
+          <td>识别结果</td>
+        </thead>
+        <tr
+          :class="{ active: activeTextId === i.id && activeTableType === 'info', pointer: i.position }"
+          @click="(e) => clickHandler(e, i,'info')"
+          v-for="i in page.content[0].info"
+          :key="i.key"
+        >
+          <td colspan="2">{{ i.key }}</td>
+          <td style="white-space: pre-line">{{ i.value }}</td>
+        </tr>
+        <template v-for="(item, index) in page.content[0].commodity">
+          <tr v-bind:key="index">
+            <td
+              class="td-title"
+              :rowspan="page.content[0].commodity[index].length + 1"
+            >
+              货物或应税劳务、服务描述{{ index + 1 }}
+            </td>
+          </tr>
+          <tr
+            :class="{
+              active: activeTextId === item.id && activeTableType === 'commodity',
+              pointer: item.position,
+            }"
+            @click="(e) => clickHandler(e, item,'commodity')"
+            v-for="item in page.content[0].commodity[index]"
+            :key="item.key"
+          >
+            <td>{{ item.key }}</td>
+            <td>{{ item.value }}</td>
+          </tr>
+        </template>
+        <tr
+          :class="{ active: activeTextId === i.id && activeTableType === 'others', pointer: i.position }"
+          @click="(e) => clickHandler(e, i,'others')"
+          v-for="i in page.content[0].others"
+          :key="i.key"
+        >
+          <td colspan="2">{{ i.key }}</td>
+          <td>{{ i.value }}</td>
+        </tr>
+      </table>
+    </ocr-layout>
+  </div>
+</template>
+<script>
+import beeLoading from '@linklogis/beeLoading'
+import { mapState } from 'vuex'
+import ocrLayout from './ocr-layout'
+import { staticData } from '../staticData'
+
+export default {
+  data() {
+    return {
+      activePageIndex: 0,
+      isLoading: false,
+      files: [],
+      activeTextId: '',
+      page: {}, // 当前页面数据信息
+      beeLoading: false, // 上传进度条显示隐藏
+      percent: 0, // 进度条
+      activeName: '',
+      servicePortAddress: '',
+      activeDocumentIndex: 0,
+      tabsArray: [],
+      documents: staticData.vat,
+      dragenter: false,
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
+      href: window.location.href,
+      falg: true,
+      activeTableType: ''
+    }
+  },
+  components: { [beeLoading.name]: beeLoading, ocrLayout },
+  computed: {
+    ...mapState(['pageMenuPerm']),
+    originLocation() {
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
+    }
+  },
+  created() {
+    this.page = this.documents[0]
+    this.tabsArray = this.documents.map((item, index) => {
+      return {
+        name: `发票${index + 1}`
+      }
+    })
+    this.activeName = this.tabsArray[0].name
+  },
+  methods: {
+    postFixdMessage(fixed) {
+      // 发送message 页面高度
+      window.parent.postMessage(
+        {
+          from: 'messageGeneralProduct',
+          fixed: fixed
+        },
+        '*'
+      )
+    },
+    changeActivePageIndex(activePageIndex) {
+      this.activePageIndex = activePageIndex
+    },
+    tabs(activeDocumentIndex, activePageIndex) {
+      this.activePageIndex = 0
+      this.activeDocumentIndex = activeDocumentIndex
+      this.tabsArray = this.documents[activeDocumentIndex].specificData.map(
+        (item, index) => {
+          return {
+            name: `发票${index + 1}`
+          }
+        }
+      )
+      this.activeName = this.tabsArray[activePageIndex].name
+    },
+    handleClick(value) {
+      this.tabsArray.forEach((item, index) => {
+        if (item.name === value.name) {
+          this.$refs.documents.handleClick(index)
+        }
+      })
+    },
+    clickHandler(e, i, type) {
+      console.log(i.position[0].length)
+      if (i.value === '' || i.position[0].length !== 4) {
+        return
+      }
+      const el =
+        e.target.nodeName === 'TR'
+          ? e.target.firstChild
+          : e.target.parentNode.firstChild
+      this.activeTextId = i.id
+      this.activeTableType = type
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
+        el,
+        value: i.position
+      })
+    },
+    uploadFileData(res) {
+      const data = res.data
+      data.map((item) => {
+        item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
+          item.imagePath
+        )}`
+      })
+      this.documents = data
+      this.page = this.documents[0]
+      this.tabsArray = this.documents.map((item, index) => {
+        return {
+          name: `发票${index + 1}`
+        }
+      })
+      this.activeName = this.tabsArray[0].name
+    }
+  }
+}
+</script>
+<style lang="stylus">
+
+.pre-line {
+  white-space: pre-line;
+}
+</style>

@@ -1,0 +1,328 @@
+.ocr-layout {
+  
+  display: flex;
+  color: #202d40;
+height: calc(100vh - 122px);
+  overflow: hidden;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(124, 125, 125, 0.5);
+  }
+  * {
+    user-select: none;
+    box-sizing: border-box;
+  }
+  .ocr-inner {
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 100%;
+
+    .svg-mask {
+      pointer-events: none;
+      position: absolute;
+      top: 60px;
+      left: 16px;
+      z-index: 1;
+    }
+
+    .document-box {
+      border: 1px solid #e2e4e9;
+      width: 50%;
+      flex-shrink: 0;
+      flex-grow: 0;
+      height: 100%;
+
+      .tool-bar {
+        height: 38px;
+        line-height: 38px;
+        padding: 0 16px;
+        box-shadow: 0px 3px 8px 0px rgba(5, 18, 30, 0.08);
+        font-size: 12px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+
+        > div {
+          flex: 1;
+          text-align: center;
+
+          &:last-child {
+            text-align: right;
+          }
+        }
+
+        .name {
+          text-align: left;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .number {
+          width: 40px;
+
+          ::v-deep .lls-input__inner {
+            width: 20px;
+            position: relative;
+            left: -8px;
+            border: none;
+            border-bottom: 1px solid #e3e8f0;
+            height: 14px;
+            padding: 0;
+            border-radius: 0;
+            text-align: center;
+
+            &:focus {
+              border-color: #0887ff;
+            }
+          }
+
+          span {
+            font-size: 12px;
+          }
+        }
+
+        .svg-icon {
+          font-size: 12px;
+          margin: 0 6px;
+          cursor: pointer;
+
+          &.big-icon,
+          &.dis-icon {
+            font-size: 15px;
+            margin: 0 4px;
+          }
+          &.dis-icon {
+            cursor: default;
+          }
+        }
+      }
+
+      .document-layout {
+        overflow: hidden;
+        height: calc(100% - 78px);
+        margin: 20px 16px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+             background: rgba(255,255,255,0.7)
+
+        .document {
+          background-size: contain;
+          position: relative;
+          cursor: url("../icon/手势-张开.svg"), grab;
+          background-repeat: no-repeat;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &.transition {
+            transition: all 0.3s;
+          }
+
+          > img {
+            width: 100%;
+            pointer-events: none;
+            user-select: none;
+          }
+
+          &.draggable {
+            cursor: url("../icon/手势-握紧.svg"), grabbing;
+          }
+
+          .frame-mask-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            .rect-active {
+              opacity: 1 !important;
+              stroke-width: 0.5 !important;
+              stroke: rgb(8, 135, 255) !important;
+              fill: rgba(8, 135, 255, 0.1) !important;
+            }
+          }
+          // transition: all 0.3s linear;
+          .frame-mask {
+            position: absolute;
+            cursor: pointer;
+            pointer-events: none;
+
+            &.active,
+            &:hover {
+              background: rgba(8, 135, 255, 0.1);
+              border: 1px solid #0887ff;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+    }
+
+    .drag-view {
+      width: 8px;
+      // height: 30px;
+      flex-shrink: 0;
+      flex-grow: 0;
+      cursor: col-resize;
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      &:after {
+        content: "";
+        width: 100%;
+        height: 30px;
+        background-image: repeating-linear-gradient(
+          to bottom,
+          #e5e7ec 0px,
+          #e5e7ec 1px,
+          transparent 1px,
+          transparent 4px
+        );
+      }
+    }
+
+    .ocr-result {
+      .svgClass {
+        font-size: 16px;
+        position: relative;
+        top: 28px;
+      }
+
+      ::v-deep .lls-tabs__nav {
+        height: 42px !important;
+      }
+
+      ::v-deep .lls-tabs__header {
+        border-bottom: none;
+        margin: 0;
+      }
+
+      ::v-deep #tab-first {
+        margin-left: 22px !important;
+      }
+
+      ::v-deep .lls-tabs__active-bar {
+        margin-left: 22px;
+      }
+      border: 1px solid #0887ff;
+      flex-shrink: 1;
+      flex-grow: 1;
+      padding: 0 16px;
+      background: #f7fbff;
+      position: relative;
+      height: 100%;
+      width: calc(50% - 8px);
+
+      .border-corner {
+        position: absolute;
+        height: 20px;
+        width: 20px;
+        border: 4px solid #0887ff;
+
+        &.border-corner-1 {
+          top: 0;
+          left: 0;
+          border-right: none;
+          border-bottom: none;
+        }
+
+        &.border-corner-2 {
+          top: 0;
+          right: 0;
+          border-left: none;
+          border-bottom: none;
+        }
+
+        &.border-corner-3 {
+          bottom: 0;
+          left: 0;
+          border-right: none;
+          border-top: none;
+        }
+
+        &.border-corner-4 {
+          bottom: 0;
+          right: 0;
+          border-left: none;
+          border-top: none;
+        }
+      }
+
+      .ocr-title-bar {
+        display: flex;
+        height: 58px;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+
+        .svg-icon {
+          margin-right: 8px;
+
+          &.download {
+            margin-right: 4px;
+          }
+        }
+
+        .ocr-title {
+          font-weight: 600;
+        }
+
+        span {
+          vertical-align: middle;
+        }
+      }
+
+      .ocr-text {
+        border: 1px solid #e3e8f0;
+        height: calc(100vh - 206px);
+        overflow: auto;
+        padding: 12px 8px;
+        background: #fff;
+        position: relative;
+        ::v-deep .lls-tabs__active-bar {
+          margin-left: 0px !important;
+        }
+
+        .text {
+          line-height: 26px;
+          padding: 0 8px;
+          border: 1px solid #fff;
+          font-size: 12px;
+
+          &:not(:last-child) {
+            margin-bottom: 8px;
+          }
+
+          &:hover {
+            background: #f6f9fb;
+            cursor: pointer;
+          }
+          &.not-point:hover {
+            background: #fff;
+            cursor: default;
+          }
+
+          &.active {
+            background: rgba(8, 135, 255, 0.1);
+            border: 1px solid #0887ff;
+            border-radius: 4px;
+          }
+        }
+      }
+    }
+  }
+  .ocrInnerWidth{
+    width:calc(100% - 250px) !important;
+  }
+}

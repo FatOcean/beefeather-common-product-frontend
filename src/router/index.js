@@ -18,7 +18,14 @@ const routes = [
     path: '/generalOcr',
     component: (resolve) => require(['@/views/AgeneralOcr'], resolve),
     meta: {
-      title: '证件解析'
+      title: '通用OCR工具'
+    }
+  },
+  {
+    path: '/tradeDocumentAnalysis',
+    component: (resolve) => require(['@/views/AtradeDocumentAnalysis'], resolve),
+    meta: {
+      title: '贸易单证解析'
     }
   },
   {

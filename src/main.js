@@ -16,11 +16,14 @@ import moreButton from '@/components/moreButton/index.vue'
 import uploadFile from '@/components/upload-file/index.vue'
 import Directives from './directives/index'
 import CodeEditor from '@/components/bin-code-editor'
+import RightTab from '@/components/rightTab.vue'
 import './components/ocr-el'
 Vue.use(CodeEditor)
 Vue.use(Directives)
+Vue.component('RightTab', RightTab)
 Vue.component('moreButton', moreButton)
 Vue.component('uploadFile', uploadFile)
+
 Vue.use(LinkUpload)
 
 Vue.prototype.$http = api
