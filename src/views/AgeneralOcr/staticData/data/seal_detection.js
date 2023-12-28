@@ -13,7 +13,7 @@ const data = [
         imageName: '示例一_1.jpg',
         sealImage: imagePath_1,
         sealType: '椭圆章',
-        vertices: [
+        position: [
           {
             x: 1115,
             y: 127
@@ -39,7 +39,7 @@ const data = [
         imageName: '示例一_2.jpg',
         sealImage: imagePath_2,
         sealType: '椭圆章',
-        vertices: [
+        position: [
           {
             x: 1861,
             y: 1252

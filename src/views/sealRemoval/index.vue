@@ -127,45 +127,45 @@
   </div>
 </template>
 <script>
-import { data } from "./defaultData";
-import beeLoading from "@linklogis/beeLoading";
-import ImageViewer from "@linklogis/image-viewer";
-import ocrlayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { data } from './defaultData'
+import beeLoading from '@linklogis/beeLoading'
+import ImageViewer from '@linklogis/image-viewer'
+import ocrlayout from './ocr-layout'
+import { mapState } from 'vuex'
 function Events() {
-  this.clientList = {};
+  this.clientList = {}
   this.listen = function (key, fn) {
     if (!this.clientList[key]) {
-      this.clientList[key] = [];
+      this.clientList[key] = []
     }
-    this.clientList[key].push(fn);
-  };
+    this.clientList[key].push(fn)
+  }
   this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments);
-    const fns = this.clientList[key];
+    const key = Array.prototype.shift.call(arguments)
+    const fns = this.clientList[key]
     if (!fns || fns.length === 0) {
-      return;
+      return
     }
-    for (let i = 0, fn; (fn = fns[i++]); ) {
-      fn.apply(this, arguments);
+    for (let i = 0, fn; (fn = fns[i++]);) {
+      fn.apply(this, arguments)
     }
-  };
+  }
   this.remove = function (key, fn) {
-    const fns = this.clientList[key];
+    const fns = this.clientList[key]
     if (!fns) {
-      return;
+      return
     }
     if (!fn) {
-      fns.length = 0;
+      fns.length = 0
     } else {
       for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len];
+        const _fn = fns[len]
         if (_fn === fn) {
-          fns.splice(len, 1);
+          fns.splice(len, 1)
         }
       }
     }
-  };
+  }
 }
 
 export default {
@@ -185,21 +185,21 @@ export default {
       showImageViewer: false,
       draggable: false,
       files: [],
-      activeTextId: "",
+      activeTextId: '',
 
       beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
-      activeName: "",
-      servicePortAddress: "",
+      activeName: '',
+      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
       // documents: data.analysisResult,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      search: "",
+      search: '',
       documents_backup: [],
       checked: false,
       hideResult: [],
@@ -207,23 +207,23 @@ export default {
       realRenderHeight: 0,
       realRenderWidth: 0,
       scale: 1,
-      handling: false,
+      handling: false
       // pageMenuPerm: {
       //   COLSEALREM: true,
       //   DOWSEALREM: true,
       //   SERSEALREM: true,
       //   UPLSEALREM: true,
       // },
-    };
+    }
   },
   components: {
     [beeLoading.name]: beeLoading,
     [ImageViewer.name]: ImageViewer,
-    ocrlayout,
+    ocrlayout
   },
   created() {
     // console.log(this.data, "data");
-    this.documents = this.data[0];
+    this.documents = this.data[0]
 
     // console.log(this.documents, "documents");
     // this.page = this.documents.analysisResult
@@ -277,25 +277,25 @@ export default {
     // console.log(this.example, "example");
   },
   mounted() {
-    this.resizeImg();
-    this.$events = new Events();
-    this.$events.listen("drag-document", this.transferDocument);
+    this.resizeImg()
+    this.$events = new Events()
+    this.$events.listen('drag-document', this.transferDocument)
   },
   beforeDestroy() {
-    this.$events.remove("drag-document", this.transferDocument);
+    this.$events.remove('drag-document', this.transferDocument)
 
-    this.resizeObserver.disconnect();
+    this.resizeObserver.disconnect()
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     // pageDetail() {
     //   return this.page[this.activeTabIndex].identityList;
     // },
     originalLocation() {
-      return `${window.location.origin}/file-handle-web/file/image?filename=`;
+      return `${window.location.origin}/file-handle-web/file/image?filename=`
     },
     example() {
-      return this.data[this.activeDocumentIndex];
+      return this.data[this.activeDocumentIndex]
     },
     imageUrl() {
       return this.data[this.activeDocumentIndex].imageVO[1].image
@@ -303,184 +303,184 @@ export default {
         : this.originalLocation +
             encodeURIComponent(
               this.data[this.activeDocumentIndex].imageVO[1].filePath
-            );
+            )
     },
     hwFlag() {
-      return this.data[this.activeDocumentIndex].imageVO[1].hwFlag;
+      return this.data[this.activeDocumentIndex].imageVO[1].hwFlag
     },
     imageName() {
-      return this.data[this.activeDocumentIndex].fileName;
+      return this.data[this.activeDocumentIndex].fileName
     },
     page() {
-      const translateX = 0;
-      const translateY = 0;
-      const rotateScale = 1;
+      const translateX = 0
+      const translateY = 0
+      const rotateScale = 1
       const page = {
         value: this.value,
         translateX,
         translateY,
-        rotateScale, // 旋转导致的缩放比例
-      };
-      return page;
+        rotateScale // 旋转导致的缩放比例
+      }
+      return page
     },
     urlList() {
-      return [{ url: this.imageUrl, title: this.imageName }];
-    },
+      return [{ url: this.imageUrl, title: this.imageName }]
+    }
   },
   methods: {
     bind(node, event, fun) {
       if (node.addEventListener) {
-        node.removeEventListener(event, fun);
-        node.addEventListener(event, fun, false);
+        node.removeEventListener(event, fun)
+        node.addEventListener(event, fun, false)
       } else {
-        node.detachEvent("on" + event, fun);
-        node.attachEvent("on" + event, fun.call(obj));
+        node.detachEvent('on' + event, fun)
+        node.attachEvent('on' + event, fun.call(obj))
       }
     },
     handleZoom(e) {
-      this.initTranslateY = 0;
-      let scale = this.zoomScale;
-      let scrollDis;
-      if (typeof e === "number") {
-        scale += e;
+      this.initTranslateY = 0
+      let scale = this.zoomScale
+      let scrollDis
+      if (typeof e === 'number') {
+        scale += e
       } else {
-        e = e || window.event;
-        if (!e) return;
-        scrollDis = Math.ceil(e.wheelDelta ? e.wheelDelta / 10 : -e.detail * 6);
-        scale += scrollDis > 0 ? this.zoomStep : -this.zoomStep;
+        e = e || window.event
+        if (!e) return
+        scrollDis = Math.ceil(e.wheelDelta ? e.wheelDelta / 10 : -e.detail * 6)
+        scale += scrollDis > 0 ? this.zoomStep : -this.zoomStep
       }
       if (scale < 0.3) {
-        scale = 0.3;
+        scale = 0.3
       }
       if (scale > 3) {
-        scale = 3;
+        scale = 3
       }
-      this.zoomScale = scale;
-      e.preventDefault && e.preventDefault();
-      return false;
+      this.zoomScale = scale
+      e.preventDefault && e.preventDefault()
+      return false
     },
     transferDocument({ disX, disY }) {
-      this.dragX += disX;
-      this.dragY += disY;
-      this.moveX = this.dragX;
-      this.moveY = this.dragY;
+      this.dragX += disX
+      this.dragY += disY
+      this.moveX = this.dragX
+      this.moveY = this.dragY
       if (this.rotateIndex % 4 === 1) {
-        this.moveX = this.dragY;
-        this.moveY = -this.dragX;
+        this.moveX = this.dragY
+        this.moveY = -this.dragX
       }
       if (this.rotateIndex % 4 === 2) {
-        this.moveX = -this.dragX;
-        this.moveY = -this.dragY;
+        this.moveX = -this.dragX
+        this.moveY = -this.dragY
       }
       if (this.rotateIndex % 4 === 3) {
-        this.moveX = -this.dragY;
-        this.moveY = this.dragX;
+        this.moveX = -this.dragY
+        this.moveY = this.dragX
       }
     },
 
     handleClickRotate() {
-      this.rotateIndex++;
-      this.moveX = this.dragX;
-      this.moveY = this.dragY;
+      this.rotateIndex++
+      this.moveX = this.dragX
+      this.moveY = this.dragY
       if (this.rotateIndex % 4 === 1) {
-        this.moveX = this.dragY;
-        this.moveY = -this.dragX;
+        this.moveX = this.dragY
+        this.moveY = -this.dragX
       }
       if (this.rotateIndex % 4 === 2) {
-        this.moveX = -this.dragX;
-        this.moveY = -this.dragY;
+        this.moveX = -this.dragX
+        this.moveY = -this.dragY
       }
       if (this.rotateIndex % 4 === 3) {
-        this.moveX = -this.dragY;
-        this.moveY = this.dragX;
+        this.moveX = -this.dragY
+        this.moveY = this.dragX
       }
       // this.dragX = 0;
       // this.dragY = 0;
       // this.moveX = 0;
       // this.moveY = 0;
-      this.updateTranslateY();
+      this.updateTranslateY()
     },
 
     handleMousedown(e, elName) {
-      const el = this.$refs[elName];
-      this.removeEventListener(e, elName);
-      e = e || window.event;
+      const el = this.$refs[elName]
+      this.removeEventListener(e, elName)
+      e = e || window.event
       // if (e.target !== el) {
       //   return;
       // }
-      this.offsetX = e.pageX;
-      this.offsetY = e.pageY;
+      this.offsetX = e.pageX
+      this.offsetY = e.pageY
       window.addEventListener(
-        "mousemove",
+        'mousemove',
         (this[`${elName}Mousemove`] = (e) => {
-          e = e || window.event;
+          e = e || window.event
           // const el = this.$refs[elName];
           this.proxy(this.calculateDragDis, {
             offsetX: e.pageX,
             offsetY: e.pageY,
-            elName: elName,
-          });
-          el.removeEventListener("mousedown", this.handleMousedown);
-          this.draggable = true;
+            elName: elName
+          })
+          el.removeEventListener('mousedown', this.handleMousedown)
+          this.draggable = true
           // console.log(e, elName, this[`${elName}Mousemove`]);
         })
-      );
+      )
       window.addEventListener(
-        "mouseup",
+        'mouseup',
         this.removeEventListener.bind(this, e, elName)
-      );
+      )
     },
     calculateDragDis(offset) {
-      const disX = offset.offsetX - this.offsetX;
-      const disY = offset.offsetY - this.offsetY;
-      this.$events.trigger(offset.elName, { disX, disY });
-      this.offsetX = offset.offsetX;
-      this.offsetY = offset.offsetY;
+      const disX = offset.offsetX - this.offsetX
+      const disY = offset.offsetY - this.offsetY
+      this.$events.trigger(offset.elName, { disX, disY })
+      this.offsetX = offset.offsetX
+      this.offsetY = offset.offsetY
     },
     resetProps() {
-      this.rotateIndex = 0;
-      this.zoomScale = 1;
-      this.dragX = 0;
-      this.dragY = 0;
-      this.moveX = 0;
-      this.moveY = 0;
-      this.updateTranslateY();
+      this.rotateIndex = 0
+      this.zoomScale = 1
+      this.dragX = 0
+      this.dragY = 0
+      this.moveX = 0
+      this.moveY = 0
+      this.updateTranslateY()
     },
     resizeImg() {
-      const el = this.$el;
+      const el = this.$el
       this.resizeObserver = new ResizeObserver((_) => {
         this.proxy((_) => {
-          this.documentWidth = this.$refs.documentLayout.clientWidth;
-          this.documentHeight = this.$refs.documentLayout.clientHeight;
+          this.documentWidth = this.$refs.documentLayout.clientWidth
+          this.documentHeight = this.$refs.documentLayout.clientHeight
           // console.log(this.documentWidth, this.documentHeight);
           // 初始化每张图片的宽高
-          this.reRenderImage();
-        });
-      });
-      this.resizeObserver.observe(el);
+          this.reRenderImage()
+        })
+      })
+      this.resizeObserver.observe(el)
     },
     proxy(fun, args) {
-      if (this.proxying) return;
-      this.proxying = true;
+      if (this.proxying) return
+      this.proxying = true
       window.requestAnimationFrame((_) => {
-        fun.call(this, args);
-        this.proxying = false;
-      });
+        fun.call(this, args)
+        this.proxying = false
+      })
     },
     postFixedMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     reRenderImage() {
       this.data.forEach((document) => {
-        const page = document.imageVO[1];
-        const vm = this;
+        const page = document.imageVO[1]
+        const vm = this
         // const img = new Image();
         // img.src = page.img;
         // img.onload = function () {
@@ -489,25 +489,25 @@ export default {
         page.scale =
           page.height > page.width
             ? vm.documentHeight / +page.height
-            : vm.documentWidth / +page.width; // 初始图片缩放比例
-        let widthScale = 1;
-        let heightScale = 1;
+            : vm.documentWidth / +page.width // 初始图片缩放比例
+        let widthScale = 1
+        let heightScale = 1
         if (page.realRenderHeight > vm.documentHeight) {
-          page.realRenderHeight = vm.documentHeight;
-          page.scale = vm.documentHeight / +page.height;
-          heightScale = vm.documentHeight / +page.height;
+          page.realRenderHeight = vm.documentHeight
+          page.scale = vm.documentHeight / +page.height
+          heightScale = vm.documentHeight / +page.height
         }
         if (page.realRenderWidth > vm.documentWidth) {
-          page.realRenderWidth = vm.documentWidth;
-          page.scale = vm.documentWidth / +page.width;
-          widthScale = vm.documentWidth / +page.width;
+          page.realRenderWidth = vm.documentWidth
+          page.scale = vm.documentWidth / +page.width
+          widthScale = vm.documentWidth / +page.width
         }
         // console.log(widthScale, heightScale, "111");
-        page.realRenderHeight = +page.height * page.scale; // 图片实际渲染高度
-        page.realRenderWidth = +page.width * page.scale; // 图片实际渲染宽度
+        page.realRenderHeight = +page.height * page.scale // 图片实际渲染高度
+        page.realRenderWidth = +page.width * page.scale // 图片实际渲染宽度
         // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
         // };
-      });
+      })
       // console.log("render")
       // window.setTimeout((_) => {
       //   this.calculateXy()
@@ -515,17 +515,17 @@ export default {
       // this.$nextTick((_) => {
       //   this.calculateXy();
       // });
-      this.updateTranslateY();
-      const page = this.data[this.activeDocumentIndex].imageVO[0];
+      this.updateTranslateY()
+      const page = this.data[this.activeDocumentIndex].imageVO[0]
       // console.log(page, "page");
-      const baseHeight = this.$refs["documents"].getBoundingClientRect().height;
+      const baseHeight = this.$refs.documents.getBoundingClientRect().height
       const newScale =
         page.realRenderHeight > 0.72 * baseHeight
           ? (0.72 * baseHeight) / page.realRenderHeight
-          : 1;
-      this.realRenderHeight = page.realRenderHeight * newScale;
-      this.realRenderWidth = page.realRenderWidth * newScale;
-      this.scale = page.scale * newScale;
+          : 1
+      this.realRenderHeight = page.realRenderHeight * newScale
+      this.realRenderWidth = page.realRenderWidth * newScale
+      this.scale = page.scale * newScale
     },
     updateTranslateY() {
       this.$nextTick((_) => {
@@ -533,21 +533,21 @@ export default {
           this.initTranslateY = Math.max(
             (this.realRenderHeight - this.documentHeight) / 2,
             0
-          );
+          )
         } else {
-          this.initTranslateY = 0;
+          this.initTranslateY = 0
         }
-      });
+      })
     },
     tabs(activeDocumentIndex, activePageIndex) {
-      this.activeDocumentIndex = activeDocumentIndex;
-      this.documents = this.data[activeDocumentIndex];
+      this.activeDocumentIndex = activeDocumentIndex
+      this.documents = this.data[activeDocumentIndex]
       this.$refs.documents.selectValue = this.documents.fileName
-        .substring(this.documents.fileName.lastIndexOf(".") + 1)
+        .substring(this.documents.fileName.lastIndexOf('.') + 1)
         .toUpperCase()
-        .trim();
-      this.resetProps();
-      this.resizeImg();
+        .trim()
+      this.resetProps()
+      this.resizeImg()
       // this.page = this.documents.analysisResult
       // console.log(this.page, "121312312321312312");
       // this.activeTabIndex = 0
@@ -563,15 +563,15 @@ export default {
       // console.log(elName);
       // const el = this.$refs[elName];
 
-      window.removeEventListener("mousemove", this[`${elName}Mousemove`]);
-      window.removeEventListener("mouseup", this.removeEventListener);
+      window.removeEventListener('mousemove', this[`${elName}Mousemove`])
+      window.removeEventListener('mouseup', this.removeEventListener)
       // this[`${elName}Mousemove`] = null;
-      this.draggable = false;
+      this.draggable = false
     },
     handleClick(value) {
       // console.log(value.index);
-      this.activeTabIndex = Number(value.index);
-      this.$refs.documents.handleClick(value.index);
+      this.activeTabIndex = Number(value.index)
+      this.$refs.documents.handleClick(value.index)
       // console.log(this.documents);
       // console.log(this.page);
       // this.tabsArray.forEach((item, index) => {
@@ -584,61 +584,61 @@ export default {
     },
     // 样本收集点击事件
     clickHandler(e, i, noParent) {
-      const el = e.target.parentNode.firstChild;
+      const el = e.target.parentNode.firstChild
 
       if (!i.startX || !i.startY || !i.width || !i.height) {
-        this.$refs.documents.resetProps();
-        this.activeTextId = i.id;
-        return;
+        this.$refs.documents.resetProps()
+        this.activeTextId = i.id
+        return
       }
-      e = e || window.event;
-      this.$refs.documents.$events.trigger("click-ocr-el", {
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
-        id: i.id,
+        id: i.id
         // imageIndex: i.imageIndex,
-      });
-      this.activeTextId = this.$refs.documents.activeTextId;
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
       // console.log(this.activeTextId, "activeTextId");
     },
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      const data = this.data[this.activeDocumentIndex];
-      const picAddress = data.imagePath;
-      this.handling = true;
+      if (this.isLoading) return
+      this.isLoading = true
+      const data = this.data[this.activeDocumentIndex]
+      const picAddress = data.imagePath
+      this.handling = true
       // console.log(data, '000')
       if (!data.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             picAddress,
-            productName: "印章去除",
-            requestId: data.requestId,
+            productName: '印章去除',
+            requestId: data.requestId
           })
           .then((res) => {
-            this.handling = false;
-            if (res.data.code === "200") {
+            this.handling = false
+            if (res.data.code === '200') {
               // data.starsFlag = true;
-              this.$set(data, "starsFlag", true);
+              this.$set(data, 'starsFlag', true)
               // console.log(data.starsFlag, "11111");
               // console.log(this.example.starsFlag, "111111111111");
               // this.page.starsFlag = true;
-              this.data[this.activeDocumentIndex].loadRecordId = res.data.data;
+              this.data[this.activeDocumentIndex].loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       } else {
         this.$http
           .post(
@@ -647,73 +647,72 @@ export default {
             )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            this.handling = false;
-            if (res.data.code === "200") {
-              data.starsFlag = false;
+            this.handling = false
+            if (res.data.code === '200') {
+              data.starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       }
     },
     uploadFileData(res) {
       res.data.forEach((i) => {
-        i.isUpload = true;
-        i.starsFlag = false;
-        if (i.imageVO[1] && i.imageVO[1].height && i.imageVO[1].width)
-          i.imageVO[1].hwFlag = i.imageVO[1].height > i.imageVO[1].width;
-      });
+        i.isUpload = true
+        i.starsFlag = false
+        if (i.imageVO[1] && i.imageVO[1].height && i.imageVO[1].width) { i.imageVO[1].hwFlag = i.imageVO[1].height > i.imageVO[1].width }
+      })
       // res.data.forEach((i) => {
       //   i.starsFlag = false;
       // });
       // console.log(res, "res");
-      this.activeDocumentIndex = 0;
-      if (this.data.length > 2) this.data.shift();
-      this.data = [...res.data, ...this.data];
+      this.activeDocumentIndex = 0
+      if (this.data.length > 2) this.data.shift()
+      this.data = [...res.data, ...this.data]
       // this.data = res.data.concat(this.data);
 
-      this.documents = this.data[0];
+      this.documents = this.data[0]
       this.$refs.documents.selectValue = this.documents.fileName
-        .substring(this.documents.fileName.lastIndexOf(".") + 1)
+        .substring(this.documents.fileName.lastIndexOf('.') + 1)
         .toUpperCase()
-        .trim();
+        .trim()
       if (this.documents.imageVO.length === 1) {
         this.documents.imageVO.push({
-          fileName: "",
-          filePath: "",
-        });
+          fileName: '',
+          filePath: ''
+        })
         this.$message({
-          message: "解析失败",
-          type: "error",
-          offset: 60,
-        });
+          message: '解析失败',
+          type: 'error',
+          offset: 60
+        })
       } else {
         this.$message({
-          message: "上传成功",
-          type: "success",
-          offset: 60,
-        });
+          message: '上传成功',
+          type: 'success',
+          offset: 60
+        })
       }
     },
     handleDragLeave() {
       setTimeout((_) => {
-        this.dragenter = false;
-      }, 200);
-    },
-  },
-};
+        this.dragenter = false
+      }, 200)
+    }
+  }
+}
 </script>
 <style lang="stylus" >
 .identify-data {

@@ -7,13 +7,14 @@
     }"
   >
     <!-- 示例区-缩略图 -->
-    <RightSelect ref="RightSelectRefs"></RightSelect>
-    <!-- ocr -->
+    <!-- <RightSelect ref="RightSelectRefs"></RightSelect> -->
+    <!-- ocr          ocrInnerWidth: isshowRight,-->
     <div
       :class="{
         'ocr-inner': true,
-        ocrInnerWidth: isshowRight,
+
       }"
+      style="width:100%"
     >
       <!-- 文档 -->
       <div class="document-box" ref="documentBox">
@@ -382,7 +383,7 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-import RightSelect from './rightselect.vue'
+// import RightSelect from './rightselect.vue'
 import '@/icons'
 
 function Events() {
@@ -428,8 +429,8 @@ export default {
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer,
-    RightSelect
+    [ImageViewer.name]: ImageViewer
+    // RightSelect
   },
   props: {
     value: {

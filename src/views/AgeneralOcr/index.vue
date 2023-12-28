@@ -2,6 +2,8 @@
   <div class="document-parsing">
     <lls-page-header @back="goBack" content="通用OCR工具" bottom-line>
     </lls-page-header>
+    <div class="document-box">
+    <leftselect ></leftselect>
     <ocrlayout
       v-if="productName === 'document_ocr'"
       :data="documents"
@@ -74,7 +76,7 @@
         </template>
       </template>
     </ocrlayout>
-    <ocrlayout
+    <SealRecognition
       v-if="productName === 'seal_recognition'"
       @resetId="
         () => {
@@ -86,6 +88,7 @@
       v-model="page"
       ref="documents"
       :activeTabIndex="activeTabIndex"
+      :productObj="productObj"
     >
       <div class="result-list">
         <div
@@ -99,7 +102,7 @@
           <div
             class="content"
             v-for="i in item.texts"
-            :class="{ contentActive: activeTextId === i.id }"
+            :class="{ contentActive: activeTextId === i.id && activeId === item.id}"
             @click.stop="(e) => clickHandler(e, i, item)"
             :key="i.key"
           >
@@ -107,15 +110,25 @@
           </div>
         </div>
       </div>
-    </ocrlayout>
+    </SealRecognition>
+    <Sealdetection v-if="productName ==='seal_detection'" :data="documents"></Sealdetection>
+    <Sealremoval v-if="productName ==='seal_removal'"></Sealremoval>
+    </div>
   </div>
 </template>
 <script>
 import { staticData } from './staticData'
 import ocrlayout from './ocr-layout'
 import { mapState } from 'vuex'
+import leftselect from './components/leftselect.vue'
 export default {
-  components: { ocrlayout },
+  components: {
+    ocrlayout,
+    leftselect,
+    SealRecognition: (resolve) => require(['./ocr-layout/seal_recognition.vue'], resolve), // 印章识别
+    Sealdetection: (resolve) => require(['./seal_detection'], resolve), // 印章检测
+    Sealremoval: (resolve) => require(['./seal_removal'], resolve) // 印章去除
+  },
   data() {
     return {
       // page: {}, // 当前页面数据信息
@@ -127,9 +140,13 @@ export default {
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
-      productName: 'seal_recognition',
+      productName: 'document_ocr',
       activePageIndex: 0,
-      activeId: ''
+      activeId: '',
+      productObj: {
+        name: '文档OCR',
+        staticName: 'document_ocr'
+      }
     }
   },
 
@@ -166,7 +183,8 @@ export default {
       if (this.activeId === i.id) return
       this.activeTextId = null
       this.activeId = i.id
-      this.$refs.documents.$events.trigger('click-rectangle', {
+      console.log(i)
+      this.$refs.documents.handleClickRectangle({
         item: i
       })
     },
@@ -177,7 +195,7 @@ export default {
       this.$refs.documents.handleClickText({
         el,
         id: i.id,
-        value: i
+        item: i
       })
       this.activeTextId = this.$refs.documents.activeTextId
     },
@@ -191,6 +209,7 @@ export default {
     setProductName(data) {
       this.activeTextId = 0
       this.productName = data.staticName
+      this.productObj = data
     },
     resetId() {},
     goBack() {},
@@ -228,4 +247,13 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import './index.styl';
+.document-box{
+  display: flex;
+  .ocr-layout{
+    flex: 1;
+    .ocr-inner{
+      width: 100%;
+    }
+  }
+}
 </style>

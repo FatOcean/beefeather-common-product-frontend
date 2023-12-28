@@ -51,6 +51,7 @@
 
 <script>
 import beeLoading from '@linklogis/beeLoading'
+import { mapState } from 'vuex'
 export default {
   name: 'upload-file',
   props: {
@@ -81,6 +82,11 @@ export default {
   components: {
     [beeLoading.name]: beeLoading
   },
+  computed: {
+    ...mapState(['ocrProductObj'])
+  },
+  mounted() {
+  },
   methods: {
     postFixdMessage(fixed) {
       // 发送message 页面高度
@@ -105,12 +111,17 @@ export default {
       this.percent = Math.min(Math.floor((100 * file.loaded) / file.size), 98)
     },
     ocrRecognitionExcel(file) {
-      console.log(this.productObj)
+      let productObj
+      if (this.$route.path === '/generalOcr') {
+        productObj = this.ocrProductObj
+      } else {
+        productObj = this.productObj
+      }
       this.$http
         .post(
           `/general-product-web/general/analysis?uploadId=${
             this.files[0].taskId
-          }&application=${this.productObj.staticName.toUpperCase()}`
+          }&application=${productObj.staticName.toUpperCase()}`
         )
         .then((res) => {
           res = res.data
@@ -159,20 +170,20 @@ export default {
 </script>
 
 <style lang="stylus">
-  .analyzing {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 0;
-    vertical-align: middle;
-    width: 100%;
-    height: 100%;
-    opacity: 0.7;
-    background: #000000;
-    position: fixed !important;
-    z-index: 999 !important;
-    left: 0;
-  }
+.analyzing {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background: #000000;
+  position: fixed !important;
+  z-index: 999 !important;
+  left: 0;
+}
 
 .upload-wrapper {
   position: absolute;

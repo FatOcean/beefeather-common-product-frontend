@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import { productList } from '../staticData/data.js'
 export default {
   name: 'RightSelect',
@@ -42,13 +43,15 @@ export default {
       productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: '印章识别'
+      activebgName: '文档OCR'
     }
   },
   mounted() {},
   methods: {
+    ...mapMutations(['setProductObj']),
     productNameClick(item, index) {
       this.activebgName = item.name
+      this.setProductObj(item)
       this.$parent.setProductName(item)
     },
     showChildren(item) {

@@ -120,45 +120,45 @@
   </div>
 </template>
 <script>
-import { data } from "./defaultData";
-import beeLoading from "@linklogis/beeLoading";
-import ImageViewer from "@linklogis/image-viewer";
-import ocrLayout from "./ocr-layout";
-import { mapState } from "vuex";
+import { data } from './defaultData'
+import beeLoading from '@linklogis/beeLoading'
+import ImageViewer from '@linklogis/image-viewer'
+import ocrLayout from './ocr-layout'
+import { mapState } from 'vuex'
 function Events() {
-  this.clientList = {};
+  this.clientList = {}
   this.listen = function (key, fn) {
     if (!this.clientList[key]) {
-      this.clientList[key] = [];
+      this.clientList[key] = []
     }
-    this.clientList[key].push(fn);
-  };
+    this.clientList[key].push(fn)
+  }
   this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments);
-    const fns = this.clientList[key];
+    const key = Array.prototype.shift.call(arguments)
+    const fns = this.clientList[key]
     if (!fns || fns.length === 0) {
-      return;
+      return
     }
-    for (let i = 0, fn; (fn = fns[i++]); ) {
-      fn.apply(this, arguments);
+    for (let i = 0, fn; (fn = fns[i++]);) {
+      fn.apply(this, arguments)
     }
-  };
+  }
   this.remove = function (key, fn) {
-    const fns = this.clientList[key];
+    const fns = this.clientList[key]
     if (!fns) {
-      return;
+      return
     }
     if (!fn) {
-      fns.length = 0;
+      fns.length = 0
     } else {
       for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len];
+        const _fn = fns[len]
         if (_fn === fn) {
-          fns.splice(len, 1);
+          fns.splice(len, 1)
         }
       }
     }
-  };
+  }
 }
 
 export default {
@@ -179,260 +179,260 @@ export default {
       showImageViewer: false,
       draggable: false,
       files: [],
-      activeTextId: "",
+      activeTextId: '',
       beeLoading: false, // 上传进度条显示隐藏
       percent: 0, // 进度条
-      activeName: "",
-      servicePortAddress: "",
+      activeName: '',
+      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
       // documents: data.analysisResult,
       dragenter: false,
-      token: window.sessionStorage.getItem("token"),
-      origin: window.sessionStorage.getItem("origin"),
+      token: window.sessionStorage.getItem('token'),
+      origin: window.sessionStorage.getItem('origin'),
       href: window.location.href,
-      search: "",
+      search: '',
       documents_backup: [],
       checked: false,
       hideResult: [],
       activeTabIndex: 0,
       realRenderHeight: 0,
-      realRenderWidth: 0,
-    };
+      realRenderWidth: 0
+    }
   },
   components: {
     [beeLoading.name]: beeLoading,
     [ImageViewer.name]: ImageViewer,
-    ocrLayout,
+    ocrLayout
   },
   created() {
     // console.log(this.data, "data");
-    this.documents = this.data[0];
+    this.documents = this.data[0]
     this.tabsArray = this.data[0].ret.map((item, index) => {
       return {
         name: `印章${index + 1}`,
-        index: index,
-      };
-    });
-    this.activeName = this.tabsArray[0].name;
-    this.activeTabIndex = 0;
+        index: index
+      }
+    })
+    this.activeName = this.tabsArray[0].name
+    this.activeTabIndex = 0
   },
   mounted() {
-    this.resizeImg();
-    this.$events = new Events();
-    this.$events.listen("drag-document", this.transferDocument);
+    this.resizeImg()
+    this.$events = new Events()
+    this.$events.listen('drag-document', this.transferDocument)
   },
   beforeDestroy() {
-    this.$events.remove("drag-document", this.transferDocument);
+    this.$events.remove('drag-document', this.transferDocument)
 
-    this.resizeObserver.disconnect();
+    this.resizeObserver.disconnect()
   },
   computed: {
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     originLocation() {
-      return process.env.NODE_ENV === "development"
-        ? "https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image"
-        : `${window.location.origin}/file-handle-web/file/image`;
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
     },
     imgHeight() {
-      return this.activeImage.realRenderHeight;
+      return this.activeImage.realRenderHeight
     },
     example() {
-      return this.data[this.activeDocumentIndex];
+      return this.data[this.activeDocumentIndex]
     },
     imageUrl() {
-      return this.activeImage?.sealUrl;
+      return this.activeImage?.sealUrl
     },
     activeImage() {
-      return this.example.ret[this.activeTabIndex];
+      return this.example.ret[this.activeTabIndex]
     },
     imageName() {
-      return this.activeImage?.sealName;
+      return this.activeImage?.sealName
     },
     sealName() {
-      return this.activeImage?.sealType;
+      return this.activeImage?.sealType
     },
     page() {
-      const translateX = 0;
-      const translateY = 0;
-      const rotateScale = 1;
+      const translateX = 0
+      const translateY = 0
+      const rotateScale = 1
       const page = {
         value: this.value,
         translateX,
         translateY,
-        rotateScale, // 旋转导致的缩放比例
-      };
-      return page;
+        rotateScale // 旋转导致的缩放比例
+      }
+      return page
     },
     urlList() {
       return this.data[this.activeDocumentIndex].ret.map((item) => {
         return {
           url: item.sealUrl,
-          title: item.sealName,
-        };
-      });
+          title: item.sealName
+        }
+      })
       // return [{ url: this.imageUrl, title: this.imageName }];
-    },
+    }
   },
   methods: {
     bind(node, event, fun) {
       if (node.addEventListener) {
-        node.removeEventListener(event, fun);
-        node.addEventListener(event, fun, false);
+        node.removeEventListener(event, fun)
+        node.addEventListener(event, fun, false)
       } else {
-        node.detachEvent("on" + event, fun);
-        node.attachEvent("on" + event, fun.call());
+        node.detachEvent('on' + event, fun)
+        node.attachEvent('on' + event, fun.call())
       }
     },
     handleZoom(e) {
-      this.initTranslateY = 0;
-      let scale = this.zoomScale;
-      let scrollDis;
-      if (typeof e === "number") {
-        scale += e;
+      this.initTranslateY = 0
+      let scale = this.zoomScale
+      let scrollDis
+      if (typeof e === 'number') {
+        scale += e
       } else {
-        e = e || window.event;
-        if (!e) return;
-        scrollDis = Math.ceil(e.wheelDelta ? e.wheelDelta / 10 : -e.detail * 6);
-        scale += scrollDis > 0 ? this.zoomStep : -this.zoomStep;
+        e = e || window.event
+        if (!e) return
+        scrollDis = Math.ceil(e.wheelDelta ? e.wheelDelta / 10 : -e.detail * 6)
+        scale += scrollDis > 0 ? this.zoomStep : -this.zoomStep
       }
       if (scale < 0.3) {
-        scale = 0.3;
+        scale = 0.3
       }
       if (scale > 3) {
-        scale = 3;
+        scale = 3
       }
-      this.zoomScale = scale;
-      e.preventDefault && e.preventDefault();
-      return false;
+      this.zoomScale = scale
+      e.preventDefault && e.preventDefault()
+      return false
     },
     transferDocument({ disX, disY }) {
-      this.dragX += disX;
-      this.dragY += disY;
-      this.moveX = this.dragX;
-      this.moveY = this.dragY;
+      this.dragX += disX
+      this.dragY += disY
+      this.moveX = this.dragX
+      this.moveY = this.dragY
       if (this.rotateIndex % 4 === 1) {
-        this.moveX = this.dragY;
-        this.moveY = -this.dragX;
+        this.moveX = this.dragY
+        this.moveY = -this.dragX
       }
       if (this.rotateIndex % 4 === 2) {
-        this.moveX = -this.dragX;
-        this.moveY = -this.dragY;
+        this.moveX = -this.dragX
+        this.moveY = -this.dragY
       }
       if (this.rotateIndex % 4 === 3) {
-        this.moveX = -this.dragY;
-        this.moveY = this.dragX;
+        this.moveX = -this.dragY
+        this.moveY = this.dragX
       }
     },
 
     handleClickRotate() {
-      this.rotateIndex++;
-      this.moveX = this.dragX;
-      this.moveY = this.dragY;
+      this.rotateIndex++
+      this.moveX = this.dragX
+      this.moveY = this.dragY
       if (this.rotateIndex % 4 === 1) {
-        this.moveX = this.dragY;
-        this.moveY = -this.dragX;
+        this.moveX = this.dragY
+        this.moveY = -this.dragX
       }
       if (this.rotateIndex % 4 === 2) {
-        this.moveX = -this.dragX;
-        this.moveY = -this.dragY;
+        this.moveX = -this.dragX
+        this.moveY = -this.dragY
       }
       if (this.rotateIndex % 4 === 3) {
-        this.moveX = -this.dragY;
-        this.moveY = this.dragX;
+        this.moveX = -this.dragY
+        this.moveY = this.dragX
       }
-      this.updateTranslateY();
+      this.updateTranslateY()
     },
 
     handleMousedown(e, elName) {
-      const el = this.$refs[elName];
-      this.removeEventListener(e, elName);
-      e = e || window.event;
+      const el = this.$refs[elName]
+      this.removeEventListener(e, elName)
+      e = e || window.event
       // if (e.target !== el) {
       //   return;
       // }
-      this.offsetX = e.pageX;
-      this.offsetY = e.pageY;
+      this.offsetX = e.pageX
+      this.offsetY = e.pageY
       window.addEventListener(
-        "mousemove",
+        'mousemove',
         (this[`${elName}Mousemove`] = (e) => {
-          e = e || window.event;
+          e = e || window.event
           // const el = this.$refs[elName];
           this.proxy(this.calculateDragDis, {
             offsetX: e.pageX,
             offsetY: e.pageY,
-            elName: elName,
-          });
-          el.removeEventListener("mousedown", this.handleMousedown);
-          this.draggable = true;
+            elName: elName
+          })
+          el.removeEventListener('mousedown', this.handleMousedown)
+          this.draggable = true
           // console.log(e, elName, this[`${elName}Mousemove`]);
         })
-      );
+      )
       window.addEventListener(
-        "mouseup",
+        'mouseup',
         this.removeEventListener.bind(this, e, elName)
-      );
+      )
     },
     calculateDragDis(offset) {
-      const disX = offset.offsetX - this.offsetX;
-      const disY = offset.offsetY - this.offsetY;
-      this.$events.trigger(offset.elName, { disX, disY });
-      this.offsetX = offset.offsetX;
-      this.offsetY = offset.offsetY;
+      const disX = offset.offsetX - this.offsetX
+      const disY = offset.offsetY - this.offsetY
+      this.$events.trigger(offset.elName, { disX, disY })
+      this.offsetX = offset.offsetX
+      this.offsetY = offset.offsetY
     },
     resetProps() {
-      this.rotateIndex = 0;
-      this.zoomScale = 1;
-      this.dragX = 0;
-      this.dragY = 0;
-      this.moveX = 0;
-      this.moveY = 0;
-      this.updateTranslateY();
+      this.rotateIndex = 0
+      this.zoomScale = 1
+      this.dragX = 0
+      this.dragY = 0
+      this.moveX = 0
+      this.moveY = 0
+      this.updateTranslateY()
     },
     resizeImg() {
-      const el = this.$el;
+      const el = this.$el
       this.resizeObserver = new ResizeObserver((_) => {
         this.proxy((_) => {
-          this.documentWidth = this.$refs.documentLayout.clientWidth;
-          this.documentHeight = this.$refs.documentLayout.clientHeight;
+          this.documentWidth = this.$refs.documentLayout.clientWidth
+          this.documentHeight = this.$refs.documentLayout.clientHeight
           // console.log(this.documentWidth, this.documentHeight);
           // 初始化每张图片的宽高
-          this.reRenderImage();
-        });
-      });
-      this.resizeObserver.observe(el);
+          this.reRenderImage()
+        })
+      })
+      this.resizeObserver.observe(el)
     },
     proxy(fun, args) {
-      if (this.proxying) return;
-      this.proxying = true;
+      if (this.proxying) return
+      this.proxying = true
       window.requestAnimationFrame((_) => {
-        fun.call(this, args);
-        this.proxying = false;
-      });
+        fun.call(this, args)
+        this.proxying = false
+      })
     },
     postFixedMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
-          from: "messageGeneralProduct",
-          fixed: fixed,
+          from: 'messageGeneralProduct',
+          fixed: fixed
         },
-        "*"
-      );
+        '*'
+      )
     },
     reRenderImage() {
       this.data.forEach((document) => {
         // const page = document.imageVO[1];
-        const vm = this;
+        const vm = this
         document.ret.forEach((page) => {
           const widthScale =
-            (this.$refs.documentLayout.clientWidth - 32) / +page.imageWidth;
+            (this.$refs.documentLayout.clientWidth - 32) / +page.imageWidth
           const heightScale =
-            (this.$refs.documentLayout.clientHeight - 40) / +page.imageHeight;
-          page.scale = widthScale < heightScale ? widthScale : heightScale;
-          page.realRenderWidth = page.imageWidth * page.scale; // 图片实际渲染宽度
-          page.realRenderHeight = +page.imageHeight * page.scale; // 图片实际渲染高度
+            (this.$refs.documentLayout.clientHeight - 40) / +page.imageHeight
+          page.scale = widthScale < heightScale ? widthScale : heightScale
+          page.realRenderWidth = page.imageWidth * page.scale // 图片实际渲染宽度
+          page.realRenderHeight = +page.imageHeight * page.scale // 图片实际渲染高度
 
           // page.scale = vm.documentWidth / +page.imageWidth
 
@@ -442,8 +442,8 @@ export default {
           //   page.scale = vm.documentHeight / +page.imageHeight
           // }
           // page.realRenderWidth = +page.imageWidth * page.scale // 图片实际渲染宽度
-        });
-      });
+        })
+      })
       // console.log("render")
       // window.setTimeout((_) => {
       //   this.calculateXy()
@@ -451,11 +451,11 @@ export default {
       // this.$nextTick((_) => {
       //   this.calculateXy();
       // });
-      this.updateTranslateY();
-      const page = this.data[this.activeDocumentIndex].ret[this.activeTabIndex];
-      this.realRenderHeight = page.realRenderHeight;
-      this.realRenderWidth = page.realRenderWidth;
-      this.scale = page.scale;
+      this.updateTranslateY()
+      const page = this.data[this.activeDocumentIndex].ret[this.activeTabIndex]
+      this.realRenderHeight = page.realRenderHeight
+      this.realRenderWidth = page.realRenderWidth
+      this.scale = page.scale
     },
     updateTranslateY() {
       this.$nextTick((_) => {
@@ -463,104 +463,90 @@ export default {
           this.initTranslateY = Math.max(
             (this.realRenderHeight - this.documentHeight) / 2,
             0
-          );
+          )
         } else {
-          this.initTranslateY = 0;
+          this.initTranslateY = 0
         }
-      });
+      })
     },
     tabs(activeDocumentIndex, activePageIndex) {
-      this.activeDocumentIndex = activeDocumentIndex;
-      this.documents = this.data[activeDocumentIndex];
-      this.resetProps();
-      this.resizeImg();
+      this.activeDocumentIndex = activeDocumentIndex
+      this.documents = this.data[activeDocumentIndex]
+      this.resetProps()
+      this.resizeImg()
       this.tabsArray = this.data[activeDocumentIndex].ret.map((item, index) => {
         return {
           name: `印章${index + 1}`,
-          index: index,
-        };
-      });
-      this.activeTabIndex = 0;
-      this.activeName = this.tabsArray[activePageIndex].name;
-      this.$refs.documents.handleClick(0, false);
-
-      // console.log(this.example, "ex2");
+          index: index
+        }
+      })
+      this.activeTabIndex = 0
+      this.activeName = this.tabsArray[activePageIndex].name
+      this.$refs.documents.handleClick(0, false)
     },
     removeEventListener(e, elName, w) {
-      // console.log(elName);
-      // const el = this.$refs[elName];
-
-      window.removeEventListener("mousemove", this[`${elName}Mousemove`]);
-      window.removeEventListener("mouseup", this.removeEventListener);
-      this.draggable = false;
+      window.removeEventListener('mousemove', this[`${elName}Mousemove`])
+      window.removeEventListener('mouseup', this.removeEventListener)
+      this.draggable = false
     },
     handleClick(value) {
-      this.resetProps();
-      this.activeTabIndex = Number(value.index);
-      this.$refs.documents.setRectangle(value.index);
-      this.$refs.documents.handleClick();
-      this.reRenderImage();
-      // console.log(this.documents);
-      // console.log(this.page);
-      // this.tabsArray.forEach((item, index) => {
-      //   if (item.name === value.name) {
-      //     console.log(index);
-      //     this.activeTabIndex = index;
-      //     this.$refs.documents.handleClick(index);
-      //   }
-      // });
+      this.resetProps()
+      this.activeTabIndex = Number(value.index)
+      this.$refs.documents.setRectangle(value.index)
+      this.$refs.documents.handleClick()
+      this.reRenderImage()
     },
     // 样本收集点击事件
     clickHandler(e, i, noParent) {
-      const el = e.target.parentNode.firstChild;
+      const el = e.target.parentNode.firstChild
 
       if (!i.startX || !i.startY || !i.width || !i.height) {
-        this.$refs.documents.resetProps();
-        this.activeTextId = i.id;
-        return;
+        this.$refs.documents.resetProps()
+        this.activeTextId = i.id
+        return
       }
-      e = e || window.event;
-      this.$refs.documents.$events.trigger("click-ocr-el", {
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
-        id: i.id,
+        id: i.id
         // imageIndex: i.imageIndex,
-      });
-      this.activeTextId = this.$refs.documents.activeTextId;
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
       // console.log(this.activeTextId, "activeTextId");
     },
     clickSampleCollection() {
-      if (this.isLoading) return;
-      this.isLoading = true;
-      const data = this.data[this.activeDocumentIndex];
-      const picAddress = `${data.sealPath}${data.fileName}`;
+      if (this.isLoading) return
+      this.isLoading = true
+      const data = this.data[this.activeDocumentIndex]
+      const picAddress = `${data.sealPath}${data.fileName}`
       // console.log(data, '000')
       if (!data.starsFlag) {
         this.$http
-          .post("/general-product-web/hardCaseCollect/saveCollectInfo", {
+          .post('/general-product-web/hardCaseCollect/saveCollectInfo', {
             picAddress,
-            productName: "印章检测",
-            requestId: data.requestId,
+            productName: '印章检测',
+            requestId: data.requestId
           })
           .then((res) => {
-            if (res.data.code === "200") {
-              this.$set(this.data[this.activeDocumentIndex], "starsFlag", true);
-              this.data[this.activeDocumentIndex].loadRecordId = res.data.data;
+            if (res.data.code === '200') {
+              this.$set(this.data[this.activeDocumentIndex], 'starsFlag', true)
+              this.data[this.activeDocumentIndex].loadRecordId = res.data.data
               this.$message({
-                message: "样本收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '样本收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       } else {
         this.$http
           .post(
@@ -569,62 +555,62 @@ export default {
             )}&picAddress=${encodeURIComponent(picAddress)}`
           )
           .then((res) => {
-            if (res.data.code === "200") {
-              this.data[this.activeDocumentIndex].starsFlag = false;
+            if (res.data.code === '200') {
+              this.data[this.activeDocumentIndex].starsFlag = false
               this.$message({
-                message: "取消收集成功",
-                type: "success",
-                offset: 60,
-              });
+                message: '取消收集成功',
+                type: 'success',
+                offset: 60
+              })
             } else {
               this.$message({
                 message: res.data.message,
-                type: "error",
-                offset: 60,
-              });
+                type: 'error',
+                offset: 60
+              })
             }
           })
           .finally((res) => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       }
     },
     uploadFileData(res) {
-      res.data[0]?.ret?.length && this.resizeImg();
+      res.data[0]?.ret?.length && this.resizeImg()
       this.tabsArray = res.data[0].ret.map((item, index) => {
         return {
           name: `印章${index + 1}`,
-          index: index,
-        };
-      });
-      this.activeName = this.tabsArray[0]?.name;
+          index: index
+        }
+      })
+      this.activeName = this.tabsArray[0]?.name
       res.data.forEach((i) => {
-        i.isUpload = true;
+        i.isUpload = true
         i.imagePath = `${this.originLocation}?filename=${
           i.sealPath
-        }${encodeURIComponent(i.fileName)}`;
-      });
+        }${encodeURIComponent(i.fileName)}`
+      })
       res.data[0].ret.forEach((item) => {
         item.sealUrl = `${this.originLocation}?filename=${
           res.data[0].sealPath
-        }${encodeURIComponent(item.sealName)}`;
-      });
-      if (this.data.length > 2) this.data.shift();
-      this.data = res.data.concat(this.data);
+        }${encodeURIComponent(item.sealName)}`
+      })
+      if (this.data.length > 2) this.data.shift()
+      this.data = res.data.concat(this.data)
       // this.data.splice(0, this.data.length > 2 ? 1 : 0,res.data[0]);
 
-      this.documents = this.data[0];
-      this.documents.requestId = res.traceId;
-      this.activeDocumentIndex = 0;
-      this.activeTabIndex = 0;
+      this.documents = this.data[0]
+      this.documents.requestId = res.traceId
+      this.activeDocumentIndex = 0
+      this.activeTabIndex = 0
     },
     handleDragLeave() {
       setTimeout((_) => {
-        this.dragenter = false;
-      }, 200);
-    },
-  },
-};
+        this.dragenter = false
+      }, 200)
+    }
+  }
+}
 </script>
 <style lang="stylus">
 .identify-data {
