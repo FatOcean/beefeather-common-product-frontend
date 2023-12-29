@@ -85,8 +85,7 @@ export default {
   computed: {
     ...mapState(['ocrProductObj'])
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     postFixdMessage(fixed) {
       // 发送message 页面高度
@@ -115,15 +114,21 @@ export default {
       if (this.$route.path === '/documentParsing') {
         productObj = this.productObj
       } else {
+        // productObj = { staticName: 'receipt' }
         productObj = this.ocrProductObj
       }
-      console.log(productObj)
+      const taskId = this.files[0].taskId
+      const application = productObj.staticName.toUpperCase()
+      const http = `/general-product-web/general/analysis?uploadId=${taskId}&application=${application}`
+      const isBank = productObj.staticName === 'receipt' || productObj.staticName === 'financial_statement'
+      // if (
+      //   productObj.staticName === 'receipt' ||
+      //   productObj.staticName === 'financial_statement'
+      // ) {
+      //   http = `/general-product-web/general/extractInfo?taskId=${taskId}&bank=${this.bank}&application=${application}`
+      // }
       this.$http
-        .post(
-          `/general-product-web/general/analysis?uploadId=${
-            this.files[0].taskId
-          }&application=${productObj.staticName.toUpperCase()}`
-        )
+        .post(http)
         .then((res) => {
           res = res.data
           if (res.code === '200') {
@@ -135,7 +140,7 @@ export default {
               offset: 60
             })
             this.percent = 100
-            this.$emit('uploadFileData', res)
+            this.$emit('uploadFileData', isBank ? { res, taskId } : res)
           } else {
             this.postFixdMessage(false)
             this.beeLoading = false

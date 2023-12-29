@@ -20,7 +20,7 @@
             <div class="product-list-title">
               <span>
                 <svg-icon
-                  :iconClass="item.icon"
+                  :iconClass="item.name"
                   style="margin-right: 5px"
                 ></svg-icon>
                 {{ item.name }}
@@ -61,63 +61,63 @@
 </template>
 
 <script>
-import { productList } from "./data.js";
+import { productList } from './data.js'
 export default {
-  name: "RightSelect",
+  name: 'RightSelect',
   data() {
     return {
-      productName: "",
+      productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: "身份证",
-    };
+      activebgName: '身份证'
+    }
   },
   mounted() {},
   methods: {
     productNameClick(item, index) {
-      this.activebgName = item.name;
-      this.$parent.setProductName(item);
+      this.activebgName = item.name
+      this.$parent.setProductName(item)
     },
     showChildren(item) {
-      item.isShowChildren = !item.isShowChildren;
+      item.isShowChildren = !item.isShowChildren
     },
     showRight() {
-      this.isshowRight = !this.isshowRight;
-      this.$parent.setisshowRight(this.isshowRight);
+      this.isshowRight = !this.isshowRight
+      this.$parent.setisshowRight(this.isshowRight)
     },
     findProductName(val) {
-      if (val !== "") {
-        this.productList = this.mapTree(val, productList);
+      if (val !== '') {
+        this.productList = this.mapTree(val, productList)
       } else {
-        this.productList = productList;
+        this.productList = productList
       }
     },
     mapTree(value, arr) {
-      const newarr = [];
+      const newarr = []
       arr.forEach((element) => {
         // 不区分大小写
         if (element.name.toLowerCase().indexOf(value.toLowerCase()) > -1) {
           // 判断条件
-          element.openStatus = true;
-          newarr.push(element);
+          element.openStatus = true
+          newarr.push(element)
         } else {
           if (element.children && element.children.length > 0) {
-            const redata = this.mapTree(value, element.children);
+            const redata = this.mapTree(value, element.children)
             if (redata && redata.length > 0) {
               const obj = {
                 ...element,
-                children: redata,
-              };
-              obj.openStatus = true;
-              newarr.push(obj);
+                children: redata
+              }
+              obj.openStatus = true
+              newarr.push(obj)
             }
           }
         }
-      });
-      return newarr;
-    },
-  },
-};
+      })
+      return newarr
+    }
+  }
+}
 </script>
 
 <style lang="stylus" scoped>

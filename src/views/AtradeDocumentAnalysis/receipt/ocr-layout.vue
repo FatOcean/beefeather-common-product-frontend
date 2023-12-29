@@ -1,6 +1,5 @@
 <template>
-  <div class="ocr-layout" >
-    <!-- ocr -->
+  <div class="ocr-layout" style="width: 100%">
     <div class="ocr-inner">
       <!-- 文档 -->
       <div class="document-box" ref="document-box">
@@ -8,10 +7,10 @@
           <div class="name">
             <lls-tooltip
               effect="dark"
-              :content="example.fileName"
+              :content="imageName"
               placement="bottom-start"
             >
-              <span>{{ example.fileName }}</span>
+              <span>{{ imageName }}</span>
             </lls-tooltip>
           </div>
           <div>
@@ -26,13 +25,13 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
+
             <span class="number">
               <lls-input
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
-              />
-              <span>/{{ total }}</span>
-            </span>
+              /><span>/1</span></span
+            >
             <svg-icon
               v-if="activePageIndex === total"
               class="dis-icon"
@@ -66,7 +65,7 @@
               iconClass="ic-全屏"
               @click.native="
                 showImageViewer = true;
-                postFixdMessage(true);
+                postFixedMessage(true);
               "
             ></svg-icon>
           </div>
@@ -74,18 +73,18 @@
         <div
           class="document-layout"
           ref="documentLayout"
+          @mousewheel="handleZoom"
           @mouseleave="
             (e) => {
               removeEventListener(e, 'drag-document');
             }
           "
-          @mousewheel="handleZoom"
         >
           <div
             class="document"
             ref="drag-document"
-            :key="page.id"
-            :class="{ draggable: draggable, transition: transition }"
+            :key="example.id"
+            :class="{ draggable: draggable }"
             @mousedown="
               (e) => {
                 handleMousedown(e, 'drag-document');
@@ -95,49 +94,40 @@
               height: `${realRenderHeight}px`,
               width: `${realRenderWidth}px`,
               transform: `rotate(${90 * rotateIndex}deg) translateY(${
-                page.translateY + moveY
+                page.translateY + moveY + initTranslateY
               }px) translateX(${page.translateX + moveX}px) scale(${
                 page.rotateScale * zoomScale
               })`,
+              transformOrigin: page.transformOrigin,
             }"
           >
-            <!-- <img :src="imageUrl" :alt="example.name" /> -->
-            <img :src="imageUrl" :alt="example.name" />
-           <svg
-              xmlns="http://www.w3.org/2000/svg"
-              version="1.1"
-              class="frame-mask-svg"
+            <img
+              :style="{
+                transform: `rotate(${example.angle || 0}deg)`,
+              }"
+              :src="imageUrl"
+              :alt="imageName"
+            />
+            <svg
               :width="realRenderWidth"
               :height="realRenderHeight"
-              :style="{
-                transform: `rotate(${imgRotatingDeg || 0}deg)`,
-              }"
+              xmlns="http://www.w3.org/2000/svg"
+              version="1.1"
+              class="svg-mask"
             >
-             <template v-for="(item, index) in activeText">
-                <template v-if="index === 0">
-                  <circle
-                    v-for="(i, idx) in item"
-                    :key="`cir${index}${idx}`"
-                    ref="pointEl"
-                    :cx="i.x * imgScale"
-                    :cy="i.y * imgScale"
-                    r="0.5"
-                    fill="none"
-                    stroke="none"
-                  />
-                </template>
-                <path
-                  :key="index"
-                  ref="maskEl"
-                  stroke-width="0.5"
-                  stroke="#0887FF"
-                  stroke-linejoin="round"
-                  stroke-linecap="round"
-                  fill="rgba(8, 135, 255, 0.1)"
-                  :d="multiMaskElPathValue(item)"
-                />
-              </template>
-                </svg>
+              <rect
+                ref="rect"
+                :x="position.left * scale"
+                :y="position.top * scale"
+                :width="position.width * scale"
+                :height="position.height * scale"
+                rx="5"
+                ry="5"
+                stroke="rgb(26, 155, 255)"
+                fill="none"
+                stroke-width="2"
+              />
+            </svg>
           </div>
         </div>
       </div>
@@ -153,7 +143,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <!-- <div
+        <div
           v-for="i in 4"
           :key="i"
           class="border-corner"
@@ -161,14 +151,22 @@
         ></div>
         <div class="ocr-title-bar">
           <div class="ocr-title">
-            <svg-icon iconClass="识别结果"></svg-icon>
-            <span>识别结果</span>
+            <slot name="title"></slot>
+          </div>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 18px;
+            "
+          >
           </div>
         </div>
+
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
-          <slot></slot>
-        </div> -->
-        <RightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></RightTab>
+          <slot name="text"></slot>
+        </div>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -186,7 +184,7 @@
           } ${pathValue.pathEndY}`"
           stroke-width="1"
           stroke="#0887FF"
-          stroke-dasharray="5 5"
+          stroke-dasharray="5,5"
           fill="transparent"
         />
         <circle
@@ -214,7 +212,7 @@
       :on-close="
         () => {
           showImageViewer = false;
-          postFixdMessage(false);
+          postFixedMessage(false);
         }
       "
     ></lls-image-viewer>
@@ -258,26 +256,20 @@ function Events() {
     }
   }
 }
+
 export default {
-  model: {
-    prop: 'value',
-    event: 'handle-change'
-  },
   components: {
     [ImageViewer.name]: ImageViewer
   },
   props: {
-    value: {
-      type: Object,
-      default: function () {
-        return null
-      }
-    },
     data: {
       // 文档数组
       type: Array,
       required: true,
       default: () => []
+    },
+    activeTabIndex: {
+      type: Number
     },
     pageMenuPerm: Object
   },
@@ -287,11 +279,11 @@ export default {
       documentHeight: null, // 画布的高度
       activeDocumentIndex: 0, // 当前示例索引
       activePageIndex: 1, // 当前页面索引
-      activeText: null, // 高亮的文本
+      activeTextId: null, // 高亮的文本索引
       pathValue: null, // 连线的起点、终点路径
       rotateIndex: 0, // 旋转次数
       zoomScale: 1, // 手动缩放比例
-      zoomStep: 0.2, // 缩放梯度
+      zoomStep: 0.1, // 缩放梯度
       // windowResizeScale: 1, // 浏览器窗口缩放比例
       dragX: 0, // x方向拖动距离
       dragY: 0, // y方向拖动距离
@@ -301,19 +293,21 @@ export default {
       initTranslateY: 0, // 初始位移数据
       draggable: false, // 是否抓住页面
       showImageViewer: false, // 是否启用大图预览
-      transition: false, // 是否开启缓动效果
       realRenderHeight: 0,
       realRenderWidth: 0,
-      imgRotatingDeg: 0,
       scale: 1,
-      codeTest: '{}'
+      total: 1,
+      down_allow: true,
+      position: { left: 0, top: 0, width: 0, height: 0 }
     }
   },
+  created() {},
   mounted() {
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg()
     // 兼容firefox
     this.bind(this.$refs.documentLayout, 'DOMMouseScroll', this.handleZoom)
+
     this.$events = new Events()
     this.$events.listen('click-ocr-el', this.handleClickText)
     this.$events.listen('drag-document', this.transferDocument)
@@ -324,29 +318,17 @@ export default {
       this.activeDocumentIndex = 0
       this.reRenderImage()
       this.resetProps()
+      // console.log(val, "watch.val");
     }
   },
   beforeDestroy() {
-    this.$events.remove('click-ocr-el', this.handleClickText)
+    this.$events.remove('click-ocr-el', this.clickOcrEl)
     this.$events.remove('drag-document', this.transferDocument)
     this.$events.remove('drag-view', this.transferView)
     this.resizeObserver.disconnect()
   },
   methods: {
-    multiMaskElPathValue(value) {
-      if (!value || Object.keys(value).length === 0) {
-        return
-      }
-      let d = ''
-      value.forEach((i, index) => {
-        d += `${index === 0 ? 'M' : 'L'}${i.x * this.imgScale} ${
-          i.y * this.imgScale
-        } `
-        // d += `${i.x * this.imgScale} ${i.y * this.imgScale}, `
-      })
-      return d + 'Z'
-    },
-    postFixdMessage(fixed) {
+    postFixedMessage(fixed) {
       // 发送message 页面高度
       window.parent.postMessage(
         {
@@ -364,18 +346,15 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1
       }
-      const page = this.example.specificData[this.activePageIndex - 1]
-      this.resizeImg()
-      this.$emit('handle-change', page)
-      this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
     },
-    handleClick(index) {
-      // 点击右侧tabs
-      this.resetProps()
-      this.activePageIndex = index + 1
-      const page = this.example.specificData[index]
-      this.resizeImg()
-      this.$emit('handle-change', page)
+    resetPosition() {
+      this.position = { left: 0, top: 0, width: 0, height: 0 }
+    },
+    handleClick(position) {
+      if (JSON.stringify(position) === '{}') {
+        position = { left: 0, top: 0, width: 0, height: 0 }
+      }
+      this.position = position
     },
     resizeImg() {
       const el = this.$el
@@ -383,57 +362,48 @@ export default {
         this.proxy((_) => {
           this.documentWidth = this.$refs.documentLayout.clientWidth
           this.documentHeight = this.$refs.documentLayout.clientHeight
+          // console.log(this.documentWidth, this.documentHeight);
           // 初始化每张图片的宽高
           this.reRenderImage()
         })
       })
       this.resizeObserver.observe(el)
     },
-    // 切换示例
-    handleClickExample(index) {
-      if (this.activeDocumentIndex === index) {
-        return
-      }
-      this.activeDocumentIndex = index
-      this.resetProps()
+    // 计算图片的的实际渲染大小
+    reRenderImage() {
+      this.data.forEach((page) => {
+        // console.log(img.width, img.height);
 
-      const page = this.example.specificData[this.activePageIndex - 1]
-      this.resizeImg()
-      this.$emit('handle-change', page)
-      this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
+        const vm = this
+        page.scale = vm.documentWidth / +page.width
+        // page.scale = vm.documentHeight / page.height;
+        // 初始图片缩放比例
+
+        page.realRenderHeight = +page.height * page.scale // 图片实际渲染高度
+        if (page.realRenderHeight > vm.documentHeight) {
+          page.realRenderHeight = vm.documentHeight
+          page.scale = vm.documentHeight / +page.height
+        }
+        page.realRenderWidth = +page.width * page.scale // 图片实际渲染宽度
+        // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
+        // };
+      })
+      // console.log("render")
+      window.setTimeout((_) => {
+        this.calculateXy()
+      })
+      // this.$nextTick((_) => {
+      //   this.calculateXy();
+      // });
+      this.updateTranslateY()
+      const page = this.data[this.activeDocumentIndex]
+      // console.log(page, "page");
+      this.realRenderHeight = page.realRenderHeight
+      this.realRenderWidth = page.realRenderWidth
+      this.scale = page.scale
     },
     // 翻页
-    handleTurnPage(val) {
-      const num = this.activePageIndex - 1 + val
-      this.resetProps()
-      if (num === this.total) {
-        if (this.activeDocumentIndex === this.data.length - 1) {
-          this.activeDocumentIndex = 0
-          this.activePageIndex = 1
-        } else {
-          this.activeDocumentIndex += 1
-          this.activePageIndex = 1
-        }
-      } else if (num < 0) {
-        if (this.activeDocumentIndex === 0) {
-          this.activeDocumentIndex = this.data.length - 1
-          this.activePageIndex =
-            this.data[this.activeDocumentIndex].specificData.length
-        } else {
-          this.activeDocumentIndex -= 1
-          this.activePageIndex =
-            this.data[this.activeDocumentIndex].specificData.length
-        }
-      } else {
-        this.activePageIndex = num + 1
-      }
-
-      const page = this.example.specificData[this.activePageIndex - 1]
-      this.resizeImg()
-      this.$emit('handle-change', page)
-      this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
-      this.$emit('changeActivePageIndex', this.activePageIndex - 1)
-    },
+    handleTurnPage(val) {},
     // 旋转图片
     handleClickRotate() {
       this.rotateIndex++
@@ -518,8 +488,8 @@ export default {
       if (this.viewX < -windowWidth * 0.2) {
         this.viewX = -windowWidth * 0.2
       }
-      this.$refs['document-box'].style.width = `calc(50% + ${this.viewX}px)`
       this.$refs.ocrResult.style.width = `calc(50% - ${this.viewX + 8}px)`
+      this.$refs['document-box'].style.width = `calc(50% + ${this.viewX}px)`
       this.$nextTick((_) => {
         this.documentWidth = this.$refs.documentLayout.clientWidth
         this.documentHeight = this.$refs.documentLayout.clientHeight
@@ -528,72 +498,29 @@ export default {
       })
     },
     // 激活文本
-    handleClickText({ el, value }) {
+    handleClickText({ el, id }) {
+      // console.log(el, "el2");
+      // if (imageIndex !== this.activePageIndex) {
+      //   this.activePageIndex = imageIndex;
+      // }
       this.activeEl = el
-      this.activeText = value
-      // this.calculateXy()
-      this.$nextTick((_) => {
-        const maskEl = this.$refs.maskEl[0]
-        const documentLayout = this.$refs.documentLayout
-        const maskElRect = maskEl.getBoundingClientRect()
-        const documentLayoutRect = documentLayout.getBoundingClientRect()
-        const lY = documentLayoutRect.top
-        const lX = documentLayoutRect.left
-        const mY = maskElRect.top
-        const mX = maskElRect.left
-        const startX = mX - lX
-        const startY = mY - lY
-        // 先判断是否出界 => 1、出界=>move  2、未出界=>计算位置
-        if (
-          startX <= 0 ||
-          startY <= 0 ||
-          startX >= this.documentWidth ||
-          startY >= this.documentHeight
-        ) {
-          let disX = 0
-          let disY = 0
-          if (startX <= 0) {
-            disX = -startX + this.documentWidth / 2
-          }
-          if (startY <= 0) {
-            disY = -startY + this.documentHeight / 2
-          }
-          if (startX >= this.documentWidth) {
-            disX = this.documentWidth / 2 - startX
-          }
-          if (startY >= this.documentHeight) {
-            disY = this.documentHeight / 2 - startY
-          }
-          this.transferDocument({ disX, disY })
-          this.transition = true
-          let index = 0
-          this.timer = window.setInterval((_) => {
-            this.calculateXy()
-            index++
-            if (index === 10) {
-              clearInterval(this.timer)
-              this.transition = false
-            }
-          }, 30)
-        } else {
-          this.calculateXy()
-        }
-      })
+      this.activeTextId = id
+      this.calculateXy()
     },
     // 计算path起点、终点坐标
     calculateXy() {
-      if (this.activeText == null) {
+      if (this.activeTextId == null) {
         return
       }
-      // const activeTextId = this.activeTextId
+      const activeTextId = this.activeTextId
       const page = this.page
       const rotateIndex = this.rotateIndex
       const zoomScale = this.zoomScale || 1
-
       this.$nextTick((_) => {
-        const maskEl = this.$refs.maskEl[0]
+        const // maskValue = page.tableData[activeTextId],
+          maskEl = this.$refs[`maskEl${activeTextId}`][0]
         const documentLayout = this.$refs.documentLayout
-        const ocrTextWrapper = this.$refs.rightTab.$refs.ocrTextWrapper
+        const ocrTextWrapper = this.$refs.ocrTextWrapper
         const maskElRect = maskEl.getBoundingClientRect()
         const documentLayoutRect = documentLayout.getBoundingClientRect()
         const lY = documentLayoutRect.top
@@ -602,21 +529,22 @@ export default {
         const mX = maskElRect.right
         const startX = mX - lX
         const startY = mY - lY
-        const offsetTop = this.activeEl.offsetTop + 80
+        const offsetTop = this.activeEl.offsetTop + 69
         const offsetLeft = this.activeEl.offsetLeft
         const scrollTop = ocrTextWrapper.scrollTop
         const pathEndX = this.documentWidth + offsetLeft + 52
         const pathEndY = offsetTop - scrollTop + this.activeEl.clientHeight / 2
         const scale = page.rotateScale * zoomScale * this.imgScale
-        const w = maskElRect.width
-        const h = maskElRect.height
-        const Q = maskElRect.deg || 0.0
-        const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
+        const w = this.text.width
+        const h = this.text.height
+        // const Q = this.text.deg
+        // const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
 
         let x = startX
         let y = startY + (h * scale) / 2
+
         if (rotateIndex % 4 === 1) {
-          x = startX + leanX
+          // x = startX + leanX;
           y = startY + (w * scale) / 2
         }
         if (rotateIndex % 4 === 2) {
@@ -624,7 +552,7 @@ export default {
           y = startY + (h * scale) / 2
         }
         if (rotateIndex % 4 === 3) {
-          x = startX + leanX
+          // x = startX + leanX;
           y = startY + (w * scale) / 2
         }
 
@@ -632,6 +560,9 @@ export default {
         if (x > this.documentWidth) {
           x = this.documentWidth
         }
+        // if (y > this.documentHeight) {
+        //   y = this.documentHeight;
+        // }
 
         this.pathValue = {
           pathStartX: x,
@@ -645,7 +576,7 @@ export default {
     resetProps() {
       this.rotateIndex = 0
       this.activePageIndex = 1
-      this.activeText = null
+      this.activeTextId = null
       this.zoomScale = 1
       this.pathValue = null
       this.dragX = 0
@@ -668,37 +599,21 @@ export default {
         }
       })
     },
-    // 计算图片的的实际渲染大小
-    reRenderImage() {
-      const vm = this
-      this.data.forEach((page) => {
-        const imgRotatingDeg = page.angle
-        const widthScale = vm.documentWidth / page.width
-        const heightScale = vm.documentHeight / page.height
-        page.scale = widthScale < heightScale ? widthScale : heightScale
-        page.realRenderWidth = page.width * page.scale // 图片实际渲染宽度
-        page.realRenderHeight = page.height * page.scale // 图片实际渲染高度
-        vm.realRenderHeight = page.realRenderHeight
-        vm.realRenderWidth = page.realRenderWidth
-        vm.imgRotatingDeg = imgRotatingDeg
-        vm.scale = page.scale
-      })
-      window.setTimeout((_) => {
-        this.calculateXy()
-      })
-      this.updateTranslateY()
-    },
+
     handleMousedown(e, elName) {
       const el = this.$refs[elName]
       this.removeEventListener(e, elName)
       e = e || window.event
+      // if (e.target !== el) {
+      //   return;
+      // }
       this.offsetX = e.pageX
       this.offsetY = e.pageY
-      console.log(e, elName)
       window.addEventListener(
         'mousemove',
         (this[`${elName}Mousemove`] = (e) => {
           e = e || window.event
+          // const el = this.$refs[elName];
           this.proxy(this.calculateDragDis, {
             offsetX: e.pageX,
             offsetY: e.pageY,
@@ -706,6 +621,7 @@ export default {
           })
           el.removeEventListener('mousedown', this.handleMousedown)
           this.draggable = true
+          // console.log(e, elName, this[`${elName}Mousemove`]);
         })
       )
       window.addEventListener(
@@ -714,8 +630,12 @@ export default {
       )
     },
     removeEventListener(e, elName, w) {
+      // console.log(elName);
+      // const el = this.$refs[elName];
+
       window.removeEventListener('mousemove', this[`${elName}Mousemove`])
       window.removeEventListener('mouseup', this.removeEventListener)
+      // this[`${elName}Mousemove`] = null;
       this.draggable = false
     },
     fn(arr) {
@@ -733,9 +653,6 @@ export default {
         node.attachEvent('on' + event, fun.call())
       }
     },
-    parentProxy() {
-      this.proxy(this.calculateXy)
-    },
     // 代理函数
     proxy(fun, args) {
       if (this.proxying) return
@@ -751,32 +668,46 @@ export default {
     example() {
       return this.data[this.activeDocumentIndex]
     },
-    // 总页数
-    total() {
-      return this.data.length
-    },
     // 当前页面信息
     page() {
       const translateX = 0
       const translateY = 0
       const rotateScale = 1
       const page = {
-        ...this.value,
+        value: this.value,
         translateX,
         translateY,
         rotateScale // 旋转导致的缩放比例
       }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.codeTest = JSON.stringify(page.json) || ''
       return page
+    },
+    pageDetail() {
+      return this.page.value
+    },
+    originalLocation() {
+      return `${window.location.origin}/file-handle-web/file/image?filename=`
     },
     // 文档图片地址
     imageUrl() {
-      return this.page.imagePath
+      return this.data[this.activeDocumentIndex].imagePath
+    },
+    imageName() {
+      return this.data[this.activeDocumentIndex].fileName
     },
     // 大图预览所需数据
     urlList() {
-      return [{ url: this.page.imagePath, title: this.example.fileName }]
+      return [{ url: this.imageUrl, title: this.imageName }]
+    },
+    // 当前文本信息
+    text() {
+      const { value } = this.page
+
+      const textArr = [...value]
+      const textValue = textArr[this.activeTabIndex].identityList
+      // console.log(textValue, "textValue");
+      return textValue.filter((i) => {
+        return i.id === this.activeTextId
+      })[0]
     },
     // 当前图片初始缩放比例
     imgScale() {
@@ -785,18 +716,13 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-// @import '../ocr-layout/ocr-layout.styl'
+<style lang="stylus" scoped>
 .ocr-layout {
   // padding: 76px 24px 24px 24px;
   display: flex;
   color: #202d40;
   height: calc(100vh - 122px);
   overflow: hidden;
-
-  * {
-    user-select: none;
-  }
 
   .dih-page-input {
     background-color: transparent;
@@ -816,26 +742,28 @@ export default {
   }
 
   .ocr-inner {
-    flex-shrink: 1;
-    flex-grow: 1;
+    flex-shrink: 0;
+    flex-grow: 0;
     display: flex;
     position: relative;
     align-items: center;
+    width: 100%;
 
     .svg-mask {
       pointer-events: none;
       position: absolute;
-      top: 60px;
-      left: 16px;
+      top: 0px;
+      left: 0px;
       z-index: 1;
     }
 
     .document-box {
       border: 1px solid #e2e4e9;
-      width: 50%;
       flex-shrink: 0;
       flex-grow: 0;
+      position: relative;
       height: 100%;
+      width: 50%;
 
       // margin-right: 8px;
       .tool-bar {
@@ -861,6 +789,7 @@ export default {
           text-overflow: ellipsis;
           overflow: hidden;
           white-space: nowrap;
+          width: 360px;
         }
 
         .number {
@@ -870,7 +799,7 @@ export default {
           .lls-input {
             width: auto;
 
-            .lls-input__inner {
+            ::v-deep .lls-input__inner {
               max-width: 30px;
               position: relative;
               left: -4px;
@@ -892,7 +821,7 @@ export default {
         }
 
         .svg-icon {
-          font-size: 12px;
+          font-size: 15px;
           margin: 0 6px;
           cursor: pointer;
 
@@ -914,6 +843,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
         .document {
           // transform-origin: 0 0;
           background-size: contain;
@@ -932,10 +862,6 @@ export default {
 
           &.draggable {
             cursor: url('~@/assets/images/icon/手势-握紧.svg'), grabbing;
-          }
-
-          &.transition {
-            transition: all 0.3s linear;
           }
 
           // transition: all 0.3s linear;
@@ -980,16 +906,13 @@ export default {
     }
 
     .ocr-result {
-      * {
-        user-select: text;
-      }
-
+      background: #f7fbff;
       border: 1px solid #0887ff;
+      position: relative;
+      padding: 0 16px;
+      width: calc(50% - 8px);
       flex-shrink: 1;
       flex-grow: 1;
-      padding: 0 16px;
-      background: #f7fbff;
-      position: relative;
       height: 100%;
 
       .border-corner {
@@ -1052,36 +975,26 @@ export default {
       }
 
       .ocr-text {
-        &::-webkit-scrollbar-thumb {
-          background: rgba(32, 45, 64, 0.5);
-        }
-
         border: 1px solid #e3e8f0;
-        height: calc(100vh - 223px);
+        height: calc(100% - 74px);
         overflow: auto;
-        padding: 0 8px 12px;
+        padding: 0 8px 12px 8px;
         background: #fff;
         position: relative;
 
-        .text {
-          line-height: 26px;
-          padding: 0 8px;
-          border: 1px solid #fff;
+        ::-webkit-scrollbar {
+          width: 4px;
+          height: 8px;
+        }
 
-          &:not(:last-child) {
-            margin-bottom: 8px;
-          }
+        ::-webkit-scrollbar-thumb {
+          background: rgba(32, 45, 64, 0.5);
+        }
 
-          &:hover {
-            background: #f6f9fb;
-            cursor: pointer;
-          }
-
-          &.active {
-            background: rgba(8, 135, 255, 0.1);
-            border: 1px solid #0887ff;
-            border-radius: 4px;
-          }
+        // 竖向滚动条
+        &::-webkit-scrollbar-thumb:vertical {
+          background-color: rgba(32, 45, 64, 0.5);
+          -webkit-border-radius: 2px;
         }
       }
     }

@@ -1,9 +1,5 @@
 import api from './apiRequest'
 
-// 上传文件
-// export function uploadAndGetFilePath(data) {
-//     return api.post(`/treasury-flow-analysis-web//treasuryFlow/analysis/uploadAndGetFilePath`, data)
-// }
 // 获取解析结果
 export function analysisFile(data) {
   return api.post(
@@ -13,7 +9,14 @@ export function analysisFile(data) {
 
 // 获取选项
 export function getBankList() {
-  return api.get('/general-product-web/general/getBankList')
+  return api.post('/general-product-web/general/banks')
+}
+
+// 获取解析结果
+export function extractInfo(data) {
+  return api.post(
+    `/general-product-web/general/extractInfo?taskId=${data.taskId}&bank=${data.bank}&application=${data.application}`
+  )
 }
 
 // 登录

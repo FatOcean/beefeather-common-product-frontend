@@ -3,8 +3,9 @@
     <lls-page-header @back="goBack" content="贸易单证解析" bottom-line>
     </lls-page-header>
     <div class="document-box">
-    <leftselect></leftselect>
-    <vat></vat>
+      <leftselect></leftselect>
+      <vat v-show="productName === 'vat'"></vat>
+      <receipt v-show="productName === 'receipt'"></receipt>
     </div>
   </div>
 </template>
@@ -13,25 +14,24 @@ import leftselect from './components/leftselect.vue'
 export default {
   components: {
     leftselect,
-    vat: (resolve) => require(['./vat'], resolve) // 增值税发票
+    vat: (resolve) => require(['./vat'], resolve), // 增值税发票
+    receipt: (resolve) => require(['./receipt'], resolve) // 增值税发票
   },
   data() {
     return {
-      productName: '',
+      productName: 'receipt',
       productObj: {
-        name: '增值税发票',
-        staticName: 'vat'
+        name: '回单',
+        staticName: 'receipt'
       }
     }
   },
 
-  watch: {
-  },
+  watch: {},
   created() {
     console.log(this.staticData)
   },
-  computed: {
-  },
+  computed: {},
   mounted() {},
   methods: {
     setProductName(data) {
@@ -54,11 +54,14 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import './index.styl';
-.document-box{
+
+.document-box {
   display: flex;
-  .ocr-layout{
+
+  .ocr-layout {
     flex: 1;
-    .ocr-inner{
+
+    .ocr-inner {
       width: 100%;
     }
   }

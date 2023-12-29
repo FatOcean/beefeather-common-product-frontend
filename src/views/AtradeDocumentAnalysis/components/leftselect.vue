@@ -20,7 +20,7 @@
             <div class="product-list-title">
               <span>
                 <svg-icon
-                  :iconClass="item.icon"
+                  :iconClass="item.name"
                   style="margin-right: 5px"
                 ></svg-icon>
                 {{ item.name }}
@@ -70,13 +70,13 @@ export default {
       productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: '增值税发票'
+      activebgName: '回单'
     }
   },
   mounted() {
     this.setProductObj({
-      name: '增值税发票',
-      staticName: 'vat'
+      name: '回单',
+      staticName: 'financial_statement'
     })
   },
   methods: {
