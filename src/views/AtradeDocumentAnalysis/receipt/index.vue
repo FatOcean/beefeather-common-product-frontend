@@ -1,5 +1,5 @@
 <template>
-  <div class="treasury-flow-analysis-wrapper" style="width:100%">
+  <div class="treasury-flow-analysis-wrapper" style="width: 100%">
     <ocrLayout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
@@ -8,7 +8,7 @@
       :activeTabIndex="activeTabIndex"
       :pageMenuPerm="pageMenuPerm"
     >
-      <template v-slot:title>
+      <!-- <template v-slot:title>
         <svg-icon iconClass="识别结果"></svg-icon><span>识别结果</span>
         <lls-select
           ref="selectRef"
@@ -26,9 +26,9 @@
           >
           </lls-option>
         </lls-select>
-      </template>
+      </template> -->
 
-      <template v-slot:text>
+      <template>
         <div
           v-show="bank === '' && !loading && !failedStatus"
           class="noContent"
@@ -207,9 +207,7 @@ export default {
               this.page = this.documents[0]
               this.$refs.documents.down_allow = true
               this.failedStatus = false
-              this.$refs.documents.handleClick(
-                this.page.boundingBox || {}
-              )
+              this.$refs.documents.handleClick(this.page.boundingBox || {})
             }
           } else {
             this.failedStatus = true
@@ -241,9 +239,7 @@ export default {
           return { name: item.tabName }
         })
         this.activeName = this.tabsArray[0].name
-        this.$refs.documents.handleClick(
-          this.page.boundingBox || {}
-        )
+        this.$refs.documents.handleClick(this.page.boundingBox || {})
         this.$refs.documents.down_allow = true
       }
     },
@@ -251,9 +247,7 @@ export default {
       this.$refs.documents.resetPosition()
       this.activeTabIndex = Number(value.index)
       this.page = this.documents[this.activeTabIndex]
-      this.$refs.documents.handleClick(
-        this.page.boundingBox || {}
-      )
+      this.$refs.documents.handleClick(this.page.boundingBox || {})
     }
   }
 }
@@ -320,7 +314,6 @@ export default {
     z-index: 999;
     left: 0;
   }
-
 }
 
 .noContent {

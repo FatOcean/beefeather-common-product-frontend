@@ -1,5 +1,5 @@
 <template>
-  <div class="right-select" :style="{ width: isshowRight ? '250px' : '60px' }">
+  <div class="right-select" :style="{ width: isshowRight ? '200px' : '60px' }">
     <div v-show="isshowRight">
       <div class="serInput">
         <lls-input
@@ -70,12 +70,12 @@ export default {
       productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: '回单'
+      activebgName: '流水'
     }
   },
   mounted() {
     this.setProductObj({
-      name: '回单',
+      name: '流水',
       staticName: 'financial_statement'
     })
   },
@@ -131,7 +131,6 @@ export default {
 <style lang="stylus" scoped>
 .right-select {
   margin-right: 6px;
-  width: 200px;
 
   .serInput {
     padding-bottom: 10px;

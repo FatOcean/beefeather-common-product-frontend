@@ -143,7 +143,8 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <div
+         <RightTab :codeTest="codeTest" ref="rightTab" :isshowBank="true"><slot></slot> </RightTab>
+        <!-- <div
           v-for="i in 4"
           :key="i"
           class="border-corner"
@@ -160,13 +161,12 @@
               justify-content: center;
               height: 18px;
             "
-          >
-          </div>
+          ></div>
         </div>
 
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
           <slot name="text"></slot>
-        </div>
+        </div> -->
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -221,41 +221,6 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-function Events() {
-  this.clientList = {}
-  this.listen = function (key, fn) {
-    if (!this.clientList[key]) {
-      this.clientList[key] = []
-    }
-    this.clientList[key].push(fn)
-  }
-  this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments)
-    const fns = this.clientList[key]
-    if (!fns || fns.length === 0) {
-      return
-    }
-    for (let i = 0, fn; (fn = fns[i++]);) {
-      fn.apply(this, arguments)
-    }
-  }
-  this.remove = function (key, fn) {
-    const fns = this.clientList[key]
-    if (!fns) {
-      return
-    }
-    if (!fn) {
-      fns.length = 0
-    } else {
-      for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len]
-        if (_fn === fn) {
-          fns.splice(len, 1)
-        }
-      }
-    }
-  }
-}
 
 export default {
   components: {
@@ -298,7 +263,8 @@ export default {
       scale: 1,
       total: 1,
       down_allow: true,
-      position: { left: 0, top: 0, width: 0, height: 0 }
+      position: { left: 0, top: 0, width: 0, height: 0 },
+      codeTest: '{}'
     }
   },
   created() {},
@@ -307,8 +273,6 @@ export default {
     this.resizeImg()
     // 兼容firefox
     this.bind(this.$refs.documentLayout, 'DOMMouseScroll', this.handleZoom)
-
-    this.$events = new Events()
     this.$events.listen('click-ocr-el', this.handleClickText)
     this.$events.listen('drag-document', this.transferDocument)
     this.$events.listen('drag-view', this.transferView)
@@ -653,6 +617,9 @@ export default {
         node.attachEvent('on' + event, fun.call())
       }
     },
+    parentProxy() {
+      this.proxy(this.calculateXy)
+    },
     // 代理函数
     proxy(fun, args) {
       if (this.proxying) return
@@ -666,6 +633,8 @@ export default {
   computed: {
     // 当前示例信息
     example() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.codeTest = JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
       return this.data[this.activeDocumentIndex]
     },
     // 当前页面信息
@@ -723,15 +692,6 @@ export default {
   color: #202d40;
   height: calc(100vh - 122px);
   overflow: hidden;
-
-  .dih-page-input {
-    background-color: transparent;
-    max-width: 20px;
-    border: none;
-    text-align: center;
-    outline: medium;
-    color: #999;
-  }
 
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     -webkit-appearance: none;

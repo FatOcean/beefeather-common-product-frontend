@@ -3,9 +3,12 @@
     <lls-page-header @back="goBack" content="贸易单证解析" bottom-line>
     </lls-page-header>
     <div class="document-box">
-      <leftselect></leftselect>
+      <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
       <vat v-show="productName === 'vat'"></vat>
       <receipt v-show="productName === 'receipt'"></receipt>
+      <financialStatement
+        v-show="productName === 'financial_statement'"
+      ></financialStatement>
     </div>
   </div>
 </template>
@@ -15,22 +18,21 @@ export default {
   components: {
     leftselect,
     vat: (resolve) => require(['./vat'], resolve), // 增值税发票
-    receipt: (resolve) => require(['./receipt'], resolve) // 增值税发票
+    receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
+    financialStatement: (resolve) =>
+      require(['./financial_statement'], resolve) // 流水解析
   },
   data() {
     return {
-      productName: 'receipt',
+      productName: 'financial_statement',
       productObj: {
-        name: '回单',
-        staticName: 'receipt'
+        name: '流水',
+        staticName: 'financial_statement'
       }
     }
   },
 
   watch: {},
-  created() {
-    console.log(this.staticData)
-  },
   computed: {},
   mounted() {},
   methods: {
@@ -57,13 +59,5 @@ export default {
 
 .document-box {
   display: flex;
-
-  .ocr-layout {
-    flex: 1;
-
-    .ocr-inner {
-      width: 100%;
-    }
-  }
 }
 </style>

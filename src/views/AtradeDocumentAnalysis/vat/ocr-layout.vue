@@ -1,7 +1,7 @@
 <template>
-  <div class="ocr-layout" >
+  <div class="ocr-layout">
     <!-- ocr -->
-    <div class="ocr-inner">
+    <div class="ocr-inner" style="width: 100%">
       <!-- 文档 -->
       <div class="document-box" ref="document-box">
         <div class="tool-bar">
@@ -103,7 +103,7 @@
           >
             <!-- <img :src="imageUrl" :alt="example.name" /> -->
             <img :src="imageUrl" :alt="example.name" />
-           <svg
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
               class="frame-mask-svg"
@@ -113,7 +113,7 @@
                 transform: `rotate(${imgRotatingDeg || 0}deg)`,
               }"
             >
-             <template v-for="(item, index) in activeText">
+              <template v-for="(item, index) in activeText">
                 <template v-if="index === 0">
                   <circle
                     v-for="(i, idx) in item"
@@ -137,7 +137,7 @@
                   :d="multiMaskElPathValue(item)"
                 />
               </template>
-                </svg>
+            </svg>
           </div>
         </div>
       </div>
@@ -223,41 +223,6 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-function Events() {
-  this.clientList = {}
-  this.listen = function (key, fn) {
-    if (!this.clientList[key]) {
-      this.clientList[key] = []
-    }
-    this.clientList[key].push(fn)
-  }
-  this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments)
-    const fns = this.clientList[key]
-    if (!fns || fns.length === 0) {
-      return
-    }
-    for (let i = 0, fn; (fn = fns[i++]);) {
-      fn.apply(this, arguments)
-    }
-  }
-  this.remove = function (key, fn) {
-    const fns = this.clientList[key]
-    if (!fns) {
-      return
-    }
-    if (!fn) {
-      fns.length = 0
-    } else {
-      for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len]
-        if (_fn === fn) {
-          fns.splice(len, 1)
-        }
-      }
-    }
-  }
-}
 export default {
   model: {
     prop: 'value',
@@ -314,7 +279,6 @@ export default {
     this.resizeImg()
     // 兼容firefox
     this.bind(this.$refs.documentLayout, 'DOMMouseScroll', this.handleZoom)
-    this.$events = new Events()
     this.$events.listen('click-ocr-el', this.handleClickText)
     this.$events.listen('drag-document', this.transferDocument)
     this.$events.listen('drag-view', this.transferView)
@@ -788,7 +752,6 @@ export default {
 <style lang="stylus">
 // @import '../ocr-layout/ocr-layout.styl'
 .ocr-layout {
-  // padding: 76px 24px 24px 24px;
   display: flex;
   color: #202d40;
   height: calc(100vh - 122px);
@@ -796,15 +759,6 @@ export default {
 
   * {
     user-select: none;
-  }
-
-  .dih-page-input {
-    background-color: transparent;
-    max-width: 20px;
-    border: none;
-    text-align: center;
-    outline: medium;
-    color: #999;
   }
 
   input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
@@ -914,6 +868,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
         .document {
           // transform-origin: 0 0;
           background-size: contain;

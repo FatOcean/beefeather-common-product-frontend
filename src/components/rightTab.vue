@@ -9,7 +9,11 @@
     <svg-icon iconClass="识别结果" class="svgClass"></svg-icon>
     <lls-tabs v-model="activeName" height="50px" @tab-click="handleClickTabs">
       <lls-tab-pane label="识别结果" name="first">
-        <div class="ocr-text" @scroll="$parent.parentProxy" ref="ocrTextWrapper">
+        <div
+          class="ocr-text"
+          @scroll="$parent.parentProxy"
+          ref="ocrTextWrapper"
+        >
           <slot></slot>
         </div>
       </lls-tab-pane>
@@ -23,13 +27,31 @@
             ref="editor"
             mode="application/json"
             theme="eclipse"
-            :height="'calc(100vh - 198px)'"
+            :height="'calc(100vh - 220px)'"
             :show-number="false"
             :auto-format="true"
           ></b-code-editor>
         </div>
       </lls-tab-pane>
       <template v-slot:button>
+        <template v-if="isshowBank && activeName === 'first'">
+        <lls-select
+          ref="selectRef"
+          style="margin-left: 8px"
+          v-model="bank"
+          placeholder="请选择银行"
+          :disabled="false"
+          @change="getResult()"
+        >
+          <lls-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </lls-option>
+        </lls-select>
+      </template>
         <lls-button type="text"
           ><i class="lls-icon-download"></i>
           {{
@@ -42,19 +64,29 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: '',
   props: {
     codeTest: {
       type: String,
       default: ''
+    },
+    isshowBank: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       activeName: 'first',
-      newCodeTest: ''
+      newCodeTest: '',
+      bank: '',
+      options: []
     }
+  },
+  computed: {
+    ...mapState(['ocrProductObj'])
   },
   watch: {
     codeTest: {
@@ -68,7 +100,6 @@ export default {
       immediate: true
     }
   },
-  mounted() {},
   methods: {
     handleClickTabs() {
       this.$parent.resetProps()
@@ -78,6 +109,9 @@ export default {
       //     this.$refs.editor.formatCode()
       //   })
       // }
+    },
+    getResult() {
+
     }
   }
 }

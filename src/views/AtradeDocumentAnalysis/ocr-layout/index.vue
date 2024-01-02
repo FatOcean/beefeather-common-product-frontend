@@ -386,42 +386,6 @@ import ImageViewer from '@linklogis/image-viewer'
 // import RightSelect from './rightselect.vue'
 import '@/icons'
 
-function Events() {
-  this.clientList = {}
-  this.listen = function (key, fn) {
-    if (!this.clientList[key]) {
-      this.clientList[key] = []
-    }
-    this.clientList[key].push(fn)
-  }
-  this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments)
-    const fns = this.clientList[key]
-    if (!fns || fns.length === 0) {
-      return
-    }
-    for (let i = 0, fn; (fn = fns[i++]);) {
-      fn.apply(this, arguments)
-    }
-  }
-  this.remove = function (key, fn) {
-    const fns = this.clientList[key]
-    if (!fns) {
-      return
-    }
-    if (!fn) {
-      fns.length = 0
-    } else {
-      for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len]
-        if (_fn === fn) {
-          fns.splice(len, 1)
-        }
-      }
-    }
-  }
-}
-
 export default {
   name: 'ocr-layout',
   model: {
@@ -595,7 +559,6 @@ export default {
     // 兼容firefox
     this.bind(this.$refs.documentLayout, 'DOMMouseScroll', this.handleZoom)
 
-    this.$ocrLayoutEvents = new Events()
     this.$ocrLayoutEvents.listen('click-ocr-el', this.handleClickText)
     this.$ocrLayoutEvents.listen('drag-document', this.transferDocument)
     this.$ocrLayoutEvents.listen('drag-view', this.transferView)

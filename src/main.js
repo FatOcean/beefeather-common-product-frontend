@@ -17,7 +17,10 @@ import uploadFile from '@/components/upload-file/index.vue'
 import Directives from './directives/index'
 import CodeEditor from '@/components/bin-code-editor'
 import RightTab from '@/components/rightTab.vue'
+import eventPlugin from './utils/eventPlugin'
 import './components/ocr-el'
+Vue.use(eventPlugin)
+
 Vue.use(CodeEditor)
 Vue.use(Directives)
 Vue.component('RightTab', RightTab)

@@ -1,5 +1,8 @@
 <template>
-  <div class="vat-invoice-wrapper" style="width: 100%;">
+  <div
+    class="vat-invoice-wrapper"
+    style="flex-shrink: 1; flex-grow: 1; width: calc(100vw - 230px)"
+  >
     <ocr-layout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
@@ -26,8 +29,11 @@
           <td>识别结果</td>
         </thead>
         <tr
-          :class="{ active: activeTextId === i.id && activeTableType === 'info', pointer: i.position }"
-          @click="(e) => clickHandler(e, i,'info')"
+          :class="{
+            active: activeTextId === i.id && activeTableType === 'info',
+            pointer: i.position,
+          }"
+          @click="(e) => clickHandler(e, i, 'info')"
           v-for="i in page.content[0].info"
           :key="i.key"
         >
@@ -45,10 +51,11 @@
           </tr>
           <tr
             :class="{
-              active: activeTextId === item.id && activeTableType === 'commodity',
+              active:
+                activeTextId === item.id && activeTableType === 'commodity',
               pointer: item.position,
             }"
-            @click="(e) => clickHandler(e, item,'commodity')"
+            @click="(e) => clickHandler(e, item, 'commodity')"
             v-for="item in page.content[0].commodity[index]"
             :key="item.key"
           >
@@ -57,8 +64,11 @@
           </tr>
         </template>
         <tr
-          :class="{ active: activeTextId === i.id && activeTableType === 'others', pointer: i.position }"
-          @click="(e) => clickHandler(e, i,'others')"
+          :class="{
+            active: activeTextId === i.id && activeTableType === 'others',
+            pointer: i.position,
+          }"
+          @click="(e) => clickHandler(e, i, 'others')"
           v-for="i in page.content[0].others"
           :key="i.key"
         >
@@ -186,7 +196,6 @@ export default {
 }
 </script>
 <style lang="stylus">
-
 .pre-line {
   white-space: pre-line;
 }
