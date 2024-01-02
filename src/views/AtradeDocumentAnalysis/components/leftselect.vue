@@ -70,13 +70,13 @@ export default {
       productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: '流水'
+      activebgName: '提单'
     }
   },
   mounted() {
     this.setProductObj({
-      name: '流水',
-      staticName: 'financial_statement'
+      name: '提单',
+      staticName: 'bill_of_lading'
     })
   },
   methods: {

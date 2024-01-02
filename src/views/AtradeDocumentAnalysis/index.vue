@@ -9,6 +9,9 @@
       <financialStatement
         v-show="productName === 'financial_statement'"
       ></financialStatement>
+       <billOfLading
+        v-show="productName === 'bill_of_lading'"
+      ></billOfLading>
     </div>
   </div>
 </template>
@@ -19,15 +22,16 @@ export default {
     leftselect,
     vat: (resolve) => require(['./vat'], resolve), // 增值税发票
     receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
+    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 回单解析
     financialStatement: (resolve) =>
       require(['./financial_statement'], resolve) // 流水解析
   },
   data() {
     return {
-      productName: 'financial_statement',
+      productName: 'bill_of_lading',
       productObj: {
-        name: '流水',
-        staticName: 'financial_statement'
+        name: '提单',
+        staticName: 'bill_of_lading'
       }
     }
   },

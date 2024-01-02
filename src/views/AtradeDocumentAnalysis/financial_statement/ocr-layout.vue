@@ -348,29 +348,6 @@ export default {
     },
     // 翻页
     handleTurnPage(val) {
-      // const num = this.activePageIndex - 1 + val;
-      // this.resetProps();
-      // if (num === this.total) {
-      //   if (this.activeDocumentIndex === this.data.length - 1) {
-      //     this.activeDocumentIndex = 0;
-      //     this.activePageIndex = 1;
-      //   } else {
-      //     this.activeDocumentIndex += 1;
-      //     this.activePageIndex = 1;
-      //   }
-      // } else if (num < 0) {
-      //   if (this.activeDocumentIndex === 0) {
-      //     this.activeDocumentIndex = this.data.length - 1;
-      //     this.activePageIndex =
-      //       this.data[this.activeDocumentIndex].productsConverters.length;
-      //   } else {
-      //     this.activeDocumentIndex -= 1;
-      //     this.activePageIndex =
-      //       this.data[this.activeDocumentIndex].productsConverters.length;
-      //   }
-      // } else {
-      //   this.activePageIndex = num + 1;
-      // }
     },
     // 旋转图片
     handleClickRotate() {
