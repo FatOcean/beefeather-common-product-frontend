@@ -4,16 +4,13 @@
     style="flex-shrink: 1; flex-grow: 1; width: calc(100vw - 230px)"
   >
     <ocrLayout
-      @resetId="() => (activeTextId = null)"
       @tabs="tabs"
       :data="data"
       ref="documents"
-      :activeTabIndex="activeTabIndex"
-      :pageMenuPerm="pageMenuPerm"
     >
       <template>
         <div
-          v-show="selectValue === '' && !loading && !failedStatus"
+          v-show="bank === '' && !loading && !failedStatus"
           class="noContent"
           v-loading="loading"
         >
@@ -23,15 +20,10 @@
         <div
           class="hasContent"
           ref="content"
-          v-show="selectValue !== '' && !loading && !failedStatus"
+          v-show="bank !== '' && !loading && !failedStatus"
           v-loading="loading"
         >
           <table cellspacing="0" class="table-data" ref="table">
-            <!-- <thead>
-              <td v-for="(header, index) in page[0].columns" :key="index">
-                {{ header }}
-              </td>
-            </thead> -->
             <tbody>
               <tr v-for="(row, rowindex) in page" :key="rowindex">
                 <td
@@ -63,22 +55,14 @@
       </template>
     </ocrLayout>
 
-    <!-- 上传文件 -->
-    <lls-collapse-transition v-if="pageMenuPerm['UPLOAD_TREASURY_FLOW']">
-      <upload-File
-        productName="流水解析"
-        @uploadFileData="uploadFileData"
-      ></upload-File>
-    </lls-collapse-transition>
   </div>
 </template>
 <script>
 import { staticData } from '../staticData'
 import failed from '@/assets/images/failed.png'
 import searching from '@/assets/images/searching.png'
-import { analysisFile, getBankList, extractInfo } from '@/api/receiptAnalysis'
+import { extractInfo } from '@/api/receiptAnalysis'
 import ocrLayout from './ocr-layout'
-import { mapState } from 'vuex'
 export default {
   name: 'treasuryFlowAnalysis',
   components: {
@@ -89,122 +73,75 @@ export default {
       failed,
       searching,
       data: staticData.financial_statement,
-      files: [],
-      activeTextId: '',
       page: {}, // 当前页面数据信息
-      percent: 0, // 进度条
-      activeName: '',
-      servicePortAddress: '',
       activeDocumentIndex: 0,
-      tabsArray: [],
       documents: [],
-      // documents: data.analysisResult,
-      dragenter: false,
-      token: window.sessionStorage.getItem('token'),
-      origin: window.sessionStorage.getItem('origin'),
-      href: window.location.href,
-      search: '',
-      documents_backup: [],
-      checked: false,
-      hideResult: [],
-      activeTabIndex: 0,
-      falg: true,
-      hasTab: false,
-      tabList: [],
-      selectValue: '',
-      options: [],
-      url: '',
+      bank: '',
       loading: false,
       banks: null,
       failedStatus: false,
-      taskId: 0
+      taskId: ''
     }
   },
   created() {
-    console.log(staticData)
-    getBankList()
-      .then((res) => {
-        if (res.data.code === '200') {
-          this.options = res.data.data.map((item) => {
-            return {
-              id: item.id,
-              label: item.bankCh,
-              value: item.bankCh
-            }
-          })
-          this.banks = res.data.data.reduce((acc, cur) => {
-            acc[cur.bankCh] = cur.bankEn
-            return acc
-          }, {})
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
     this.documents = this.data[0]
     this.page = this.documents.content
-    this.selectValue = this.documents.flag
-    this.url = this.documents.imagePath
+    this.bank = this.documents.bank
   },
   computed: {
-    ...mapState(['pageMenuPerm']),
-    example() {
-      return this.data[this.activeDocumentIndex]
+    originLocation() {
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
     }
   },
+  mounted() {
+    this.$refs.documents.$refs.rightTab.bank = this.documents.bank
+  },
   methods: {
-    uploadFileData(res) {
-      res.data.isUpload = true
-      res.data.starsFlag = false
-      this.url = res.data.pdfPath ? res.data.pdfPath : res.data.imagePath
-      if (this.data.length > 3) this.data.shift()
-      this.data.unshift(res.data)
-      this.documents = this.data[0]
-      this.documents.flag = ''
-      this.selectValue = ''
-      const scrollDiv = document.getElementsByClassName('hasContent')[0]
-      scrollDiv.scrollLeft = 0
+    uploadFileData({ res, taskId }) {
+      res.data.map((item) => {
+        item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
+          item.imagePath
+        )}`
+      })
+      this.taskId = taskId
+      this.data = res.data
+      this.bank = ''
+      this.failedStatus = false
+      this.$refs.documents.$refs.rightTab.bank = ''
+      this.$refs.documents.$refs.rightTab.bankType = false
     },
-    getResult() {
+    getResult(bank) {
+      this.bank = bank
       this.loading = true
       const param = {
-        filePath: encodeURIComponent(this.url),
-        bankName: this.banks[this.selectValue],
-        productName: '流水解析'
+        taskId: this.taskId,
+        bank,
+        application: 'FINANCIAL_STATEMENT'
       }
       extractInfo(param)
         .then((res) => {
           res = res.data
-          if (res.code === '200') {
-            if (res.data.resultVO.content.length === 0) {
-              this.failedStatus = true
-              this.selectValue = ''
-              this.$refs.documents.down_allow = false
-            } else {
-              this.documents.resultVO = res.data.resultVO
-              this.documents.excelPath = res.data.excelPath
-              this.documents.flag = this.selectValue
-              this.page = this.documents.resultVO
-              this.$refs.documents.down_allow = true
-              this.failedStatus = false
-              const scrollDiv =
-                document.getElementsByClassName('hasContent')[0]
-              scrollDiv.scrollLeft = 0
-            }
+          if (res.code === '200' && res.data[0]?.content?.length !== 0) {
+            this.documents.content = res.data[0].content
+            this.$refs.documents.resizeImg()
+            this.documents.bank = this.bank
+            this.page = this.documents.content
+            this.failedStatus = false
+            this.documents.json = res.data[0].json
           } else {
             this.failedStatus = true
-            this.selectValue = ''
-            this.$refs.documents.down_allow = false
           }
         })
         .catch((err) => {
           console.log(err)
           this.failedStatus = true
           this.documents.flag = ''
-          this.selectValue = ''
+          this.bank = ''
           this.$refs.documents.down_allow = false
           this.$message({
-            message: res.message,
+            message: err,
             type: 'error',
             offset: 60
           })
@@ -217,28 +154,14 @@ export default {
       this.failedStatus = false
       this.activeDocumentIndex = activeDocumentIndex
       this.documents = this.data[activeDocumentIndex]
-      this.url = this.documents.pdfPath
-        ? this.documents.pdfPath
-        : this.documents.imagePath
-      this.selectValue = this.documents.flag
-      if (this.selectValue !== '') {
+      this.bank = this.documents.flag
+      if (this.bank !== '') {
         this.page = this.documents.resultVO
         if (this.page.content.length > 0) {
           this.$refs.documents.down_allow = true
         } else this.$refs.documents.down_allow = false
       } else this.$refs.documents.down_allow = false
-    },
-    handleClick(value) {
-      // console.log(value.index);
-      this.activeTabIndex = Number(value.index)
-      this.$refs.documents.handleClick(value.index)
-      this.page = this.tabList[this.activeTabIndex].productsConverterList
-      this.page = this.page.filter((item) => {
-        return item.value !== ''
-      })
-    },
-    // 样本收集点击事件    //快速开发暂时隐藏
-    clickHandler(e, i, noParent) {}
+    }
   }
 }
 </script>
