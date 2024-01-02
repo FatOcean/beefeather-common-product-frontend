@@ -70,13 +70,13 @@ export default {
       productName: '',
       productList, // 产品名称
       isshowRight: true,
-      activebgName: '提单'
+      activebgName: '增值税发票'
     }
   },
   mounted() {
     this.setProductObj({
-      name: '提单',
-      staticName: 'bill_of_lading'
+      name: '增值税',
+      staticName: 'vat'
     })
   },
   methods: {

@@ -143,30 +143,9 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-         <RightTab :codeTest="codeTest" ref="rightTab" :isshowBank="true"><slot></slot> </RightTab>
-        <!-- <div
-          v-for="i in 4"
-          :key="i"
-          class="border-corner"
-          :class="[`border-corner-${i}`]"
-        ></div>
-        <div class="ocr-title-bar">
-          <div class="ocr-title">
-            <slot name="title"></slot>
-          </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 18px;
-            "
-          ></div>
-        </div>
-
-        <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
-          <slot name="text"></slot>
-        </div> -->
+        <RightTab :codeTest="codeTest" ref="rightTab" :isshowBank="true"
+          ><slot></slot>
+        </RightTab>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -235,8 +214,7 @@ export default {
     },
     activeTabIndex: {
       type: Number
-    },
-    pageMenuPerm: Object
+    }
   },
   data() {
     return {
@@ -262,7 +240,6 @@ export default {
       realRenderWidth: 0,
       scale: 1,
       total: 1,
-      down_allow: true,
       position: { left: 0, top: 0, width: 0, height: 0 },
       codeTest: '{}'
     }
@@ -634,7 +611,8 @@ export default {
     // 当前示例信息
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.codeTest = JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
+      this.codeTest =
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
       return this.data[this.activeDocumentIndex]
     },
     // 当前页面信息

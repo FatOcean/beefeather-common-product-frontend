@@ -1,36 +1,14 @@
 <template>
   <div class="treasury-flow-analysis-wrapper" style="width: 100%">
     <ocrLayout
-      @resetId="() => (activeTextId = null)"
       @tabs="tabs"
       :data="data"
       ref="documents"
       :activeTabIndex="activeTabIndex"
-      :pageMenuPerm="pageMenuPerm"
     >
-      <!-- <template v-slot:title>
-        <svg-icon iconClass="识别结果"></svg-icon><span>识别结果</span>
-        <lls-select
-          ref="selectRef"
-          style="margin-left: 8px"
-          v-model="bank"
-          placeholder="请选择银行"
-          :disabled="loading"
-          @change="getResult()"
-        >
-          <lls-option
-            v-for="item in banks"
-            :key="item.id"
-            :label="item.bankCh"
-            :value="item.bankCh"
-          >
-          </lls-option>
-        </lls-select>
-      </template> -->
-
       <template>
         <div
-          v-show="bank === '' && !loading && !failedStatus"
+          v-show="bank === ''&& !loading && !failedStatus"
           class="noContent"
           v-loading="loading"
         >
@@ -88,36 +66,22 @@
 import { staticData } from '../staticData'
 import failed from '@/assets/images/failed.png'
 import searching from '@/assets/images/searching.png'
-import { getBankList, extractInfo } from '@/api/receiptAnalysis'
+import { extractInfo } from '@/api/receiptAnalysis'
 import ocrLayout from './ocr-layout'
-import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      isLoading: false,
       failed,
       searching,
       data: staticData.receipt,
-      activeTextId: '',
       page: {}, // 当前页面数据信息
       activeName: '',
-      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
-      // documents: data.analysisResult,
-      dragenter: false,
-      href: window.location.href,
-      search: '',
-      documents_backup: [],
-      checked: false,
-      hideResult: [],
       activeTabIndex: 0,
-      falg: true,
-      hasTab: false,
       tabList: [],
       bank: '',
-      banks: [],
       loading: false,
       failedStatus: false,
       taskId: 0,
@@ -127,16 +91,14 @@ export default {
   components: {
     ocrLayout
   },
-  created() {
-    getBankList()
-      .then((res) => {
-        if (res.data.code === '200') {
-          this.banks = res.data.data
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+  computed: {
+    originLocation() {
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
+    }
+  },
+  mounted() {
     this.instance = this.data[0]
     this.documents = this.instance.content
     this.page = this.documents[0]
@@ -144,75 +106,52 @@ export default {
       return { name: `回单${index + 1}` }
     })
     this.activeName = this.tabsArray[0].name
+    this.$refs.documents.$refs.rightTab.bank = this.instance.bank
     this.bank = this.instance.bank
-  },
-  mounted() {
     this.$refs.documents.handleClick(this.page.boundingBox)
   },
-  computed: {
-    ...mapState(['pageMenuPerm']),
-    example() {
-      return this.data[this.activeDocumentIndex]
-    }
-  },
   methods: {
+    resetProps() {},
     uploadFileData({ res, taskId }) {
+      res.data.map((item) => {
+        item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
+          item.imagePath
+        )}`
+      })
       this.taskId = taskId
-      res.data.isUpload = true
-      res.data.starsFlag = false
-      if (this.data.length > 3) this.data.shift()
-      this.data.unshift(res.data)
-      this.instance = this.data[0]
-      this.instance.flag = ''
+      this.data = res.data
       this.bank = ''
-      this.$refs.documents.down_allow = false
+      this.failedStatus = false
+      this.$refs.documents.$refs.rightTab.bank = ''
+      this.$refs.documents.$refs.rightTab.bankType = false
       this.$refs.documents.resetPosition()
     },
-    getResult() {
+    getResult(bank) {
+      this.bank = bank
       this.loading = true
       this.$refs.documents.resetPosition()
       const param = {
         taskId: this.taskId,
-        bank: this.bank,
+        bank,
         application: 'RECEIPT'
       }
       extractInfo(param)
         .then((res) => {
           res = res.data
-          if (res.code === '200' && res.data.tabList) {
-            // this.documents = res.data;
-            let num = 0
-            res.data.tabList.forEach((item) => {
-              if (item.contentList.length !== 0) {
-                num += 1
-              }
+          if (res.code === '200' && res.data[0]?.content.length !== 0) {
+            this.instance.content = res.data[0].content
+            this.$refs.documents.resizeImg()
+            this.instance.flag = this.bank
+            this.documents = this.instance.content
+            this.tabsArray = this.documents.map((item, index) => {
+              return { name: `回单${index + 1}` }
             })
-            if (num === 0) {
-              this.failedStatus = true
-              this.bank = ''
-              this.$refs.documents.down_allow = false
-            } else {
-              this.instance.tabList = res.data.tabList
-              this.instance.imagePath = res.data.imagePath
-              this.instance.excelPath = res.data.excelPath
-              this.instance.height = res.data.height
-              this.instance.width = res.data.width
-              this.$refs.documents.resizeImg()
-              this.instance.flag = this.bank
-              this.documents = this.instance.tabList
-              this.tabsArray = this.documents.map((item, index) => {
-                return { name: item.tabName }
-              })
-              this.activeName = this.tabsArray[0].name
-              this.page = this.documents[0]
-              this.$refs.documents.down_allow = true
-              this.failedStatus = false
-              this.$refs.documents.handleClick(this.page.boundingBox || {})
-            }
+            this.activeName = this.tabsArray[0].name
+            this.page = this.documents[0]
+            this.failedStatus = false
+            this.$refs.documents.handleClick(this.page.boundingBox || {})
           } else {
             this.failedStatus = true
-            this.bank = ''
-            this.$refs.documents.down_allow = false
           }
         })
         .catch((err) => {

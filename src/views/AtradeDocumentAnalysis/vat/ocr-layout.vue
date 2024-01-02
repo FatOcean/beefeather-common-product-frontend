@@ -66,7 +66,6 @@
               iconClass="ic-全屏"
               @click.native="
                 showImageViewer = true;
-                postFixdMessage(true);
               "
             ></svg-icon>
           </div>
@@ -101,8 +100,7 @@
               })`,
             }"
           >
-            <!-- <img :src="imageUrl" :alt="example.name" /> -->
-            <img :src="imageUrl" :alt="example.name" />
+            <img :src="imageUrl" :alt="example.fileName" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               version="1.1"
@@ -214,7 +212,6 @@
       :on-close="
         () => {
           showImageViewer = false;
-          postFixdMessage(false);
         }
       "
     ></lls-image-viewer>
@@ -243,8 +240,7 @@ export default {
       type: Array,
       required: true,
       default: () => []
-    },
-    pageMenuPerm: Object
+    }
   },
   data() {
     return {
@@ -257,7 +253,6 @@ export default {
       rotateIndex: 0, // 旋转次数
       zoomScale: 1, // 手动缩放比例
       zoomStep: 0.2, // 缩放梯度
-      // windowResizeScale: 1, // 浏览器窗口缩放比例
       dragX: 0, // x方向拖动距离
       dragY: 0, // y方向拖动距离
       moveX: 0, // x方向平移距离
@@ -310,16 +305,6 @@ export default {
       })
       return d + 'Z'
     },
-    postFixdMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: 'messageGeneralProduct',
-          fixed: fixed
-        },
-        '*'
-      )
-    },
     inputChange() {
       // 输入页码
       if (this.activePageIndex > this.total) {
@@ -328,7 +313,7 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1
       }
-      const page = this.example.specificData[this.activePageIndex - 1]
+      const page = this.data[this.activePageIndex - 1]
       this.resizeImg()
       this.$emit('handle-change', page)
       this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
@@ -337,7 +322,7 @@ export default {
       // 点击右侧tabs
       this.resetProps()
       this.activePageIndex = index + 1
-      const page = this.example.specificData[index]
+      const page = this.data[index]
       this.resizeImg()
       this.$emit('handle-change', page)
     },
@@ -361,7 +346,7 @@ export default {
       this.activeDocumentIndex = index
       this.resetProps()
 
-      const page = this.example.specificData[this.activePageIndex - 1]
+      const page = this.data[this.activePageIndex - 1]
       this.resizeImg()
       this.$emit('handle-change', page)
       this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
@@ -382,17 +367,17 @@ export default {
         if (this.activeDocumentIndex === 0) {
           this.activeDocumentIndex = this.data.length - 1
           this.activePageIndex =
-            this.data[this.activeDocumentIndex].specificData.length
+            this.data[this.activeDocumentIndex].length
         } else {
           this.activeDocumentIndex -= 1
           this.activePageIndex =
-            this.data[this.activeDocumentIndex].specificData.length
+            this.data[this.activeDocumentIndex].length
         }
       } else {
         this.activePageIndex = num + 1
       }
 
-      const page = this.example.specificData[this.activePageIndex - 1]
+      const page = this.data[this.activePageIndex - 1]
       this.resizeImg()
       this.$emit('handle-change', page)
       this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
@@ -635,17 +620,19 @@ export default {
     // 计算图片的的实际渲染大小
     reRenderImage() {
       const vm = this
-      this.data.forEach((page) => {
-        const imgRotatingDeg = page.angle
-        const widthScale = vm.documentWidth / page.width
-        const heightScale = vm.documentHeight / page.height
-        page.scale = widthScale < heightScale ? widthScale : heightScale
-        page.realRenderWidth = page.width * page.scale // 图片实际渲染宽度
-        page.realRenderHeight = page.height * page.scale // 图片实际渲染高度
-        vm.realRenderHeight = page.realRenderHeight
-        vm.realRenderWidth = page.realRenderWidth
-        vm.imgRotatingDeg = imgRotatingDeg
-        vm.scale = page.scale
+      this.data.forEach((page, index) => {
+        if (index === this.activePageIndex - 1) {
+          const imgRotatingDeg = page.angle
+          const widthScale = vm.documentWidth / page.width
+          const heightScale = vm.documentHeight / page.height
+          page.scale = widthScale < heightScale ? widthScale : heightScale
+          page.realRenderWidth = page.width * page.scale // 图片实际渲染宽度
+          page.realRenderHeight = page.height * page.scale // 图片实际渲染高度
+          vm.realRenderHeight = page.realRenderHeight
+          vm.realRenderWidth = page.realRenderWidth
+          vm.imgRotatingDeg = imgRotatingDeg
+          vm.scale = page.scale
+        }
       })
       window.setTimeout((_) => {
         this.calculateXy()

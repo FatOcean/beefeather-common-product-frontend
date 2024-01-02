@@ -12,9 +12,6 @@
       ref="documents"
       :pageMenuPerm="pageMenuPerm"
     >
-      <!-- <ocr-el v-for="(i, index) in page.tableData" :key="index" :id="i.id">
-        {{ i.text }}{{i.value}}
-      </ocr-el>-->
       <lls-tabs @tab-click="handleClick" v-model="activeName">
         <lls-tab-pane
           v-for="(item, index) in tabsArray"
@@ -80,7 +77,6 @@
   </div>
 </template>
 <script>
-import beeLoading from '@linklogis/beeLoading'
 import { mapState } from 'vuex'
 import ocrLayout from './ocr-layout'
 import { staticData } from '../staticData'
@@ -89,26 +85,16 @@ export default {
   data() {
     return {
       activePageIndex: 0,
-      isLoading: false,
-      files: [],
       activeTextId: '',
-      page: {}, // 当前页面数据信息
-      beeLoading: false, // 上传进度条显示隐藏
-      percent: 0, // 进度条
+      page: {},
       activeName: '',
-      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: staticData.vat,
-      dragenter: false,
-      token: window.sessionStorage.getItem('token'),
-      origin: window.sessionStorage.getItem('origin'),
-      href: window.location.href,
-      falg: true,
       activeTableType: ''
     }
   },
-  components: { [beeLoading.name]: beeLoading, ocrLayout },
+  components: { ocrLayout },
   computed: {
     ...mapState(['pageMenuPerm']),
     originLocation() {
@@ -127,16 +113,6 @@ export default {
     this.activeName = this.tabsArray[0].name
   },
   methods: {
-    postFixdMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: 'messageGeneralProduct',
-          fixed: fixed
-        },
-        '*'
-      )
-    },
     changeActivePageIndex(activePageIndex) {
       this.activePageIndex = activePageIndex
     },
@@ -160,7 +136,6 @@ export default {
       })
     },
     clickHandler(e, i, type) {
-      console.log(i.position[0].length)
       if (i.value === '' || i.position[0].length !== 4) {
         return
       }

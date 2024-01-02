@@ -35,23 +35,23 @@
       </lls-tab-pane>
       <template v-slot:button>
         <template v-if="isshowBank && activeName === 'first'">
-        <lls-select
-          ref="selectRef"
-          style="margin-left: 8px"
-          v-model="bank"
-          placeholder="请选择银行"
-          :disabled="false"
-          @change="getResult()"
-        >
-          <lls-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+          <lls-select
+            ref="selectRef"
+            style="margin-right: 8px"
+            v-model="bank"
+            placeholder="请选择银行"
+            :disabled="bankType"
+            @change="getResult()"
           >
-          </lls-option>
-        </lls-select>
-      </template>
+            <lls-option
+              v-for="item in options"
+              :key="item.bankCh"
+              :label="item.bankCh"
+              :value="item.bankEn"
+            >
+            </lls-option>
+          </lls-select>
+        </template>
         <lls-button type="text"
           ><i class="lls-icon-download"></i>
           {{
@@ -65,6 +65,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getBankList } from '@/api/receiptAnalysis'
 export default {
   name: '',
   props: {
@@ -82,7 +83,17 @@ export default {
       activeName: 'first',
       newCodeTest: '',
       bank: '',
-      options: []
+      options: [],
+      bankType: true
+    }
+  },
+  created() {
+    if (this.isshowBank) {
+      getBankList().then((res) => {
+        if (res.data.code === '200') {
+          this.options = res.data.data
+        }
+      })
     }
   },
   computed: {
@@ -101,6 +112,9 @@ export default {
     }
   },
   methods: {
+    setBank(bank) {
+      this.bank = bank
+    },
     handleClickTabs() {
       this.$parent.resetProps()
       document.getElementsByClassName('CodeMirror-lines')[0].click()
@@ -111,7 +125,7 @@ export default {
       // }
     },
     getResult() {
-
+      this.$parent.$parent.getResult(this.bank)
     }
   }
 }
