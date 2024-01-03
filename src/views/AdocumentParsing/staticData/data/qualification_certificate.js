@@ -2,6 +2,7 @@
 import imagePath from '../images/qualification_certificate.png'
 
 const data = [{
+  isexample: true,
   taskId: 'U2023122617637447',
   status: 1,
   fileName: '资质证书.png',

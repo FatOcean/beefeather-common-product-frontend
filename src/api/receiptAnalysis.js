@@ -1,4 +1,5 @@
 import api from './apiRequest'
+import apiRequestDownload from './apiRequestDownload'
 
 // 获取解析结果
 export function analysisFile(data) {
@@ -19,6 +20,17 @@ export function extractInfo(data) {
   )
 }
 
+export function downloadResult(data) {
+  return apiRequestDownload.post(
+    '/general-product-web/general/export', data
+  )
+}
+
+export function downloadJson(data) {
+  return apiRequestDownload.post(
+    '/general-product-web/general/download/json', data
+  )
+}
 // 登录
 export function login(data) {
   return api.post('/sys-web/user/login', data)

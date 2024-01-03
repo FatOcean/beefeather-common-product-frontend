@@ -518,7 +518,8 @@ const data = [
     },
     status: 1,
     taskId: 'T001',
-    width: 700
+    width: 700,
+    isexample: true
   }
 ]
 

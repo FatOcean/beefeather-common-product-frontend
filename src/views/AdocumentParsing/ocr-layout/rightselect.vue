@@ -1,5 +1,5 @@
 <template>
-  <div class="right-select" :style="{ width: isshowRight ? '250px' : '60px' }">
+  <div class="right-select" :style="{ width: isshowRight ? '200px' : '60px' }">
     <div v-show="isshowRight">
       <div class="serInput">
         <lls-input

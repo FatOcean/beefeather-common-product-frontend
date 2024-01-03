@@ -3,6 +3,7 @@ import imagePath from '../images/driver_license.png'
 
 const data = [
   {
+    isexample: true,
     angle: 0,
     content: [
       {

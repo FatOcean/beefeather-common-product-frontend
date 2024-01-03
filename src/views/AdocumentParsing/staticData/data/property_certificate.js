@@ -2,6 +2,7 @@ import imagePath from '../images/property_certificate.png'
 
 const data = [
   {
+    isexample: true,
     angle: 0,
     content: [
       {

@@ -2,6 +2,7 @@ import imagePath from '../images/income_proof.png'
 
 const data = [
   {
+    isexample: true,
     angle: 0,
     content: [
       {

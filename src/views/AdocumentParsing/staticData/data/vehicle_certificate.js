@@ -3,6 +3,7 @@ import imagePath from '../images/vehicle_certificate.png'
 
 const data = [
   {
+    isexample: true,
     angle: 0,
     content: [
       {

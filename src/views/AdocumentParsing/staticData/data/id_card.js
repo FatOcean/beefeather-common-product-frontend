@@ -3,6 +3,7 @@ import imagePath from '../images/id_card.png'
 
 const data = [
   {
+    isexample: true,
     angle: 0,
     content: [
       {
