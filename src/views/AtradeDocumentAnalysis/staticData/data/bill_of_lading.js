@@ -710,7 +710,9 @@ const data = [
     fileName: 'BL 3_0.png',
     imagePath,
     status: 1,
-    taskId: 'T001'
+    taskId: 'T001',
+    width: 2479,
+    height: 3504
   }
 ]
 

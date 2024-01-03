@@ -5,12 +5,12 @@
     <div class="document-box">
       <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
       <vat v-show="productName === 'vat'"></vat>
-      <receipt v-if="productName === 'receipt'"></receipt>
+      <receipt v-show="productName === 'receipt'"></receipt>
       <financialStatement
         v-show="productName === 'financial_statement'"
       ></financialStatement>
        <billOfLading
-        v-if="productName === 'bill_of_lading'"
+        v-show="productName === 'bill_of_lading'"
       ></billOfLading>
     </div>
   </div>
@@ -22,7 +22,7 @@ export default {
     leftselect,
     vat: (resolve) => require(['./vat'], resolve), // 增值税发票
     receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
-    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 回单解析
+    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析
     financialStatement: (resolve) =>
       require(['./financial_statement'], resolve) // 流水解析
   },

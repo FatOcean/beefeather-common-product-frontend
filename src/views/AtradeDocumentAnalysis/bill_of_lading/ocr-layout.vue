@@ -132,7 +132,7 @@
               :ref="`maskEl${i.id}`"
               :data-id="i.id"
               :class="{ active: activeTextId === i.id }"
-              v-for="(i, index) in page.value"
+              v-for="(i) in page.value"
               :key="i.key"
               :style="{
                 top: `${i.startY * imgScale}px`,
@@ -157,7 +157,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <div
+        <!-- <div
           v-for="i in 4"
           :key="i"
           class="border-corner"
@@ -170,7 +170,10 @@
         </div>
         <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
           <slot></slot>
-        </div>
+        </div> -->
+        <RightTab :codeTest="codeTest" ref="rightTab"
+          ><slot></slot>
+        </RightTab>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -253,6 +256,7 @@ export default {
   },
   data() {
     return {
+      codeTest: '{}',
       rectanglePosition: '',
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
@@ -305,7 +309,7 @@ export default {
   },
   methods: {
     setRectangle(index = 0) {
-      const rectangle = this.text?.positionList
+      const rectangle = this.text.values[0].position[0]
       if (rectangle) {
         this.rectanglePosition = rectangle.reduce((total, cur) => {
           const str = (total +=
@@ -332,10 +336,6 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1
       }
-      // const page = this.example.billDetailVos;
-      // this.resizeImg();
-      // this.$emit("handle-change", page);
-      // this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
     },
     handleClick(index) {
       // 点击右侧tabs
@@ -371,28 +371,26 @@ export default {
     },
     // 计算图片的的实际渲染大小
     reRenderImage() {
-      this.data.forEach((document) => {
+      this.data.forEach((page, index) => {
         const vm = this
-        document.images.forEach((page) => {
-          // const img = new Image();
-          // img.src = page.img;
-          // img.onload = function () {
-          // page.originalWidth = this.width // 图片原始宽度
-          // page.originalHeight = this.height // 图片原始高度
+        if (index === this.activeDocumentIndex) {
           page.scale =
-            page.originalHeight > page.originalWidth
-              ? vm.documentHeight / +page.originalHeight
-              : vm.documentWidth / +page.originalWidth // 初始图片缩放比例
+            page.originalHeight > page.width
+              ? vm.documentHeight / +page.height
+              : vm.documentWidth / +page.width // 初始图片缩放比例
 
-          page.realRenderHeight = +page.originalHeight * page.scale // 图片实际渲染高度
+          page.realRenderHeight = +page.height * page.scale // 图片实际渲染高度
           if (page.realRenderHeight > vm.documentHeight) {
             page.realRenderHeight = vm.documentHeight
-            page.scale = vm.documentHeight / +page.originalHeight
+            page.scale = vm.documentHeight / +page.height
           }
-          page.realRenderWidth = +page.originalWidth * page.scale // 图片实际渲染宽度
-          // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
-          // };
-        })
+          page.realRenderWidth = +page.width * page.scale // 图片实际渲染宽度
+          vm.realRenderHeight = page.realRenderHeight
+          vm.realRenderWidth = page.realRenderWidth
+          vm.scale = page.scale
+        // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
+        // };
+        }
       })
       // console.log("render")
       window.setTimeout((_) => {
@@ -402,12 +400,12 @@ export default {
       //   this.calculateXy();
       // });
       this.updateTranslateY()
-      const page =
-        this.data[this.activeDocumentIndex].images[this.activePageIndex - 1]
-      // console.log(page, "page");
-      this.realRenderHeight = page.realRenderHeight
-      this.realRenderWidth = page.realRenderWidth
-      this.scale = page.scale
+      // const page =
+      //   this.data[this.activeDocumentIndex].images[this.activePageIndex - 1]
+      // // console.log(page, "page");
+      // this.realRenderHeight = page.realRenderHeight
+      // this.realRenderWidth = page.realRenderWidth
+      // this.scale = page.scale
     },
     // 切换示例
     handleClickExample(index) {
@@ -426,14 +424,6 @@ export default {
     // 翻页
     handleTurnPage(val) {
       const num = this.activePageIndex - 1 + val
-      // this.resetProps();
-      // if (num >= this.total) {
-      //   this.activePageIndex = this.total;
-      // } else if (num < 1) {
-      //   this.activePageIndex = 1;
-      // } else {
-      //   this.activePageIndex = num + 1;
-      // }
 
       if (num === this.total) {
         if (this.activeTabIndex < this.example.images.length - 1) {
@@ -473,10 +463,6 @@ export default {
         this.moveX = -this.dragY
         this.moveY = this.dragX
       }
-      // this.dragX = 0;
-      // this.dragY = 0;
-      // this.moveX = 0;
-      // this.moveY = 0;
       this.updateTranslateY()
       this.$nextTick((_) => {
         this.calculateXy()
@@ -600,7 +586,7 @@ export default {
           this.timer = window.setInterval((_) => {
             this.calculateXy()
             index++
-            if (index == 12) {
+            if (index === 12) {
               clearInterval(this.timer)
               this.transition = false
             }
@@ -616,7 +602,6 @@ export default {
         return
       }
       this.setRectangle(this.activeTextId)
-      const activeTextId = this.activeTextId
       const page = this.page
       const rotateIndex = this.rotateIndex
       const zoomScale = this.zoomScale || 1
@@ -624,7 +609,7 @@ export default {
         // maskValue = page.tableData[activeTextId],
         const maskEl = this.$refs['svg-rectangle']
         const documentLayout = this.$refs.documentLayout
-        const ocrTextWrapper = this.$refs.ocrTextWrapper
+        const ocrTextWrapper = this.$refs.rightTab.$refs.ocrTextWrapper
         const maskElRect = maskEl.getBoundingClientRect()
         const documentLayoutRect = documentLayout.getBoundingClientRect()
         const lY = documentLayoutRect.top
@@ -640,10 +625,9 @@ export default {
         const pathEndY =
           offsetTop - scrollTop + this.activeEl.clientHeight / 2 + 8
         const scale = page.rotateScale * zoomScale * this.imgScale
-        const w = this.text.positionList[1].x - this.text.positionList[0].x
-        const h = this.text.positionList[2].y - this.text.positionList[0].y
-        const Q = this.text.deg
-        const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
+        const position = this.text.values[0].position[0]
+        const w = position[1].x - position[0].x
+        const h = position[2].y - position[0].y
 
         let x = startX
         let y = startY + (h * scale) / 2
@@ -670,6 +654,7 @@ export default {
           pathEndX,
           pathEndY
         }
+        console.log(this.pathValue)
       })
     },
     // 还原
@@ -730,9 +715,6 @@ export default {
       )
     },
     removeEventListener(e, elName, w) {
-      // console.log(elName);
-      // const el = this.$refs[elName];
-
       window.removeEventListener('mousemove', this[`${elName}Mousemove`])
       window.removeEventListener('mouseup', this.removeEventListener)
       // this[`${elName}Mousemove`] = null;
@@ -750,8 +732,11 @@ export default {
         node.addEventListener(event, fun, false)
       } else {
         node.detachEvent('on' + event, fun)
-        node.attachEvent('on' + event, fun.call(obj))
+        node.attachEvent('on' + event, fun.call())
       }
+    },
+    parentProxy() {
+      this.proxy(this.calculateXy)
     },
     // 代理函数
     proxy(fun, args) {
@@ -764,19 +749,16 @@ export default {
     }
   },
   computed: {
-    downloadButtonPosition() {
-      return this.pageMenuPerm.SERBILLOFLADING ||
-        this.pageMenuPerm.COLLBILLOFLADING
-        ? '54px'
-        : '0'
-    },
     // 当前示例信息
     example() {
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.codeTest =
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
       return this.data[this.activeDocumentIndex]
     },
     // 总页数
     total() {
-      return this.data[this.activeDocumentIndex].length
+      return this.data.length
     },
     // 当前页面信息
     page() {
@@ -789,6 +771,7 @@ export default {
         translateY,
         rotateScale // 旋转导致的缩放比例
       }
+
       return page
     },
     originalLocation() {
@@ -805,15 +788,9 @@ export default {
     imageName() {
       return this.data[this.activeDocumentIndex].fileName
     },
-    fileName() {
-      return this.allData[this.activeDocumentIndex].fileName.substring(
-        0,
-        this.allData[this.activeDocumentIndex].fileName.indexOf('.')
-      )
-    },
     // 大图预览所需数据
     urlList() {
-      return [{ url: this.imageUrl, title: this.imageName }]
+      return [{ url: this.imagePath, title: this.fileName }]
     },
     // 当前文本信息
     text() {
@@ -822,14 +799,14 @@ export default {
       if (this.activeTextId > 1000) {
         const fatherId = Number(this.activeTextId.toString().substring(0, 2))
         const fatherText = textArr.filter((i) => {
-          return i.id === fatherId
+          return i.sortId === fatherId
         })[0].billDictionaryList
         return fatherText.filter((i) => {
-          return i.id === this.activeTextId
+          return i.sortId === this.activeTextId
         })[0]
       } else {
         return textArr.filter((i) => {
-          return i.id === this.activeTextId
+          return i.sortId === this.activeTextId
         })[0]
       }
     },
@@ -1090,7 +1067,7 @@ export default {
 
       .ocr-text {
         border: 1px solid #e3e8f0;
-        height: calc(100% - 74px);
+        height: calc(100vh - 218px);
         overflow: auto;
         padding: 12px 12px 12px 16px;
         background: #fff;

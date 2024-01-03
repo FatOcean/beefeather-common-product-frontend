@@ -1,5 +1,5 @@
 <template>
-  <div class="bill-of-lading-wrapper">
+  <div class="bill-of-lading-wrapper" style="width: 100%">
     <ocr-layout
       @resetId="() => (activeTextId = null)"
       @tabs="tabs"
@@ -30,56 +30,134 @@
               <td colspan="2">字段名</td>
               <td>识别结果</td>
             </thead>
-            <tbody v-for="i in pageDetail" :key="i.id">
-              <template v-if="i.billDictionaryList">
-                <tr
-                  v-show="
-                    i.billDictionaryList.some((item) => {
-                      return !item.notShow && !item.notEmpty;
-                    })
-                  "
-                >
-                  <td
-                    :rowspan="i.billDictionaryList.length + 1"
-                    style="width: 25%; border-right: none; cursor: default"
-                  >
-                    {{ i.key }}
-                  </td>
-                </tr>
-                <tr
-                  :class="{
-                    active: activeTextId === j.id,
-                    commonCursor: !(
-                      j.positionList && j.positionList.length > 0
-                    ),
-                  }"
-                  @click="(e) => clickHandler(e, j)"
-                  v-show="!j.notShow && !j.notEmpty"
-                  v-for="j in i.billDictionaryList"
-                  :key="j.id"
-                >
-                  <td>{{ j.key }}</td>
-                  <td>{{ j.value }}</td>
-                </tr>
-              </template>
+            <tbody v-for="i in page" :key="i.id">
               <tr
-                v-else
-                :class="{
-                  active: activeTextId === i.id,
-                  commonCursor: !(i.positionList && i.positionList.length > 0),
-                }"
+                v-if="i.keyCh === 'Goods Description'"
+                :class="{ active: activeTextId === i.id }"
                 @click="(e) => clickHandler(e, i)"
+              >
+                <td rowspan="5">{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td :class="{ activeTd: activeTextId === i.id }">
+                  <table>
+                    <p>Goods Description<br />商品描述</p>
+                    <p>
+                      Commodity<br />
+                      商品名称
+                    </p>
+                    <p>
+                      HS Code<br />
+                      HS编码
+                    </p>
+                    <p>
+                      Quantity<br />
+                      数量
+                    </p>
+                    <p>
+                      Quantity Unit<br />
+                      数量单位
+                    </p>
+                  </table>
+                </td>
+                <td>
+                  {{
+                    i.values && i.values.length > 0 && i.values[0].value
+                      ? i.values[0].value
+                      : ""
+                  }}
+                </td>
+              </tr>
+              <tr
+                :class="{ active: activeTextId === i.id }"
+                @click="(e) => clickHandler(e, i)"
+                v-else-if="i.keyCh === 'Gross Weight'"
                 v-show="!i.notShow && !i.notEmpty"
               >
-                <td colspan="2">{{ i.key }}</td>
-                <td>{{ i.value }}</td>
+                <td>{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td :class="{ activeTd: activeTextId === i.id }">
+                  <table>
+                    <p>
+                      Gross Weight<br />
+                      毛重
+                    </p>
+                    <p>
+                      Gross Weight Unit<br />
+                      毛重单位
+                    </p>
+                    <p>
+                      Gross Weight per Carton<br />
+                      每箱毛重
+                    </p>
+                  </table>
+                </td>
+                <td>
+                  {{
+                    i.values && i.values.length > 0 && i.values[0].value
+                      ? i.values[0].value
+                      : ""
+                  }}
+                </td>
+              </tr>
+              <tr
+                :class="{ active: activeTextId === i.id }"
+                @click="(e) => clickHandler(e, i)"
+                v-else-if="i.keyCh === 'Net Weight'"
+                v-show="!i.notShow && !i.notEmpty"
+              >
+                <td>{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td :class="{ activeTd: activeTextId === i.id }">
+                  <table>
+                    <p>
+                      Net Weight<br />
+                      净重
+                    </p>
+                    <p>
+                      Net Weight Unit<br />
+                      净重单位
+                    </p>
+                  </table>
+                </td>
+                <td>
+                  {{
+                    i.values && i.values.length > 0 && i.values[0].value
+                      ? i.values[0].value
+                      : ""
+                  }}
+                </td>
+              </tr>
+              <tr
+                :class="{ active: activeTextId === i.id }"
+                @click="(e) => clickHandler(e, i)"
+                v-else-if="i.keyCh === 'Product CBM'"
+                v-show="!i.notShow && !i.notEmpty"
+              >
+                <td>{{ i.keyCh }}</td>
+                <td :class="{ activeTd: activeTextId === i.id }">
+                  Product CBM<br />
+                  商品体积
+                </td>
+                <td>
+                  {{
+                    i.values && i.values.length > 0 && i.values[0].value
+                      ? i.values[0].value
+                      : ""
+                  }}
+                </td>
+              </tr>
+              <tr v-else @click="(e) => clickHandler(e, i)" :class="{ active: activeTextId === i.id }">
+                <td colspan="2">{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td>
+                  {{
+                    i.values && i.values.length > 0 && i.values[0].value
+                      ? i.values[0].value
+                      : ""
+                  }}
+                </td>
               </tr>
             </tbody>
           </table>
         </lls-tab-pane>
       </lls-tabs>
     </ocr-layout>
-
   </div>
 </template>
 <script>
@@ -123,17 +201,15 @@ export default {
   },
   created() {
     this.instance = this.data[0]
-    this.documents = this.instance.content
-    this.page = this.instance[0]
-    console.log(this.documents)
-    this.tabsArray = this.documents.map((item, index) => {
-      return { name: item.tabName }
+    this.documents = this.instance
+    this.page = this.documents.content
+    this.tabsArray = this.data.map((item, index) => {
+      return { name: `提单${index + 1}` }
     })
     this.activeName = this.tabsArray[0].name
-    this.pageDetail = this.page.customDeclarationList
+    this.pageDetail = this.page
   },
-  mounted() {
-  },
+  mounted() {},
   watch: {
     checked(val) {
       this.activeTextId = null
@@ -147,9 +223,21 @@ export default {
     }
   },
   methods: {
-    uploadFileData() {
-
+    clickHandler(e, i, noParent) {
+      let el = e.target.parentNode.firstChild
+      if (el.tagName === 'TR') el = el.firstChild
+      if (!(i.values && i.values.length > 0)) {
+        return
+      }
+      e = e || window.event
+      this.$refs.documents.$events.trigger('click-ocr-el', {
+        el,
+        id: i.sortId,
+        imageIndex: i.imageIndex
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
     },
+    uploadFileData() {},
     tabs(activeDocumentIndex, activePageIndex) {
       this.search = ''
       this.checked = false
@@ -534,19 +622,16 @@ export default {
   }
 }
 
-.lls-tabs__nav-scroll {
-  overflow: auto !important;
+// .lls-tabs__nav-scroll {
+//   overflow: auto !important;
 
-  &::-webkit-scrollbar {
-    height: 4px;
-  }
+//   &::-webkit-scrollbar {
+//     height: 4px;
+//   }
 
-  &::-webkit-scrollbar-thumb {
-    background: rgba(32, 45, 64, 0.5) !important;
-  }
+//   &::-webkit-scrollbar-thumb {
+//     background: rgba(32, 45, 64, 0.5) !important;
+//   }
 
-  .lls-tabs__nav {
-    width: 0;
-  }
-}
+// }
 </style>
