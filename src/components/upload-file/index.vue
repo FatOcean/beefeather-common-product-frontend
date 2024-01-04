@@ -198,12 +198,12 @@ export default {
   left: 0px;
 
   .dragger-wrapper {
-    width: 302px;
+    width: 302px !important;
     height: initial;
-    min-height: initial;
+    min-height: initial !important;
     background: #ffffff !important;
-    border: 1px solid #b4dbff;
-    border-radius: 16px 16px 0px 0px;
+    border: 1px solid #b4dbff !important;
+    border-radius: 16px 16px 0px 0px !important;
     box-shadow: 0px -3px 6px 0px rgba(5, 18, 30, 0.04);
     text-align: center;
     cursor: pointer;
