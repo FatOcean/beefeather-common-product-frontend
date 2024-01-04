@@ -192,7 +192,7 @@ export default {
 }
 
 .upload-wrapper {
-  position: absolute;
+  position: absolute !important;
   bottom: -8px;
   z-index: 9;
   left: 0px;
