@@ -3,6 +3,7 @@ import imagePath from '../images/document_ocr.png'
 
 const data = [{
   taskId: 'U2023122710780542',
+  isexample: true,
   status: 1,
   fileName: 'document_ocr.png',
   imagePath,

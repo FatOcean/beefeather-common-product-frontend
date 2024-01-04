@@ -94,7 +94,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <rightTab :codeTest="codeTest"> <slot></slot></rightTab>
+        <rightTab :codeTest="codeTest" :isImgdownload="true"> <slot></slot></rightTab>
       </div>
       <lls-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
@@ -116,7 +116,6 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-import rightTab from '../components/rightTab.vue'
 function Events() {
   this.clientList = {}
   this.listen = function (key, fn) {
@@ -159,8 +158,7 @@ export default {
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer,
-    rightTab
+    [ImageViewer.name]: ImageViewer
   },
   props: {
     data: {
@@ -202,6 +200,10 @@ export default {
       baseWidth: 0,
       newScale: 1,
       codeTest: '{}',
+      productObj: {
+        name: '印章去除',
+        staticName: 'seal_removal'
+      },
       selectOptions: [
         {
           value: 'JPG',
@@ -324,23 +326,6 @@ export default {
           vm.scale = page.scale
         }
       })
-      // console.log("render")
-      // window.setTimeout((_) => {
-      //   this.calculateXy()
-      // })
-      // this.$nextTick((_) => {
-      //   this.calculateXy()
-      // })
-      // this.updateTranslateY()
-
-      // const baseHeight =
-      //   this.$refs['document-box'].getBoundingClientRect().height
-      // // const page = this.data[this.activeDocumentIndex].imageVO[0]
-      // this.newScale =
-      //   this.page.realRenderHeight > 0.79 * baseHeight
-      //     ? (0.79 * baseHeight) / this.page.realRenderHeight
-      //     : 1
-      // console.log(page, "page");
       this.realRenderHeight = page.realRenderHeight
       this.realRenderWidth = page.realRenderWidth
       this.scale = page.scale
@@ -648,6 +633,9 @@ export default {
         node.attachEvent('on' + event, fun.call())
       }
     },
+    parentProxy() {
+      this.proxy(this.calculateXy)
+    },
     // 代理函数
     proxy(fun, args) {
       if (this.proxying) return
@@ -670,7 +658,8 @@ export default {
       const translateY = 0
       const rotateScale = 1
       const page = {
-        value: this.value,
+        ...this.example,
+        taskId: this.example.taskId,
         translateX,
         translateY,
         rotateScale // 旋转导致的缩放比例

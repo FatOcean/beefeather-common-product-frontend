@@ -141,52 +141,7 @@
       ></div>
       <!-- ocr识别结果 -->
         <div class="ocr-result" ref="ocrResult">
-        <div
-          v-for="i in 4"
-          :key="i"
-          class="border-corner"
-          :class="[`border-corner-${i}`]"
-        ></div>
-        <svg-icon iconClass="识别结果" class="svgClass"></svg-icon>
-        <lls-tabs
-          v-model="activeName"
-          height="50px"
-          @tab-click="handleClickTabs"
-        >
-          <lls-tab-pane label="识别结果" name="first">
-            <div
-              class="ocr-text"
-              @scroll="proxy(calculateXy)"
-              ref="ocrTextWrapper"
-            >
-              <slot></slot>
-            </div>
-          </lls-tab-pane>
-          <lls-tab-pane label="Json结果" name="second">
-            <div style="border: 1px solid #e3e8f0">
-              <b-code-editor
-                :indent-unit="4"
-                v-model="codeTest"
-                :readonly="true"
-                :gutter="false"
-                ref="editor"
-                mode="application/json"
-                theme="eclipse"
-                :height="'calc(100vh - 198px)'"
-                :show-number="false"
-                :auto-format="true"
-              ></b-code-editor>
-            </div>
-          </lls-tab-pane>
-          <template v-slot:button>
-            <lls-button type="text"
-              ><i class="lls-icon-download"></i>
-              {{
-                `下载${activeName === "first" ? "识别" : "Json"}结果`
-              }}</lls-button
-            >
-          </template>
-        </lls-tabs>
+          <rightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></rightTab>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -728,7 +683,7 @@ export default {
         const otherEl = beforeEl.rect.right > afterEl.rect.right ? beforeEl : afterEl
         // const maskEl = this.$refs["svg-polygon"],
         const documentLayout = this.$refs.documentLayout
-        const ocrTextWrapper = this.$refs.ocrTextWrapper
+        const ocrTextWrapper = this.$refs.rightTab.$refs.ocrTextWrapper
         // maskElRect = maskEl.getBoundingClientRect(),
         const documentLayoutRect = documentLayout.getBoundingClientRect()
         const activeElRect = this.activeEl.getBoundingClientRect()
@@ -844,6 +799,9 @@ export default {
         node.attachEvent('on' + event, fun.call())
       }
     },
+    parentProxy() {
+      this.proxy(this.calculateXy)
+    },
     // 代理函数
     proxy(fun, args) {
       if (this.proxying) return
@@ -866,6 +824,7 @@ export default {
       const rotateScale = 1
       const page = {
         ...this.value,
+        taskId: this.example.taskId,
         translateX,
         translateY,
         rotateScale // 旋转导致的缩放比例

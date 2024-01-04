@@ -6,6 +6,7 @@ import imagePath_2 from '../images/seal_detection_2.png'
 const data = [
   {
     angle: 0,
+    isexample: true,
     content: [
       {
         height: 251,

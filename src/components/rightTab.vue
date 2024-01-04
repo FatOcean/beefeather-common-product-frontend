@@ -52,12 +52,26 @@
             </lls-option>
           </lls-select>
         </template>
-        <lls-button type="text"
+        <lls-button type="text" @click="downloadResult" v-if="!isImgdownload"
           ><i class="lls-icon-download"></i>
           {{
             `下载${activeName === "first" ? "识别" : "Json"}结果`
           }}</lls-button
         >
+        <lls-dropdown @command="downloadResult" v-else>
+          <lls-button type="text"
+            ><i class="lls-icon-download"></i>
+            {{
+              `下载${activeName === "first" ? "识别" : "Json"}结果`
+            }}</lls-button
+          >
+          <lls-dropdown-menu slot="dropdown">
+            <lls-dropdown-item command="JPG">JPG</lls-dropdown-item>
+            <lls-dropdown-item command="JPEG">JPEG</lls-dropdown-item>
+            <lls-dropdown-item command="PNG">PNG</lls-dropdown-item>
+            <lls-dropdown-item command="BMP">BMP</lls-dropdown-item>
+          </lls-dropdown-menu>
+        </lls-dropdown>
       </template>
     </lls-tabs>
   </div>
@@ -65,7 +79,12 @@
 
 <script>
 import { mapState } from 'vuex'
-import { getBankList } from '@/api/receiptAnalysis'
+import {
+  getBankList,
+  downloadResult,
+  downloadJson
+} from '@/api/receiptAnalysis'
+
 export default {
   name: '',
   props: {
@@ -74,6 +93,10 @@ export default {
       default: ''
     },
     isshowBank: {
+      type: Boolean,
+      default: false
+    },
+    isImgdownload: {
       type: Boolean,
       default: false
     }
@@ -112,6 +135,39 @@ export default {
     }
   },
   methods: {
+    downloadResult(fileFormat = false) {
+      const { page, productObj } = this.$parent
+      const download =
+        this.activeName === 'first' ? downloadResult : downloadJson
+      const params = {
+        example: !!page?.isexample,
+        application: productObj.staticName.toUpperCase(),
+        taskId: page.isexample ? page.fileName : page.taskId
+      }
+      if (this.isImgdownload) params.fileFormat = fileFormat
+      download(params)
+        .then((res) => {
+          // if (res.data.code === '200') {
+          const fileName =
+            res.headers['content-disposition'] &&
+            res.headers['content-disposition']
+              .split(';')[1]
+              .split('filename=')[1]
+              .replace(/"/gi, '')
+          const blob = res.data
+          const type =
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document;charset=utf-8'
+          this.exportByBlob(blob, decodeURIComponent(fileName), type)
+        })
+        .catch((error) => {
+          console.log(error)
+          this.$message({
+            message: '网络错误，请稍后再试',
+            type: 'error',
+            offset: 60
+          })
+        })
+    },
     setBank(bank) {
       this.bank = bank
     },
@@ -141,7 +197,7 @@ export default {
 }
 
 ::v-deep .CodeMirror {
-  height: calc(100vh - 200px);
+  height: calc(100vh - 219px);
 }
 
 ::v-deep .CodeMirror-gutters {
@@ -162,5 +218,40 @@ export default {
   font-size: 16px;
   position: relative;
   top: 28px;
+}
+
+.border-corner {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border: 4px solid #0887ff;
+
+  &.border-corner-1 {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  &.border-corner-2 {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+  }
+
+  &.border-corner-3 {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+  }
+
+  &.border-corner-4 {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+  }
 }
 </style>

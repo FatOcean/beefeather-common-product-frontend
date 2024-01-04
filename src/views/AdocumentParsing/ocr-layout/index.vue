@@ -241,10 +241,11 @@
               class="frame-mask-svg"
               :width="page.realRenderWidth"
               :height="page.realRenderHeight"
-            >
-              <!--                     :style="{
+              :style="{
                 transform: `rotate(${-page.imgRotatingDeg || 0}deg)`,
-              }"        -->
+              }"
+            >
+              <!--                             -->
               <template v-for="(item, index) in activeText">
                 <template v-if="index === 0">
                   <circle

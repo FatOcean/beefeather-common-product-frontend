@@ -9,6 +9,7 @@ const data = [
     imagePath,
     height: 1650,
     width: 2598,
+    isexample: true,
     content: [
       {
         id: 1,

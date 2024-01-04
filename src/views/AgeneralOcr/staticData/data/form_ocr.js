@@ -1633,7 +1633,8 @@ const data = [
       }
     ],
     angle: 0,
-    json: {}
+    json: {},
+    isexample: true
   }
 ]
 

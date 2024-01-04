@@ -29,7 +29,7 @@
           @click.native="handleZoom(zoomStep)"
         ></svg-icon>
         <svg-icon
-          iconClass="缩小"
+          iconClass="ic-缩小"
           @click.native="handleZoom(-zoomStep)"
         ></svg-icon>
         <svg-icon iconClass="旋转" @click.native="handleClickRotate"></svg-icon>

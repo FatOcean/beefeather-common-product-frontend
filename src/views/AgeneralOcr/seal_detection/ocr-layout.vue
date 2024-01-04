@@ -128,47 +128,8 @@ script<template>
       ></div>
 
       <div class="ocr-result" ref="ocrResult">
-        <rightTab ref="ocrResult" :codeTest="codeTest"> <slot></slot></rightTab>
+        <rightTab ref="ocrResult" :codeTest="codeTest" :isImgdownload="true"> <slot></slot></rightTab>
       </div>
-
-      <!-- ocr识别结果 -->
-      <!-- <div class="ocr-result" ref="ocrResult">
-        <div
-          v-for="i in 4"
-          :key="i"
-          class="border-corner"
-          :class="[`border-corner-${i}`]"
-        ></div>
-        <div class="ocr-title-bar">
-          <div class="ocr-title">
-            <svg-icon iconClass="识别结果"></svg-icon>
-            <span>识别结果</span>
-          </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 18px;
-            "
-          >
-          </div>
-        </div>
-        <div class="ocr-text-wrapper">
-          <div
-            class="ocr-text"
-            @scroll="proxy(calculateXy)"
-            ref="ocrTextWrapper"
-            v-if="this.example.content.length"
-          >
-            <slot></slot>
-          </div>
-          <div class="no-data" v-else>
-            <img :src="require('@/assets/images/暂无数据.png')" alt />
-            <div>暂无解析数据</div>
-          </div>
-        </div>
-      </div> -->
       <lls-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
       </lls-collapse-transition>
@@ -189,7 +150,6 @@ script<template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-import rightTab from '../components/rightTab.vue'
 function Events() {
   this.clientList = {}
   this.listen = function (key, fn) {
@@ -229,19 +189,12 @@ function Events() {
 export default {
   model: {
     prop: 'value'
-    // event: "handle-change",
   },
   components: {
-    [ImageViewer.name]: ImageViewer,
-    rightTab
+    [ImageViewer.name]: ImageViewer
+    // rightTab
   },
   props: {
-    // value: {
-    //   type: Array,
-    //   default: function () {
-    //     return null;
-    //   },
-    // },
     data: {
       // 文档数组
       type: Array,
@@ -282,7 +235,11 @@ export default {
       total: 1,
       suffix: '',
       baseWidth: 0,
-      codeTest: ''
+      codeTest: '',
+      productObj: {
+        name: '印章检测',
+        staticName: 'seal_detection'
+      }
     }
   },
   mounted() {
@@ -746,6 +703,9 @@ export default {
         node.attachEvent('on' + event, fun.call())
       }
     },
+    parentProxy() {
+      this.proxy(this.calculateXy)
+    },
     // 代理函数
     proxy(fun, args) {
       if (this.proxying) return
@@ -817,7 +777,8 @@ export default {
       const translateY = 0
       const rotateScale = 1
       const page = {
-        value: this.value,
+        ...this.example,
+        taskId: this.example.taskId,
         translateX,
         translateY,
         rotateScale // 旋转导致的缩放比例
@@ -844,17 +805,6 @@ export default {
     urlList() {
       return [{ url: this.imageUrl, title: this.imageName }]
     },
-    // 当前文本信息
-    // text() {
-    //   const { value } = this.page;
-
-    //   const textArr = [...value];
-    //   const textValue = textArr[this.activeTabIndex].identityList;
-    //   // console.log(textValue, "textValue");
-    //   return textValue.filter((i) => {
-    //     return i.id === this.activeTextId;
-    //   })[0];
-    // },
     // 当前图片初始缩放比例
     imgScale() {
       return this.scale
@@ -875,7 +825,8 @@ export default {
   z-index: 1;
 }
 </style>
-<style lang="stylus">.ocr-text {
+<style lang="stylus">
+.ocr-text {
   ::v-deep .lls-tabs__active-bar {
     margin-left: 0px !important;
   }

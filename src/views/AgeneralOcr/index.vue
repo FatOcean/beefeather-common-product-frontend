@@ -15,6 +15,7 @@
         :coordinateData="page.content"
         locatable
         showAllCoordinate
+        :productObj="productObj"
       >
         <ocr-el
           v-for="(i, index) in page.content"
@@ -33,6 +34,7 @@
         locatable
         @on-resize="proxy(calculateXy)"
         @on-scroll="proxy(calculateXy)"
+        :productObj="productObj"
       >
         <template v-for="(content, index) in page.content">
           <!-- 表格 -->
@@ -122,137 +124,140 @@
   </div>
 </template>
 <script>
-import { staticData } from "./staticData";
-import ocrlayout from "./ocr-layout";
-import { mapState } from "vuex";
-import leftselect from "./components/leftselect.vue";
+import { staticData } from './staticData'
+import ocrlayout from './ocr-layout'
+import { mapState } from 'vuex'
+import leftselect from './components/leftselect.vue'
 export default {
   components: {
     ocrlayout,
     leftselect,
     SealRecognition: (resolve) =>
-      require(["./ocr-layout/seal_recognition.vue"], resolve), // 印章识别
-    Sealdetection: (resolve) => require(["./seal_detection"], resolve), // 印章检测
-    Sealremoval: (resolve) => require(["./seal_removal"], resolve), // 印章去除
+      require(['./ocr-layout/seal_recognition.vue'], resolve), // 印章识别
+    Sealdetection: (resolve) => require(['./seal_detection'], resolve), // 印章检测
+    Sealremoval: (resolve) => require(['./seal_removal'], resolve) // 印章去除
   },
   data() {
     return {
       // page: {}, // 当前页面数据信息
       percent: 0, // 进度条
-      activeName: "",
+      activeName: '',
       activeDocumentIndex: 0,
       checked: false,
       staticData,
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
-      productName: "document_ocr",
+      productName: 'document_ocr',
       activePageIndex: 0,
-      activeId: "",
+      activeId: '',
       productObj: {
-        name: "文档OCR",
-        staticName: "document_ocr",
-      },
-    };
+        name: '文档OCR',
+        staticName: 'document_ocr'
+      }
+    }
   },
 
   watch: {
     checked(val) {
-      this.$refs.documents.pathValue = null;
-      this.filterEmpty(val);
-    },
+      this.$refs.documents.pathValue = null
+      this.filterEmpty(val)
+    }
   },
   created() {
-    console.log(this.staticData);
+    console.log(this.staticData)
   },
   computed: {
     documents() {
-      const document = JSON.parse(JSON.stringify(staticData[this.productName]));
-      return document;
+      const document = JSON.parse(JSON.stringify(staticData[this.productName]))
+      return document
     },
     page() {
-      return this.documents[this.activePageIndex];
+      return this.documents[this.activePageIndex]
     },
     pageDetail() {
-      return this.page.content[this.activeTabIndex].identityList;
+      return this.page.content[this.activeTabIndex].identityList
     },
-    ...mapState(["pageMenuPerm"]),
+    ...mapState(['pageMenuPerm']),
     originLocation() {
-      return process.env.NODE_ENV === "development"
-        ? "https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image"
-        : `${window.location.origin}/file-handle-web/file/image`;
-    },
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
+    }
   },
   mounted() {},
   methods: {
     listClick(e, i) {
-      if (this.activeId === i.id) return;
-      this.activeTextId = null;
-      this.activeId = i.id;
-      console.log(i);
+      if (this.activeId === i.id) return
+      this.activeTextId = null
+      this.activeId = i.id
+      console.log(i)
       this.$refs.documents.handleClickRectangle({
-        item: i,
-      });
+        item: i
+      })
     },
     clickHandler(e, i, parent) {
-      const el = e.target;
-      this.activeId = parent.id;
-      e = e || window.event;
+      const el = e.target
+      this.activeId = parent.id
+      e = e || window.event
       this.$refs.documents.handleClickText({
         el,
         id: i.id,
-        item: i,
-      });
-      this.activeTextId = this.$refs.documents.activeTextId;
+        item: i
+      })
+      this.activeTextId = this.$refs.documents.activeTextId
     },
     calculateXy() {
-      this.$events.trigger("ocr-text-scroll");
-      this.$refs.documents.calculateXy();
+      this.$events.trigger('ocr-text-scroll')
+      this.$refs.documents.calculateXy()
     },
     setTableData(index) {
-      this.activePageIndex = this.$refs.documents.activePageIndex;
+      this.activePageIndex = this.$refs.documents.activePageIndex
     },
     setProductName(data) {
-      this.activePageIndex = 0;
-      this.activeTextId = 0;
-      this.productName = data.staticName;
-      this.productObj = data;
-      if (data.name === "文档OCR" || data.name === "表格OCR")
-        this.$refs.documents.activeName = "first";
+      this.activePageIndex = 0
+      this.activeTextId = 0
+      this.productName = data.staticName
+      this.productObj = data
+      if (data.name === '文档OCR' || data.name === '表格OCR') {
+        this.$nextTick(() => {
+          this.$refs.documents.activeName = 'first'
+        })
+      }
     },
     resetId() {},
     goBack() {},
     pushtest() {
-      const data = [];
+      const data = []
       data.map((item) => {
         item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
           item.imagePath
-        )}`;
-      });
+        )}`
+      })
     },
     uploadFileData(res) {
-      const data = res.data;
+      const data = res.data
       data.map((item) => {
         item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
           item.imagePath
-        )}`;
-      });
-      this.staticData[this.productName] = data;
+        )}`
+      })
+      this.staticData[this.productName] = data
     },
     resolveCol(value) {
-      return value.replace(/\n/gi, "<br/>");
+      return value.replace(/\n/gi, '<br/>')
     },
     proxy(fun, args) {
-      if (this.proxying) return;
-      this.proxying = true;
+      if (this.proxying) return
+      this.proxying = true
 
       window.requestAnimationFrame((_) => {
-        fun.call(this, args);
-        this.proxying = false;
-      });
-    },
-  },
-};
+        fun.call(this, args)
+        this.proxying = false
+      })
+    }
+  }
+}
 </script>
 <style lang="stylus" scoped>
 @import './index.styl';
