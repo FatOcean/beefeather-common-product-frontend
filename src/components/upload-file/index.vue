@@ -8,7 +8,7 @@
     ></bee-loading>
     <link-upload
       v-model="files"
-      class="upload-wrapper"
+      class="upload-wrapper-new"
       @mouseenter.native="dragenter = true"
       @mouseleave.native="dragenter = false"
       :beforeUpload="beforeUpload"
@@ -191,7 +191,7 @@ export default {
   left: 0;
 }
 
-.upload-wrapper {
+.upload-wrapper-new {
   position: absolute !important;
   bottom: -8px;
   z-index: 9;
