@@ -36,7 +36,7 @@
                 :class="{ active: activeTextId === i.id }"
                 @click="(e) => clickHandler(e, i)"
               >
-                <td rowspan="5">{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td rowspan="5">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
                 <td :class="{ activeTd: activeTextId === i.id }">
                   <table>
                     <p>Goods Description<br />商品描述</p>
@@ -72,7 +72,7 @@
                 v-else-if="i.keyCh === 'Gross Weight'"
                 v-show="!i.notShow && !i.notEmpty"
               >
-                <td>{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
                 <td :class="{ activeTd: activeTextId === i.id }">
                   <table>
                     <p>
@@ -103,7 +103,7 @@
                 v-else-if="i.keyCh === 'Net Weight'"
                 v-show="!i.notShow && !i.notEmpty"
               >
-                <td>{{ i.keyEn }}<br />{{i.keyCh}}</td>
+                <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
                 <td :class="{ activeTd: activeTextId === i.id }">
                   <table>
                     <p>
@@ -143,8 +143,12 @@
                   }}
                 </td>
               </tr>
-              <tr v-else @click="(e) => clickHandler(e, i)" :class="{ active: activeTextId === i.id }">
-                <td colspan="2">{{ i.keyEn }}<br />{{i.keyCh}}</td>
+              <tr
+                v-else
+                @click="(e) => clickHandler(e, i)"
+                :class="{ active: activeTextId === i.id }"
+              >
+                <td colspan="2">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
                 <td>
                   {{
                     i.values && i.values.length > 0 && i.values[0].value
@@ -251,12 +255,13 @@ export default {
         return { name: item.tabName }
       })
       this.activeName = this.tabsArray[0].name
-      this.pageDetail = this.page.customDeclarationList
+      this.pageDetail = this.page
       this.activeTabIndex = 0
       // console.log(this.example, "ex2");
     },
 
     handleClick(value) {
+      if (value.name === this.activeName) return
       this.search = ''
       this.checked = false
       this.filterEmpty(false)
@@ -267,13 +272,13 @@ export default {
           this.activeName = this.tabsArray[this.activeTabIndex].name
           this.$refs.documents.handleClick(this.activeTabIndex)
           this.page = this.documents[this.activeTabIndex]
-          this.pageDetail = this.page.customDeclarationList
+          this.pageDetail = this.page
         } else {
           this.activeTabIndex += value
           this.activeName = this.tabsArray[this.activeTabIndex].name
           this.$refs.documents.handleClick(this.activeTabIndex)
           this.page = this.documents[this.activeTabIndex]
-          this.pageDetail = this.page.customDeclarationList
+          this.pageDetail = this.page
         }
       } else {
         this.tabsArray.forEach((item, index) => {
@@ -281,7 +286,7 @@ export default {
             this.activeTabIndex = index
             this.$refs.documents.handleClick(index)
             this.page = this.documents[index]
-            this.pageDetail = this.page.customDeclarationList
+            this.pageDetail = this.page
           }
         })
       }
@@ -293,26 +298,22 @@ export default {
       }, 200)
     },
     filterEmpty(flag) {
-      this.pageDetail = this.emptyData(this.pageDetail, flag)
-    },
-    emptyData(arr, flag) {
-      const newArr = arr.map((item) => {
-        if (item.billDictionaryList) {
-          item.billDictionaryList = item.billDictionaryList.map((i) => {
-            return {
-              ...i,
-              notEmpty: flag ? i.value === '' || !i.value : false
-            }
-          })
-          return item
-        } else {
-          return {
-            ...item,
-            notEmpty: flag ? item.value === '' || !item.value : false
-          }
-        }
-      })
-      return newArr
+      const data = this.pageDetail
+      if (flag) {
+        this.page = data.filter((item) => {
+          // 过滤掉values为空或者values为数组但value为空的项
+          return (
+            item.values &&
+            (Array.isArray(item.values)
+              ? item.values.some(
+                (v) => v.value !== undefined && v.value !== null
+              )
+              : true)
+          )
+        })
+      } else {
+        this.page = data
+      }
     },
     searchData() {
       // this.$refs.documents.resetProps()
@@ -320,116 +321,36 @@ export default {
       this.$refs.documents.activeTextId = null
       this.$refs.documents.pathValue = null
       this.$refs.documents.rectanglePosition = []
-      this.pageDetail = this.handleArr(
+      this.page = this.searchArray(
         this.pageDetail,
         this.search.toLowerCase()
       )
     },
-    handleArr(arr, eleName) {
-      const newArr = arr.map((item) => {
-        if (item.billDictionaryList) {
-          item.billDictionaryList = item.billDictionaryList.map((i) => {
-            return {
-              ...i,
-              notShow:
-                !(i.key.toLowerCase().indexOf(eleName) > -1) &&
-                !(i.value.toLowerCase().indexOf(eleName) > -1)
-            }
-          })
-          return item
-        } else {
-          return {
-            ...item,
-            notShow:
-              !(item.key.toLowerCase().indexOf(eleName) > -1) &&
-              !(item.value.toLowerCase().indexOf(eleName) > -1)
-          }
+    searchArray(data, searchTerm) {
+      const lowerSearchTerm = searchTerm.toLowerCase()
+
+      return data.filter(item => {
+        // 判断 keyCh、keyEn、value 是否包含搜索关键词（不区分大小写）
+        const keyChMatch = item.keyCh.toLowerCase().includes(lowerSearchTerm)
+        const keyEnMatch = item.keyEn.toLowerCase().includes(lowerSearchTerm)
+
+        if (item.values && Array.isArray(item.values)) {
+          const valueMatch = item.values.some(v => v.value && v.value.toLowerCase().includes(lowerSearchTerm))
+          // 返回是否匹配任何一个属性
+          return keyChMatch || keyEnMatch || valueMatch
         }
+
+        // 返回是否匹配 keyCh 或 keyEn
+        return keyChMatch || keyEnMatch
       })
-      return newArr
     }
+
   }
 }
 </script>
 <style lang="stylus">
-.identify-data {
-  .identify-header {
-    display: flex;
-    background: #F3F4F6;
-
-    div {
-      width: 50%;
-      line-height: 40px;
-      padding-left: 8px;
-      border: 1px solid #E3E8F0;
-
-      &:last-child {
-        border-left: none;
-      }
-    }
-  }
-
-  .identify-content {
-    .identify-content-top {
-      display: flex;
-
-      div {
-        width: 50%;
-        line-height: 40px;
-        padding-left: 8px;
-        border: 1px solid #E3E8F0;
-        border-top: none;
-
-        &:last-child {
-          border-left: none;
-        }
-      }
-    }
-
-    .identify-content-other {
-      border: 1px solid #E3E8F0;
-      border-top: none;
-      display: flex;
-      box-sizing: border-box;
-
-      .other-list {
-        width: 50%;
-        box-sizing: border-box;
-
-        div {
-          border-bottom: 1px solid #E3E8F0;
-          line-height: 40px;
-          padding-left: 8px;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
-
-      .other-left {
-        align-content: center;
-        width: 50%;
-        box-sizing: border-box;
-        display: flex;
-
-        .other-info {
-          border-bottom: 1px solid #E3E8F0;
-          border-right: 1px solid #E3E8F0;
-          border-left: 1px solid #E3E8F0;
-          line-height: 40px;
-          padding-left: 8px;
-
-          &:last-child {
-            border-bottom: none;
-          }
-        }
-      }
-    }
-  }
-}
-
 .search-box {
+  margin-top: 12px;
   display: flex;
   align-items: center;
   margin-bottom: 4px;
@@ -446,10 +367,6 @@ export default {
   .lls-checkbox__input.is-checked+.lls-checkbox__label {
     color: #202D40;
   }
-}
-
-.pre-line {
-  white-space: pre-line;
 }
 
 .table-data {
@@ -551,17 +468,4 @@ export default {
     white-space: pre-line;
   }
 }
-
-// .lls-tabs__nav-scroll {
-//   overflow: auto !important;
-
-//   &::-webkit-scrollbar {
-//     height: 4px;
-//   }
-
-//   &::-webkit-scrollbar-thumb {
-//     background: rgba(32, 45, 64, 0.5) !important;
-//   }
-
-// }
 </style>

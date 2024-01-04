@@ -119,7 +119,7 @@ export default {
     tabs(activeDocumentIndex, activePageIndex) {
       this.activePageIndex = 0
       this.activeDocumentIndex = activeDocumentIndex
-      this.tabsArray = this.documents[activeDocumentIndex].specificData.map(
+      this.tabsArray = this.documents.map(
         (item, index) => {
           return {
             name: `发票${index + 1}`

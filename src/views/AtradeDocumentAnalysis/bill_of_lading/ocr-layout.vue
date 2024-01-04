@@ -157,23 +157,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <!-- <div
-          v-for="i in 4"
-          :key="i"
-          class="border-corner"
-          :class="[`border-corner-${i}`]"
-        ></div>
-        <div class="ocr-title-bar">
-          <div class="ocr-title">
-            <svg-icon iconClass="识别结果"></svg-icon><span>识别结果</span>
-          </div>
-        </div>
-        <div class="ocr-text" @scroll="proxy(calculateXy)" ref="ocrTextWrapper">
-          <slot></slot>
-        </div> -->
-        <RightTab :codeTest="codeTest" ref="rightTab"
-          ><slot></slot>
-        </RightTab>
+        <RightTab :codeTest="codeTest" ref="rightTab"><slot></slot> </RightTab>
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -388,8 +372,8 @@ export default {
           vm.realRenderHeight = page.realRenderHeight
           vm.realRenderWidth = page.realRenderWidth
           vm.scale = page.scale
-        // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
-        // };
+          // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
+          // };
         }
       })
       // console.log("render")
@@ -542,9 +526,9 @@ export default {
     // 激活文本
     handleClickText({ el, id, imageIndex }) {
       // console.log(el, "el2");
-      if (imageIndex !== this.activePageIndex) {
-        this.activePageIndex = imageIndex
-      }
+      // if (imageIndex !== this.activePageIndex) {
+      //   this.activePageIndex = imageIndex
+      // }
       this.activeEl = el
       this.activeTextId = id
       this.setRectangle(this.activeTextId)
@@ -753,7 +737,7 @@ export default {
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.codeTest =
-        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || '{}'
       return this.data[this.activeDocumentIndex]
     },
     // 总页数
@@ -790,7 +774,7 @@ export default {
     },
     // 大图预览所需数据
     urlList() {
-      return [{ url: this.imagePath, title: this.fileName }]
+      return [{ url: this.imageUrl, title: this.imageName }]
     },
     // 当前文本信息
     text() {
@@ -817,292 +801,21 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-.ocr-layout {
-  display: flex;
-  color: #202d40;
-  height: calc(100vh - 122px);
-  overflow: hidden;
+<style lang="stylus" spored>
+@import '../ocr-layout.styl';
 
-  * {
-    user-select: text;
-  }
+.dih-page-input {
+  background-color: transparent;
+  max-width: 20px;
+  border: none;
+  text-align: center;
+  outline: medium;
+  color: #999;
+}
 
-  .dih-page-input {
-    background-color: transparent;
-    max-width: 20px;
-    border: none;
-    text-align: center;
-    outline: medium;
-    color: #999;
-  }
-
-  .svg-seal {
-    pointer-events: none;
-    position: absolute;
-    z-index: 1;
-  }
-
-  input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-  }
-
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
-  .ocr-inner {
-    flex-shrink: 1;
-    flex-grow: 1;
-    display: flex;
-    position: relative;
-    align-items: center;
-
-    .svg-mask {
-      pointer-events: none;
-      position: absolute;
-      top: 60px;
-      left: 16px;
-      z-index: 1;
-    }
-
-    .document-box {
-      border: 1px solid #e2e4e9;
-      flex-shrink: 1;
-      flex-grow: 1;
-      position: relative;
-      height: 100%;
-
-      // margin-right: 8px;
-      .tool-bar {
-        height: 38px;
-        line-height: 38px;
-        padding: 0 16px;
-        box-shadow: 0px 3px 8px 0px rgba(5, 18, 30, 0.08);
-        font-size: 12px;
-        display: flex;
-        justify-content: space-between;
-
-        >div {
-          flex: 1;
-          text-align: center;
-
-          &:last-child {
-            text-align: right;
-          }
-        }
-
-        .name {
-          text-align: left;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          width: 360px;
-        }
-
-        .number {
-          border-bottom: 1px solid #E3E8F0;
-          padding: 0 8px;
-
-          >span {
-            color: #8492A6;
-          }
-        }
-
-        .svg-icon {
-          font-size: 15px;
-          margin: 0 6px;
-          cursor: pointer;
-
-          &.big-icon, &.dis-icon {
-            font-size: 15px;
-            margin: 0 4px;
-          }
-
-          &.dis-icon {
-            cursor: default;
-          }
-        }
-      }
-
-      .document-layout {
-        overflow: hidden;
-        height: calc(100% - 78px);
-        margin: 20px 16px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .document {
-          background-size: contain;
-          position: relative;
-          cursor: url('~@/assets/images/icon/手势-张开.svg'), grab;
-          background-repeat: no-repeat;
-          width: 100%;
-
-          >img {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            pointer-events: none;
-            user-select: none;
-          }
-
-          &.draggable {
-            cursor: url('~@/assets/images/icon/手势-握紧.svg'), grabbing;
-          }
-
-          &.transition {
-            transition: all 0.3s linear;
-          }
-
-          .frame-mask {
-            position: absolute;
-            cursor: pointer;
-            pointer-events: none;
-
-            &.active, &:hover {
-              background: rgba(8, 135, 255, 0.1);
-              border: 1px solid #0887ff;
-              border-radius: 4px;
-            }
-          }
-        }
-      }
-    }
-
-    .drag-view {
-      width: 8px;
-      // height: 30px;
-      flex-shrink: 0;
-      flex-grow: 0;
-      cursor: col-resize;
-      position: relative;
-      display: flex;
-      align-items: center;
-      height: 100%;
-
-      &:after {
-        content: '';
-        width: 100%;
-        height: 30px;
-        background-image: repeating-linear-gradient(
-          to bottom,
-          #E5E7EC 0px,
-          #E5E7EC 1px,
-          transparent 1px,
-          transparent 4px
-        );
-      }
-    }
-
-    .ocr-result {
-      background: #f7fbff;
-      border: 1px solid #0887ff;
-      position: relative;
-      padding: 0 16px;
-      width: 50%;
-      flex-shrink: 0;
-      flex-grow: 0;
-      height: 100%;
-
-      .border-corner {
-        position: absolute;
-        height: 20px;
-        width: 20px;
-        border: 4px solid #0887FF;
-
-        &.border-corner-1 {
-          top: 0;
-          left: 0;
-          border-right: none;
-          border-bottom: none;
-        }
-
-        &.border-corner-2 {
-          top: 0;
-          right: 0;
-          border-left: none;
-          border-bottom: none;
-        }
-
-        &.border-corner-3 {
-          bottom: 0;
-          left: 0;
-          border-right: none;
-          border-top: none;
-        }
-
-        &.border-corner-4 {
-          bottom: 0;
-          right: 0;
-          border-left: none;
-          border-top: none;
-        }
-      }
-
-      .ocr-title-bar {
-        display: flex;
-        height: 58px;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 16px;
-
-        .svg-icon {
-          margin-right: 8px;
-
-          &.download {
-            margin-right: 4px;
-          }
-        }
-
-        .ocr-title {
-          font-weight: 600;
-        }
-
-        span {
-          vertical-align: middle;
-        }
-      }
-
-      .ocr-text {
-        border: 1px solid #e3e8f0;
-        height: calc(100vh - 218px);
-        overflow: auto;
-        padding: 12px 12px 12px 16px;
-        background: #fff;
-        position: relative;
-
-        &::-webkit-scrollbar {
-          width: 4px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background: rgba(32, 45, 64, 0.5);
-        }
-
-        .text {
-          line-height: 26px;
-          padding: 0 8px;
-          border: 1px solid #fff;
-
-          &:not(:last-child) {
-            margin-bottom: 8px;
-          }
-
-          &:hover {
-            background: #f6f9fb;
-            cursor: pointer;
-          }
-
-          &.active {
-            background: rgba(8, 135, 255, 0.1);
-            border: 1px solid #0887ff;
-            border-radius: 4px;
-          }
-        }
-      }
-    }
-  }
+.svg-seal {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
 }
 </style>

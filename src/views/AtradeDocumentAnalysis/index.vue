@@ -4,17 +4,18 @@
     </lls-page-header>
     <div class="document-box">
       <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
-      <vat v-show="productName === 'vat'"></vat>
-      <receipt v-show="productName === 'receipt'"></receipt>
+      <vat v-if="productName === 'vat'"></vat>
+      <receipt v-if="productName === 'receipt'"></receipt>
       <financialStatement
-        v-show="productName === 'financial_statement'"
+        v-if="productName === 'financial_statement'"
       ></financialStatement>
        <billOfLading
-        v-show="productName === 'bill_of_lading'"
+        v-if="productName === 'bill_of_lading'"
       ></billOfLading>
     </div>
   </div>
 </template>
+
 <script>
 import leftselect from './components/leftselect.vue'
 export default {
@@ -28,10 +29,10 @@ export default {
   },
   data() {
     return {
-      productName: 'vat',
+      productName: 'bill_of_lading',
       productObj: {
-        name: '增值税发票',
-        staticName: 'vat'
+        name: '提单',
+        staticName: 'bill_of_lading'
       }
     }
   },

@@ -129,7 +129,7 @@ export default {
             this.documents.bank = this.bank
             this.page = this.documents.content
             this.failedStatus = false
-            this.documents.json = res.data[0].json
+            this.data[0] = { ...this.documents, ...res.data[0] }
           } else {
             this.failedStatus = true
           }
