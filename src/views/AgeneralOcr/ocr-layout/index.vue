@@ -90,7 +90,7 @@
             ></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
-              @click.native="handleFullScreen"
+              @click.native="showImageViewer = true"
             ></svg-icon>
           </div>
         </div>
@@ -327,16 +327,15 @@
       </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
-    <lls-image-viewer
+    <showImg
       v-if="showImageViewer"
       :urlList="urlList"
-      :on-close="handleClose"
-    ></lls-image-viewer>
+      @close="showImageViewer = false"
+    ></showImg>
   </div>
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
-import ImageViewer from '@linklogis/image-viewer'
 import '@/icons'
 
 function Events() {
@@ -380,9 +379,6 @@ export default {
   model: {
     prop: 'value',
     event: 'handle-change'
-  },
-  components: {
-    [ImageViewer.name]: ImageViewer
   },
   props: {
     productObj: {
@@ -592,14 +588,6 @@ export default {
         this.$refs.editor.formatCode()
       })
       this.resetProps()
-    },
-    handleFullScreen() {
-      this.$emit('on-open-viewer')
-      this.showImageViewer = true
-    },
-    handleClose() {
-      this.showImageViewer = false
-      this.$emit('on-close-viewer')
     },
     // 翻页
     handleTurnPage(val, page) {

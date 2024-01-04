@@ -1,7 +1,6 @@
 <template>
   <div class="seal-removal-wrapper" style="width: 100%">
     <ocrlayout
-      @resetId="() => (activeTextId = null)"
       @tabs="tabs"
       :data="data"
       ref="documents"
@@ -28,10 +27,7 @@
           ></svg-icon>
           <svg-icon
             iconClass="ic-全屏"
-            @click.native="
-              showImageViewer = true;
-              postFixedMessage(true);
-            "
+            @click.native="showImageViewer = true"
           ></svg-icon>
         </div>
       </div>
@@ -75,60 +71,18 @@
           />
         </div>
       </div>
-      <lls-image-viewer
+      <showImg
         v-if="showImageViewer"
         :urlList="urlList"
-        :on-close="
-          () => {
-            showImageViewer = false;
-            postFixedMessage(false);
-          }
-        "
-      ></lls-image-viewer>
+        @close="showImageViewer = false"
+      ></showImg>
     </ocrlayout>
   </div>
 </template>
 <script>
 import { staticData } from '../staticData'
-import beeLoading from '@linklogis/beeLoading'
-import ImageViewer from '@linklogis/image-viewer'
 import ocrlayout from './ocr-layout'
 import { mapState } from 'vuex'
-function Events() {
-  this.clientList = {}
-  this.listen = function (key, fn) {
-    if (!this.clientList[key]) {
-      this.clientList[key] = []
-    }
-    this.clientList[key].push(fn)
-  }
-  this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments)
-    const fns = this.clientList[key]
-    if (!fns || fns.length === 0) {
-      return
-    }
-    for (let i = 0, fn; (fn = fns[i++]);) {
-      fn.apply(this, arguments)
-    }
-  }
-  this.remove = function (key, fn) {
-    const fns = this.clientList[key]
-    if (!fns) {
-      return
-    }
-    if (!fn) {
-      fns.length = 0
-    } else {
-      for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len]
-        if (_fn === fn) {
-          fns.splice(len, 1)
-        }
-      }
-    }
-  }
-}
 
 export default {
   data() {
@@ -146,34 +100,14 @@ export default {
       initTranslateY: 0, // 初始位移数据
       showImageViewer: false,
       draggable: false,
-      files: [],
-      activeTextId: '',
-
-      beeLoading: false, // 上传进度条显示隐藏
-      percent: 0, // 进度条
-      activeName: '',
-      servicePortAddress: '',
       activeDocumentIndex: 0,
-      tabsArray: [],
       documents: [],
-      // documents: data.analysisResult,
-      dragenter: false,
-      token: window.sessionStorage.getItem('token'),
-      origin: window.sessionStorage.getItem('origin'),
-      href: window.location.href,
-      search: '',
-      documents_backup: [],
-      checked: false,
-      hideResult: [],
       activeTabIndex: 0,
       realRenderHeight: 0,
-      realRenderWidth: 0,
-      handling: false
+      realRenderWidth: 0
     }
   },
   components: {
-    [beeLoading.name]: beeLoading,
-    [ImageViewer.name]: ImageViewer,
     ocrlayout
   },
   created() {
@@ -182,7 +116,6 @@ export default {
   },
   mounted() {
     this.resizeImg()
-    this.$events = new Events()
     this.$events.listen('drag-document', this.transferDocument)
   },
   beforeDestroy() {
@@ -230,9 +163,7 @@ export default {
       data.forEach((i) => {
         i.isUpload = true
         i.starsFlag = false
-        i.imagePath = `${this.originalLocation}?filename=${
-          i.imagePath
-        }`
+        i.imagePath = `${this.originalLocation}?filename=${i.imagePath}`
         i.content[0] = `${this.originalLocation}?filename=${i.content[0]}`
         // if (i.imageVO[1] && i.imageVO[1].height && i.imageVO[1].width) { i.imageVO[1].hwFlag = i.imageVO[1].height > i.imageVO[1].width }
       })
@@ -377,16 +308,6 @@ export default {
         this.proxying = false
       })
     },
-    postFixedMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: 'messageGeneralProduct',
-          fixed: fixed
-        },
-        '*'
-      )
-    },
     reRenderImage() {
       this.data.forEach((document) => {
         const page = {}
@@ -449,11 +370,6 @@ export default {
       // console.log(value.index);
       this.activeTabIndex = Number(value.index)
       this.$refs.documents.handleClick(value.index)
-    },
-    handleDragLeave() {
-      setTimeout((_) => {
-        this.dragenter = false
-      }, 200)
     }
   }
 }
@@ -471,7 +387,7 @@ export default {
     // transform-origin: 0 0;
     background-size: contain;
     position: relative;
-    cursor: url('../icon/手势-张开.svg'), grab;
+    cursor: url('~@/assets/images/icon/手势-张开.svg'), grab;
     background-repeat: no-repeat;
     width: 100%;
 
@@ -484,7 +400,7 @@ export default {
     }
 
     &.draggable {
-      cursor: url('../icon/手势-握紧.svg'), grabbing;
+      cursor: url('~@/assets/images/icon/手势-握紧.svg'), grabbing;
     }
 
     .frame-mask {

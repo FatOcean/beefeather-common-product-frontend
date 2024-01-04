@@ -8,6 +8,7 @@ const routes = [
     redirect: '/documentParsing'
   },
   {
+    // path: '/1',
     path: '/documentParsing',
     component: (resolve) => require(['@/views/AdocumentParsing'], resolve),
     meta: {
@@ -15,6 +16,7 @@ const routes = [
     }
   },
   {
+    // path: '/2',
     path: '/generalOcr',
     component: (resolve) => require(['@/views/AgeneralOcr'], resolve),
     meta: {
@@ -22,6 +24,7 @@ const routes = [
     }
   },
   {
+    // path: '/3',
     path: '/tradeDocumentAnalysis',
     component: (resolve) => require(['@/views/AtradeDocumentAnalysis'], resolve),
     meta: {

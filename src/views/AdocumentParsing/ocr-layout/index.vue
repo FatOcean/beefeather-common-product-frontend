@@ -90,7 +90,7 @@
             ></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
-              @click.native="handleFullScreen"
+              @click.native="()=>{showImageViewer = true}"
             ></svg-icon>
           </div>
         </div>
@@ -333,39 +333,7 @@
           </template>
         </lls-tabs>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        :width="documentWidth + ocrResultWidth + 8"
-        :height="documentHeight"
-        class="svg-mask"
-        v-if="pathValue"
-      >
-        <path
-          :d="`M${pathValue.pathStartX} ${pathValue.pathStartY} h${
-            documentWidth - pathValue.pathStartX + 8
-          } v${pathValue.pathEndY - pathValue.pathStartY} L${
-            pathValue.pathEndX
-          } ${pathValue.pathEndY}`"
-          stroke-width="1"
-          stroke="#0887FF"
-          stroke-dasharray="5 5"
-          fill="transparent"
-        />
-        <circle
-          v-if="pathValue.pathStartX != documentWidth"
-          :cx="pathValue.pathStartX"
-          :cy="pathValue.pathStartY"
-          r="3"
-          fill="#0887FF"
-        />
-        <circle
-          :cx="pathValue.pathEndX"
-          :cy="pathValue.pathEndY"
-          r="2"
-          fill="#0887FF"
-        />
-      </svg>
+      <svgPath v-if="pathValue" :pathValue="pathValue" :documentWidth="documentWidth" :documentHeight="documentHeight"></svgPath>
       <lls-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
@@ -374,11 +342,11 @@
       </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
-    <lls-image-viewer
+    <showImg
       v-if="showImageViewer"
       :urlList="urlList"
-      :on-close="handleClose"
-    ></lls-image-viewer>
+      @close="showImageViewer = false"
+    ></showImg>
   </div>
 </template>
 <script>
@@ -672,14 +640,6 @@ export default {
         this.$refs.editor.formatCode()
       })
       this.resetProps()
-    },
-    handleFullScreen() {
-      this.$emit('on-open-viewer')
-      this.showImageViewer = true
-    },
-    handleClose() {
-      this.showImageViewer = false
-      this.$emit('on-close-viewer')
     },
     // 翻页
     handleTurnPage(val, page) {

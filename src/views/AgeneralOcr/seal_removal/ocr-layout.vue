@@ -36,7 +36,6 @@
               iconClass="ic-全屏"
               @click.native="
                 showImageViewer = true;
-                postFixedMessage(true);
               "
             ></svg-icon>
           </div>
@@ -101,16 +100,11 @@
       </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
-    <lls-image-viewer
+       <showImg
       v-if="showImageViewer"
       :urlList="urlList"
-      :on-close="
-        () => {
-          showImageViewer = false;
-          postFixedMessage(false);
-        }
-      "
-    ></lls-image-viewer>
+      @close="showImageViewer = false"
+    ></showImg>
   </div>
 </template>
 <script>
@@ -256,16 +250,6 @@ export default {
   methods: {
     handleCommand(command) {
       this.handleClickDownload(command)
-    },
-    postFixedMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: 'messageGeneralProduct',
-          fixed: fixed
-        },
-        '*'
-      )
     },
     handleClick(index) {
       // 点击右侧tabs

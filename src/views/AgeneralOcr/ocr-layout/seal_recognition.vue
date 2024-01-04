@@ -1,7 +1,7 @@
 <template>
   <div class="ocr-layout">
     <!-- ocr -->
-    <div class="ocr-inner" >
+    <div class="ocr-inner">
       <!-- 文档 -->
       <div class="document-box" ref="document-box">
         <div class="tool-bar">
@@ -33,10 +33,7 @@
             ></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
-              @click.native="
-                showImageViewer = true;
-                postFixedMessage(true);
-              "
+              @click.native="showImageViewer = true"
             ></svg-icon>
           </div>
         </div>
@@ -140,43 +137,16 @@
         "
       ></div>
       <!-- ocr识别结果 -->
-        <div class="ocr-result" ref="ocrResult">
-          <rightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></rightTab>
+      <div class="ocr-result" ref="ocrResult">
+        <rightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></rightTab>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        :width="documentWidth * 2"
-        :height="documentHeight"
-        class="svg-mask"
+      <svgPath
         v-if="pathValue"
-      >
-        <path
-          :d="`M${pathValue.pathStartX} ${pathValue.pathStartY} h${
-            documentWidth - pathValue.pathStartX + 8
-          } v${pathValue.pathEndY - pathValue.pathStartY} L${
-            pathValue.pathEndX
-          } ${pathValue.pathEndY}`"
-          stroke-width="1"
-          stroke="#0887FF"
-          stroke-dasharray="5 5"
-          fill="transparent"
-        />
-        <circle
-          v-if="pathValue.pathStartX != documentWidth"
-          :cx="pathValue.pathStartX"
-          :cy="pathValue.pathStartY"
-          r="3"
-          fill="#0887FF"
-        />
-        <circle
-          :cx="pathValue.pathEndX"
-          :cy="pathValue.pathEndY"
-          r="2"
-          fill="#0887FF"
-        />
-      </svg>
-            <lls-collapse-transition>
+        :pathValue="pathValue"
+        :documentWidth="documentWidth"
+        :documentHeight="documentHeight"
+      ></svgPath>
+      <lls-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
           :productObj="productObj"
@@ -184,21 +154,15 @@
       </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
-    <lls-image-viewer
+    <showImg
       v-if="showImageViewer"
       :urlList="urlList"
-      :on-close="
-        () => {
-          showImageViewer = false;
-          postFixedMessage(false);
-        }
-      "
-    ></lls-image-viewer>
+      @close="showImageViewer = false"
+    ></showImg>
   </div>
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
-import ImageViewer from '@linklogis/image-viewer'
 function Events() {
   this.clientList = {}
   this.listen = function (key, fn) {
@@ -239,9 +203,6 @@ export default {
   model: {
     prop: 'value',
     event: 'handle-change'
-  },
-  components: {
-    [ImageViewer.name]: ImageViewer
   },
   props: {
     productObj: {
@@ -301,11 +262,9 @@ export default {
       rectangle: null,
       eleItem: null,
       transition: false
-
     }
   },
-  created() {
-  },
+  created() {},
   mounted() {
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg()
@@ -339,16 +298,6 @@ export default {
         this.$refs.editor.formatCode()
       })
       this.resetProps()
-    },
-    postFixedMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: 'messageGeneralProduct',
-          fixed: fixed
-        },
-        '*'
-      )
     },
     inputChange() {
       // 输入页码
@@ -673,14 +622,16 @@ export default {
           }
           return { rect: elRect, index }
         })
-        const beforeEl = pointElsRect[
-          pointEl.index === 0 ? pointElsRect.length - 1 : pointEl.index - 1
-        ]
+        const beforeEl =
+          pointElsRect[
+            pointEl.index === 0 ? pointElsRect.length - 1 : pointEl.index - 1
+          ]
         const afterEl =
           pointElsRect[
             pointEl.index === pointElsRect.length - 1 ? 0 : pointEl.index + 1
           ]
-        const otherEl = beforeEl.rect.right > afterEl.rect.right ? beforeEl : afterEl
+        const otherEl =
+          beforeEl.rect.right > afterEl.rect.right ? beforeEl : afterEl
         // const maskEl = this.$refs["svg-polygon"],
         const documentLayout = this.$refs.documentLayout
         const ocrTextWrapper = this.$refs.rightTab.$refs.ocrTextWrapper
@@ -873,6 +824,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import './ocr-layout.styl';
+
 ::v-deep .CodeMirror {
   height: calc(100vh - 200px);
 }
@@ -884,7 +836,8 @@ export default {
 ::v-deep .cm-string {
   color: red;
 }
-.svg-seal{
+
+.svg-seal {
   pointer-events: none;
   position: absolute;
   z-index: 1;

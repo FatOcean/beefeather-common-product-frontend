@@ -100,6 +100,8 @@ export default {
 .right-select {
   margin-right: 6px;
   width: 200px;
+  flex-shrink: 0;
+    flex-grow: 0;
 
   .serInput {
     padding-bottom: 10px;

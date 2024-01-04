@@ -17,6 +17,8 @@ import uploadFile from '@/components/upload-file/index.vue'
 import Directives from './directives/index'
 import CodeEditor from '@/components/bin-code-editor'
 import RightTab from '@/components/rightTab.vue'
+import showImg from '@/components/showImg.vue'
+import svgPath from '@/components/svgPath.vue'
 import eventPlugin from './utils/eventPlugin'
 import './components/ocr-el'
 Vue.use(eventPlugin)
@@ -24,6 +26,8 @@ Vue.use(eventPlugin)
 Vue.use(CodeEditor)
 Vue.use(Directives)
 Vue.component('RightTab', RightTab)
+Vue.component('showImg', showImg)
+Vue.component('svgPath', svgPath)
 Vue.component('moreButton', moreButton)
 Vue.component('uploadFile', uploadFile)
 

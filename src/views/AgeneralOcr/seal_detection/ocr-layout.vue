@@ -15,21 +15,6 @@ script<template>
               <span>{{ imageName }}</span>
             </lls-tooltip>
           </div>
-          <!-- <div>
-            <svg-icon v-if="activePageIndex === 1" class="dis-icon" iconClass="左置灰"></svg-icon>
-            <svg-icon v-else class="big-icon" iconClass="ic-左" @click.native="handleTurnPage(-1)"></svg-icon>
-            <span class="number">
-              <input
-                class="dih-page-input"
-                type="number"
-                v-model.number="activePageIndex"
-                v-on:change="inputChange($event)"
-              />
-              <span>/&nbsp;&nbsp;1</span>
-            </span>
-            <svg-icon v-if="activePageIndex >= total" class="dis-icon" iconClass="右置灰"></svg-icon>
-            <svg-icon v-else class="big-icon" iconClass="ic-右" @click.native="handleTurnPage(1)"></svg-icon>
-          </div> -->
           <div>
             <svg-icon
               iconClass="ic-放大"
@@ -48,7 +33,6 @@ script<template>
               iconClass="ic-全屏"
               @click.native="
                 showImageViewer = true;
-                postFixedMessage(true);
               "
             ></svg-icon>
           </div>
@@ -135,16 +119,11 @@ script<template>
       </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
-    <lls-image-viewer
+        <showImg
       v-if="showImageViewer"
       :urlList="urlList"
-      :on-close="
-        () => {
-          showImageViewer = false;
-          postFixedMessage(false);
-        }
-      "
-    ></lls-image-viewer>
+      @close="showImageViewer = false"
+    ></showImg>
   </div>
 </template>
 <script>
@@ -284,16 +263,6 @@ export default {
           `${cur.x * page.scale},${cur.y * page.scale}` + ' ')
         return str
       }, '')
-    },
-    postFixedMessage(fixed) {
-      // 发送message 页面高度
-      window.parent.postMessage(
-        {
-          from: 'messageGeneralProduct',
-          fixed: fixed
-        },
-        '*'
-      )
     },
     inputChange() {
       // 输入页码
