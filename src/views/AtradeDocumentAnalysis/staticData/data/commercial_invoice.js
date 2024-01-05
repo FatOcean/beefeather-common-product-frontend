@@ -1,399 +1,361 @@
 
-import imagePath from '../images/dir1.png'
+import imagePath from '../images/commercial_invoice.png'
 
 const data = [
   {
+    isexample: true,
+    taskId: 'U2024010518976951',
+    status: 1,
+    fileName: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+    imagePath,
+    height: 1584,
+    width: 1224,
     content: [
       {
-        groupable: false,
-        keyCh: '文档名称',
-        keyEn: 'Document Name',
         sortId: 1,
+        keyEn: 'Invoice Number',
+        keyCh: '发票号码',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 855.525,
-                  y: 45.9
+                  x: 794,
+                  y: 183
                 },
                 {
-                  x: 1065.9,
-                  y: 45.9
+                  x: 909,
+                  y: 183
                 },
                 {
-                  x: 1065.9,
-                  y: 75.225
+                  x: 909,
+                  y: 206
                 },
                 {
-                  x: 855.525,
-                  y: 75.225
+                  x: 794,
+                  y: 206
                 }
               ]
             ],
-            value: 'SALES CONTRACT'
+            value: 'S0110263165'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '文档编号',
-        keyEn: 'Contract ID ',
         sortId: 2,
+        keyEn: 'Invoice Issue Day',
+        keyCh: '发票日期',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 688.5,
-                  y: 303.45
+                  x: 794,
+                  y: 201
                 },
                 {
-                  x: 798.15,
-                  y: 303.45
+                  x: 870,
+                  y: 201
                 },
                 {
-                  x: 798.15,
-                  y: 327.675
+                  x: 870,
+                  y: 224
                 },
                 {
-                  x: 688.5,
-                  y: 327.675
+                  x: 794,
+                  y: 224
                 }
               ]
             ],
-            value: '6010138048'
+            value: '2022/03/14'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '甲方名称（首页）',
-        keyEn: 'Creditor',
         sortId: 3,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 99.45,
-                  y: 304.725
-                },
-                {
-                  x: 392.7,
-                  y: 304.725
-                },
-                {
-                  x: 392.7,
-                  y: 349.35
-                },
-                {
-                  x: 99.45,
-                  y: 349.35
-                }
-              ]
-            ],
-            value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENTCO.,LTD'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '签订日期',
-        keyEn: 'Issue Day',
-        sortId: 4,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 688.5,
-                  y: 280.5
-                },
-                {
-                  x: 772.65,
-                  y: 280.5
-                },
-                {
-                  x: 772.65,
-                  y: 300.9
-                },
-                {
-                  x: 688.5,
-                  y: 300.9
-                }
-              ]
-            ],
-            value: '2010/04/20'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '买方',
         keyEn: 'Buyer',
-        sortId: 5,
-        values: [
-          {
-            $ref: '$[0].content[2].values[0]'
-          }
-        ]
-      },
-      {
+        keyCh: '买方',
         groupable: false,
-        keyCh: '卖方',
-        keyEn: 'Seller',
-        sortId: 6,
         values: [
           {
             position: [
               [
                 {
-                  x: 89.25,
-                  y: 142.8
+                  x: 147,
+                  y: 223
                 },
                 {
-                  x: 429.675,
-                  y: 142.8
+                  x: 436,
+                  y: 223
                 },
                 {
-                  x: 429.675,
-                  y: 169.575
+                  x: 436,
+                  y: 269
                 },
                 {
-                  x: 89.25,
-                  y: 169.575
+                  x: 147,
+                  y: 269
                 }
               ]
             ],
-            value: 'BASF International Trading(Shanghai)Co.,Ltd'
+            value: 'Ericsson China Communications Co. Ltd'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '买方开户行',
-        keyEn: 'Buyer Bank',
-        sortId: 7,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '卖方开户行',
-        keyEn: 'Seller Bank',
-        sortId: 8,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 749.7,
-                  y: 132.6
-                },
-                {
-                  x: 1054.425,
-                  y: 132.6
-                },
-                {
-                  x: 1054.425,
-                  y: 154.275
-                },
-                {
-                  x: 749.7,
-                  y: 154.275
-                }
-              ]
-            ],
-            value: 'Citibank (China) Co., Ltd. Shanghai Branch'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '买方银行账号',
-        keyEn: 'Account Number Creditor',
-        sortId: 9,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '卖方银行账号',
-        keyEn: 'Account Number Obligor',
-        sortId: 10,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 818.55,
-                  y: 229.5
-                },
-                {
-                  x: 840.225,
-                  y: 229.5
-                },
-                {
-                  x: 840.225,
-                  y: 248.625
-                },
-                {
-                  x: 818.55,
-                  y: 248.625
-                }
-              ]
-            ],
-            value: '2'
-          }
-        ]
-      },
-      {
-        groupable: false,
+        sortId: 4,
+        keyEn: 'Buyer Address',
         keyCh: '买方地址',
-        keyEn: ' Buyer Address',
-        sortId: 11,
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 102.0,
-                  y: 354.45
+                  x: 150,
+                  y: 267
                 },
                 {
-                  x: 318.75,
-                  y: 354.45
+                  x: 276,
+                  y: 267
                 },
                 {
-                  x: 318.75,
-                  y: 443.7
+                  x: 276,
+                  y: 312
                 },
                 {
-                  x: 102.0,
-                  y: 443.7
+                  x: 150,
+                  y: 312
                 }
               ]
             ],
-            value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA'
+            value: 'Beijing,100102 CHINA'
           }
         ]
       },
       {
+        sortId: 5,
+        keyEn: 'Buyer Bank',
+        keyCh: '买方开户行',
         groupable: false,
+        values: []
+      },
+      {
+        sortId: 6,
+        keyEn: 'Seller',
+        keyCh: '卖方',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 110,
+                  y: 47
+                },
+                {
+                  x: 288,
+                  y: 47
+                },
+                {
+                  x: 288,
+                  y: 89
+                },
+                {
+                  x: 110,
+                  y: 89
+                }
+              ]
+            ],
+            value: 'TELEVINE LeCroy Inc.'
+          }
+        ]
+      },
+      {
+        sortId: 7,
+        keyEn: 'Seller Address',
         keyCh: '卖方地址',
-        keyEn: 'Seller  Address',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 114,
+                  y: 96
+                },
+                {
+                  x: 322,
+                  y: 96
+                },
+                {
+                  x: 322,
+                  y: 141
+                },
+                {
+                  x: 114,
+                  y: 141
+                }
+              ]
+            ],
+            value: '700 Chenkun Ridge Road Chenkun Ridge, NY10977'
+          }
+        ]
+      },
+      {
+        sortId: 8,
+        keyEn: 'Seller Bank',
+        keyCh: '卖方开户行',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 66,
+                  y: 960
+                },
+                {
+                  x: 221,
+                  y: 960
+                },
+                {
+                  x: 221,
+                  y: 990
+                },
+                {
+                  x: 66,
+                  y: 990
+                }
+              ]
+            ],
+            value: 'Bank of America'
+          }
+        ]
+      },
+      {
+        sortId: 9,
+        keyEn: 'Country Of Origin',
+        keyCh: '原产地',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 10,
+        keyEn: 'Shipper',
+        keyCh: '发货人',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 11,
+        keyEn: 'Consignee',
+        keyCh: '收货人',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 153,
+                  y: 332
+                },
+                {
+                  x: 451,
+                  y: 332
+                },
+                {
+                  x: 451,
+                  y: 357
+                },
+                {
+                  x: 153,
+                  y: 357
+                }
+              ]
+            ],
+            value: 'CBC Ericsson China Communications C'
+          }
+        ]
+      },
+      {
         sortId: 12,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 96.9,
-                  y: 170.85
-                },
-                {
-                  x: 448.79999999999998,
-                  y: 170.85
-                },
-                {
-                  x: 448.79999999999998,
-                  y: 238.425
-                },
-                {
-                  x: 96.9,
-                  y: 238.425
-                }
-              ]
-            ],
-            value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China'
-          }
-        ]
+        keyEn: 'Delivery Date',
+        keyCh: '发货日期',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '货描',
-        keyEn: 'Goods Description',
         sortId: 13,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 96.9,
-                  y: 701.25
-                },
-                {
-                  x: 1122.0,
-                  y: 701.25
-                },
-                {
-                  x: 1122.0,
-                  y: 901.4250000000001
-                },
-                {
-                  x: 96.9,
-                  y: 901.4250000000001
-                }
-              ]
-            ],
-            value: '详情见高亮部分'
-          }
-        ]
+        keyEn: 'Port Of Loading',
+        keyCh: '启运港',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '总金额',
-        keyEn: 'Total Amount',
         sortId: 14,
+        keyEn: 'Port Of Discharge',
+        keyCh: '目的港',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 15,
+        keyEn: 'Total Amount',
+        keyCh: '总金额',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 957.525,
-                  y: 852.975
+                  x: 915,
+                  y: 943
                 },
                 {
-                  x: 1055.7,
-                  y: 852.975
+                  x: 1030,
+                  y: 943
                 },
                 {
-                  x: 1055.7,
-                  y: 878.475
+                  x: 1030,
+                  y: 971
                 },
                 {
-                  x: 957.525,
-                  y: 878.475
+                  x: 915,
+                  y: 971
                 }
               ]
             ],
-            value: '547200.0'
+            value: '45540.0'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '币种',
+        sortId: 16,
         keyEn: 'Currency',
-        sortId: 15,
+        keyCh: '总金额币种',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 693.6,
-                  y: 376.125
+                  x: 789,
+                  y: 944
                 },
                 {
-                  x: 726.75,
-                  y: 376.125
+                  x: 840,
+                  y: 944
                 },
                 {
-                  x: 726.75,
-                  y: 393.975
+                  x: 840,
+                  y: 971
                 },
                 {
-                  x: 693.6,
-                  y: 393.975
+                  x: 789,
+                  y: 971
                 }
               ]
             ],
@@ -402,133 +364,29 @@ const data = [
         ]
       },
       {
-        groupable: false,
-        keyCh: '文档生效日期',
-        keyEn: 'Effective Date',
-        sortId: 16,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '文档结束日期',
-        keyEn: 'Expire Date',
         sortId: 17,
-        values: []
-      },
-      {
+        keyEn: 'Goods Description',
+        keyCh: '货物描述',
         groupable: false,
-        keyCh: '文档延期时间',
-        keyEn: 'Valid Date Delay',
-        sortId: 18,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '生效条款',
-        keyEn: 'Effective Clause',
-        sortId: 19,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '签订地点',
-        keyEn: 'Place of Sign',
-        sortId: 20,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '发货人',
-        keyEn: 'Sender',
-        sortId: 21,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '收货人',
-        keyEn: 'Receiver',
-        sortId: 22,
         values: [
           {
             position: [
               [
                 {
-                  x: 109.65,
-                  y: 490.875
+                  x: 35,
+                  y: 448
                 },
                 {
-                  x: 397.79999999999998,
-                  y: 490.875
+                  x: 1162,
+                  y: 448
                 },
                 {
-                  x: 397.79999999999998,
-                  y: 534.225
+                  x: 1162,
+                  y: 977
                 },
                 {
-                  x: 109.65,
-                  y: 534.225
-                }
-              ]
-            ],
-            value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '签章',
-        keyEn: 'Chop',
-        sortId: 23,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 640.0,
-                  y: 1187.0
-                },
-                {
-                  x: 888.0,
-                  y: 1187.0
-                },
-                {
-                  x: 888.0,
-                  y: 1290.0
-                },
-                {
-                  x: 640.0,
-                  y: 1290.0
-                }
-              ]
-            ],
-            value: '100'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '付款方式',
-        keyEn: 'Payment Method',
-        sortId: 24,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 687.225,
-                  y: 397.8
-                },
-                {
-                  x: 794.325,
-                  y: 397.8
-                },
-                {
-                  x: 794.325,
-                  y: 419.475
-                },
-                {
-                  x: 687.225,
-                  y: 419.475
+                  x: 35,
+                  y: 977
                 }
               ]
             ],
@@ -537,831 +395,1248 @@ const data = [
         ]
       },
       {
+        sortId: 18,
+        keyEn: 'Payment Method ',
+        keyCh: '付款方式',
         groupable: false,
-        keyCh: '是否含附件',
-        keyEn: 'Has Attachment',
-        sortId: 25,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 795,
+                  y: 246
+                },
+                {
+                  x: 1028,
+                  y: 246
+                },
+                {
+                  x: 1028,
+                  y: 269
+                },
+                {
+                  x: 795,
+                  y: 269
+                }
+              ]
+            ],
+            value: '详情见高亮部分'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '文档包含禁止转让/寄售/回购条款',
-        keyEn: 'Has Abandon Term',
-        sortId: 26,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '文档付款条件-XX日',
+        sortId: 19,
         keyEn: 'Payment Term Date',
-        sortId: 27,
+        keyCh: '付款方式-日期',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 933,
+                  y: 246
+                },
+                {
+                  x: 1028,
+                  y: 246
+                },
+                {
+                  x: 1028,
+                  y: 270
+                },
+                {
+                  x: 933,
+                  y: 270
+                }
+              ]
+            ],
+            value: 'invoice date'
+          }
+        ]
+      },
+      {
+        sortId: 20,
+        keyEn: 'Payment Term Before',
+        keyCh: '付款方式-前/后',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-前/后',
-        keyEn: 'Payment Term Before or After',
-        sortId: 28,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '文档付款条件-账期',
+        sortId: 21,
         keyEn: 'Payment Term Tenor',
-        sortId: 29,
-        values: []
-      },
-      {
+        keyCh: '付款方式-账期',
         groupable: false,
-        keyCh: '车辆识别号',
-        keyEn: 'VIN No',
-        sortId: 30,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '启运港',
-        keyEn: 'Port Of Loading',
-        sortId: 31,
         values: [
           {
             position: [
               [
                 {
-                  x: 214.20000000000003,
-                  y: 974.1
+                  x: 823,
+                  y: 248
                 },
                 {
-                  x: 322.575,
-                  y: 974.1
+                  x: 891,
+                  y: 248
                 },
                 {
-                  x: 322.575,
-                  y: 994.5
+                  x: 891,
+                  y: 271
                 },
                 {
-                  x: 214.20000000000003,
-                  y: 994.5
+                  x: 823,
+                  y: 271
                 }
               ]
             ],
-            value: 'Taiwan Port'
+            value: '60 days'
           }
         ]
       },
       {
+        sortId: 22,
+        keyEn: 'Incoterm',
+        keyCh: '价格条款',
         groupable: false,
-        keyCh: '目的港/国',
-        keyEn: 'Port Of Discharge',
-        sortId: 32,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 724.2,
-                  y: 423.3
-                },
-                {
-                  x: 816.0,
-                  y: 423.3
-                },
-                {
-                  x: 816.0,
-                  y: 442.425
-                },
-                {
-                  x: 724.2,
-                  y: 442.425
-                }
-              ]
-            ],
-            value: 'SHANGHAI'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '产地',
-        keyEn: 'Place of Origin',
-        sortId: 33,
         values: []
       },
       {
-        groupable: false,
+        sortId: 23,
+        keyEn: 'Manufacturer',
         keyCh: '制造商',
-        keyEn: 'Manufacture',
-        sortId: 34,
+        groupable: false,
         values: []
       },
       {
+        sortId: 24,
+        keyEn: 'VIN Number',
+        keyCh: '车辆VIN码',
         groupable: false,
-        keyCh: '船号',
-        keyEn: 'Vessel Name',
-        sortId: 35,
         values: []
       },
       {
+        sortId: 25,
+        keyEn: 'Signature',
+        keyCh: '签名',
         groupable: false,
-        keyCh: '航班号',
-        keyEn: 'Flight Number',
-        sortId: 36,
         values: []
       },
       {
+        sortId: 26,
+        keyEn: 'Chop',
+        keyCh: '印章',
         groupable: false,
-        keyCh: '发货日期',
-        keyEn: 'Delivery Date',
-        sortId: 37,
         values: []
       },
       {
+        sortId: 27,
+        keyEn: 'Package Number',
+        keyCh: '包装号',
         groupable: false,
-        keyCh: '卖方地区或国别',
-        keyEn: 'Seller Region and Country',
-        sortId: 38,
+        values: []
+      },
+      {
+        sortId: 28,
+        keyEn: 'Contract Number',
+        keyCh: '合同编号',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 29,
+        keyEn: 'Order Number',
+        keyCh: '订单编号',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 173.4,
-                  y: 216.75
+                  x: 796,
+                  y: 228
                 },
                 {
-                  x: 211.65,
-                  y: 216.75
+                  x: 886,
+                  y: 228
                 },
                 {
-                  x: 211.65,
-                  y: 238.425
+                  x: 886,
+                  y: 246
                 },
                 {
-                  x: 173.4,
-                  y: 238.425
+                  x: 796,
+                  y: 246
                 }
               ]
             ],
-            value: 'China'
+            value: 'S0F008132'
           }
         ]
       },
       {
+        sortId: 30,
+        keyEn: 'Carrier',
+        keyCh: '航空公司',
         groupable: false,
-        keyCh: '最终用户',
-        keyEn: 'End User',
+        values: []
+      },
+      {
+        sortId: 31,
+        keyEn: 'Vessel Name',
+        keyCh: '船名',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 32,
+        keyEn: 'Flight Number',
+        keyCh: '航班号',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 33,
+        keyEn: 'Transport Name',
+        keyCh: '运输工具名称',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 34,
+        keyEn: 'Seller Bank Account',
+        keyCh: '卖方银行账号',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 451,
+                  y: 942
+                },
+                {
+                  x: 566,
+                  y: 942
+                },
+                {
+                  x: 566,
+                  y: 969
+                },
+                {
+                  x: 451,
+                  y: 969
+                }
+              ]
+            ],
+            value: '1233295232'
+          }
+        ]
+      },
+      {
+        sortId: 35,
+        keyEn: 'Due Date',
+        keyCh: '截止日期',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 795,
+                  y: 400
+                },
+                {
+                  x: 909,
+                  y: 400
+                },
+                {
+                  x: 909,
+                  y: 427
+                },
+                {
+                  x: 795,
+                  y: 427
+                }
+              ]
+            ],
+            value: '2022/05/13'
+          }
+        ]
+      },
+      {
+        sortId: 36,
+        keyEn: 'Seller Region and Country',
+        keyCh: '卖方国家',
+        groupable: false,
+        values: []
+      },
+      {
+        sortId: 37,
+        keyEn: 'GOODS LIST1',
+        keyCh: '商品信息1',
+        groupable: true,
+        row: [
+          {
+            sortId: 37,
+            keyEn: 'Goods Quantity',
+            keyCh: '货物数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 87,
+                      y: 494
+                    },
+                    {
+                      x: 128,
+                      y: 494
+                    },
+                    {
+                      x: 128,
+                      y: 511
+                    },
+                    {
+                      x: 87,
+                      y: 511
+                    }
+                  ]
+                ],
+                value: '1'
+              }
+            ]
+          },
+          {
+            sortId: 43,
+            keyEn: 'Goods amount',
+            keyCh: '货物金额',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 970,
+                      y: 495
+                    },
+                    {
+                      x: 1044,
+                      y: 495
+                    },
+                    {
+                      x: 1044,
+                      y: 515
+                    },
+                    {
+                      x: 970,
+                      y: 515
+                    }
+                  ]
+                ],
+                value: '30811.32'
+              }
+            ]
+          },
+          {
+            sortId: 49,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 808,
+                      y: 495
+                    },
+                    {
+                      x: 923,
+                      y: 495
+                    },
+                    {
+                      x: 923,
+                      y: 515
+                    },
+                    {
+                      x: 808,
+                      y: 515
+                    }
+                  ]
+                ],
+                value: '30811.32'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        sortId: 38,
+        keyEn: 'GOODS LIST2',
+        keyCh: '商品信息2',
+        groupable: true,
+        row: [
+          {
+            sortId: 38,
+            keyEn: 'Goods Quantity',
+            keyCh: '货物数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 117,
+                      y: 541
+                    },
+                    {
+                      x: 131,
+                      y: 541
+                    },
+                    {
+                      x: 131,
+                      y: 557
+                    },
+                    {
+                      x: 117,
+                      y: 557
+                    }
+                  ]
+                ],
+                value: '4'
+              }
+            ]
+          },
+          {
+            sortId: 44,
+            keyEn: 'Goods amount',
+            keyCh: '货物金额',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 976,
+                      y: 539
+                    },
+                    {
+                      x: 1045,
+                      y: 539
+                    },
+                    {
+                      x: 1045,
+                      y: 559
+                    },
+                    {
+                      x: 976,
+                      y: 559
+                    }
+                  ]
+                ],
+                value: '6602.16'
+              }
+            ]
+          },
+          {
+            sortId: 50,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 851,
+                      y: 541
+                    },
+                    {
+                      x: 919,
+                      y: 541
+                    },
+                    {
+                      x: 919,
+                      y: 561
+                    },
+                    {
+                      x: 851,
+                      y: 561
+                    }
+                  ]
+                ],
+                value: '1650.54'
+              }
+            ]
+          }
+        ]
+      },
+      {
         sortId: 39,
+        keyEn: 'GOODS LIST3',
+        keyCh: '商品信息3',
+        groupable: true,
+        row: [
+          {
+            sortId: 39,
+            keyEn: 'Goods Quantity',
+            keyCh: '货物数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 48,
+                      y: 585
+                    },
+                    {
+                      x: 91,
+                      y: 585
+                    },
+                    {
+                      x: 91,
+                      y: 600
+                    },
+                    {
+                      x: 48,
+                      y: 600
+                    }
+                  ]
+                ],
+                value: '30'
+              }
+            ]
+          },
+          {
+            sortId: 45,
+            keyEn: 'Goods amount',
+            keyCh: '货物金额',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 974,
+                      y: 582
+                    },
+                    {
+                      x: 1151,
+                      y: 582
+                    },
+                    {
+                      x: 1151,
+                      y: 603
+                    },
+                    {
+                      x: 974,
+                      y: 603
+                    }
+                  ]
+                ],
+                value: '112022.0'
+              }
+            ]
+          },
+          {
+            sortId: 51,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 976,
+                      y: 582
+                    },
+                    {
+                      x: 1045,
+                      y: 582
+                    },
+                    {
+                      x: 1045,
+                      y: 603
+                    },
+                    {
+                      x: 976,
+                      y: 603
+                    }
+                  ]
+                ],
+                value: '2178.97'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        sortId: 40,
+        keyEn: 'GOODS LIST4',
+        keyCh: '商品信息4',
+        groupable: true,
+        row: [
+          {
+            sortId: 40,
+            keyEn: 'Goods Quantity',
+            keyCh: '货物数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 45,
+                      y: 674
+                    },
+                    {
+                      x: 68,
+                      y: 674
+                    },
+                    {
+                      x: 68,
+                      y: 692
+                    },
+                    {
+                      x: 45,
+                      y: 692
+                    }
+                  ]
+                ],
+                value: '40'
+              }
+            ]
+          },
+          {
+            sortId: 46,
+            keyEn: 'Goods amount',
+            keyCh: '货物金额',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 977,
+                      y: 671
+                    },
+                    {
+                      x: 1044,
+                      y: 671
+                    },
+                    {
+                      x: 1044,
+                      y: 691
+                    },
+                    {
+                      x: 977,
+                      y: 691
+                    }
+                  ]
+                ],
+                value: '3710.88'
+              }
+            ]
+          },
+          {
+            sortId: 52,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 980,
+                      y: 671
+                    },
+                    {
+                      x: 1044,
+                      y: 671
+                    },
+                    {
+                      x: 1044,
+                      y: 691
+                    },
+                    {
+                      x: 980,
+                      y: 691
+                    }
+                  ]
+                ],
+                value: '3710.88'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        sortId: 41,
+        keyEn: 'GOODS LIST5',
+        keyCh: '商品信息5',
+        groupable: true,
+        row: [
+          {
+            sortId: 41,
+            keyEn: 'Goods Quantity',
+            keyCh: '货物数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 52,
+                      y: 744
+                    },
+                    {
+                      x: 73,
+                      y: 744
+                    },
+                    {
+                      x: 73,
+                      y: 761
+                    },
+                    {
+                      x: 52,
+                      y: 761
+                    }
+                  ]
+                ],
+                value: '50'
+              }
+            ]
+          },
+          {
+            sortId: 47,
+            keyEn: 'Goods amount',
+            keyCh: '货物金额',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 1090,
+                      y: 742
+                    },
+                    {
+                      x: 1150,
+                      y: 742
+                    },
+                    {
+                      x: 1150,
+                      y: 761
+                    },
+                    {
+                      x: 1090,
+                      y: 761
+                    }
+                  ]
+                ],
+                value: '112022.0'
+              }
+            ]
+          },
+          {
+            sortId: 53,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 980,
+                      y: 742
+                    },
+                    {
+                      x: 1045,
+                      y: 742
+                    },
+                    {
+                      x: 1045,
+                      y: 762
+                    },
+                    {
+                      x: 980,
+                      y: 762
+                    }
+                  ]
+                ],
+                value: '1343.73'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        sortId: 42,
+        keyEn: 'GOODS LIST6',
+        keyCh: '商品信息6',
+        groupable: true,
+        row: [
+          {
+            sortId: 42,
+            keyEn: 'Goods Quantity',
+            keyCh: '货物数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 48,
+                      y: 814
+                    },
+                    {
+                      x: 76,
+                      y: 814
+                    },
+                    {
+                      x: 76,
+                      y: 833
+                    },
+                    {
+                      x: 48,
+                      y: 833
+                    }
+                  ]
+                ],
+                value: '60'
+              }
+            ]
+          },
+          {
+            sortId: 48,
+            keyEn: 'Goods amount',
+            keyCh: '货物金额',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 993,
+                      y: 810
+                    },
+                    {
+                      x: 1045,
+                      y: 810
+                    },
+                    {
+                      x: 1045,
+                      y: 831
+                    },
+                    {
+                      x: 993,
+                      y: 831
+                    }
+                  ]
+                ],
+                value: '892.94'
+              }
+            ]
+          },
+          {
+            sortId: 54,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 864,
+                      y: 810
+                    },
+                    {
+                      x: 918,
+                      y: 810
+                    },
+                    {
+                      x: 918,
+                      y: 830
+                    },
+                    {
+                      x: 864,
+                      y: 830
+                    }
+                  ]
+                ],
+                value: '892.94'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        sortId: 55,
+        keyEn: 'Page',
+        keyCh: '页数',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 1087,
+                  y: 810
+                },
+                {
+                  x: 1151,
+                  y: 810
+                },
+                {
+                  x: 1151,
+                  y: 831
+                },
+                {
+                  x: 1087,
+                  y: 831
+                }
+              ]
+            ],
+            value: '112022'
+          }
+        ]
+      },
+      {
+        sortId: 56,
+        keyEn: 'End User',
+        keyCh: '最终用户',
+        groupable: false,
         values: []
       }
     ],
-    fileName: 'dir1.pdf',
-    imagePath,
     json: {
       predict_status: 'success',
-      trace_id: 'Contract-New-123456d456',
-      role: 'zhada',
+      trace_id: 'U2024010518976951',
+      role: 'beefeather',
       extra_info: {},
       error_info: '',
       predict_result: [
         {
-          sx_clause: [
+          seller: [
             {
               boxes: [
                 [
                   {
-                    x: 623.475,
-                    y: 1042.95
+                    x: 110,
+                    y: 47
                   },
                   {
-                    x: 879.75,
-                    y: 1042.95
+                    x: 288,
+                    y: 47
                   },
                   {
-                    x: 879.75,
-                    y: 1062.075
+                    x: 288,
+                    y: 89
                   },
                   {
-                    x: 623.475,
-                    y: 1062.075
+                    x: 110,
+                    y: 89
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '',
-              img_name: 'dir2.png',
+              ori_value: 'TELEVINE LeCroy Inc.',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: '详情见高亮部分'
+              value: 'TELEVINE LeCroy Inc.'
             }
           ],
-          payment_term_date: [],
-          obligor_address: [
+          shipper: [],
+          payment_term_date: [
             {
               boxes: [
                 [
                   {
-                    x: 96.9,
-                    y: 170.85
+                    x: 933,
+                    y: 246
                   },
                   {
-                    x: 448.79999999999998,
-                    y: 170.85
+                    x: 1028,
+                    y: 246
                   },
                   {
-                    x: 448.79999999999998,
-                    y: 238.425
+                    x: 1028,
+                    y: 270
                   },
                   {
-                    x: 96.9,
-                    y: 238.425
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China'
-            }
-          ],
-          seal: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 640,
-                    y: 1187
-                  },
-                  {
-                    x: 888,
-                    y: 1187
-                  },
-                  {
-                    x: 888,
-                    y: 1290
-                  },
-                  {
-                    x: 640,
-                    y: 1290
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '100',
-              img_name: 'dir1.png',
-              language: '',
-              value: '100'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 718,
-                    y: 1162
-                  },
-                  {
-                    x: 941,
-                    y: 1162
-                  },
-                  {
-                    x: 941,
-                    y: 1383
-                  },
-                  {
-                    x: 718,
-                    y: 1383
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '中建二局第三建筑工程有限公司',
-              img_name: 'dir2.png',
-              language: '',
-              value: '中建二局第三建筑工程有限公司'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 174,
-                    y: 1158
-                  },
-                  {
-                    x: 404,
-                    y: 1158
-                  },
-                  {
-                    x: 404,
-                    y: 1380
-                  },
-                  {
-                    x: 174,
-                    y: 1380
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '北京市公安局',
-              img_name: 'dir2.png',
-              language: '',
-              value: '北京市公安局'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 384,
-                    y: 550
-                  },
-                  {
-                    x: 619,
-                    y: 550
-                  },
-                  {
-                    x: 619,
-                    y: 784
-                  },
-                  {
-                    x: 384,
-                    y: 784
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '有限公司',
-              img_name: 'dir2.png',
-              language: '',
-              value: '有限公司'
-            }
-          ],
-          port_of_loading: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 214.20000000000003,
-                    y: 974.1
-                  },
-                  {
-                    x: 322.575,
-                    y: 974.1
-                  },
-                  {
-                    x: 322.575,
-                    y: 994.5
-                  },
-                  {
-                    x: 214.20000000000003,
-                    y: 994.5
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'Taiwan Port',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'Taiwan Port'
-            }
-          ],
-          product_info: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 96.9,
-                    y: 701.25
-                  },
-                  {
-                    x: 1122.0,
-                    y: 701.25
-                  },
-                  {
-                    x: 1122.0,
-                    y: 901.4250000000001
-                  },
-                  {
-                    x: 96.9,
-                    y: 901.4250000000001
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir1.png',
-              language: '',
-              value: '详情见高亮部分'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 107.10000000000001,
-                    y: 135.15
-                  },
-                  {
-                    x: 1107.975,
-                    y: 135.15
-                  },
-                  {
-                    x: 1107.975,
-                    y: 924.375
-                  },
-                  {
-                    x: 107.10000000000001,
-                    y: 924.375
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir2.png',
-              language: '',
-              value: '详情见高亮部分'
-            }
-          ],
-          has_attachment: [],
-          sign_place: [],
-          delivery_time: [],
-          obligor: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 89.25,
-                    y: 142.8
-                  },
-                  {
-                    x: 429.675,
-                    y: 142.8
-                  },
-                  {
-                    x: 429.675,
-                    y: 169.575
-                  },
-                  {
-                    x: 89.25,
-                    y: 169.575
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'BASF International Trading (Shanghai) Co.,Ltd',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'BASF International Trading(Shanghai)Co.,Ltd'
-            }
-          ],
-          type: -1,
-          document_name: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 855.525,
-                    y: 45.9
-                  },
-                  {
-                    x: 1065.9,
-                    y: 45.9
-                  },
-                  {
-                    x: 1065.9,
-                    y: 75.225
-                  },
-                  {
-                    x: 855.525,
-                    y: 75.225
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'SALES CONTRACT',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'SALES CONTRACT'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 527.85,
-                    y: 53.550000000000007
-                  },
-                  {
-                    x: 719.1,
-                    y: 53.550000000000007
-                  },
-                  {
-                    x: 719.1,
-                    y: 86.7
-                  },
-                  {
-                    x: 527.85,
-                    y: 86.7
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '产品售货合同单',
-              img_name: 'dir2.png',
-              language: '',
-              value: '产品售货合同单'
-            }
-          ],
-          payment_term_before_after: [],
-          creditor_address: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 102.0,
-                    y: 354.45
-                  },
-                  {
-                    x: 318.75,
-                    y: 354.45
-                  },
-                  {
-                    x: 318.75,
-                    y: 443.7
-                  },
-                  {
-                    x: 102.0,
-                    y: 443.7
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA',
-              img_name: 'dir1.png',
-              language: '',
-              value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA'
-            }
-          ],
-          flight_no: [],
-          obligor_region_or_country: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 173.4,
-                    y: 216.75
-                  },
-                  {
-                    x: 211.65,
-                    y: 216.75
-                  },
-                  {
-                    x: 211.65,
-                    y: 238.425
-                  },
-                  {
-                    x: 173.4,
-                    y: 238.425
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'China',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'China'
-            }
-          ],
-          sign_amount: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 957.525,
-                    y: 852.975
-                  },
-                  {
-                    x: 1055.7,
-                    y: 852.975
-                  },
-                  {
-                    x: 1055.7,
-                    y: 878.475
-                  },
-                  {
-                    x: 957.525,
-                    y: 878.475
+                    x: 933,
+                    y: 270
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '547,200.00',
-              img_name: 'dir1.png',
+              ori_value: 'invoice date',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: 547200.0
+              value: 'invoice date'
             }
           ],
-          has_abandon_term: [],
-          document_num: [
+          transport_name: [],
+          order_number: [
             {
               boxes: [
                 [
                   {
-                    x: 688.5,
-                    y: 303.45
+                    x: 796,
+                    y: 228
                   },
                   {
-                    x: 798.15,
-                    y: 303.45
+                    x: 886,
+                    y: 228
                   },
                   {
-                    x: 798.15,
-                    y: 327.675
+                    x: 886,
+                    y: 246
                   },
                   {
-                    x: 688.5,
-                    y: 327.675
+                    x: 796,
+                    y: 246
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '6010138048',
-              img_name: 'dir1.png',
+              ori_value: 'S0F008132',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: '6010138048'
+              value: 'S0F008132'
             }
           ],
-          account_address_obligor: [
+          goods_description: [
             {
               boxes: [
                 [
                   {
-                    x: 749.7,
-                    y: 132.6
+                    x: 35,
+                    y: 448
                   },
                   {
-                    x: 1054.425,
-                    y: 132.6
+                    x: 1162,
+                    y: 448
                   },
                   {
-                    x: 1054.425,
-                    y: 154.275
+                    x: 1162,
+                    y: 977
                   },
                   {
-                    x: 749.7,
-                    y: 154.275
+                    x: 35,
+                    y: 977
                   }
                 ]
               ],
-              is_std: false,
-              ori_value: 'Citibank (China) Co., Ltd. Shanghai Branch',
-              img_name: 'dir1.png',
+              is_std: true,
+              ori_value: '',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: 'Citibank (China) Co., Ltd. Shanghai Branch'
+              value: '详情见高亮部分'
             }
           ],
+          sign: [
+            {
+              boxes: [],
+              is_std: true,
+              ori_value: '',
+              img_name: '',
+              language: '',
+              value: 'False'
+            }
+          ],
+          seal: [],
+          port_of_loading: [],
+          type: -1,
+          seller_country: [],
+          invoice_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 794,
+                    y: 201
+                  },
+                  {
+                    x: 870,
+                    y: 201
+                  },
+                  {
+                    x: 870,
+                    y: 224
+                  },
+                  {
+                    x: 794,
+                    y: 224
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '3/14/2022',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: '2022/03/14'
+            }
+          ],
+          buyer_bank: [],
+          end_customer: [],
+          flight_no: [],
+          VIN_number: [],
           currency: [
             {
               boxes: [
                 [
                   {
-                    x: 693.6,
-                    y: 376.125
+                    x: 789,
+                    y: 944
                   },
                   {
-                    x: 726.75,
-                    y: 376.125
+                    x: 840,
+                    y: 944
                   },
                   {
-                    x: 726.75,
-                    y: 393.975
+                    x: 840,
+                    y: 971
                   },
                   {
-                    x: 693.6,
-                    y: 393.975
+                    x: 789,
+                    y: 971
                   }
                 ]
               ],
               is_std: true,
               ori_value: 'USD',
-              img_name: 'dir1.png',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
               value: '美元 – United States Dollar'
             }
           ],
-          account_number_obligor: [
+          payment_term_period: [
             {
               boxes: [
                 [
                   {
-                    x: 818.55,
-                    y: 229.5
+                    x: 823,
+                    y: 248
                   },
                   {
-                    x: 840.225,
-                    y: 229.5
+                    x: 891,
+                    y: 248
                   },
                   {
-                    x: 840.225,
-                    y: 248.625
+                    x: 891,
+                    y: 271
                   },
                   {
-                    x: 818.55,
-                    y: 248.625
+                    x: 823,
+                    y: 271
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '2',
-              img_name: 'dir1.png',
+              ori_value: '60 days',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: '2'
+              value: '60 days'
             }
           ],
-          payment_method: [
+          invoice_number: [
             {
               boxes: [
                 [
                   {
-                    x: 687.225,
-                    y: 397.8
+                    x: 794,
+                    y: 183
                   },
                   {
-                    x: 794.325,
-                    y: 397.8
+                    x: 909,
+                    y: 183
                   },
                   {
-                    x: 794.325,
-                    y: 419.475
+                    x: 909,
+                    y: 206
                   },
                   {
-                    x: 687.225,
-                    y: 419.475
+                    x: 794,
+                    y: 206
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '',
-              img_name: 'dir1.png',
+              ori_value: 'S0110263165',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: '详情见高亮部分'
+              value: 'S0110263165'
             }
           ],
+          payment_method: [],
           group: [
             {
               table_value: [
                 {
-                  goods_quantity: [
+                  qty_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 763.8691,
-                            y: 197.7878
+                            x: 87,
+                            y: 494
                           },
                           {
-                            x: 858.3901,
-                            y: 198.8644
+                            x: 128,
+                            y: 494
                           },
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 128,
+                            y: 511
                           },
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 87,
+                            y: 511
                           }
                         ]
                       ],
-                      is_std: true,
-                      ori_value: '8000',
-                      img_name: 'dir2.png',
+                      is_std: false,
+                      ori_value: '1',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '8000'
+                      value: '1'
                     }
                   ],
-                  name_of_goods: [
+                  amount_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 159.9243,
-                            y: 191.8623
+                            x: 970,
+                            y: 495
                           },
                           {
-                            x: 408.9364,
-                            y: 193.6384
+                            x: 1044,
+                            y: 495
                           },
                           {
-                            x: 408.5897,
-                            y: 231.3779
+                            x: 1044,
+                            y: 515
                           },
                           {
-                            x: 159.7112,
-                            y: 229.4471
+                            x: 970,
+                            y: 515
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '（精重白人胰岛素混合注射液）3070 优思灵USLIN30R',
-                      img_name: 'dir2.png',
+                      ori_value: '30,811.32',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '（精重白人胰岛素混合注射液）3070 优思灵USLIN30R'
+                      value: 30811.32
                     }
                   ],
                   unit_price_of_goods: [
@@ -1369,144 +1644,88 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 639.1818,
-                            y: 196.1932
+                            x: 808,
+                            y: 495
                           },
                           {
-                            x: 763.8691,
-                            y: 197.7878
+                            x: 923,
+                            y: 495
                           },
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 923,
+                            y: 515
                           },
                           {
-                            x: 639.0975,
-                            y: 234.251
+                            x: 808,
+                            y: 515
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥26.5700',
-                      img_name: 'dir2.png',
+                      ori_value: '30,811.32',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '¥26.5700'
-                    }
-                  ],
-                  amount_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 858.3901,
-                            y: 198.8644
-                          },
-                          {
-                            x: 995.892,
-                            y: 201.0756
-                          },
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          },
-                          {
-                            x: 858.3869,
-                            y: 236.9675
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥212560.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥212560.00'
-                    },
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 995.892,
-                            y: 201.0756
-                          },
-                          {
-                            x: 1099.3737,
-                            y: 202.1026
-                          },
-                          {
-                            x: 1099.3772,
-                            y: 240.9451
-                          },
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥6400.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥6400.00'
+                      value: 30811.32
                     }
                   ]
                 },
                 {
-                  goods_quantity: [
+                  qty_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 117,
+                            y: 541
                           },
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 131,
+                            y: 541
                           },
                           {
-                            x: 858.3877,
-                            y: 273.329
+                            x: 131,
+                            y: 557
                           },
                           {
-                            x: 763.5749,
-                            y: 272.2245
+                            x: 117,
+                            y: 557
                           }
                         ]
                       ],
-                      is_std: true,
-                      ori_value: '1000',
-                      img_name: 'dir2.png',
+                      is_std: false,
+                      ori_value: '4',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '1000'
+                      value: '4'
                     }
                   ],
-                  name_of_goods: [
+                  amount_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 159.7112,
-                            y: 229.4471
+                            x: 976,
+                            y: 539
                           },
                           {
-                            x: 408.5897,
-                            y: 231.3779
+                            x: 1045,
+                            y: 539
                           },
                           {
-                            x: 408.513,
-                            y: 267.8494
+                            x: 1045,
+                            y: 559
                           },
                           {
-                            x: 159.7965,
-                            y: 266.4322
+                            x: 976,
+                            y: 559
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '优巴灵USLINR\n（人胰岛素注射液）',
-                      img_name: 'dir2.png',
+                      ori_value: '6,602.16',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '优巴灵USLINR\n（人胰岛素注射液）'
+                      value: 6602.16
                     }
                   ],
                   unit_price_of_goods: [
@@ -1514,227 +1733,694 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 639.0975,
-                            y: 234.251
+                            x: 851,
+                            y: 541
                           },
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 919,
+                            y: 541
                           },
                           {
-                            x: 763.5749,
-                            y: 272.2245
+                            x: 919,
+                            y: 561
                           },
                           {
-                            x: 639.0408,
-                            y: 270.4045
+                            x: 851,
+                            y: 561
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥27.9300',
-                      img_name: 'dir2.png',
+                      ori_value: '1,650.54',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '¥27.9300'
+                      value: 1650.54
+                    }
+                  ]
+                },
+                {
+                  qty_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 48,
+                            y: 585
+                          },
+                          {
+                            x: 91,
+                            y: 585
+                          },
+                          {
+                            x: 91,
+                            y: 600
+                          },
+                          {
+                            x: 48,
+                            y: 600
+                          }
+                        ]
+                      ],
+                      is_std: false,
+                      ori_value: '30',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: '30'
                     }
                   ],
-                  amount_price_of_goods: [
+                  amount_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 974,
+                            y: 582
                           },
                           {
-                            x: 995.7877,
-                            y: 238.9812
+                            x: 1151,
+                            y: 582
                           },
                           {
-                            x: 995.7904,
-                            y: 275.8603
+                            x: 1151,
+                            y: 603
                           },
                           {
-                            x: 858.3877,
-                            y: 273.329
+                            x: 974,
+                            y: 603
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥27930.00',
-                      img_name: 'dir2.png',
+                      ori_value: '112022',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '¥27930.00'
-                    },
+                      value: 112022
+                    }
+                  ],
+                  unit_price_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 995.7877,
-                            y: 238.9812
+                            x: 976,
+                            y: 582
                           },
                           {
-                            x: 1099.3772,
-                            y: 240.9451
+                            x: 1045,
+                            y: 582
                           },
                           {
-                            x: 1099.4107,
-                            y: 276.7706
+                            x: 1045,
+                            y: 603
                           },
                           {
-                            x: 995.7904,
-                            y: 275.8603
+                            x: 976,
+                            y: 603
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥840.00',
-                      img_name: 'dir2.png',
+                      ori_value: '2,178.97',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
                       language: '',
-                      value: '¥840.00'
+                      value: 2178.97
+                    }
+                  ]
+                },
+                {
+                  qty_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 45,
+                            y: 674
+                          },
+                          {
+                            x: 68,
+                            y: 674
+                          },
+                          {
+                            x: 68,
+                            y: 692
+                          },
+                          {
+                            x: 45,
+                            y: 692
+                          }
+                        ]
+                      ],
+                      is_std: false,
+                      ori_value: '40',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: '40'
+                    }
+                  ],
+                  amount_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 977,
+                            y: 671
+                          },
+                          {
+                            x: 1044,
+                            y: 671
+                          },
+                          {
+                            x: 1044,
+                            y: 691
+                          },
+                          {
+                            x: 977,
+                            y: 691
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '3,710.88',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: 3710.88
+                    }
+                  ],
+                  unit_price_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 980,
+                            y: 671
+                          },
+                          {
+                            x: 1044,
+                            y: 671
+                          },
+                          {
+                            x: 1044,
+                            y: 691
+                          },
+                          {
+                            x: 980,
+                            y: 691
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '3,710.88',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: 3710.88
+                    }
+                  ]
+                },
+                {
+                  qty_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 52,
+                            y: 744
+                          },
+                          {
+                            x: 73,
+                            y: 744
+                          },
+                          {
+                            x: 73,
+                            y: 761
+                          },
+                          {
+                            x: 52,
+                            y: 761
+                          }
+                        ]
+                      ],
+                      is_std: false,
+                      ori_value: '50',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: '50'
+                    }
+                  ],
+                  amount_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 1090,
+                            y: 742
+                          },
+                          {
+                            x: 1150,
+                            y: 742
+                          },
+                          {
+                            x: 1150,
+                            y: 761
+                          },
+                          {
+                            x: 1090,
+                            y: 761
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '112022',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: 112022
+                    }
+                  ],
+                  unit_price_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 980,
+                            y: 742
+                          },
+                          {
+                            x: 1045,
+                            y: 742
+                          },
+                          {
+                            x: 1045,
+                            y: 762
+                          },
+                          {
+                            x: 980,
+                            y: 762
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '1,343.73',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: 1343.73
+                    }
+                  ]
+                },
+                {
+                  qty_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 48,
+                            y: 814
+                          },
+                          {
+                            x: 76,
+                            y: 814
+                          },
+                          {
+                            x: 76,
+                            y: 833
+                          },
+                          {
+                            x: 48,
+                            y: 833
+                          }
+                        ]
+                      ],
+                      is_std: false,
+                      ori_value: '60',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: '60'
+                    }
+                  ],
+                  amount_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 993,
+                            y: 810
+                          },
+                          {
+                            x: 1045,
+                            y: 810
+                          },
+                          {
+                            x: 1045,
+                            y: 831
+                          },
+                          {
+                            x: 993,
+                            y: 831
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '892.94',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: 892.94
+                    }
+                  ],
+                  unit_price_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 864,
+                            y: 810
+                          },
+                          {
+                            x: 918,
+                            y: 810
+                          },
+                          {
+                            x: 918,
+                            y: 830
+                          },
+                          {
+                            x: 864,
+                            y: 830
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '892.94',
+                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      language: '',
+                      value: 892.94
                     }
                   ]
                 }
               ],
-              table_name: 'Table_1'
+              table_name: 'table_0'
             }
           ],
-          valid_date_start: [],
-          orgin_address: [],
-          receiver: [
+          contract_no: [],
+          factory: [],
+          buyer_address: [
             {
               boxes: [
                 [
                   {
-                    x: 109.65,
-                    y: 490.875
+                    x: 150,
+                    y: 267
                   },
                   {
-                    x: 397.79999999999998,
-                    y: 490.875
+                    x: 276,
+                    y: 267
                   },
                   {
-                    x: 397.79999999999998,
-                    y: 534.225
+                    x: 276,
+                    y: 312
                   },
                   {
-                    x: 109.65,
-                    y: 534.225
+                    x: 150,
+                    y: 312
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD',
-              img_name: 'dir1.png',
+              ori_value: 'Beijing,100102 CHINA',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD'
+              value: 'Beijing,100102 CHINA'
             }
           ],
-          account_number_creditor: [],
-          sign_date: [
+          consignee: [
             {
               boxes: [
                 [
                   {
-                    x: 688.5,
-                    y: 280.5
+                    x: 153,
+                    y: 332
                   },
                   {
-                    x: 772.65,
-                    y: 280.5
+                    x: 451,
+                    y: 332
                   },
                   {
-                    x: 772.65,
-                    y: 300.9
+                    x: 451,
+                    y: 357
                   },
                   {
-                    x: 688.5,
-                    y: 300.9
+                    x: 153,
+                    y: 357
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'CBC Ericsson China Communications C',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: 'CBC Ericsson China Communications C'
+            }
+          ],
+          payment_term: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 795,
+                    y: 246
+                  },
+                  {
+                    x: 1028,
+                    y: 246
+                  },
+                  {
+                    x: 1028,
+                    y: 269
+                  },
+                  {
+                    x: 795,
+                    y: 269
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'Due 60 days from invoice date',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: '详情见高亮部分'
+            }
+          ],
+          seller_bank: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 66,
+                    y: 960
+                  },
+                  {
+                    x: 221,
+                    y: 960
+                  },
+                  {
+                    x: 221,
+                    y: 990
+                  },
+                  {
+                    x: 66,
+                    y: 990
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'Bank of America',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: 'Bank of America'
+            }
+          ],
+          due_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 795,
+                    y: 400
+                  },
+                  {
+                    x: 909,
+                    y: 400
+                  },
+                  {
+                    x: 909,
+                    y: 427
+                  },
+                  {
+                    x: 795,
+                    y: 427
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '10.04.2022',
-              img_name: 'dir1.png',
+              ori_value: '5/13/2022',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: '2010/04/20'
+              value: '2022/05/13'
             }
           ],
-          account_address_creditor: [],
+          country_of_origin: [],
+          price_term: [],
           vessel_name: [],
-          VIN_no: [],
-          valid_date_delay: [],
-          manufacture: [],
-          end_user: [],
-          sender: [],
-          valid_date_end: [],
-          creditor: [
+          seller_address: [
             {
               boxes: [
                 [
                   {
-                    x: 99.45,
-                    y: 304.725
+                    x: 114,
+                    y: 96
                   },
                   {
-                    x: 392.7,
-                    y: 304.725
+                    x: 322,
+                    y: 96
                   },
                   {
-                    x: 392.7,
-                    y: 349.35
+                    x: 322,
+                    y: 141
                   },
                   {
-                    x: 99.45,
-                    y: 349.35
+                    x: 114,
+                    y: 141
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENT CO., LTD',
-              img_name: 'dir1.png',
+              ori_value: '700 Chenkun Ridge Road Chenkun Ridge, NY10977',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENTCO.,LTD'
+              value: '700 Chenkun Ridge Road Chenkun Ridge, NY10977'
             }
           ],
-          payment_term_tenor: [],
-          port_of_discharge: [
+          buyer: [
             {
               boxes: [
                 [
                   {
-                    x: 724.2,
-                    y: 423.3
+                    x: 147,
+                    y: 223
                   },
                   {
-                    x: 816.0,
-                    y: 423.3
+                    x: 436,
+                    y: 223
                   },
                   {
-                    x: 816.0,
-                    y: 442.425
+                    x: 436,
+                    y: 269
                   },
                   {
-                    x: 724.2,
-                    y: 442.425
+                    x: 147,
+                    y: 269
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SHANGHAI',
-              img_name: 'dir1.png',
+              ori_value: 'Ericsson China Communications Co. Ltd',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
               language: '',
-              value: 'SHANGHAI'
+              value: 'Ericsson China Communications Co. Ltd'
             }
-          ]
+          ],
+          carrier: [],
+          delivery_date: [],
+          total_amount: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 915,
+                    y: 943
+                  },
+                  {
+                    x: 1030,
+                    y: 943
+                  },
+                  {
+                    x: 1030,
+                    y: 971
+                  },
+                  {
+                    x: 915,
+                    y: 971
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '45,540.00',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: 45540
+            }
+          ],
+          seller_bank_number: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 451,
+                    y: 942
+                  },
+                  {
+                    x: 566,
+                    y: 942
+                  },
+                  {
+                    x: 566,
+                    y: 969
+                  },
+                  {
+                    x: 451,
+                    y: 969
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '1233295232',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: '1233295232'
+            }
+          ],
+          page: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 1087,
+                    y: 810
+                  },
+                  {
+                    x: 1151,
+                    y: 810
+                  },
+                  {
+                    x: 1151,
+                    y: 831
+                  },
+                  {
+                    x: 1087,
+                    y: 831
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '112022',
+              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              language: '',
+              value: '112022'
+            }
+          ],
+          port_of_discharge: [],
+          payment_term_after_before: []
         }
       ],
       ret_code: 200
-    },
-    status: 1,
-    taskId: 'T001',
-    width: 1224,
-    height: 1584
+    }
   }
 ]
 

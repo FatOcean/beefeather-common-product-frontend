@@ -52,6 +52,7 @@
 <script>
 import beeLoading from '@linklogis/beeLoading'
 import { mapState } from 'vuex'
+import { result } from '@/api/receiptAnalysis'
 export default {
   name: 'upload-file',
   props: {
@@ -123,9 +124,20 @@ export default {
         productObj = this.ocrProductObj
       }
       const taskId = this.files[0].taskId
-      const application = productObj.staticName.toUpperCase()
-      const http = `/general-product-web/general/analysis?uploadId=${taskId}&application=${application}`
-      const isBank = productObj.staticName === 'receipt' || productObj.staticName === 'financial_statement'
+      const application = productObj.staticName
+      const http = `/general-product-web/general/analysis?uploadId=${taskId}&application=${application.toUpperCase()}`
+      const isBank =
+        application === 'receipt' || application === 'financial_statement'
+      const iszhada =
+        [
+          'bill_of_lading',
+          'order',
+          'customs_declaration',
+          'airway_bill',
+          'cross_border_contract',
+          'commercial_invoice',
+          'bank_acceptance_bill'
+        ].indexOf(application) > -1
       // if (
       //   productObj.staticName === 'receipt' ||
       //   productObj.staticName === 'financial_statement'
@@ -137,15 +149,19 @@ export default {
         .then((res) => {
           res = res.data
           if (res.code === '200') {
-            this.postFixdMessage(false)
-            this.beeLoading = false
-            this.$message({
-              message: '上传成功',
-              type: 'success',
-              offset: 60
-            })
-            this.percent = 100
-            this.$emit('uploadFileData', isBank ? { res, taskId } : res)
+            if (iszhada) {
+              this.pollingData(taskId, application.toUpperCase())
+            } else {
+              this.postFixdMessage(false)
+              this.percent = 100
+              this.beeLoading = false
+              this.$message({
+                message: '上传成功',
+                type: 'success',
+                offset: 60
+              })
+              this.$emit('uploadFileData', isBank ? { res, taskId } : res)
+            }
           } else {
             this.postFixdMessage(false)
             this.beeLoading = false
@@ -157,17 +173,50 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err)
+          console.err(err)
+          this.beeLoading = false
           this.$message({
             message: '网络错误，请稍后再试',
             type: 'error',
             offset: 60
           })
         })
-        .finally(() => {
-          this.beeLoading = false
-        })
       this.files = []
+    },
+    pollingData(taskId, application) {
+      result({ taskId, application }).then((res) => {
+        res = res.data
+        if (res.code === '200') {
+          this.postFixdMessage(false)
+          this.percent = 100
+          this.beeLoading = false
+          this.$message({
+            message: '上传成功',
+            type: 'success',
+            offset: 60
+          })
+          res.data && res.data.map((item) => {
+            if (item.imagePath) {
+              item.imagePath = `${
+                this.originLocation
+              }?filename=${encodeURIComponent(item.imagePath)}`
+            }
+          })
+          this.$emit('uploadFileData', res)
+        } else if (res.code === '201') {
+          // 隔两秒再次请求
+          window.setTimeout(() => {
+            this.pollingData(taskId, application)
+          }, 2000)
+        } else {
+          this.beeLoading = false
+          this.$message({
+            message: res.message,
+            type: 'error',
+            offset: 60
+          })
+        }
+      })
     },
     beforeUpload(file) {
       this.postFixdMessage(true)

@@ -1,33 +1,63 @@
 
-import imagePath from '../images/dir1.png'
+import imagePath from '../images/cross_border_contract.png'
 
 const data = [
   {
+    isexample: true,
+    taskId: 'U2024010517292705',
+    status: 1,
+    fileName: '跨境合同.jpg',
+    imagePath,
+    height: 836,
+    width: 687,
     content: [
       {
-        groupable: false,
-        keyCh: '文档名称',
-        keyEn: 'Document Name',
         sortId: 1,
+        keyEn: 'Document Name',
+        keyCh: '文档名称',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 855.525,
-                  y: 45.9
+                  x: 285.534375,
+                  y: 10.734375
                 },
                 {
-                  x: 1065.9,
-                  y: 45.9
+                  x: 405.75937500000003,
+                  y: 10.734375
                 },
                 {
-                  x: 1065.9,
-                  y: 75.225
+                  x: 405.75937500000003,
+                  y: 39.359375
                 },
                 {
-                  x: 855.525,
-                  y: 75.225
+                  x: 285.534375,
+                  y: 39.359375
+                }
+              ]
+            ],
+            value: '销货合同'
+          },
+          {
+            position: [
+              [
+                {
+                  x: 249.03750000000002,
+                  y: 42.221875000000004
+                },
+                {
+                  x: 445.834375,
+                  y: 42.221875000000004
+                },
+                {
+                  x: 445.834375,
+                  y: 62.975
+                },
+                {
+                  x: 249.03750000000002,
+                  y: 62.975
                 }
               ]
             ],
@@ -36,302 +66,202 @@ const data = [
         ]
       },
       {
-        groupable: false,
-        keyCh: '文档编号',
-        keyEn: 'Contract ID ',
         sortId: 2,
+        keyEn: 'Contract ID ',
+        keyCh: '文档编号',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 688.5,
-                  y: 303.45
+                  x: 553.178125,
+                  y: 65.8375
                 },
                 {
-                  x: 798.15,
-                  y: 303.45
+                  x: 626.8875,
+                  y: 65.8375
                 },
                 {
-                  x: 798.15,
-                  y: 327.675
+                  x: 626.8875,
+                  y: 81.58125
                 },
                 {
-                  x: 688.5,
-                  y: 327.675
+                  x: 553.178125,
+                  y: 81.58125
                 }
               ]
             ],
-            value: '6010138048'
+            value: 'NEO2001-026'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '甲方名称（首页）',
-        keyEn: 'Creditor',
         sortId: 3,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 99.45,
-                  y: 304.725
-                },
-                {
-                  x: 392.7,
-                  y: 304.725
-                },
-                {
-                  x: 392.7,
-                  y: 349.35
-                },
-                {
-                  x: 99.45,
-                  y: 349.35
-                }
-              ]
-            ],
-            value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENTCO.,LTD'
-          }
-        ]
+        keyEn: 'Creditor',
+        keyCh: '甲方名称（首页）',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '签订日期',
-        keyEn: 'Issue Day',
         sortId: 4,
+        keyEn: 'Issue Day',
+        keyCh: '签订日期',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 688.5,
-                  y: 280.5
+                  x: 548.884375,
+                  y: 85.875
                 },
                 {
-                  x: 772.65,
-                  y: 280.5
+                  x: 624.740625,
+                  y: 85.875
                 },
                 {
-                  x: 772.65,
-                  y: 300.9
+                  x: 624.740625,
+                  y: 100.1875
                 },
                 {
-                  x: 688.5,
-                  y: 300.9
+                  x: 548.884375,
+                  y: 100.1875
                 }
               ]
             ],
-            value: '2010/04/20'
+            value: '2001/08/20'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '买方',
-        keyEn: 'Buyer',
         sortId: 5,
-        values: [
-          {
-            $ref: '$[0].content[2].values[0]'
-          }
-        ]
+        keyEn: 'Buyer',
+        keyCh: '买方',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '卖方',
-        keyEn: 'Seller',
         sortId: 6,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 89.25,
-                  y: 142.8
-                },
-                {
-                  x: 429.675,
-                  y: 142.8
-                },
-                {
-                  x: 429.675,
-                  y: 169.575
-                },
-                {
-                  x: 89.25,
-                  y: 169.575
-                }
-              ]
-            ],
-            value: 'BASF International Trading(Shanghai)Co.,Ltd'
-          }
-        ]
+        keyEn: 'Seller',
+        keyCh: '卖方',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '买方开户行',
-        keyEn: 'Buyer Bank',
         sortId: 7,
+        keyEn: 'Buyer Bank',
+        keyCh: '买方开户行',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '卖方开户行',
-        keyEn: 'Seller Bank',
         sortId: 8,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 749.7,
-                  y: 132.6
-                },
-                {
-                  x: 1054.425,
-                  y: 132.6
-                },
-                {
-                  x: 1054.425,
-                  y: 154.275
-                },
-                {
-                  x: 749.7,
-                  y: 154.275
-                }
-              ]
-            ],
-            value: 'Citibank (China) Co., Ltd. Shanghai Branch'
-          }
-        ]
-      },
-      {
+        keyEn: 'Seller Bank',
+        keyCh: '卖方开户行',
         groupable: false,
-        keyCh: '买方银行账号',
-        keyEn: 'Account Number Creditor',
-        sortId: 9,
         values: []
       },
       {
+        sortId: 9,
+        keyEn: 'Account Number Creditor',
+        keyCh: '买方银行账号',
         groupable: false,
-        keyCh: '卖方银行账号',
-        keyEn: 'Account Number Obligor',
+        values: []
+      },
+      {
         sortId: 10,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 818.55,
-                  y: 229.5
-                },
-                {
-                  x: 840.225,
-                  y: 229.5
-                },
-                {
-                  x: 840.225,
-                  y: 248.625
-                },
-                {
-                  x: 818.55,
-                  y: 248.625
-                }
-              ]
-            ],
-            value: '2'
-          }
-        ]
+        keyEn: 'Account Number Obligor',
+        keyCh: '卖方银行账号',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '买方地址',
-        keyEn: ' Buyer Address',
         sortId: 11,
+        keyEn: ' Buyer Address',
+        keyCh: '买方地址',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 102.0,
-                  y: 354.45
+                  x: 131.675,
+                  y: 156.00625
                 },
                 {
-                  x: 318.75,
-                  y: 354.45
+                  x: 297.7,
+                  y: 156.00625
                 },
                 {
-                  x: 318.75,
-                  y: 443.7
+                  x: 297.7,
+                  y: 169.603125
                 },
                 {
-                  x: 102.0,
-                  y: 443.7
+                  x: 131.675,
+                  y: 169.603125
                 }
               ]
             ],
-            value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA'
+            value: 'KINGDOM OF SAUDI ARABLA'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '卖方地址',
-        keyEn: 'Seller  Address',
         sortId: 12,
+        keyEn: 'Seller  Address',
+        keyCh: '卖方地址',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 96.9,
-                  y: 170.85
+                  x: 131.675,
+                  y: 80.86562500000001
                 },
                 {
-                  x: 448.79999999999998,
-                  y: 170.85
+                  x: 428.659375,
+                  y: 80.86562500000001
                 },
                 {
-                  x: 448.79999999999998,
-                  y: 238.425
+                  x: 428.659375,
+                  y: 110.20625000000001
                 },
                 {
-                  x: 96.9,
-                  y: 238.425
+                  x: 131.675,
+                  y: 110.20625000000001
                 }
               ]
             ],
-            value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China'
+            value: 'NATHONG MANSION RMM2901NO.85 GUANJIAQIAO, NANJING 210005,PR.CHINA'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '货描',
-        keyEn: 'Goods Description',
         sortId: 13,
+        keyEn: 'Goods Description',
+        keyCh: '货描',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 96.9,
-                  y: 701.25
+                  x: 28.625,
+                  y: 249.03750000000002
                 },
                 {
-                  x: 1122.0,
-                  y: 701.25
+                  x: 659.8062500000001,
+                  y: 249.03750000000002
                 },
                 {
-                  x: 1122.0,
-                  y: 901.4250000000001
+                  x: 659.8062500000001,
+                  y: 382.859375
                 },
                 {
-                  x: 96.9,
-                  y: 901.4250000000001
+                  x: 28.625,
+                  y: 382.859375
                 }
               ]
             ],
@@ -340,60 +270,60 @@ const data = [
         ]
       },
       {
-        groupable: false,
-        keyCh: '总金额',
-        keyEn: 'Total Amount',
         sortId: 14,
+        keyEn: 'Total Amount',
+        keyCh: '总金额',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 957.525,
-                  y: 852.975
+                  x: 612.575,
+                  y: 366.40000000000003
                 },
                 {
-                  x: 1055.7,
-                  y: 852.975
+                  x: 657.6593750000001,
+                  y: 366.40000000000003
                 },
                 {
-                  x: 1055.7,
-                  y: 878.475
+                  x: 657.6593750000001,
+                  y: 381.428125
                 },
                 {
-                  x: 957.525,
-                  y: 878.475
+                  x: 612.575,
+                  y: 381.428125
                 }
               ]
             ],
-            value: '547200.0'
+            value: '26840.0'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '币种',
-        keyEn: 'Currency',
         sortId: 15,
+        keyEn: 'Currency',
+        keyCh: '币种',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 693.6,
-                  y: 376.125
+                  x: 584.665625,
+                  y: 367.115625
                 },
                 {
-                  x: 726.75,
-                  y: 376.125
+                  x: 610.428125,
+                  y: 367.115625
                 },
                 {
-                  x: 726.75,
-                  y: 393.975
+                  x: 610.428125,
+                  y: 379.28125
                 },
                 {
-                  x: 693.6,
-                  y: 393.975
+                  x: 584.665625,
+                  y: 379.28125
                 }
               ]
             ],
@@ -402,133 +332,85 @@ const data = [
         ]
       },
       {
-        groupable: false,
-        keyCh: '文档生效日期',
-        keyEn: 'Effective Date',
         sortId: 16,
+        keyEn: 'Effective Date',
+        keyCh: '文档生效日期',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档结束日期',
-        keyEn: 'Expire Date',
         sortId: 17,
+        keyEn: 'Expire Date',
+        keyCh: '文档结束日期',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档延期时间',
-        keyEn: 'Valid Date Delay',
         sortId: 18,
+        keyEn: 'Valid Date Delay',
+        keyCh: '文档延期时间',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '生效条款',
-        keyEn: 'Effective Clause',
         sortId: 19,
+        keyEn: 'Effective Clause',
+        keyCh: '生效条款',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '签订地点',
-        keyEn: 'Place of Sign',
         sortId: 20,
+        keyEn: 'Place of Sign',
+        keyCh: '签订地点',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '发货人',
-        keyEn: 'Sender',
         sortId: 21,
+        keyEn: 'Sender',
+        keyCh: '发货人',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '收货人',
-        keyEn: 'Receiver',
         sortId: 22,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 109.65,
-                  y: 490.875
-                },
-                {
-                  x: 397.79999999999998,
-                  y: 490.875
-                },
-                {
-                  x: 397.79999999999998,
-                  y: 534.225
-                },
-                {
-                  x: 109.65,
-                  y: 534.225
-                }
-              ]
-            ],
-            value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD'
-          }
-        ]
+        keyEn: 'Receiver',
+        keyCh: '收货人',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '签章',
-        keyEn: 'Chop',
         sortId: 23,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 640.0,
-                  y: 1187.0
-                },
-                {
-                  x: 888.0,
-                  y: 1187.0
-                },
-                {
-                  x: 888.0,
-                  y: 1290.0
-                },
-                {
-                  x: 640.0,
-                  y: 1290.0
-                }
-              ]
-            ],
-            value: '100'
-          }
-        ]
+        keyEn: 'Chop',
+        keyCh: '签章',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '付款方式',
-        keyEn: 'Payment Method',
         sortId: 24,
+        keyEn: 'Payment Method',
+        keyCh: '付款方式',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 687.225,
-                  y: 397.8
+                  x: 172.46562500000002,
+                  y: 619.73125
                 },
                 {
-                  x: 794.325,
-                  y: 397.8
+                  x: 556.040625,
+                  y: 619.73125
                 },
                 {
-                  x: 794.325,
-                  y: 419.475
+                  x: 556.040625,
+                  y: 644.0625
                 },
                 {
-                  x: 687.225,
-                  y: 419.475
+                  x: 172.46562500000002,
+                  y: 644.0625
                 }
               ]
             ],
@@ -537,389 +419,490 @@ const data = [
         ]
       },
       {
-        groupable: false,
-        keyCh: '是否含附件',
-        keyEn: 'Has Attachment',
         sortId: 25,
+        keyEn: 'Has Attachment',
+        keyCh: '是否含附件',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档包含禁止转让/寄售/回购条款',
-        keyEn: 'Has Abandon Term',
         sortId: 26,
+        keyEn: 'Has Abandon Term',
+        keyCh: '文档包含禁止转让/寄售/回购条款',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-XX日',
-        keyEn: 'Payment Term Date',
         sortId: 27,
+        keyEn: 'Payment Term Date',
+        keyCh: '文档付款条件-XX日',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-前/后',
-        keyEn: 'Payment Term Before or After',
         sortId: 28,
+        keyEn: 'Payment Term Before or After',
+        keyCh: '文档付款条件-前/后',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-账期',
-        keyEn: 'Payment Term Tenor',
         sortId: 29,
+        keyEn: 'Payment Term Tenor',
+        keyCh: '文档付款条件-账期',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '车辆识别号',
-        keyEn: 'VIN No',
         sortId: 30,
+        keyEn: 'VIN No',
+        keyCh: '车辆识别号',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '启运港',
-        keyEn: 'Port Of Loading',
         sortId: 31,
+        keyEn: 'Port Of Loading',
+        keyCh: '启运港',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 214.20000000000003,
-                  y: 974.1
+                  x: 254.046875,
+                  y: 555.325
                 },
                 {
-                  x: 322.575,
-                  y: 974.1
+                  x: 379.99687500000005,
+                  y: 555.325
                 },
                 {
-                  x: 322.575,
-                  y: 994.5
+                  x: 379.99687500000005,
+                  y: 569.6375
                 },
                 {
-                  x: 214.20000000000003,
-                  y: 994.5
+                  x: 254.046875,
+                  y: 569.6375
                 }
               ]
             ],
-            value: 'Taiwan Port'
+            value: 'XINGANG,PR.CHINA'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '目的港/国',
-        keyEn: 'Port Of Discharge',
         sortId: 32,
+        keyEn: 'Port Of Discharge',
+        keyCh: '目的港/国',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 724.2,
-                  y: 423.3
+                  x: 241.165625,
+                  y: 572.5
                 },
                 {
-                  x: 816.0,
-                  y: 423.3
+                  x: 431.521875,
+                  y: 572.5
                 },
                 {
-                  x: 816.0,
-                  y: 442.425
+                  x: 431.521875,
+                  y: 586.8125
                 },
                 {
-                  x: 724.2,
-                  y: 442.425
+                  x: 241.165625,
+                  y: 586.8125
                 }
               ]
             ],
-            value: 'SHANGHAI'
+            value: 'DAMMAM PORT,SAUDI ARABIA'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '产地',
-        keyEn: 'Place of Origin',
         sortId: 33,
+        keyEn: 'Place of Origin',
+        keyCh: '产地',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '制造商',
-        keyEn: 'Manufacture',
         sortId: 34,
+        keyEn: 'Manufacture',
+        keyCh: '制造商',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '船号',
-        keyEn: 'Vessel Name',
         sortId: 35,
+        keyEn: 'Vessel Name',
+        keyCh: '船号',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '航班号',
-        keyEn: 'Flight Number',
         sortId: 36,
+        keyEn: 'Flight Number',
+        keyCh: '航班号',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '发货日期',
-        keyEn: 'Delivery Date',
         sortId: 37,
+        keyEn: 'Delivery Date',
+        keyCh: '发货日期',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '卖方地区或国别',
-        keyEn: 'Seller Region and Country',
         sortId: 38,
+        keyEn: 'Seller Region and Country',
+        keyCh: '卖方地区或国别',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 173.4,
-                  y: 216.75
+                  x: 247.60625000000002,
+                  y: 156.721875
                 },
                 {
-                  x: 211.65,
-                  y: 216.75
+                  x: 296.984375,
+                  y: 156.721875
                 },
                 {
-                  x: 211.65,
-                  y: 238.425
+                  x: 296.984375,
+                  y: 170.31875000000002
                 },
                 {
-                  x: 173.4,
-                  y: 238.425
+                  x: 247.60625000000002,
+                  y: 170.31875000000002
                 }
               ]
             ],
-            value: 'China'
+            value: 'ARABIA'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '最终用户',
-        keyEn: 'End User',
         sortId: 39,
+        keyEn: 'End User',
+        keyCh: '最终用户',
+        groupable: false,
         values: []
+      },
+      {
+        sortId: 40,
+        keyEn: 'GOODS LIST1',
+        keyCh: '商品信息1',
+        groupable: true,
+        row: [
+          {
+            sortId: 40,
+            keyEn: 'Goods Name',
+            keyCh: '商品名称',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 25.4614,
+                      y: 317.3259
+                    },
+                    {
+                      x: 264.3166,
+                      y: 319.0083
+                    },
+                    {
+                      x: 262.9762,
+                      y: 367.2085
+                    },
+                    {
+                      x: 25.2918,
+                      y: 365.6561
+                    }
+                  ]
+                ],
+                value: 'ABOUT4400CARTONS MELON JAM\n340GMS X 24 TIN MALING BRAND AT\nUSD.6.10PER CARTON'
+              }
+            ]
+          },
+          {
+            sortId: 42,
+            keyEn: 'Goods Quantity',
+            keyCh: '商品数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 264.3166,
+                      y: 319.0083
+                    },
+                    {
+                      x: 393.7016,
+                      y: 319.8202
+                    },
+                    {
+                      x: 393.9041,
+                      y: 368.4004
+                    },
+                    {
+                      x: 262.9762,
+                      y: 367.2085
+                    }
+                  ]
+                ],
+                value: '4400CARTONS'
+              }
+            ]
+          },
+          {
+            sortId: 44,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 393.7016,
+                      y: 319.8202
+                    },
+                    {
+                      x: 547.7899,
+                      y: 320.9281
+                    },
+                    {
+                      x: 547.9479,
+                      y: 369.2359
+                    },
+                    {
+                      x: 393.9041,
+                      y: 368.4004
+                    }
+                  ]
+                ],
+                value: 'USD6.10'
+              }
+            ]
+          },
+          {
+            sortId: 46,
+            keyEn: 'Goods Amount',
+            keyCh: '单个商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 547.7899,
+                      y: 320.9281
+                    },
+                    {
+                      x: 668.5552,
+                      y: 321.7408
+                    },
+                    {
+                      x: 669.0041,
+                      y: 369.8738
+                    },
+                    {
+                      x: 547.9479,
+                      y: 369.2359
+                    }
+                  ]
+                ],
+                value: 'USD26840.00'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        sortId: 41,
+        keyEn: 'GOODS LIST2',
+        keyCh: '商品信息2',
+        groupable: true,
+        row: [
+          {
+            sortId: 41,
+            keyEn: 'Goods Name',
+            keyCh: '商品名称',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 25.2918,
+                      y: 365.6561
+                    },
+                    {
+                      x: 262.9762,
+                      y: 367.2085
+                    },
+                    {
+                      x: 262.861,
+                      y: 384.3748
+                    },
+                    {
+                      x: 25.1804,
+                      y: 384.1512
+                    }
+                  ]
+                ],
+                value: 'Total:'
+              }
+            ]
+          },
+          {
+            sortId: 43,
+            keyEn: 'Goods Quantity',
+            keyCh: '商品数量',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 262.9762,
+                      y: 367.2085
+                    },
+                    {
+                      x: 393.9041,
+                      y: 368.4004
+                    },
+                    {
+                      x: 393.9765,
+                      y: 386.1401
+                    },
+                    {
+                      x: 262.861,
+                      y: 384.3748
+                    }
+                  ]
+                ],
+                value: '4400CARTONS'
+              }
+            ]
+          },
+          {
+            sortId: 45,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: []
+          },
+          {
+            sortId: 47,
+            keyEn: 'Goods Amount',
+            keyCh: '单个商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
+                      x: 547.9479,
+                      y: 369.2359
+                    },
+                    {
+                      x: 669.0041,
+                      y: 369.8738
+                    },
+                    {
+                      x: 668.9632,
+                      y: 388.0007
+                    },
+                    {
+                      x: 547.8703,
+                      y: 386.0708
+                    }
+                  ]
+                ],
+                value: 'USD26840.00'
+              }
+            ]
+          }
+        ]
       }
     ],
-    fileName: 'dir1.pdf',
-    imagePath,
     json: {
       predict_status: 'success',
-      trace_id: 'Contract-New-123456d456',
-      role: 'zhada',
+      trace_id: 'U2024010517292705',
+      role: 'beefeather',
       extra_info: {},
       error_info: '',
       predict_result: [
         {
-          sx_clause: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 623.475,
-                    y: 1042.95
-                  },
-                  {
-                    x: 879.75,
-                    y: 1042.95
-                  },
-                  {
-                    x: 879.75,
-                    y: 1062.075
-                  },
-                  {
-                    x: 623.475,
-                    y: 1062.075
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir2.png',
-              language: '',
-              value: '详情见高亮部分'
-            }
-          ],
+          sx_clause: [],
           payment_term_date: [],
           obligor_address: [
             {
               boxes: [
                 [
                   {
-                    x: 96.9,
-                    y: 170.85
+                    x: 131.675,
+                    y: 80.86562500000001
                   },
                   {
-                    x: 448.79999999999998,
-                    y: 170.85
+                    x: 428.659375,
+                    y: 80.86562500000001
                   },
                   {
-                    x: 448.79999999999998,
-                    y: 238.425
+                    x: 428.659375,
+                    y: 110.20625000000001
                   },
                   {
-                    x: 96.9,
-                    y: 238.425
+                    x: 131.675,
+                    y: 110.20625000000001
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China',
-              img_name: 'dir1.png',
+              ori_value: 'NATHONG MANSION RMM2901NO.85 GUANJIAQIAO, NANJING 210005,PR.CHINA',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China'
+              value: 'NATHONG MANSION RMM2901NO.85 GUANJIAQIAO, NANJING 210005,PR.CHINA'
             }
           ],
-          seal: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 640,
-                    y: 1187
-                  },
-                  {
-                    x: 888,
-                    y: 1187
-                  },
-                  {
-                    x: 888,
-                    y: 1290
-                  },
-                  {
-                    x: 640,
-                    y: 1290
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '100',
-              img_name: 'dir1.png',
-              language: '',
-              value: '100'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 718,
-                    y: 1162
-                  },
-                  {
-                    x: 941,
-                    y: 1162
-                  },
-                  {
-                    x: 941,
-                    y: 1383
-                  },
-                  {
-                    x: 718,
-                    y: 1383
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '中建二局第三建筑工程有限公司',
-              img_name: 'dir2.png',
-              language: '',
-              value: '中建二局第三建筑工程有限公司'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 174,
-                    y: 1158
-                  },
-                  {
-                    x: 404,
-                    y: 1158
-                  },
-                  {
-                    x: 404,
-                    y: 1380
-                  },
-                  {
-                    x: 174,
-                    y: 1380
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '北京市公安局',
-              img_name: 'dir2.png',
-              language: '',
-              value: '北京市公安局'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 384,
-                    y: 550
-                  },
-                  {
-                    x: 619,
-                    y: 550
-                  },
-                  {
-                    x: 619,
-                    y: 784
-                  },
-                  {
-                    x: 384,
-                    y: 784
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '有限公司',
-              img_name: 'dir2.png',
-              language: '',
-              value: '有限公司'
-            }
-          ],
+          seal: [],
           port_of_loading: [
             {
               boxes: [
                 [
                   {
-                    x: 214.20000000000003,
-                    y: 974.1
+                    x: 254.046875,
+                    y: 555.325
                   },
                   {
-                    x: 322.575,
-                    y: 974.1
+                    x: 379.99687500000005,
+                    y: 555.325
                   },
                   {
-                    x: 322.575,
-                    y: 994.5
+                    x: 379.99687500000005,
+                    y: 569.6375
                   },
                   {
-                    x: 214.20000000000003,
-                    y: 994.5
+                    x: 254.046875,
+                    y: 569.6375
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'Taiwan Port',
-              img_name: 'dir1.png',
+              ori_value: 'XINGANG,PR.CHINA',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: 'Taiwan Port'
+              value: 'XINGANG,PR.CHINA'
             }
           ],
           product_info: [
@@ -927,53 +910,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 96.9,
-                    y: 701.25
+                    x: 28.625,
+                    y: 249.03750000000002
                   },
                   {
-                    x: 1122.0,
-                    y: 701.25
+                    x: 659.8062500000001,
+                    y: 249.03750000000002
                   },
                   {
-                    x: 1122.0,
-                    y: 901.4250000000001
+                    x: 659.8062500000001,
+                    y: 382.859375
                   },
                   {
-                    x: 96.9,
-                    y: 901.4250000000001
+                    x: 28.625,
+                    y: 382.859375
                   }
                 ]
               ],
               is_std: false,
               ori_value: '',
-              img_name: 'dir1.png',
-              language: '',
-              value: '详情见高亮部分'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 107.10000000000001,
-                    y: 135.15
-                  },
-                  {
-                    x: 1107.975,
-                    y: 135.15
-                  },
-                  {
-                    x: 1107.975,
-                    y: 924.375
-                  },
-                  {
-                    x: 107.10000000000001,
-                    y: 924.375
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir2.png',
+              img_name: '跨境合同.jpg',
               language: '',
               value: '详情见高亮部分'
             }
@@ -981,90 +937,62 @@ const data = [
           has_attachment: [],
           sign_place: [],
           delivery_time: [],
-          obligor: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 89.25,
-                    y: 142.8
-                  },
-                  {
-                    x: 429.675,
-                    y: 142.8
-                  },
-                  {
-                    x: 429.675,
-                    y: 169.575
-                  },
-                  {
-                    x: 89.25,
-                    y: 169.575
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'BASF International Trading (Shanghai) Co.,Ltd',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'BASF International Trading(Shanghai)Co.,Ltd'
-            }
-          ],
+          obligor: [],
           type: -1,
           document_name: [
             {
               boxes: [
                 [
                   {
-                    x: 855.525,
-                    y: 45.9
+                    x: 285.534375,
+                    y: 10.734375
                   },
                   {
-                    x: 1065.9,
-                    y: 45.9
+                    x: 405.75937500000003,
+                    y: 10.734375
                   },
                   {
-                    x: 1065.9,
-                    y: 75.225
+                    x: 405.75937500000003,
+                    y: 39.359375
                   },
                   {
-                    x: 855.525,
-                    y: 75.225
+                    x: 285.534375,
+                    y: 39.359375
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SALES CONTRACT',
-              img_name: 'dir1.png',
+              ori_value: '销货合同',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: 'SALES CONTRACT'
+              value: '销货合同'
             },
             {
               boxes: [
                 [
                   {
-                    x: 527.85,
-                    y: 53.550000000000007
+                    x: 249.03750000000002,
+                    y: 42.221875000000004
                   },
                   {
-                    x: 719.1,
-                    y: 53.550000000000007
+                    x: 445.834375,
+                    y: 42.221875000000004
                   },
                   {
-                    x: 719.1,
-                    y: 86.7
+                    x: 445.834375,
+                    y: 62.975
                   },
                   {
-                    x: 527.85,
-                    y: 86.7
+                    x: 249.03750000000002,
+                    y: 62.975
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '产品售货合同单',
-              img_name: 'dir2.png',
+              ori_value: 'SALES CONTRACT',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: '产品售货合同单'
+              value: 'SALES CONTRACT'
             }
           ],
           payment_term_before_after: [],
@@ -1073,28 +1001,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 102.0,
-                    y: 354.45
+                    x: 131.675,
+                    y: 156.00625
                   },
                   {
-                    x: 318.75,
-                    y: 354.45
+                    x: 297.7,
+                    y: 156.00625
                   },
                   {
-                    x: 318.75,
-                    y: 443.7
+                    x: 297.7,
+                    y: 169.603125
                   },
                   {
-                    x: 102.0,
-                    y: 443.7
+                    x: 131.675,
+                    y: 169.603125
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA',
-              img_name: 'dir1.png',
+              ori_value: 'KINGDOM OF SAUDI ARABLA',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA'
+              value: 'KINGDOM OF SAUDI ARABLA'
             }
           ],
           flight_no: [],
@@ -1103,28 +1031,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 173.4,
-                    y: 216.75
+                    x: 247.60625000000002,
+                    y: 156.721875
                   },
                   {
-                    x: 211.65,
-                    y: 216.75
+                    x: 296.984375,
+                    y: 156.721875
                   },
                   {
-                    x: 211.65,
-                    y: 238.425
+                    x: 296.984375,
+                    y: 170.31875000000002
                   },
                   {
-                    x: 173.4,
-                    y: 238.425
+                    x: 247.60625000000002,
+                    y: 170.31875000000002
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'China',
-              img_name: 'dir1.png',
+              ori_value: 'ARABIA',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: 'China'
+              value: 'ARABIA'
             }
           ],
           sign_amount: [
@@ -1132,28 +1060,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 957.525,
-                    y: 852.975
+                    x: 612.575,
+                    y: 366.40000000000003
                   },
                   {
-                    x: 1055.7,
-                    y: 852.975
+                    x: 657.6593750000001,
+                    y: 366.40000000000003
                   },
                   {
-                    x: 1055.7,
-                    y: 878.475
+                    x: 657.6593750000001,
+                    y: 381.428125
                   },
                   {
-                    x: 957.525,
-                    y: 878.475
+                    x: 612.575,
+                    y: 381.428125
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '547,200.00',
-              img_name: 'dir1.png',
+              ori_value: '26840.00',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: 547200.0
+              value: 26840
             }
           ],
           has_abandon_term: [],
@@ -1162,142 +1090,86 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 688.5,
-                    y: 303.45
+                    x: 553.178125,
+                    y: 65.8375
                   },
                   {
-                    x: 798.15,
-                    y: 303.45
+                    x: 626.8875,
+                    y: 65.8375
                   },
                   {
-                    x: 798.15,
-                    y: 327.675
+                    x: 626.8875,
+                    y: 81.58125
                   },
                   {
-                    x: 688.5,
-                    y: 327.675
+                    x: 553.178125,
+                    y: 81.58125
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '6010138048',
-              img_name: 'dir1.png',
+              ori_value: 'NEO2001-026',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: '6010138048'
+              value: 'NEO2001-026'
             }
           ],
-          account_address_obligor: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 749.7,
-                    y: 132.6
-                  },
-                  {
-                    x: 1054.425,
-                    y: 132.6
-                  },
-                  {
-                    x: 1054.425,
-                    y: 154.275
-                  },
-                  {
-                    x: 749.7,
-                    y: 154.275
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'Citibank (China) Co., Ltd. Shanghai Branch',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'Citibank (China) Co., Ltd. Shanghai Branch'
-            }
-          ],
+          account_address_obligor: [],
           currency: [
             {
               boxes: [
                 [
                   {
-                    x: 693.6,
-                    y: 376.125
+                    x: 584.665625,
+                    y: 367.115625
                   },
                   {
-                    x: 726.75,
-                    y: 376.125
+                    x: 610.428125,
+                    y: 367.115625
                   },
                   {
-                    x: 726.75,
-                    y: 393.975
+                    x: 610.428125,
+                    y: 379.28125
                   },
                   {
-                    x: 693.6,
-                    y: 393.975
+                    x: 584.665625,
+                    y: 379.28125
                   }
                 ]
               ],
               is_std: true,
               ori_value: 'USD',
-              img_name: 'dir1.png',
+              img_name: '跨境合同.jpg',
               language: '',
               value: '美元 – United States Dollar'
             }
           ],
-          account_number_obligor: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 818.55,
-                    y: 229.5
-                  },
-                  {
-                    x: 840.225,
-                    y: 229.5
-                  },
-                  {
-                    x: 840.225,
-                    y: 248.625
-                  },
-                  {
-                    x: 818.55,
-                    y: 248.625
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '2',
-              img_name: 'dir1.png',
-              language: '',
-              value: '2'
-            }
-          ],
+          account_number_obligor: [],
           payment_method: [
             {
               boxes: [
                 [
                   {
-                    x: 687.225,
-                    y: 397.8
+                    x: 172.46562500000002,
+                    y: 619.73125
                   },
                   {
-                    x: 794.325,
-                    y: 397.8
+                    x: 556.040625,
+                    y: 619.73125
                   },
                   {
-                    x: 794.325,
-                    y: 419.475
+                    x: 556.040625,
+                    y: 644.0625
                   },
                   {
-                    x: 687.225,
-                    y: 419.475
+                    x: 172.46562500000002,
+                    y: 644.0625
                   }
                 ]
               ],
               is_std: false,
               ori_value: '',
-              img_name: 'dir1.png',
+              img_name: '跨境合同.jpg',
               language: '',
               value: '详情见高亮部分'
             }
@@ -1311,28 +1183,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 763.8691,
-                            y: 197.7878
+                            x: 264.3166,
+                            y: 319.0083
                           },
                           {
-                            x: 858.3901,
-                            y: 198.8644
+                            x: 393.7016,
+                            y: 319.8202
                           },
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 393.9041,
+                            y: 368.4004
                           },
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 262.9762,
+                            y: 367.2085
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '8000',
-                      img_name: 'dir2.png',
+                      ori_value: '4400CARTONS',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '8000'
+                      value: '4400CARTONS'
                     }
                   ],
                   name_of_goods: [
@@ -1340,28 +1212,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 159.9243,
-                            y: 191.8623
+                            x: 25.4614,
+                            y: 317.3259
                           },
                           {
-                            x: 408.9364,
-                            y: 193.6384
+                            x: 264.3166,
+                            y: 319.0083
                           },
                           {
-                            x: 408.5897,
-                            y: 231.3779
+                            x: 262.9762,
+                            y: 367.2085
                           },
                           {
-                            x: 159.7112,
-                            y: 229.4471
+                            x: 25.2918,
+                            y: 365.6561
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '（精重白人胰岛素混合注射液）3070 优思灵USLIN30R',
-                      img_name: 'dir2.png',
+                      ori_value: 'ABOUT4400CARTONS MELON JAM\n340GMS X 24 TIN MALING BRAND AT\nUSD.6.10PER CARTON',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '（精重白人胰岛素混合注射液）3070 优思灵USLIN30R'
+                      value: 'ABOUT4400CARTONS MELON JAM\n340GMS X 24 TIN MALING BRAND AT\nUSD.6.10PER CARTON'
                     }
                   ],
                   unit_price_of_goods: [
@@ -1369,28 +1241,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 639.1818,
-                            y: 196.1932
+                            x: 393.7016,
+                            y: 319.8202
                           },
                           {
-                            x: 763.8691,
-                            y: 197.7878
+                            x: 547.7899,
+                            y: 320.9281
                           },
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 547.9479,
+                            y: 369.2359
                           },
                           {
-                            x: 639.0975,
-                            y: 234.251
+                            x: 393.9041,
+                            y: 368.4004
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥26.5700',
-                      img_name: 'dir2.png',
+                      ori_value: 'USD6.10',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '¥26.5700'
+                      value: 'USD6.10'
                     }
                   ],
                   amount_price_of_goods: [
@@ -1398,55 +1270,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 858.3901,
-                            y: 198.8644
+                            x: 547.7899,
+                            y: 320.9281
                           },
                           {
-                            x: 995.892,
-                            y: 201.0756
+                            x: 668.5552,
+                            y: 321.7408
                           },
                           {
-                            x: 995.7877,
-                            y: 238.9812
+                            x: 669.0041,
+                            y: 369.8738
                           },
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 547.9479,
+                            y: 369.2359
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥212560.00',
-                      img_name: 'dir2.png',
+                      ori_value: 'USD26840.00',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '¥212560.00'
-                    },
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 995.892,
-                            y: 201.0756
-                          },
-                          {
-                            x: 1099.3737,
-                            y: 202.1026
-                          },
-                          {
-                            x: 1099.3772,
-                            y: 240.9451
-                          },
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥6400.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥6400.00'
+                      value: 'USD26840.00'
                     }
                   ]
                 },
@@ -1456,28 +1301,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 763.7564,
-                            y: 235.866
+                            x: 262.9762,
+                            y: 367.2085
                           },
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 393.9041,
+                            y: 368.4004
                           },
                           {
-                            x: 858.3877,
-                            y: 273.329
+                            x: 393.9765,
+                            y: 386.1401
                           },
                           {
-                            x: 763.5749,
-                            y: 272.2245
+                            x: 262.861,
+                            y: 384.3748
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '1000',
-                      img_name: 'dir2.png',
+                      ori_value: '4400CARTONS',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '1000'
+                      value: '4400CARTONS'
                     }
                   ],
                   name_of_goods: [
@@ -1485,113 +1330,58 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 159.7112,
-                            y: 229.4471
+                            x: 25.2918,
+                            y: 365.6561
                           },
                           {
-                            x: 408.5897,
-                            y: 231.3779
+                            x: 262.9762,
+                            y: 367.2085
                           },
                           {
-                            x: 408.513,
-                            y: 267.8494
+                            x: 262.861,
+                            y: 384.3748
                           },
                           {
-                            x: 159.7965,
-                            y: 266.4322
+                            x: 25.1804,
+                            y: 384.1512
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '优巴灵USLINR\n（人胰岛素注射液）',
-                      img_name: 'dir2.png',
+                      ori_value: 'Total:',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '优巴灵USLINR\n（人胰岛素注射液）'
+                      value: 'Total:'
                     }
                   ],
-                  unit_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 639.0975,
-                            y: 234.251
-                          },
-                          {
-                            x: 763.7564,
-                            y: 235.866
-                          },
-                          {
-                            x: 763.5749,
-                            y: 272.2245
-                          },
-                          {
-                            x: 639.0408,
-                            y: 270.4045
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥27.9300',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥27.9300'
-                    }
-                  ],
+                  unit_price_of_goods: [],
                   amount_price_of_goods: [
                     {
                       boxes: [
                         [
                           {
-                            x: 858.3869,
-                            y: 236.9675
+                            x: 547.9479,
+                            y: 369.2359
                           },
                           {
-                            x: 995.7877,
-                            y: 238.9812
+                            x: 669.0041,
+                            y: 369.8738
                           },
                           {
-                            x: 995.7904,
-                            y: 275.8603
+                            x: 668.9632,
+                            y: 388.0007
                           },
                           {
-                            x: 858.3877,
-                            y: 273.329
+                            x: 547.8703,
+                            y: 386.0708
                           }
                         ]
                       ],
                       is_std: true,
-                      ori_value: '¥27930.00',
-                      img_name: 'dir2.png',
+                      ori_value: 'USD26840.00',
+                      img_name: '跨境合同.jpg',
                       language: '',
-                      value: '¥27930.00'
-                    },
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          },
-                          {
-                            x: 1099.3772,
-                            y: 240.9451
-                          },
-                          {
-                            x: 1099.4107,
-                            y: 276.7706
-                          },
-                          {
-                            x: 995.7904,
-                            y: 275.8603
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥840.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥840.00'
+                      value: 'USD26840.00'
                     }
                   ]
                 }
@@ -1601,63 +1391,35 @@ const data = [
           ],
           valid_date_start: [],
           orgin_address: [],
-          receiver: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 109.65,
-                    y: 490.875
-                  },
-                  {
-                    x: 397.79999999999998,
-                    y: 490.875
-                  },
-                  {
-                    x: 397.79999999999998,
-                    y: 534.225
-                  },
-                  {
-                    x: 109.65,
-                    y: 534.225
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD'
-            }
-          ],
+          receiver: [],
           account_number_creditor: [],
           sign_date: [
             {
               boxes: [
                 [
                   {
-                    x: 688.5,
-                    y: 280.5
+                    x: 548.884375,
+                    y: 85.875
                   },
                   {
-                    x: 772.65,
-                    y: 280.5
+                    x: 624.740625,
+                    y: 85.875
                   },
                   {
-                    x: 772.65,
-                    y: 300.9
+                    x: 624.740625,
+                    y: 100.1875
                   },
                   {
-                    x: 688.5,
-                    y: 300.9
+                    x: 548.884375,
+                    y: 100.1875
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '10.04.2022',
-              img_name: 'dir1.png',
+              ori_value: 'Aug.20,2001',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: '2010/04/20'
+              value: '2001/08/20'
             }
           ],
           account_address_creditor: [],
@@ -1668,73 +1430,41 @@ const data = [
           end_user: [],
           sender: [],
           valid_date_end: [],
-          creditor: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 99.45,
-                    y: 304.725
-                  },
-                  {
-                    x: 392.7,
-                    y: 304.725
-                  },
-                  {
-                    x: 392.7,
-                    y: 349.35
-                  },
-                  {
-                    x: 99.45,
-                    y: 349.35
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENT CO., LTD',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENTCO.,LTD'
-            }
-          ],
+          creditor: [],
           payment_term_tenor: [],
           port_of_discharge: [
             {
               boxes: [
                 [
                   {
-                    x: 724.2,
-                    y: 423.3
+                    x: 241.165625,
+                    y: 572.5
                   },
                   {
-                    x: 816.0,
-                    y: 423.3
+                    x: 431.521875,
+                    y: 572.5
                   },
                   {
-                    x: 816.0,
-                    y: 442.425
+                    x: 431.521875,
+                    y: 586.8125
                   },
                   {
-                    x: 724.2,
-                    y: 442.425
+                    x: 241.165625,
+                    y: 586.8125
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SHANGHAI',
-              img_name: 'dir1.png',
+              ori_value: 'DAMMAM PORT,SAUDI ARABIA',
+              img_name: '跨境合同.jpg',
               language: '',
-              value: 'SHANGHAI'
+              value: 'DAMMAM PORT,SAUDI ARABIA'
             }
           ]
         }
       ],
       ret_code: 200
-    },
-    status: 1,
-    taskId: 'T001',
-    width: 1224,
-    height: 1584
+    }
   }
 ]
 

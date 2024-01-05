@@ -179,7 +179,7 @@ export default {
   },
   data() {
     return {
-      data: staticData.bill_of_lading,
+      data: staticData[this.productName],
       isLoading: false,
       files: [],
       activeTextId: '',
@@ -230,6 +230,17 @@ export default {
     },
     search(val) {
       this.searchData()
+    },
+    productName() {
+      this.data = staticData[this.productName]
+      this.instance = this.data[0]
+      this.documents = this.instance
+      this.page = this.documents.content
+      this.tabsArray = this.data.map((item, index) => {
+        return { name: `提单${index + 1}` }
+      })
+      this.activeName = this.tabsArray[0].name
+      this.pageDetail = this.page
     }
   },
   methods: {
@@ -247,7 +258,17 @@ export default {
       })
       this.activeTextId = this.$refs.documents.activeTextId
     },
-    uploadFileData() {},
+    uploadFileData(res) {
+      this.data = res.data
+      this.instance = this.data[0]
+      this.documents = this.instance
+      this.page = this.documents.content
+      this.tabsArray = this.data.map((item, index) => {
+        return { name: `提单${index + 1}` }
+      })
+      this.activeName = this.tabsArray[0].name
+      this.pageDetail = this.page
+    },
     tabs(activeDocumentIndex, activePageIndex) {
       this.search = ''
       this.checked = false
@@ -327,21 +348,20 @@ export default {
       this.$refs.documents.activeTextId = null
       this.$refs.documents.pathValue = null
       this.$refs.documents.rectanglePosition = []
-      this.page = this.searchArray(
-        this.pageDetail,
-        this.search.toLowerCase()
-      )
+      this.page = this.searchArray(this.pageDetail, this.search.toLowerCase())
     },
     searchArray(data, searchTerm) {
       const lowerSearchTerm = searchTerm.toLowerCase()
 
-      return data.filter(item => {
+      return data.filter((item) => {
         // 判断 keyCh、keyEn、value 是否包含搜索关键词（不区分大小写）
         const keyChMatch = item.keyCh.toLowerCase().includes(lowerSearchTerm)
         const keyEnMatch = item.keyEn.toLowerCase().includes(lowerSearchTerm)
 
         if (item.values && Array.isArray(item.values)) {
-          const valueMatch = item.values.some(v => v.value && v.value.toLowerCase().includes(lowerSearchTerm))
+          const valueMatch = item.values.some(
+            (v) => v.value && v.value.toLowerCase().includes(lowerSearchTerm)
+          )
           // 返回是否匹配任何一个属性
           return keyChMatch || keyEnMatch || valueMatch
         }
@@ -350,7 +370,6 @@ export default {
         return keyChMatch || keyEnMatch
       })
     }
-
   }
 }
 </script>

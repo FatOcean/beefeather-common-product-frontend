@@ -3,6 +3,7 @@ import imagePath from '../images/vat.png'
 
 const data = [
   {
+    isexample: true,
     angle: 0,
     content: [
       {

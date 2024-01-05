@@ -560,6 +560,7 @@ export default {
       this.moveX = 0
       this.moveY = 0
       this.updateTranslateY()
+      this.rectanglePosition = ''
       this.$emit('resetId')
     },
     // 设置初始y位移

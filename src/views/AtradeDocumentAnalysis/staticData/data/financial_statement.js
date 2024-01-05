@@ -3,6 +3,7 @@ import imagePath from '../images/financial_statement.png'
 
 const data = [
   {
+    isexample: true,
     content: [
       {
         columns: [

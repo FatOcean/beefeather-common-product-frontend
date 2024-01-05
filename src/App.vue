@@ -13,7 +13,7 @@ export default {
     ...mapState(['pageMenuPerm'])
   },
   created() {
-    this.devSSO()
+    // this.devSSO()
   },
 
   watch: {

@@ -4,13 +4,13 @@
     </lls-page-header>
     <div class="document-box">
       <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
-      <vat v-if="productName === 'vat'"></vat>
-      <receipt v-if="productName === 'receipt'"></receipt>
+      <vat v-if="productName === 'vat'" :productObj="productObj"></vat>
+      <receipt v-if="productName === 'receipt'" :productObj="productObj"></receipt>
       <financialStatement
-        v-if="productName === 'financial_statement' || productName === 'social_security_card'" :productName="productName"
+        v-if="productName === 'financial_statement'" :productObj="productObj"
       ></financialStatement>
-      <billOfLading v-if="productName === 'bill_of_lading'"></billOfLading>
-      <general v-if="['order','airway_bill','cross_border_contract','commercial_invoice','bank_acceptance_bill'].indexOf(productName) > -1" :productName="productName"></general>
+      <billOfLading v-if="productName === 'bill_of_lading' || productName === 'airway_bill'" :productName="productName" :productObj="productObj"></billOfLading>
+      <general v-if="['order','customs_declaration','cross_border_contract','commercial_invoice','bank_acceptance_bill'].indexOf(productName) > -1" :productName="productName"></general>
     </div>
   </div>
 </template>

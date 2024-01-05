@@ -602,10 +602,10 @@ export default {
         const mX = maskElRect.right
         const startX = mX - lX
         const startY = mY - lY
-        const offsetTop = this.activeEl.offsetTop + 99
+        const offsetTop = this.activeEl.offsetTop + 120
         const offsetLeft = this.activeEl.offsetLeft
         const scrollTop = ocrTextWrapper.scrollTop
-        const pathEndX = this.documentWidth + offsetLeft + 60
+        const pathEndX = this.documentWidth + offsetLeft + 52
         const pathEndY =
           offsetTop - scrollTop + this.activeEl.clientHeight / 2 + 8
         const scale = page.rotateScale * zoomScale * this.imgScale
@@ -638,7 +638,6 @@ export default {
           pathEndX,
           pathEndY
         }
-        console.log(this.pathValue)
       })
     },
     // 还原

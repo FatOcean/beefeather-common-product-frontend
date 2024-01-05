@@ -1,1740 +1,1291 @@
 
-import imagePath from '../images/dir1.png'
+import imagePath from '../images/bank_acceptance_bill.png'
 
 const data = [
   {
+    isexample: true,
+    taskId: 'U2024010517124307',
+    status: 1,
+    fileName: '110231136701320220831330902341@0.png',
+    imagePath,
+    height: 1190,
+    width: 1684,
     content: [
       {
-        groupable: false,
-        keyCh: '文档名称',
-        keyEn: 'Document Name',
         sortId: 1,
+        keyEn: 'Date of Display',
+        keyCh: '显示日期',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 855.525,
-                  y: 45.9
+                  x: 177,
+                  y: 110
                 },
                 {
-                  x: 1065.9,
-                  y: 45.9
+                  x: 287,
+                  y: 110
                 },
                 {
-                  x: 1065.9,
-                  y: 75.225
+                  x: 287,
+                  y: 128
                 },
                 {
-                  x: 855.525,
-                  y: 75.225
+                  x: 177,
+                  y: 128
                 }
               ]
             ],
-            value: 'SALES CONTRACT'
+            value: '2023/04/20'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '文档编号',
-        keyEn: 'Contract ID ',
         sortId: 2,
+        keyEn: 'Issuance Date',
+        keyCh: '出票日期',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 688.5,
-                  y: 303.45
+                  x: 238,
+                  y: 359
                 },
                 {
-                  x: 798.15,
-                  y: 303.45
+                  x: 350,
+                  y: 359
                 },
                 {
-                  x: 798.15,
-                  y: 327.675
+                  x: 350,
+                  y: 391
                 },
                 {
-                  x: 688.5,
-                  y: 327.675
+                  x: 238,
+                  y: 391
                 }
               ]
             ],
-            value: '6010138048'
+            value: '2022/08/31'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '甲方名称（首页）',
-        keyEn: 'Creditor',
         sortId: 3,
+        keyEn: 'Due Date',
+        keyCh: '汇票到期日',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 99.45,
-                  y: 304.725
+                  x: 238,
+                  y: 415
                 },
                 {
-                  x: 392.7,
-                  y: 304.725
+                  x: 354,
+                  y: 415
                 },
                 {
-                  x: 392.7,
-                  y: 349.35
+                  x: 354,
+                  y: 445
                 },
                 {
-                  x: 99.45,
-                  y: 349.35
+                  x: 238,
+                  y: 445
                 }
               ]
             ],
-            value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENTCO.,LTD'
+            value: '2023/03/03'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '签订日期',
-        keyEn: 'Issue Day',
         sortId: 4,
+        keyEn: ' Draft Status',
+        keyCh: '票据状态',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 688.5,
-                  y: 280.5
+                  x: 1080,
+                  y: 355
                 },
                 {
-                  x: 772.65,
-                  y: 280.5
+                  x: 1208,
+                  y: 355
                 },
                 {
-                  x: 772.65,
-                  y: 300.9
+                  x: 1208,
+                  y: 389
                 },
                 {
-                  x: 688.5,
-                  y: 300.9
+                  x: 1080,
+                  y: 389
                 }
               ]
             ],
-            value: '2010/04/20'
+            value: '票据已结清'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '买方',
-        keyEn: 'Buyer',
         sortId: 5,
+        keyEn: 'Draft Number',
+        keyCh: '票据号码',
+        groupable: false,
         values: [
           {
-            $ref: '$[0].content[2].values[0]'
+            position: [
+              [
+                {
+                  x: 1006,
+                  y: 417
+                },
+                {
+                  x: 1341,
+                  y: 417
+                },
+                {
+                  x: 1341,
+                  y: 443
+                },
+                {
+                  x: 1006,
+                  y: 443
+                }
+              ]
+            ],
+            value: '110231136701320220831330902341'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '卖方',
-        keyEn: 'Seller',
         sortId: 6,
+        keyEn: 'Name of Drawer',
+        keyCh: '出票人全称',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 89.25,
-                  y: 142.8
+                  x: 256,
+                  y: 545
                 },
                 {
-                  x: 429.675,
-                  y: 142.8
+                  x: 494,
+                  y: 545
                 },
                 {
-                  x: 429.675,
-                  y: 169.575
+                  x: 494,
+                  y: 575
                 },
                 {
-                  x: 89.25,
-                  y: 169.575
+                  x: 256,
+                  y: 575
                 }
               ]
             ],
-            value: 'BASF International Trading(Shanghai)Co.,Ltd'
+            value: '阜宁金戈家纺有限公司'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '买方开户行',
-        keyEn: 'Buyer Bank',
         sortId: 7,
-        values: []
+        keyEn: 'Account of Drawer',
+        keyCh: '出票人账号',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 256,
+                  y: 589
+                },
+                {
+                  x: 469,
+                  y: 589
+                },
+                {
+                  x: 469,
+                  y: 613
+                },
+                {
+                  x: 256,
+                  y: 613
+                }
+              ]
+            ],
+            value: '1109670109222888838'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '卖方开户行',
-        keyEn: 'Seller Bank',
         sortId: 8,
+        keyEn: 'Bank of Drawer',
+        keyCh: '出票人开户银行',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 749.7,
-                  y: 132.6
+                  x: 256,
+                  y: 627
                 },
                 {
-                  x: 1054.425,
-                  y: 132.6
+                  x: 469,
+                  y: 627
                 },
                 {
-                  x: 1054.425,
-                  y: 154.275
+                  x: 469,
+                  y: 657
                 },
                 {
-                  x: 749.7,
-                  y: 154.275
+                  x: 256,
+                  y: 657
                 }
               ]
             ],
-            value: 'Citibank (China) Co., Ltd. Shanghai Branch'
+            value: '工商银行阜宁县支行'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '买方银行账号',
-        keyEn: 'Account Number Creditor',
         sortId: 9,
-        values: []
+        keyEn: 'Name of Payee',
+        keyCh: '收票人全称',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 1066,
+                  y: 543
+                },
+                {
+                  x: 1304,
+                  y: 543
+                },
+                {
+                  x: 1304,
+                  y: 575
+                },
+                {
+                  x: 1066,
+                  y: 575
+                }
+              ]
+            ],
+            value: '阜宁金诚家纺有限公司'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '卖方银行账号',
-        keyEn: 'Account Number Obligor',
         sortId: 10,
+        keyEn: 'Account of Payee',
+        keyCh: '收票人账号',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 818.55,
-                  y: 229.5
+                  x: 1066,
+                  y: 587
                 },
                 {
-                  x: 840.225,
-                  y: 229.5
+                  x: 1204,
+                  y: 587
                 },
                 {
-                  x: 840.225,
-                  y: 248.625
+                  x: 1204,
+                  y: 613
                 },
                 {
-                  x: 818.55,
-                  y: 248.625
+                  x: 1066,
+                  y: 613
                 }
               ]
             ],
-            value: '2'
+            value: '510561004553'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '买方地址',
-        keyEn: ' Buyer Address',
         sortId: 11,
+        keyEn: ' Bank of Payee',
+        keyCh: '收票人开户银行',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 102.0,
-                  y: 354.45
+                  x: 1066,
+                  y: 625
                 },
                 {
-                  x: 318.75,
-                  y: 354.45
+                  x: 1401,
+                  y: 625
                 },
                 {
-                  x: 318.75,
-                  y: 443.7
+                  x: 1401,
+                  y: 655
                 },
                 {
-                  x: 102.0,
-                  y: 443.7
+                  x: 1066,
+                  y: 655
                 }
               ]
             ],
-            value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA'
+            value: '中国银行股份有限公司阜宁支行'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '卖方地址',
-        keyEn: 'Seller  Address',
         sortId: 12,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 96.9,
-                  y: 170.85
-                },
-                {
-                  x: 448.79999999999998,
-                  y: 170.85
-                },
-                {
-                  x: 448.79999999999998,
-                  y: 238.425
-                },
-                {
-                  x: 96.9,
-                  y: 238.425
-                }
-              ]
-            ],
-            value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China'
-          }
-        ]
+        keyEn: 'Name of Issuance Guarantor',
+        keyCh: '出票保证人名称',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '货描',
-        keyEn: 'Goods Description',
         sortId: 13,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 96.9,
-                  y: 701.25
-                },
-                {
-                  x: 1122.0,
-                  y: 701.25
-                },
-                {
-                  x: 1122.0,
-                  y: 901.4250000000001
-                },
-                {
-                  x: 96.9,
-                  y: 901.4250000000001
-                }
-              ]
-            ],
-            value: '详情见高亮部分'
-          }
-        ]
+        keyEn: 'Address of Issuance Guarantor',
+        keyCh: '出票保证人地址',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '总金额',
-        keyEn: 'Total Amount',
         sortId: 14,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 957.525,
-                  y: 852.975
-                },
-                {
-                  x: 1055.7,
-                  y: 852.975
-                },
-                {
-                  x: 1055.7,
-                  y: 878.475
-                },
-                {
-                  x: 957.525,
-                  y: 878.475
-                }
-              ]
-            ],
-            value: '547200.0'
-          }
-        ]
+        keyEn: 'Date of Draft Issuance Guarantee',
+        keyCh: '出票保证日期',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '币种',
-        keyEn: 'Currency',
         sortId: 15,
+        keyEn: 'Amount In Words',
+        keyCh: '票据金额大写',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 693.6,
-                  y: 376.125
+                  x: 352,
+                  y: 720
                 },
                 {
-                  x: 726.75,
-                  y: 376.125
+                  x: 480,
+                  y: 720
                 },
                 {
-                  x: 726.75,
-                  y: 393.975
+                  x: 480,
+                  y: 755
                 },
                 {
-                  x: 693.6,
-                  y: 393.975
+                  x: 352,
+                  y: 755
                 }
               ]
             ],
-            value: '美元 – United States Dollar'
+            value: '壹拾万元整'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '文档生效日期',
-        keyEn: 'Effective Date',
         sortId: 16,
-        values: []
+        keyEn: 'Amount In Figures',
+        keyCh: '票据金额小写',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 1241,
+                  y: 741
+                },
+                {
+                  x: 1583,
+                  y: 741
+                },
+                {
+                  x: 1583,
+                  y: 780
+                },
+                {
+                  x: 1241,
+                  y: 780
+                }
+              ]
+            ],
+            value: '100000.0'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '文档结束日期',
-        keyEn: 'Expire Date',
         sortId: 17,
-        values: []
+        keyEn: 'Acceptor Name',
+        keyCh: '承兑人全称',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 380,
+                  y: 787
+                },
+                {
+                  x: 599,
+                  y: 787
+                },
+                {
+                  x: 599,
+                  y: 815
+                },
+                {
+                  x: 380,
+                  y: 815
+                }
+              ]
+            ],
+            value: '工商银行阜宁县支行'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '文档延期时间',
-        keyEn: 'Valid Date Delay',
         sortId: 18,
-        values: []
+        keyEn: 'Acceptor Account',
+        keyCh: '承兑人账号',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 378,
+                  y: 827
+                },
+                {
+                  x: 391,
+                  y: 827
+                },
+                {
+                  x: 391,
+                  y: 852
+                },
+                {
+                  x: 378,
+                  y: 852
+                }
+              ]
+            ],
+            value: '0'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '生效条款',
-        keyEn: 'Effective Clause',
         sortId: 19,
-        values: []
+        keyEn: 'Acceptor Bank Number',
+        keyCh: '承兑人开户行行号',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 1074,
+                  y: 787
+                },
+                {
+                  x: 1211,
+                  y: 787
+                },
+                {
+                  x: 1211,
+                  y: 811
+                },
+                {
+                  x: 1074,
+                  y: 811
+                }
+              ]
+            ],
+            value: '102311367013'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '签订地点',
-        keyEn: 'Place of Sign',
         sortId: 20,
-        values: []
+        keyEn: 'Acceptor Bank Name',
+        keyCh: '承兑人开户行名称',
+        groupable: false,
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 1074,
+                  y: 824
+                },
+                {
+                  x: 1292,
+                  y: 824
+                },
+                {
+                  x: 1292,
+                  y: 855
+                },
+                {
+                  x: 1074,
+                  y: 855
+                }
+              ]
+            ],
+            value: '工商银行阜宁县支行'
+          }
+        ]
       },
       {
-        groupable: false,
-        keyCh: '发货人',
-        keyEn: 'Sender',
         sortId: 21,
+        keyEn: 'Contract Number',
+        keyCh: '交易合同号',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '收货人',
-        keyEn: 'Receiver',
         sortId: 22,
+        keyEn: 'Acceptance Date',
+        keyCh: '承兑日期',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 109.65,
-                  y: 490.875
+                  x: 1439,
+                  y: 945
                 },
                 {
-                  x: 397.79999999999998,
-                  y: 490.875
+                  x: 1551,
+                  y: 945
                 },
                 {
-                  x: 397.79999999999998,
-                  y: 534.225
+                  x: 1551,
+                  y: 971
                 },
                 {
-                  x: 109.65,
-                  y: 534.225
+                  x: 1439,
+                  y: 971
                 }
               ]
             ],
-            value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD'
+            value: '2022/09/02'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '签章',
-        keyEn: 'Chop',
         sortId: 23,
+        keyEn: 'Can Be Transferred',
+        keyCh: '能否转让',
+        groupable: false,
         values: [
           {
             position: [
               [
                 {
-                  x: 640.0,
-                  y: 1187.0
+                  x: 256,
+                  y: 925
                 },
                 {
-                  x: 888.0,
-                  y: 1187.0
+                  x: 352,
+                  y: 925
                 },
                 {
-                  x: 888.0,
-                  y: 1290.0
+                  x: 352,
+                  y: 953
                 },
                 {
-                  x: 640.0,
-                  y: 1290.0
+                  x: 256,
+                  y: 953
                 }
               ]
             ],
-            value: '100'
+            value: '可再转让'
           }
         ]
       },
       {
-        groupable: false,
-        keyCh: '付款方式',
-        keyEn: 'Payment Method',
         sortId: 24,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 687.225,
-                  y: 397.8
-                },
-                {
-                  x: 794.325,
-                  y: 397.8
-                },
-                {
-                  x: 794.325,
-                  y: 419.475
-                },
-                {
-                  x: 687.225,
-                  y: 419.475
-                }
-              ]
-            ],
-            value: '详情见高亮部分'
-          }
-        ]
+        keyEn: 'Name of Acceptance Guarantor',
+        keyCh: '承兑保证人名称',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '是否含附件',
-        keyEn: 'Has Attachment',
         sortId: 25,
+        keyEn: 'Address of Acceptance Guarantor',
+        keyCh: '承兑保证人地址',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档包含禁止转让/寄售/回购条款',
-        keyEn: 'Has Abandon Term',
         sortId: 26,
+        keyEn: 'Date of Acceptance Guarantee',
+        keyCh: '承兑保证日期',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-XX日',
-        keyEn: 'Payment Term Date',
         sortId: 27,
+        keyEn: 'Drawer Rating Subject',
+        keyCh: '出票人评级主体',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-前/后',
-        keyEn: 'Payment Term Before or After',
         sortId: 28,
+        keyEn: 'Drawer Credit Rating',
+        keyCh: '出票人信用等级',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '文档付款条件-账期',
-        keyEn: 'Payment Term Tenor',
         sortId: 29,
+        keyEn: 'Drawer Rating Due Date',
+        keyCh: '出票人评级到期日',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '车辆识别号',
-        keyEn: 'VIN No',
         sortId: 30,
+        keyEn: 'Acceptor Rating Subject',
+        keyCh: '承兑人评级主体',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '启运港',
-        keyEn: 'Port Of Loading',
         sortId: 31,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 214.20000000000003,
-                  y: 974.1
-                },
-                {
-                  x: 322.575,
-                  y: 974.1
-                },
-                {
-                  x: 322.575,
-                  y: 994.5
-                },
-                {
-                  x: 214.20000000000003,
-                  y: 994.5
-                }
-              ]
-            ],
-            value: 'Taiwan Port'
-          }
-        ]
+        keyEn: 'Acceptor Credit Rating',
+        keyCh: '承兑人信用等级',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '目的港/国',
-        keyEn: 'Port Of Discharge',
         sortId: 32,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 724.2,
-                  y: 423.3
-                },
-                {
-                  x: 816.0,
-                  y: 423.3
-                },
-                {
-                  x: 816.0,
-                  y: 442.425
-                },
-                {
-                  x: 724.2,
-                  y: 442.425
-                }
-              ]
-            ],
-            value: 'SHANGHAI'
-          }
-        ]
+        keyEn: 'Acceptor Rating Due Date',
+        keyCh: '承兑人评级到期日',
+        groupable: false,
+        values: []
       },
       {
-        groupable: false,
-        keyCh: '产地',
-        keyEn: 'Place of Origin',
         sortId: 33,
+        keyEn: 'Endorser Name',
+        keyCh: '背书人名称',
+        groupable: false,
         values: []
       },
       {
-        groupable: false,
-        keyCh: '制造商',
-        keyEn: 'Manufacture',
         sortId: 34,
-        values: []
-      },
-      {
+        keyEn: 'Endorsee Name',
+        keyCh: '被背书人名称',
         groupable: false,
-        keyCh: '船号',
-        keyEn: 'Vessel Name',
-        sortId: 35,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '航班号',
-        keyEn: 'Flight Number',
-        sortId: 36,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '发货日期',
-        keyEn: 'Delivery Date',
-        sortId: 37,
-        values: []
-      },
-      {
-        groupable: false,
-        keyCh: '卖方地区或国别',
-        keyEn: 'Seller Region and Country',
-        sortId: 38,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 173.4,
-                  y: 216.75
-                },
-                {
-                  x: 211.65,
-                  y: 216.75
-                },
-                {
-                  x: 211.65,
-                  y: 238.425
-                },
-                {
-                  x: 173.4,
-                  y: 238.425
-                }
-              ]
-            ],
-            value: 'China'
-          }
-        ]
-      },
-      {
-        groupable: false,
-        keyCh: '最终用户',
-        keyEn: 'End User',
-        sortId: 39,
         values: []
       }
     ],
-    fileName: 'dir1.pdf',
-    imagePath,
     json: {
       predict_status: 'success',
-      trace_id: 'Contract-New-123456d456',
-      role: 'zhada',
+      trace_id: 'U2024010517124307',
+      role: 'beefeather',
       extra_info: {},
       error_info: '',
       predict_result: [
         {
-          sx_clause: [
+          drawer_rating_subject: [],
+          payee_bank: [
             {
               boxes: [
                 [
                   {
-                    x: 623.475,
-                    y: 1042.95
+                    x: 1066,
+                    y: 625
                   },
                   {
-                    x: 879.75,
-                    y: 1042.95
+                    x: 1401,
+                    y: 625
                   },
                   {
-                    x: 879.75,
-                    y: 1062.075
+                    x: 1401,
+                    y: 655
                   },
                   {
-                    x: 623.475,
-                    y: 1062.075
+                    x: 1066,
+                    y: 655
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '',
-              img_name: 'dir2.png',
+              ori_value: '中国银行股份有限公司阜宁支行',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: '详情见高亮部分'
+              value: '中国银行股份有限公司阜宁支行'
             }
           ],
-          payment_term_date: [],
-          obligor_address: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 96.9,
-                    y: 170.85
-                  },
-                  {
-                    x: 448.79999999999998,
-                    y: 170.85
-                  },
-                  {
-                    x: 448.79999999999998,
-                    y: 238.425
-                  },
-                  {
-                    x: 96.9,
-                    y: 238.425
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'Room A-742.No.188, Yesheng Road China (Shanghai) Pilot Free Trade Zone, 201308 Shanghai, China'
-            }
-          ],
-          seal: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 640,
-                    y: 1187
-                  },
-                  {
-                    x: 888,
-                    y: 1187
-                  },
-                  {
-                    x: 888,
-                    y: 1290
-                  },
-                  {
-                    x: 640,
-                    y: 1290
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '100',
-              img_name: 'dir1.png',
-              language: '',
-              value: '100'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 718,
-                    y: 1162
-                  },
-                  {
-                    x: 941,
-                    y: 1162
-                  },
-                  {
-                    x: 941,
-                    y: 1383
-                  },
-                  {
-                    x: 718,
-                    y: 1383
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '中建二局第三建筑工程有限公司',
-              img_name: 'dir2.png',
-              language: '',
-              value: '中建二局第三建筑工程有限公司'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 174,
-                    y: 1158
-                  },
-                  {
-                    x: 404,
-                    y: 1158
-                  },
-                  {
-                    x: 404,
-                    y: 1380
-                  },
-                  {
-                    x: 174,
-                    y: 1380
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '北京市公安局',
-              img_name: 'dir2.png',
-              language: '',
-              value: '北京市公安局'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 384,
-                    y: 550
-                  },
-                  {
-                    x: 619,
-                    y: 550
-                  },
-                  {
-                    x: 619,
-                    y: 784
-                  },
-                  {
-                    x: 384,
-                    y: 784
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '有限公司',
-              img_name: 'dir2.png',
-              language: '',
-              value: '有限公司'
-            }
-          ],
-          port_of_loading: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 214.20000000000003,
-                    y: 974.1
-                  },
-                  {
-                    x: 322.575,
-                    y: 974.1
-                  },
-                  {
-                    x: 322.575,
-                    y: 994.5
-                  },
-                  {
-                    x: 214.20000000000003,
-                    y: 994.5
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'Taiwan Port',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'Taiwan Port'
-            }
-          ],
-          product_info: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 96.9,
-                    y: 701.25
-                  },
-                  {
-                    x: 1122.0,
-                    y: 701.25
-                  },
-                  {
-                    x: 1122.0,
-                    y: 901.4250000000001
-                  },
-                  {
-                    x: 96.9,
-                    y: 901.4250000000001
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir1.png',
-              language: '',
-              value: '详情见高亮部分'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 107.10000000000001,
-                    y: 135.15
-                  },
-                  {
-                    x: 1107.975,
-                    y: 135.15
-                  },
-                  {
-                    x: 1107.975,
-                    y: 924.375
-                  },
-                  {
-                    x: 107.10000000000001,
-                    y: 924.375
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir2.png',
-              language: '',
-              value: '详情见高亮部分'
-            }
-          ],
-          has_attachment: [],
-          sign_place: [],
-          delivery_time: [],
-          obligor: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 89.25,
-                    y: 142.8
-                  },
-                  {
-                    x: 429.675,
-                    y: 142.8
-                  },
-                  {
-                    x: 429.675,
-                    y: 169.575
-                  },
-                  {
-                    x: 89.25,
-                    y: 169.575
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'BASF International Trading (Shanghai) Co.,Ltd',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'BASF International Trading(Shanghai)Co.,Ltd'
-            }
-          ],
+          endorsee_name: [],
           type: -1,
-          document_name: [
+          acceptor_credit_rating: [],
+          acceptance_guarantee_date: [],
+          number: [
             {
               boxes: [
                 [
                   {
-                    x: 855.525,
-                    y: 45.9
+                    x: 1006,
+                    y: 417
                   },
                   {
-                    x: 1065.9,
-                    y: 45.9
+                    x: 1341,
+                    y: 417
                   },
                   {
-                    x: 1065.9,
-                    y: 75.225
+                    x: 1341,
+                    y: 443
                   },
                   {
-                    x: 855.525,
-                    y: 75.225
+                    x: 1006,
+                    y: 443
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SALES CONTRACT',
-              img_name: 'dir1.png',
+              ori_value: '110231136701320220831330902341',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: 'SALES CONTRACT'
-            },
-            {
-              boxes: [
-                [
-                  {
-                    x: 527.85,
-                    y: 53.550000000000007
-                  },
-                  {
-                    x: 719.1,
-                    y: 53.550000000000007
-                  },
-                  {
-                    x: 719.1,
-                    y: 86.7
-                  },
-                  {
-                    x: 527.85,
-                    y: 86.7
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '产品售货合同单',
-              img_name: 'dir2.png',
-              language: '',
-              value: '产品售货合同单'
+              value: '110231136701320220831330902341'
             }
           ],
-          payment_term_before_after: [],
-          creditor_address: [
+          issue_date: [
             {
               boxes: [
                 [
                   {
-                    x: 102.0,
-                    y: 354.45
+                    x: 238,
+                    y: 359
                   },
                   {
-                    x: 318.75,
-                    y: 354.45
+                    x: 350,
+                    y: 359
                   },
                   {
-                    x: 318.75,
-                    y: 443.7
+                    x: 350,
+                    y: 391
                   },
                   {
-                    x: 102.0,
-                    y: 443.7
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA',
-              img_name: 'dir1.png',
-              language: '',
-              value: '4TH FLOOR, BUILDING NO.3 NO.389 JINGLIAN RD 201108 SHANGHAI CHINA'
-            }
-          ],
-          flight_no: [],
-          obligor_region_or_country: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 173.4,
-                    y: 216.75
-                  },
-                  {
-                    x: 211.65,
-                    y: 216.75
-                  },
-                  {
-                    x: 211.65,
-                    y: 238.425
-                  },
-                  {
-                    x: 173.4,
-                    y: 238.425
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'China',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'China'
-            }
-          ],
-          sign_amount: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 957.525,
-                    y: 852.975
-                  },
-                  {
-                    x: 1055.7,
-                    y: 852.975
-                  },
-                  {
-                    x: 1055.7,
-                    y: 878.475
-                  },
-                  {
-                    x: 957.525,
-                    y: 878.475
+                    x: 238,
+                    y: 391
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '547,200.00',
-              img_name: 'dir1.png',
+              ori_value: '2022-08-31',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: 547200.0
+              value: '2022/08/31'
             }
           ],
-          has_abandon_term: [],
-          document_num: [
+          contract_number: [],
+          acceptor_bank_number: [
             {
               boxes: [
                 [
                   {
-                    x: 688.5,
-                    y: 303.45
+                    x: 1074,
+                    y: 787
                   },
                   {
-                    x: 798.15,
-                    y: 303.45
+                    x: 1211,
+                    y: 787
                   },
                   {
-                    x: 798.15,
-                    y: 327.675
+                    x: 1211,
+                    y: 811
                   },
                   {
-                    x: 688.5,
-                    y: 327.675
+                    x: 1074,
+                    y: 811
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '6010138048',
-              img_name: 'dir1.png',
+              ori_value: '102311367013',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: '6010138048'
+              value: '102311367013'
             }
           ],
-          account_address_obligor: [
+          acceptor_name: [
             {
               boxes: [
                 [
                   {
-                    x: 749.7,
-                    y: 132.6
+                    x: 380,
+                    y: 787
                   },
                   {
-                    x: 1054.425,
-                    y: 132.6
+                    x: 599,
+                    y: 787
                   },
                   {
-                    x: 1054.425,
-                    y: 154.275
+                    x: 599,
+                    y: 815
                   },
                   {
-                    x: 749.7,
-                    y: 154.275
+                    x: 380,
+                    y: 815
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'Citibank (China) Co., Ltd. Shanghai Branch',
-              img_name: 'dir1.png',
+              ori_value: '工商银行阜宁县支行',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: 'Citibank (China) Co., Ltd. Shanghai Branch'
+              value: '工商银行阜宁县支行'
             }
           ],
-          currency: [
+          group: [],
+          drawer_bank: [
             {
               boxes: [
                 [
                   {
-                    x: 693.6,
-                    y: 376.125
+                    x: 256,
+                    y: 627
                   },
                   {
-                    x: 726.75,
-                    y: 376.125
+                    x: 469,
+                    y: 627
                   },
                   {
-                    x: 726.75,
-                    y: 393.975
+                    x: 469,
+                    y: 657
                   },
                   {
-                    x: 693.6,
-                    y: 393.975
+                    x: 256,
+                    y: 657
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '工商银行阜宁县支行',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '工商银行阜宁县支行'
+            }
+          ],
+          drawer_credit_rating: [],
+          payee_account: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 1066,
+                    y: 587
+                  },
+                  {
+                    x: 1204,
+                    y: 587
+                  },
+                  {
+                    x: 1204,
+                    y: 613
+                  },
+                  {
+                    x: 1066,
+                    y: 613
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '510561004553',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '510561004553'
+            }
+          ],
+          guarantee_date: [],
+          if_can_be_transferred: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 256,
+                    y: 925
+                  },
+                  {
+                    x: 352,
+                    y: 925
+                  },
+                  {
+                    x: 352,
+                    y: 953
+                  },
+                  {
+                    x: 256,
+                    y: 953
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '可再转让',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '可再转让'
+            }
+          ],
+          acceptor_rating_due_date: [],
+          due_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 238,
+                    y: 415
+                  },
+                  {
+                    x: 354,
+                    y: 415
+                  },
+                  {
+                    x: 354,
+                    y: 445
+                  },
+                  {
+                    x: 238,
+                    y: 445
                   }
                 ]
               ],
               is_std: true,
-              ori_value: 'USD',
-              img_name: 'dir1.png',
+              ori_value: '2023-03-03',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: '美元 – United States Dollar'
+              value: '2023/03/03'
             }
           ],
-          account_number_obligor: [
+          drawer_name: [
             {
               boxes: [
                 [
                   {
-                    x: 818.55,
-                    y: 229.5
+                    x: 256,
+                    y: 545
                   },
                   {
-                    x: 840.225,
-                    y: 229.5
+                    x: 494,
+                    y: 545
                   },
                   {
-                    x: 840.225,
-                    y: 248.625
+                    x: 494,
+                    y: 575
                   },
                   {
-                    x: 818.55,
-                    y: 248.625
+                    x: 256,
+                    y: 575
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '2',
-              img_name: 'dir1.png',
+              ori_value: '阜宁金戈家纺有限公司',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: '2'
+              value: '阜宁金戈家纺有限公司'
             }
           ],
-          payment_method: [
+          endorser_name: [],
+          acceptor_rating_subject: [],
+          acceptance_date: [
             {
               boxes: [
                 [
                   {
-                    x: 687.225,
-                    y: 397.8
+                    x: 1439,
+                    y: 945
                   },
                   {
-                    x: 794.325,
-                    y: 397.8
+                    x: 1551,
+                    y: 945
                   },
                   {
-                    x: 794.325,
-                    y: 419.475
+                    x: 1551,
+                    y: 971
                   },
                   {
-                    x: 687.225,
-                    y: 419.475
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '',
-              img_name: 'dir1.png',
-              language: '',
-              value: '详情见高亮部分'
-            }
-          ],
-          group: [
-            {
-              table_value: [
-                {
-                  goods_quantity: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 763.8691,
-                            y: 197.7878
-                          },
-                          {
-                            x: 858.3901,
-                            y: 198.8644
-                          },
-                          {
-                            x: 858.3869,
-                            y: 236.9675
-                          },
-                          {
-                            x: 763.7564,
-                            y: 235.866
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '8000',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '8000'
-                    }
-                  ],
-                  name_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 159.9243,
-                            y: 191.8623
-                          },
-                          {
-                            x: 408.9364,
-                            y: 193.6384
-                          },
-                          {
-                            x: 408.5897,
-                            y: 231.3779
-                          },
-                          {
-                            x: 159.7112,
-                            y: 229.4471
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '（精重白人胰岛素混合注射液）3070 优思灵USLIN30R',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '（精重白人胰岛素混合注射液）3070 优思灵USLIN30R'
-                    }
-                  ],
-                  unit_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 639.1818,
-                            y: 196.1932
-                          },
-                          {
-                            x: 763.8691,
-                            y: 197.7878
-                          },
-                          {
-                            x: 763.7564,
-                            y: 235.866
-                          },
-                          {
-                            x: 639.0975,
-                            y: 234.251
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥26.5700',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥26.5700'
-                    }
-                  ],
-                  amount_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 858.3901,
-                            y: 198.8644
-                          },
-                          {
-                            x: 995.892,
-                            y: 201.0756
-                          },
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          },
-                          {
-                            x: 858.3869,
-                            y: 236.9675
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥212560.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥212560.00'
-                    },
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 995.892,
-                            y: 201.0756
-                          },
-                          {
-                            x: 1099.3737,
-                            y: 202.1026
-                          },
-                          {
-                            x: 1099.3772,
-                            y: 240.9451
-                          },
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥6400.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥6400.00'
-                    }
-                  ]
-                },
-                {
-                  goods_quantity: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 763.7564,
-                            y: 235.866
-                          },
-                          {
-                            x: 858.3869,
-                            y: 236.9675
-                          },
-                          {
-                            x: 858.3877,
-                            y: 273.329
-                          },
-                          {
-                            x: 763.5749,
-                            y: 272.2245
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '1000',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '1000'
-                    }
-                  ],
-                  name_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 159.7112,
-                            y: 229.4471
-                          },
-                          {
-                            x: 408.5897,
-                            y: 231.3779
-                          },
-                          {
-                            x: 408.513,
-                            y: 267.8494
-                          },
-                          {
-                            x: 159.7965,
-                            y: 266.4322
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '优巴灵USLINR\n（人胰岛素注射液）',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '优巴灵USLINR\n（人胰岛素注射液）'
-                    }
-                  ],
-                  unit_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 639.0975,
-                            y: 234.251
-                          },
-                          {
-                            x: 763.7564,
-                            y: 235.866
-                          },
-                          {
-                            x: 763.5749,
-                            y: 272.2245
-                          },
-                          {
-                            x: 639.0408,
-                            y: 270.4045
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥27.9300',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥27.9300'
-                    }
-                  ],
-                  amount_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 858.3869,
-                            y: 236.9675
-                          },
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          },
-                          {
-                            x: 995.7904,
-                            y: 275.8603
-                          },
-                          {
-                            x: 858.3877,
-                            y: 273.329
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥27930.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥27930.00'
-                    },
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 995.7877,
-                            y: 238.9812
-                          },
-                          {
-                            x: 1099.3772,
-                            y: 240.9451
-                          },
-                          {
-                            x: 1099.4107,
-                            y: 276.7706
-                          },
-                          {
-                            x: 995.7904,
-                            y: 275.8603
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '¥840.00',
-                      img_name: 'dir2.png',
-                      language: '',
-                      value: '¥840.00'
-                    }
-                  ]
-                }
-              ],
-              table_name: 'Table_1'
-            }
-          ],
-          valid_date_start: [],
-          orgin_address: [],
-          receiver: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 109.65,
-                    y: 490.875
-                  },
-                  {
-                    x: 397.79999999999998,
-                    y: 490.875
-                  },
-                  {
-                    x: 397.79999999999998,
-                    y: 534.225
-                  },
-                  {
-                    x: 109.65,
-                    y: 534.225
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD',
-              img_name: 'dir1.png',
-              language: '',
-              value: 'SHANGHAI SANRISE INDUSTRIES AND DEVELOPMENT CO.,LTD'
-            }
-          ],
-          account_number_creditor: [],
-          sign_date: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 688.5,
-                    y: 280.5
-                  },
-                  {
-                    x: 772.65,
-                    y: 280.5
-                  },
-                  {
-                    x: 772.65,
-                    y: 300.9
-                  },
-                  {
-                    x: 688.5,
-                    y: 300.9
+                    x: 1439,
+                    y: 971
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '10.04.2022',
-              img_name: 'dir1.png',
+              ori_value: '2022-09-02',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: '2010/04/20'
+              value: '2022/09/02'
             }
           ],
-          account_address_creditor: [],
-          vessel_name: [],
-          VIN_no: [],
-          valid_date_delay: [],
-          manufacture: [],
-          end_user: [],
-          sender: [],
-          valid_date_end: [],
-          creditor: [
+          guarantor_name: [],
+          drawer_account: [
             {
               boxes: [
                 [
                   {
-                    x: 99.45,
-                    y: 304.725
+                    x: 256,
+                    y: 589
                   },
                   {
-                    x: 392.7,
-                    y: 304.725
+                    x: 469,
+                    y: 589
                   },
                   {
-                    x: 392.7,
-                    y: 349.35
+                    x: 469,
+                    y: 613
                   },
                   {
-                    x: 99.45,
-                    y: 349.35
+                    x: 256,
+                    y: 613
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENT CO., LTD',
-              img_name: 'dir1.png',
+              ori_value: '1109670109222888838',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: 'SHANGHAI SANRISE INDUSTRIES ANDDEVELOPMENTCO.,LTD'
+              value: '1109670109222888838'
             }
           ],
-          payment_term_tenor: [],
-          port_of_discharge: [
+          acceptance_guarantor_name: [],
+          acceptor_bank_name: [
             {
               boxes: [
                 [
                   {
-                    x: 724.2,
-                    y: 423.3
+                    x: 1074,
+                    y: 824
                   },
                   {
-                    x: 816.0,
-                    y: 423.3
+                    x: 1292,
+                    y: 824
                   },
                   {
-                    x: 816.0,
-                    y: 442.425
+                    x: 1292,
+                    y: 855
                   },
                   {
-                    x: 724.2,
-                    y: 442.425
+                    x: 1074,
+                    y: 855
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'SHANGHAI',
-              img_name: 'dir1.png',
+              ori_value: '工商银行阜宁县支行',
+              img_name: '110231136701320220831330902341@0.png',
               language: '',
-              value: 'SHANGHAI'
+              value: '工商银行阜宁县支行'
+            }
+          ],
+          display_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 177,
+                    y: 110
+                  },
+                  {
+                    x: 287,
+                    y: 110
+                  },
+                  {
+                    x: 287,
+                    y: 128
+                  },
+                  {
+                    x: 177,
+                    y: 128
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '2023-04-2011:31',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '2023/04/20'
+            }
+          ],
+          payee_name: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 1066,
+                    y: 543
+                  },
+                  {
+                    x: 1304,
+                    y: 543
+                  },
+                  {
+                    x: 1304,
+                    y: 575
+                  },
+                  {
+                    x: 1066,
+                    y: 575
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '阜宁金诚家纺有限公司',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '阜宁金诚家纺有限公司'
+            }
+          ],
+          amount_in_figures: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 1241,
+                    y: 741
+                  },
+                  {
+                    x: 1583,
+                    y: 741
+                  },
+                  {
+                    x: 1583,
+                    y: 780
+                  },
+                  {
+                    x: 1241,
+                    y: 780
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '¥10000000',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: 100000
+            }
+          ],
+          acceptor_account: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 378,
+                    y: 827
+                  },
+                  {
+                    x: 391,
+                    y: 827
+                  },
+                  {
+                    x: 391,
+                    y: 852
+                  },
+                  {
+                    x: 378,
+                    y: 852
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '0',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '0'
+            }
+          ],
+          drawer_rating_due_date: [],
+          acceptance_guarantor_address: [],
+          amount_in_words: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 352,
+                    y: 720
+                  },
+                  {
+                    x: 480,
+                    y: 720
+                  },
+                  {
+                    x: 480,
+                    y: 755
+                  },
+                  {
+                    x: 352,
+                    y: 755
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '壹拾万元整',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '壹拾万元整'
+            }
+          ],
+          guarantor_address: [],
+          status: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 1080,
+                    y: 355
+                  },
+                  {
+                    x: 1208,
+                    y: 355
+                  },
+                  {
+                    x: 1208,
+                    y: 389
+                  },
+                  {
+                    x: 1080,
+                    y: 389
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '票据已结清',
+              img_name: '110231136701320220831330902341@0.png',
+              language: '',
+              value: '票据已结清'
             }
           ]
         }
       ],
       ret_code: 200
-    },
-    status: 1,
-    taskId: 'T001',
-    width: 1224,
-    height: 1584
+    }
   }
 ]
 

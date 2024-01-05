@@ -15,12 +15,12 @@ const productList = [
       },
       {
         name: '报关单',
-        staticName: 'airway_bill'
+        staticName: 'customs_declaration'
 
       },
       {
         name: '航空单',
-        staticName: 'social_security_card'
+        staticName: 'airway_bill'
 
       },
       {

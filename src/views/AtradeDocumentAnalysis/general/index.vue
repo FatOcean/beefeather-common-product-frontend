@@ -85,7 +85,9 @@ export default {
     productName() {
       this.data = staticData[this.productName]
       this.page = this.disposeContent(this.data[0].content)
-      this.$refs.documents.resetProps()
+      this.$nextTick(() => {
+        this.$refs.documents.resetProps()
+      })
     }
   },
   created() {
@@ -138,7 +140,9 @@ export default {
       this.activeTextId = this.$refs.documents.activeTextId
     },
     uploadFileData(res) {
-      console.log(res)
+      this.data = res.data
+      this.page = this.disposeContent(this.data[0].content)
+      this.$refs.documents.resetProps()
     },
     tabs(activeDocumentIndex, activePageIndex) {
       this.filterEmpty(false)

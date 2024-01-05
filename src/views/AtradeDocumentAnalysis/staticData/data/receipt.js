@@ -1,6 +1,7 @@
 import imagePath from '../images/receipt.png'
 const data = [
   {
+    isexample: true,
     content: [
       {
         boundingBox: {
