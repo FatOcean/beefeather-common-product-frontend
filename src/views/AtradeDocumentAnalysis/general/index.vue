@@ -81,6 +81,13 @@ export default {
       text: ''
     }
   },
+  watch: {
+    productName() {
+      this.data = staticData[this.productName]
+      this.page = this.disposeContent(this.data[0].content)
+      this.$refs.documents.resetProps()
+    }
+  },
   created() {
     const content = this.data[0].content
     this.page = this.disposeContent(content)

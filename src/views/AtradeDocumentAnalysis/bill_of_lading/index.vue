@@ -171,6 +171,12 @@ export default {
   components: {
     ocrLayout
   },
+  props: {
+    productName: {
+      type: String,
+      default: 'bill_of_lading'
+    }
+  },
   data() {
     return {
       data: staticData.bill_of_lading,

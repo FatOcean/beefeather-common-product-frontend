@@ -7,7 +7,7 @@
       <vat v-if="productName === 'vat'"></vat>
       <receipt v-if="productName === 'receipt'"></receipt>
       <financialStatement
-        v-if="productName === 'financial_statement'"
+        v-if="productName === 'financial_statement' || productName === 'social_security_card'" :productName="productName"
       ></financialStatement>
       <billOfLading v-if="productName === 'bill_of_lading'"></billOfLading>
       <general v-if="['order','airway_bill','cross_border_contract','commercial_invoice','bank_acceptance_bill'].indexOf(productName) > -1" :productName="productName"></general>
@@ -22,10 +22,10 @@ export default {
     leftselect,
     vat: (resolve) => require(['./vat'], resolve), // 增值税发票
     receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
-    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析
+    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析 航空单
     financialStatement: (resolve) =>
       require(['./financial_statement'], resolve), // 流水解析
-    general: (resolve) => require(['./general'], resolve) // 流水解析
+    general: (resolve) => require(['./general'], resolve) // 订单 报关单 跨境合同 商业发票 银行汇票
   },
   data() {
     return {
@@ -44,7 +44,6 @@ export default {
     setProductName(data) {
       this.productName = data.staticName
       this.productObj = data
-      console.log(this.productName)
     },
     resetId() {},
     goBack() {},
