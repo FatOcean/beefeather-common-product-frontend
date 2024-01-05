@@ -9,9 +9,8 @@
       <financialStatement
         v-if="productName === 'financial_statement'"
       ></financialStatement>
-       <billOfLading
-        v-if="productName === 'bill_of_lading'"
-      ></billOfLading>
+      <billOfLading v-if="productName === 'bill_of_lading'"></billOfLading>
+      <general v-if="['order','airway_bill','cross_border_contract','commercial_invoice','bank_acceptance_bill'].indexOf(productName) > -1" :productName="productName"></general>
     </div>
   </div>
 </template>
@@ -25,14 +24,15 @@ export default {
     receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
     billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析
     financialStatement: (resolve) =>
-      require(['./financial_statement'], resolve) // 流水解析
+      require(['./financial_statement'], resolve), // 流水解析
+    general: (resolve) => require(['./general'], resolve) // 流水解析
   },
   data() {
     return {
-      productName: 'bill_of_lading',
+      productName: 'order',
       productObj: {
-        name: '提单',
-        staticName: 'bill_of_lading'
+        name: '订单',
+        staticName: 'order'
       }
     }
   },
@@ -44,6 +44,7 @@ export default {
     setProductName(data) {
       this.productName = data.staticName
       this.productObj = data
+      console.log(this.productName)
     },
     resetId() {},
     goBack() {},

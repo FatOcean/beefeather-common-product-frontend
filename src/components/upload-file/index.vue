@@ -83,7 +83,12 @@ export default {
     [beeLoading.name]: beeLoading
   },
   computed: {
-    ...mapState(['ocrProductObj'])
+    ...mapState(['ocrProductObj']),
+    originLocation() {
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
+    }
   },
   mounted() {},
   methods: {
