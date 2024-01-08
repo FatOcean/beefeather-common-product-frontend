@@ -52,26 +52,49 @@
             </lls-option>
           </lls-select>
         </template>
-        <lls-button type="text" @click="downloadResult" v-if="!isImgdownload"
-          ><i class="lls-icon-download"></i>
-          {{
-            `下载${activeName === "first" ? "识别" : "Json"}结果`
-          }}</lls-button
-        >
-        <lls-dropdown @command="downloadResult" v-else>
-          <lls-button type="text"
+        <div v-if="!isImgdownload">
+          <lls-button
+            type="text"
+            @click="downloadResult"
+            v-if="activeName === 'first' && isshowDownButton"
             ><i class="lls-icon-download"></i>
             {{
               `下载${activeName === "first" ? "识别" : "Json"}结果`
             }}</lls-button
           >
-          <lls-dropdown-menu slot="dropdown">
-            <lls-dropdown-item command="JPG">JPG</lls-dropdown-item>
-            <lls-dropdown-item command="JPEG">JPEG</lls-dropdown-item>
-            <lls-dropdown-item command="PNG">PNG</lls-dropdown-item>
-            <lls-dropdown-item command="BMP">BMP</lls-dropdown-item>
-          </lls-dropdown-menu>
-        </lls-dropdown>
+          <lls-button
+            type="text"
+            @click="downloadResult"
+            v-if="activeName === 'second'"
+            ><i class="lls-icon-download"></i>
+            {{
+              `下载${activeName === "first" ? "识别" : "Json"}结果`
+            }}</lls-button
+          >
+        </div>
+
+        <div v-else>
+          <lls-dropdown @command="downloadResult" v-if="activeName === 'first'">
+            <lls-button type="text"
+              ><i class="lls-icon-download"></i>
+              {{
+                `下载${activeName === "first" ? "识别" : "Json"}结果`
+              }}</lls-button
+            >
+            <lls-dropdown-menu slot="dropdown">
+              <lls-dropdown-item command="JPG">JPG</lls-dropdown-item>
+              <lls-dropdown-item command="JPEG">JPEG</lls-dropdown-item>
+              <lls-dropdown-item command="PNG">PNG</lls-dropdown-item>
+              <lls-dropdown-item command="BMP">BMP</lls-dropdown-item>
+            </lls-dropdown-menu>
+          </lls-dropdown>
+          <lls-button type="text" v-else @click="downloadResult"
+            ><i class="lls-icon-download"></i>
+            {{
+              `下载${activeName === "first" ? "识别" : "Json"}结果`
+            }}</lls-button
+          >
+        </div>
       </template>
     </lls-tabs>
   </div>
@@ -99,6 +122,10 @@ export default {
     isImgdownload: {
       type: Boolean,
       default: false
+    },
+    isshowDownButton: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -111,6 +138,7 @@ export default {
     }
   },
   created() {
+    this.newCodeTest = this.codeTest
     if (this.isshowBank) {
       getBankList().then((res) => {
         if (res.data.code === '200') {
@@ -123,26 +151,38 @@ export default {
     ...mapState(['ocrProductObj'])
   },
   watch: {
-    codeTest: {
-      handler(codeTest) {
-        this.newCodeTest = codeTest
-        this.$nextTick(() => {
-          this.$refs.editor.formatCode()
-        })
-      },
-      deep: true,
-      immediate: true
-    }
+    // codeTest: {
+    //   handler(codeTest) {
+    //     this.$nextTick(() => {
+    //       this.newCodeTest = codeTest;
+    //       this.$refs.editor.formatCode();
+    //     });
+    //   },
+    //   deep: true,
+    //   immediate: true,
+    // },
   },
   methods: {
+    // fileFormat 判断是否是下载图片
     downloadResult(fileFormat = false) {
-      const { page, productObj } = this.$parent
+      const isDocumentAnalysis = this.$route.path === '/tradeDocumentAnalysis'
+      let data
+      let newproductObj
+      if (isDocumentAnalysis) {
+        const { example } = this.$parent
+        data = example
+        newproductObj = this.ocrProductObj
+      } else {
+        const { page, productObj } = this.$parent
+        data = page
+        newproductObj = productObj
+      }
       const download =
         this.activeName === 'first' ? downloadResult : downloadJson
       const params = {
-        example: !!page?.isexample,
-        application: productObj.staticName.toUpperCase(),
-        taskId: page.isexample ? page.fileName : page.taskId
+        example: !!data?.isexample,
+        application: newproductObj.staticName.toUpperCase(),
+        taskId: data.isexample ? data.fileName : data.taskId
       }
       if (this.isImgdownload) params.fileFormat = fileFormat
       download(params)
@@ -174,11 +214,12 @@ export default {
     handleClickTabs() {
       this.$parent.resetProps()
       document.getElementsByClassName('CodeMirror-lines')[0].click()
-      // if (this.activeName !== 'first') {
-      //   this.$nextTick(() => {
-      //     this.$refs.editor.formatCode()
-      //   })
-      // }
+      if (this.activeName !== 'first') {
+        this.newCodeTest = this.codeTest
+        this.$nextTick(() => {
+          this.$refs.editor.formatCode()
+        })
+      }
     },
     getResult() {
       this.$parent.$parent.getResult(this.bank)

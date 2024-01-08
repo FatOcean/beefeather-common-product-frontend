@@ -263,7 +263,8 @@ export default {
       realRenderHeight: 0,
       realRenderWidth: 0,
       scale: 1,
-      transition: false
+      transition: false,
+      text: ''
     }
   },
   created() {},
@@ -293,7 +294,7 @@ export default {
   },
   methods: {
     setRectangle(index = 0) {
-      const rectangle = this.text.values[0].position[0]
+      const rectangle = this.text && this.text.values[0]?.position[0]
       if (rectangle) {
         this.rectanglePosition = rectangle.reduce((total, cur) => {
           const str = (total +=
@@ -406,27 +407,51 @@ export default {
       this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
     },
     // 翻页
-    handleTurnPage(val) {
-      const num = this.activePageIndex - 1 + val
-
-      if (num === this.total) {
-        if (this.activeTabIndex < this.example.images.length - 1) {
-          this.$parent.handleClick(1)
-        } else {
-          this.$parent.handleClick(0)
-        }
-      } else if (num < 0) {
-        if (this.activeTabIndex === 0) {
-          this.$parent.handleClick(this.example.images.length - 1)
-        } else {
-          this.$parent.handleClick(-1)
-        }
-      } else {
-        this.activePageIndex = num + 1
-      }
-
-      // const page = this.example.billDetailVos;
+    handleTurnPage(val, parent = false) {
+      this.activePageIndex = parent ? val : this.activePageIndex + val
+      this.$parent.handleClick(this.activePageIndex - 1)
+      // if (num === this.total) {
+      //   if (this.activeTabIndex < this.data.length - 1) {
+      //     this.$parent.handleClick(1)
+      //   } else {
+      //     this.$parent.handleClick(0)
+      //   }
+      // } else if (num < 0) {
+      //   if (this.activeTabIndex === 0) {
+      //     this.$parent.handleClick(this.data.length - 1)
+      //   } else {
+      //     this.$parent.handleClick(-1)
+      //   }
+      // } else {
+      //   this.activePageIndex = num + 1
+      // }
+      this.activeDocumentIndex = parent ? val - 1 : this.activePageIndex - 1
+      this.rectanglePosition = ''
+      this.text = ''
+      this.pathValue = null
       this.resizeImg()
+      this.resetProps()
+
+      // const num = this.activePageIndex - 1 + val
+
+      // if (num === this.total) {
+      //   if (this.activeTabIndex < this.example.images.length - 1) {
+      //     this.$parent.handleClick(1)
+      //   } else {
+      //     this.$parent.handleClick(0)
+      //   }
+      // } else if (num < 0) {
+      //   if (this.activeTabIndex === 0) {
+      //     this.$parent.handleClick(this.example.images.length - 1)
+      //   } else {
+      //     this.$parent.handleClick(-1)
+      //   }
+      // } else {
+      //   this.activePageIndex = num + 1
+      // }
+
+      // // const page = this.example.billDetailVos;
+      // this.resizeImg()
       // this.$emit("handle-change", page);
       // this.$emit("tabs", this.activeDocumentIndex, this.activePageIndex - 1);
     },
@@ -524,11 +549,13 @@ export default {
       })
     },
     // 激活文本
-    handleClickText({ el, id, imageIndex }) {
+    handleClickText({ el, id, text }) {
       // console.log(el, "el2");
       // if (imageIndex !== this.activePageIndex) {
       //   this.activePageIndex = imageIndex
       // }
+      this.text = text
+
       this.activeEl = el
       this.activeTextId = id
       this.setRectangle(this.activeTextId)
@@ -609,7 +636,7 @@ export default {
         const pathEndY =
           offsetTop - scrollTop + this.activeEl.clientHeight / 2 + 8
         const scale = page.rotateScale * zoomScale * this.imgScale
-        const position = this.text.values[0].position[0]
+        const position = this.text && this.text.values[0].position[0]
         const w = position[1].x - position[0].x
         const h = position[2].y - position[0].y
 
@@ -776,23 +803,23 @@ export default {
       return [{ url: this.imageUrl, title: this.imageName }]
     },
     // 当前文本信息
-    text() {
-      const { value } = this.page
-      const textArr = [...value]
-      if (this.activeTextId > 1000) {
-        const fatherId = Number(this.activeTextId.toString().substring(0, 2))
-        const fatherText = textArr.filter((i) => {
-          return i.sortId === fatherId
-        })[0].billDictionaryList
-        return fatherText.filter((i) => {
-          return i.sortId === this.activeTextId
-        })[0]
-      } else {
-        return textArr.filter((i) => {
-          return i.sortId === this.activeTextId
-        })[0]
-      }
-    },
+    // text() {
+    //   const { value } = this.page;
+    //   const textArr = [...value];
+    //   if (this.activeTextId > 1000) {
+    //     const fatherId = Number(this.activeTextId.toString().substring(0, 2));
+    //     const fatherText = textArr.filter((i) => {
+    //       return i.sortId === fatherId;
+    //     })[0].billDictionaryList;
+    //     return fatherText.filter((i) => {
+    //       return i.sortId === this.activeTextId;
+    //     })[0];
+    //   } else {
+    //     return textArr.filter((i) => {
+    //       return i.sortId === this.activeTextId;
+    //     })[0];
+    //   }
+    // },
     // 当前图片初始缩放比例
     imgScale() {
       return this.scale

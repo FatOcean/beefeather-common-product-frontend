@@ -174,7 +174,7 @@ export default {
   props: {
     productName: {
       type: String,
-      default: 'bill_of_lading'
+      default: ''
     }
   },
   data() {
@@ -207,6 +207,14 @@ export default {
   computed: {
     activeImage() {
       return this.instance.images[this.$refs.documents.activePageIndex - 1]
+    },
+    isbillofLading() {
+      return this.productName === 'bill_of_lading' ? '提单' : '航空单'
+    },
+    originLocation() {
+      return process.env.NODE_ENV === 'development'
+        ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
+        : `${window.location.origin}/file-handle-web/file/image`
     }
   },
   created() {
@@ -214,7 +222,7 @@ export default {
     this.documents = this.instance
     this.page = this.documents.content
     this.tabsArray = this.data.map((item, index) => {
-      return { name: `提单${index + 1}` }
+      return { name: `${this.isbillofLading}${index + 1}` }
     })
     this.activeName = this.tabsArray[0].name
     this.pageDetail = this.page
@@ -237,7 +245,7 @@ export default {
       this.documents = this.instance
       this.page = this.documents.content
       this.tabsArray = this.data.map((item, index) => {
-        return { name: `提单${index + 1}` }
+        return { name: `${this.isbillofLading}${index + 1}` }
       })
       this.activeName = this.tabsArray[0].name
       this.pageDetail = this.page
@@ -254,17 +262,24 @@ export default {
       this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
         id: i.sortId,
-        imageIndex: i.imageIndex
+        text: i
       })
       this.activeTextId = this.$refs.documents.activeTextId
     },
     uploadFileData(res) {
+      res.data && res.data.map((item) => {
+        if (item.imagePath) {
+          item.imagePath = `${
+                this.originLocation
+              }?filename=${encodeURIComponent(item.imagePath)}`
+        }
+      })
       this.data = res.data
       this.instance = this.data[0]
       this.documents = this.instance
       this.page = this.documents.content
       this.tabsArray = this.data.map((item, index) => {
-        return { name: `提单${index + 1}` }
+        return { name: `${this.isbillofLading}${index + 1}` }
       })
       this.activeName = this.tabsArray[0].name
       this.pageDetail = this.page
@@ -288,35 +303,47 @@ export default {
     },
 
     handleClick(value) {
-      if (value.name === this.activeName) return
-      this.search = ''
-      this.checked = false
-      this.filterEmpty(false)
-      this.searchData()
+      let index
       if (typeof value === 'number') {
-        if (value === 0) {
-          this.activeTabIndex = 0
-          this.activeName = this.tabsArray[this.activeTabIndex].name
-          this.$refs.documents.handleClick(this.activeTabIndex)
-          this.page = this.documents[this.activeTabIndex]
-          this.pageDetail = this.page
-        } else {
-          this.activeTabIndex += value
-          this.activeName = this.tabsArray[this.activeTabIndex].name
-          this.$refs.documents.handleClick(this.activeTabIndex)
-          this.page = this.documents[this.activeTabIndex]
-          this.pageDetail = this.page
-        }
+        index = value
+        this.instance = this.data[index]
+        this.documents = this.instance
+        this.page = this.documents.content
+        this.activeName = this.tabsArray[index].name
+        this.pageDetail = this.page
       } else {
-        this.tabsArray.forEach((item, index) => {
-          if (item.name === value.name) {
-            this.activeTabIndex = index
-            this.$refs.documents.handleClick(index)
-            this.page = this.documents[index]
-            this.pageDetail = this.page
-          }
-        })
+        this.$refs.documents.handleTurnPage(Number(value.index) + 1, true)
       }
+
+      // if (value.name === this.activeName) return
+      // this.search = ''
+      // this.checked = false
+      // this.filterEmpty(false)
+      // this.searchData()
+      // if (typeof value === 'number') {
+      //   if (value === 0) {
+      //     this.activeTabIndex = 0
+      //     this.activeName = this.tabsArray[this.activeTabIndex].name
+      //     this.$refs.documents.handleClick(this.activeTabIndex)
+      //     this.page = this.documents[this.activeTabIndex]
+      //     this.pageDetail = this.page
+      //   } else {
+      //     this.activeTabIndex += value
+      //     this.activeName = this.tabsArray[this.activeTabIndex].name
+      //     this.$refs.documents.handleClick(this.activeTabIndex)
+      //     this.page = this.documents[this.activeTabIndex]
+      //     this.pageDetail = this.page
+      //   }
+      // } else {
+      //   this.tabsArray.forEach((item, index) => {
+      //     if (item.name === value.name) {
+      //       this.activeTabIndex = index
+      //       this.$refs.documents.handleClick(index)
+      //       this.page = this.documents[index]
+      //       this.pageDetail = this.page
+      //     }
+      //   })
+      // }
     },
 
     handleDragLeave() {

@@ -42,12 +42,7 @@ export default {
 
     ...mapMutations(['changePageMenuPerm']),
     messageIframeProduct(e) {
-      if (e && e.data && e.data.pageMenuPerm) {
-        const pageMenuPerm = e.data.pageMenuPerm
-        this.$nextTick(() => {
-          this.changePageMenuPerm(pageMenuPerm)
-        })
-      }
+      // console.log('APP接收消息')
     }
   },
   beforeDestroy() {

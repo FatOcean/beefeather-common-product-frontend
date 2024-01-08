@@ -61,19 +61,56 @@
 </template>
 
 <script>
-import { productList } from './data.js'
+import { productListAll } from './data.js'
 export default {
   name: 'RightSelect',
   data() {
     return {
       productName: '',
-      productList, // 产品名称
+      productListAll, // 产品名称
       isshowRight: true,
-      activebgName: '身份证'
+      activebgName: '身份证',
+      productList: [],
+      product: []
     }
   },
-  mounted() {},
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('message', this.messageIframeProduct)
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('message', this.messageIframeProduct)
+  },
   methods: {
+    messageIframeProduct(e) {
+      const { documentParsing } = e?.data
+      if (documentParsing) {
+        this.$nextTick(() => {
+          this.productList = this.filterProducts(
+            productListAll,
+            documentParsing
+          )
+          this.activebgName = this.productList[0].children[0].name
+          this.product = this.productList
+        })
+      }
+    },
+    // 过滤出有这个权限的应用
+    filterProducts(productListAll, filterArray) {
+      return productListAll.map((category) => {
+        const filteredChildren = category.children.filter((child) => {
+          return filterArray.some((filterItem) => {
+            return child.staticName === filterItem.staticName
+          })
+        })
+
+        return {
+          ...category,
+          children: filteredChildren
+        }
+      }).filter((category) => category.children.length > 0)
+    },
     productNameClick(item, index) {
       this.activebgName = item.name
       this.$parent.setProductName(item)
@@ -87,9 +124,9 @@ export default {
     },
     findProductName(val) {
       if (val !== '') {
-        this.productList = this.mapTree(val, productList)
+        this.productList = this.mapTree(val, this.product)
       } else {
-        this.productList = productList
+        this.productList = this.product
       }
     },
     mapTree(value, arr) {

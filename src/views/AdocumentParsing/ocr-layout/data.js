@@ -1,4 +1,4 @@
-const productList = [
+const productListAll = [
   {
     name: '个人证件',
     icon: '上传',
@@ -123,4 +123,4 @@ const productList = [
   }
 ]
 
-export { productList }
+export { productListAll }

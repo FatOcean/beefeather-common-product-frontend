@@ -6,7 +6,7 @@ const data = [
     isexample: true,
     taskId: 'U2024010518976951',
     status: 1,
-    fileName: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+    fileName: '商业发票.jpg',
     imagePath,
     height: 1584,
     width: 1224,

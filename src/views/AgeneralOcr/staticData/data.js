@@ -1,4 +1,4 @@
-const productList = [
+const productListAll = [
 
   {
     name: '文档OCR',
@@ -25,4 +25,4 @@ const productList = [
   }
 ]
 
-export { productList }
+export { productListAll }

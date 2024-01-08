@@ -164,9 +164,6 @@ export default {
       this.filterEmpty(val)
     }
   },
-  created() {
-    console.log(this.staticData)
-  },
   computed: {
     documents() {
       const document = JSON.parse(JSON.stringify(staticData[this.productName]))

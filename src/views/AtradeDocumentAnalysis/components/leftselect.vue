@@ -62,24 +62,56 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import { productList } from '../staticData/data.js'
+import { productListAll } from '../staticData/data.js'
 export default {
-  name: 'RightSelect',
+  name: 'LeftSelect',
   data() {
     return {
       productName: '',
-      productList, // 产品名称
+      productListAll, // 产品名称
       isshowRight: true,
-      activebgName: '订单'
+      activebgName: '提单',
+      productList: [],
+      product: []
     }
   },
   mounted() {
-    this.setProductObj({
-      name: '订单',
-      staticName: 'order'
-    })
+    // this.setProductObj({
+    //   name: '提单',
+    //   staticName: 'bill_of_lading'
+    // })
+    window.addEventListener('message', this.messageIframeProduct)
   },
   methods: {
+    messageIframeProduct(e) {
+      const { tradeDocumentAnalysis } = e?.data
+      console.log(tradeDocumentAnalysis)
+      if (tradeDocumentAnalysis) {
+        this.$nextTick(() => {
+          this.productList = this.filterProducts(
+            productListAll,
+            tradeDocumentAnalysis
+          )
+          this.activebgName = this.productList[0].children[0].name
+          this.product = this.productList
+        })
+      }
+    },
+    // 过滤出有这个权限的应用
+    filterProducts(productListAll, filterArray) {
+      return productListAll.map((category) => {
+        const filteredChildren = category.children.filter((child) => {
+          return filterArray.some((filterItem) => {
+            return child.staticName === filterItem.staticName
+          })
+        })
+
+        return {
+          ...category,
+          children: filteredChildren
+        }
+      }).filter((category) => category.children.length > 0)
+    },
     ...mapMutations(['setProductObj']),
     productNameClick(item, index) {
       this.activebgName = item.name
@@ -95,9 +127,9 @@ export default {
     },
     findProductName(val) {
       if (val !== '') {
-        this.productList = this.mapTree(val, productList)
+        this.productList = this.mapTree(val, this.product)
       } else {
-        this.productList = productList
+        this.productList = this.product
       }
     },
     mapTree(value, arr) {

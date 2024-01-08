@@ -35,19 +35,35 @@
 
 <script>
 import { mapMutations } from 'vuex'
-import { productList } from '../staticData/data.js'
+import { productListAll } from '../staticData/data.js'
 export default {
   name: 'LeftSelect',
   data() {
     return {
       productName: '',
-      productList, // 产品名称
+      productListAll, // 产品名称
       isshowRight: true,
-      activebgName: '文档OCR'
+      activebgName: '文档OCR',
+      productList: [],
+      product: []
     }
   },
-  mounted() {},
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('message', this.messageIframeProduct)
+    })
+  },
   methods: {
+    messageIframeProduct(e) {
+      const { generalOcr } = e?.data
+      if (generalOcr) {
+        this.$nextTick(() => {
+          this.productList = generalOcr
+          this.activebgName = this.productList[0].name
+          this.product = this.productList
+        })
+      }
+    },
     ...mapMutations(['setProductObj']),
     productNameClick(item, index) {
       this.activebgName = item.name
@@ -63,9 +79,9 @@ export default {
     },
     findProductName(val) {
       if (val !== '') {
-        this.productList = this.mapTree(val, productList)
+        this.productList = this.mapTree(val, this.product)
       } else {
-        this.productList = productList
+        this.productList = this.product
       }
     },
     mapTree(value, arr) {

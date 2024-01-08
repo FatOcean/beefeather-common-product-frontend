@@ -1,12 +1,11 @@
 
 import imagePath from '../images/bill_of_lading.png'
-
 const data = [
   {
     isexample: true,
     taskId: 'U2024010517926571',
     status: 1,
-    fileName: 'BL 3_0.png',
+    fileName: '提货单.png',
     imagePath,
     height: 1024,
     width: 791,

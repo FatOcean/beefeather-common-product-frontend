@@ -138,7 +138,9 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <rightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></rightTab>
+        <rightTab :codeTest="codeTest" ref="rightTab" :isshowDownButton="false">
+          <slot></slot
+        ></rightTab>
       </div>
       <svgPath
         v-if="pathValue"
@@ -205,15 +207,6 @@ export default {
     event: 'handle-change'
   },
   props: {
-    productObj: {
-      type: Object,
-      default: function () {
-        return {
-          name: '印章识别',
-          staticName: 'seal_recognition'
-        }
-      }
-    },
     value: {
       type: Object,
       default: function () {
@@ -261,7 +254,11 @@ export default {
       vertices: null,
       rectangle: null,
       eleItem: null,
-      transition: false
+      transition: false,
+      productObj: {
+        name: '印章识别',
+        staticName: 'seal_recognition'
+      }
     }
   },
   created() {},
