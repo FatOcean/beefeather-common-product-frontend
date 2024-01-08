@@ -16,6 +16,9 @@ const mutations = {
     // 修改后，页面会重新渲染
     // console.log(state.pageMenuPerm);
   },
+  setProductData(state, value) {
+    state.productData = value
+  },
   setProductObj(state, value) {
     state.ocrProductObj = value
   }
@@ -25,10 +28,12 @@ const mutations = {
 const state = {
   // 按钮权限数据
   pageMenuPerm: {},
+  productData: {},
   ocrProductObj: {
     name: '文档OCR',
     staticName: 'document_ocr'
   }
+
 }
 
 // 创建并导出 store

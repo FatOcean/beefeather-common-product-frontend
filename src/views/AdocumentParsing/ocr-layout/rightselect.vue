@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { productListAll } from './data.js'
 export default {
   name: 'RightSelect',
@@ -74,17 +75,22 @@ export default {
       product: []
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener('message', this.messageIframeProduct)
-    })
+  computed: {
+    ...mapState(['productData'])
   },
-  beforeDestroy() {
-    window.removeEventListener('message', this.messageIframeProduct)
+  mounted() {
+    this.messageIframeProduct(this.productData)
+  },
+  watch: {
+    productData: {
+      handler(val) {
+        this.messageIframeProduct(val)
+      }
+    }
   },
   methods: {
-    messageIframeProduct(e) {
-      const { documentParsing } = e?.data
+    messageIframeProduct(data) {
+      const { documentParsing } = data
       if (documentParsing) {
         this.$nextTick(() => {
           this.productList = this.filterProducts(

@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import { productListAll } from '../staticData/data.js'
 export default {
   name: 'LeftSelect',
@@ -75,17 +75,22 @@ export default {
       product: []
     }
   },
+  computed: {
+    ...mapState(['productData'])
+  },
   mounted() {
-    // this.setProductObj({
-    //   name: '提单',
-    //   staticName: 'bill_of_lading'
-    // })
-    window.addEventListener('message', this.messageIframeProduct)
+    this.messageIframeProduct(this.productData)
+  },
+  watch: {
+    productData: {
+      handler(val) {
+        this.messageIframeProduct(val)
+      }
+    }
   },
   methods: {
-    messageIframeProduct(e) {
-      const { tradeDocumentAnalysis } = e?.data
-      console.log(tradeDocumentAnalysis)
+    messageIframeProduct(data) {
+      const { tradeDocumentAnalysis } = data
       if (tradeDocumentAnalysis) {
         this.$nextTick(() => {
           this.productList = this.filterProducts(

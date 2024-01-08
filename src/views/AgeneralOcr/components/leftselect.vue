@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import { productListAll } from '../staticData/data.js'
 export default {
   name: 'LeftSelect',
@@ -48,14 +48,22 @@ export default {
       product: []
     }
   },
+  computed: {
+    ...mapState(['productData'])
+  },
   mounted() {
-    this.$nextTick(() => {
-      window.addEventListener('message', this.messageIframeProduct)
-    })
+    this.messageIframeProduct(this.productData)
+  },
+  watch: {
+    productData: {
+      handler(val) {
+        this.messageIframeProduct(val)
+      }
+    }
   },
   methods: {
-    messageIframeProduct(e) {
-      const { generalOcr } = e?.data
+    messageIframeProduct(data) {
+      const { generalOcr } = data
       if (generalOcr) {
         this.$nextTick(() => {
           this.productList = generalOcr

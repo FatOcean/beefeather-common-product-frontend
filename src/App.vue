@@ -40,9 +40,11 @@ export default {
       })
     },
 
-    ...mapMutations(['changePageMenuPerm']),
+    ...mapMutations(['changePageMenuPerm', 'setProductData']),
     messageIframeProduct(e) {
-      // console.log('APP接收消息')
+      if (e?.data) {
+        this.setProductData(e.data)
+      }
     }
   },
   beforeDestroy() {
