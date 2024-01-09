@@ -251,6 +251,7 @@ export default {
       this.activeDocumentIndex = 0
       this.reRenderImage()
       this.resetProps()
+      this.$refs.rightTab.activeName = 'first'
     }
   },
   beforeDestroy() {
@@ -635,6 +636,7 @@ export default {
       this.dragY = 0
       this.moveX = 0
       this.moveY = 0
+      this.rectanglePosition = ''
       this.updateTranslateY()
       this.$emit('resetId')
     },
