@@ -934,6 +934,13 @@ export default {
         // this.data_.push(document)
         const vm = this
         if (index === this.activePageIndex) {
+          if (['property_certificate', 'income_proof'].indexOf(this.productObj.staticName) > -1) {
+            if (/1|3/.test(document.angle / 90)) {
+              const width = document.height
+              document.height = document.width
+              document.width = width
+            }
+          }
           const page = {
             ...document,
             imgRotatingDeg: document.angle || 0,
@@ -948,7 +955,6 @@ export default {
             page.scale = vm.documentHeight / +page.originalHeight
           }
           page.realRenderWidth = +page.originalWidth * page.scale // 图片实际渲染宽度
-
           if (/0|2/.test(page.imgRotatingDeg / 90)) {
             page.imgRenderWidth = page.realRenderWidth
             page.imgRenderHeight = page.realRenderHeight
