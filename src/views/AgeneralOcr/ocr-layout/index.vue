@@ -286,39 +286,12 @@
       <div class="ocr-result" ref="ocrResult">
         <rightTab :codeTest="codeTest" ref="rightTab"> <slot></slot></rightTab>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        :width="documentWidth + ocrResultWidth + 8"
-        :height="documentHeight"
-        class="svg-mask"
+      <svgPath
         v-if="pathValue"
-      >
-        <path
-          :d="`M${pathValue.pathStartX} ${pathValue.pathStartY} h${
-            documentWidth - pathValue.pathStartX + 8
-          } v${pathValue.pathEndY - pathValue.pathStartY} L${
-            pathValue.pathEndX
-          } ${pathValue.pathEndY}`"
-          stroke-width="1"
-          stroke="#0887FF"
-          stroke-dasharray="5 5"
-          fill="transparent"
-        />
-        <circle
-          v-if="pathValue.pathStartX != documentWidth"
-          :cx="pathValue.pathStartX"
-          :cy="pathValue.pathStartY"
-          r="3"
-          fill="#0887FF"
-        />
-        <circle
-          :cx="pathValue.pathEndX"
-          :cy="pathValue.pathEndY"
-          r="2"
-          fill="#0887FF"
-        />
-      </svg>
+        :pathValue="pathValue"
+        :documentWidth="documentWidth"
+        :documentHeight="documentHeight"
+      ></svgPath>
       <lls-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
