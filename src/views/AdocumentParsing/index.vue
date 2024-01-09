@@ -1,6 +1,6 @@
 <template>
   <div class="document-parsing">
-    <lls-page-header @back="goBack" content="证件解析" bottom-line>
+    <lls-page-header @back="goBack" content="证照解析" bottom-line>
     </lls-page-header>
     <!-- <button @click="pushtest">测试</button> -->
     <ocrlayout
@@ -120,17 +120,59 @@ export default {
   methods: {
     isIdcard() {
       if (this.productName === 'id_card') {
+        this.tabsArray = []
         for (let i = 0; i < this.page.content.length; i++) {
           this.tabsArray[i] = { name: this.page.content[i].imageType }
         }
+        this.tabsArray = this.addIndexSuffix(this.tabsArray)
         this.activeName = this.tabsArray[0].name
       }
+    },
+    addIndexSuffix(arr) {
+      const nameCountMap = {}
+      for (let i = 0; i < arr.length; i++) {
+        const item = arr[i]
+        const { name } = item
+
+        if (nameCountMap[name] === undefined) {
+          // 第一次出现该名称
+          nameCountMap[name] = 1
+          item.name = `${name}${nameCountMap[name]}`
+        } else {
+          // 已经出现过该名称，增加下标后缀
+          nameCountMap[name]++
+          item.name = `${name}${nameCountMap[name]}`
+        }
+      }
+      if (nameCountMap['身份证人像页'] === 1) {
+        arr.map((item) => {
+          if (item.name === '身份证人像页1') {
+            item.name = '身份证人像页'
+          }
+        })
+      }
+      if (nameCountMap['身份证国徽页'] === 1) {
+        arr.map((item) => {
+          if (item.name === '身份证国徽页1') {
+            item.name = '身份证国徽页'
+          }
+        })
+      }
+
+      return arr
+    },
+    countNum(arr, res) {
+      var newArrays = arr.filter(function(item) {
+        return item === res
+      })
+      return newArrays.length
     },
     setTableData(index) {
       this.activePageIndex = this.$refs.documents.activePageIndex
     },
     setProductName(data) {
       this.activeTextId = 0
+      this.activePageIndex = 0
       this.productName = data.staticName
     },
     resetId() {},
@@ -150,6 +192,7 @@ export default {
       }
     },
     handleClick(value) {
+      this.activeTextId = ''
       this.activeTabIndex = Number(value.index)
       this.$refs.documents.resetProps()
     },

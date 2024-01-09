@@ -6,7 +6,6 @@
       height: layoutHeight,
     }"
   >
-    <!-- 示例区-缩略图 -->
     <RightSelect ref="RightSelectRefs"></RightSelect>
     <!-- ocr -->
     <div
@@ -630,7 +629,7 @@ export default {
     },
     setProductName(data) {
       this.productObj = data
-
+      this.activeName = 'first'
       this.resetProps()
       if (this.activeName !== 'first') this.handleClickTabs()
       this.$parent.setProductName(data)
