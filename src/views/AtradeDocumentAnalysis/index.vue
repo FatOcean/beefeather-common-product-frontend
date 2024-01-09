@@ -36,6 +36,7 @@
 
 <script>
 import leftselect from './components/leftselect.vue'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     leftselect,
@@ -58,8 +59,11 @@ export default {
 
   watch: {},
   computed: {},
-  mounted() {},
+  mounted() {
+    this.setProductObj(this.productObj)
+  },
   methods: {
+    ...mapMutations(['setProductObj']),
     setProductName(data) {
       this.productName = data.staticName
       this.productObj = data

@@ -30,14 +30,14 @@
               <td colspan="2">字段名</td>
               <td>识别结果</td>
             </thead>
-            <tbody v-for="i in page" :key="i.id">
+            <tbody v-for="i in page" :key="i.sortId">
               <tr
                 v-if="i.keyCh === 'Goods Description'"
-                :class="{ active: activeTextId === i.id }"
+                :class="{ active: activeTextId === i.sortId && text.keyCh === i.keyCh }"
                 @click="(e) => clickHandler(e, i)"
               >
                 <td rowspan="5">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td :class="{ activeTd: activeTextId === i.id }">
+                <td :class="{ activeTd: activeTextId === i.sortId && text.keyCh === i.keyCh }">
                   <table>
                     <p>Goods Description<br />商品描述</p>
                     <p>
@@ -67,13 +67,13 @@
                 </td>
               </tr>
               <tr
-                :class="{ active: activeTextId === i.id }"
+                :class="{ active: activeTextId === i.sortId && text.keyCh === i.keyCh }"
                 @click="(e) => clickHandler(e, i)"
                 v-else-if="i.keyCh === 'Gross Weight'"
                 v-show="!i.notShow && !i.notEmpty"
               >
                 <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td :class="{ activeTd: activeTextId === i.id }">
+                <td :class="{ activeTd: activeTextId === i.sortId && text.keyCh === i.keyCh }">
                   <table>
                     <p>
                       Gross Weight<br />
@@ -98,13 +98,13 @@
                 </td>
               </tr>
               <tr
-                :class="{ active: activeTextId === i.id }"
+                :class="{ active: activeTextId === i.sortId && text.keyCh === i.keyCh }"
                 @click="(e) => clickHandler(e, i)"
                 v-else-if="i.keyCh === 'Net Weight'"
                 v-show="!i.notShow && !i.notEmpty"
               >
                 <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td :class="{ activeTd: activeTextId === i.id }">
+                <td :class="{ activeTd: activeTextId === i.sortId && text.keyCh === i.keyCh }">
                   <table>
                     <p>
                       Net Weight<br />
@@ -125,13 +125,13 @@
                 </td>
               </tr>
               <tr
-                :class="{ active: activeTextId === i.id }"
+                :class="{ active: activeTextId === i.sortId && text.keyCh === i.keyCh }"
                 @click="(e) => clickHandler(e, i)"
                 v-else-if="i.keyCh === 'Product CBM'"
                 v-show="!i.notShow && !i.notEmpty"
               >
                 <td>{{ i.keyCh }}</td>
-                <td :class="{ activeTd: activeTextId === i.id }">
+                <td :class="{ activeTd: activeTextId === i.sortId && text.keyCh === i.keyCh }">
                   Product CBM<br />
                   商品体积
                 </td>
@@ -146,7 +146,7 @@
               <tr
                 v-else
                 @click="(e) => clickHandler(e, i)"
-                :class="{ active: activeTextId === i.id }"
+                :class="{ active: activeTextId === i.sortId && text.keyCh === i.keyCh }"
               >
                 <td colspan="2">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
                 <td>
@@ -201,7 +201,8 @@ export default {
       activeTabIndex: 0,
       instance: {},
       falg: true,
-      pageDetail: []
+      pageDetail: [],
+      text: ''
     }
   },
   computed: {
@@ -253,12 +254,13 @@ export default {
   },
   methods: {
     clickHandler(e, i, noParent) {
-      let el = e.target.parentNode.firstChild
-      if (el.tagName === 'TR') el = el.firstChild
+      const el = e.target.parentNode.firstChild
+      // if (el.tagName === 'TR') el = el.firstChild
       if (!(i.values && i.values.length > 0)) {
         return
       }
       e = e || window.event
+      this.text = i
       this.$refs.documents.$events.trigger('click-ocr-el', {
         el,
         id: i.sortId,
@@ -267,13 +269,17 @@ export default {
       this.activeTextId = this.$refs.documents.activeTextId
     },
     uploadFileData(res) {
-      res.data && res.data.map((item) => {
-        if (item.imagePath) {
-          item.imagePath = `${
-                this.originLocation
-              }?filename=${encodeURIComponent(item.imagePath)}`
-        }
-      })
+      // console.log(this.productName, res)
+      // if (this.productName === 'bill_of_lading') {
+      //   res.data && res.data.map((item) => {
+      //     if (item.imagePath) {
+      //       item.imagePath = `${
+      //           this.originLocation
+      //         }?filename=${encodeURIComponent(item.imagePath)}`
+      //     }
+      //   })
+      // }
+
       this.data = res.data
       this.instance = this.data[0]
       this.documents = this.instance

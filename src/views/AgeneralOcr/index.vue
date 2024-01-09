@@ -126,7 +126,7 @@
 <script>
 import { staticData } from './staticData'
 import ocrlayout from './ocr-layout'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import leftselect from './components/leftselect.vue'
 export default {
   components: {
@@ -182,8 +182,11 @@ export default {
         : `${window.location.origin}/file-handle-web/file/image`
     }
   },
-  mounted() {},
+  mounted() {
+    this.setProductObj(this.productObj)
+  },
   methods: {
+    ...mapMutations(['setProductObj']),
     listClick(e, i) {
       if (this.activeId === i.id) return
       this.activeTextId = null
