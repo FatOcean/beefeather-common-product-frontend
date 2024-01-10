@@ -191,7 +191,7 @@ export default {
         application: newproductObj.staticName.toUpperCase(),
         taskId: data.isexample ? data.fileName : data.taskId
       }
-      if (this.isImgdownload) params.fileFormat = fileFormat
+      if (this.isImgdownload && this.activeName === 'first') params.fileFormat = fileFormat
       download(params)
         .then((res) => {
           // if (res.data.code === '200') {
