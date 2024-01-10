@@ -17,180 +17,181 @@
         </lls-input>
         <lls-checkbox v-model="checked">隐藏空白字段</lls-checkbox>
       </div>
-
-      <lls-tabs @tab-click="handleClick" v-model="activeName">
-        <lls-tab-pane
-          v-for="(item, index) in tabsArray"
-          :key="index"
-          :label="item.name"
-          :name="item.name"
-        >
-          <table cellspacing="0" class="table-data">
-            <thead>
-              <td colspan="2">字段名</td>
-              <td>识别结果</td>
-            </thead>
-            <tbody v-for="i in page" :key="i.sortId">
-              <tr
-                v-if="i.keyCh === 'Goods Description'"
-                :class="{
-                  active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                }"
-                @click.stop="(e) => clickHandler(e, i)"
-              >
-                <td rowspan="5">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td
+      <div class="bill-tabs">
+        <lls-tabs @tab-click="handleClick" v-model="activeName">
+          <lls-tab-pane
+            v-for="(item, index) in tabsArray"
+            :key="index"
+            :label="item.name"
+            :name="item.name"
+          >
+            <table cellspacing="0" class="table-data">
+              <thead>
+                <td colspan="2">字段名</td>
+                <td>识别结果</td>
+              </thead>
+              <tbody v-for="i in page" :key="i.sortId">
+                <tr
+                  v-if="i.keyCh === 'Goods Description'"
                   :class="{
-                    activeTd:
-                      activeTextId === i.sortId && text.keyCh === i.keyCh,
+                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
+                  }"
+                  @click.stop="(e) => clickHandler(e, i)"
+                >
+                  <td rowspan="5">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
+                  <td
+                    :class="{
+                      activeTd:
+                        activeTextId === i.sortId && text.keyCh === i.keyCh,
+                    }"
+                  >
+                    <table>
+                      <p>Goods Description<br />商品描述</p>
+                      <p>
+                        Commodity<br />
+                        商品名称
+                      </p>
+                      <p>
+                        HS Code<br />
+                        HS编码
+                      </p>
+                      <p>
+                        Quantity<br />
+                        数量
+                      </p>
+                      <p>
+                        Quantity Unit<br />
+                        数量单位
+                      </p>
+                    </table>
+                  </td>
+                  <td>
+                    {{
+                      i.values && i.values.length > 0 && i.values[0].value
+                        ? i.values[0].value
+                        : ""
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  :class="{
+                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
+                  }"
+                  @click="(e) => clickHandler(e, i)"
+                  v-else-if="i.keyCh === 'Gross Weight'"
+                  v-show="!i.notShow && !i.notEmpty"
+                >
+                  <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
+                  <td
+                    :class="{
+                      activeTd:
+                        activeTextId === i.sortId && text.keyCh === i.keyCh,
+                    }"
+                  >
+                    <table>
+                      <p>
+                        Gross Weight<br />
+                        毛重
+                      </p>
+                      <p>
+                        Gross Weight Unit<br />
+                        毛重单位
+                      </p>
+                      <p>
+                        Gross Weight per Carton<br />
+                        每箱毛重
+                      </p>
+                    </table>
+                  </td>
+                  <td>
+                    {{
+                      i.values && i.values.length > 0 && i.values[0].value
+                        ? i.values[0].value
+                        : ""
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  :class="{
+                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
+                  }"
+                  @click="(e) => clickHandler(e, i)"
+                  v-else-if="i.keyCh === 'Net Weight'"
+                  v-show="!i.notShow && !i.notEmpty"
+                >
+                  <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
+                  <td
+                    :class="{
+                      activeTd:
+                        activeTextId === i.sortId && text.keyCh === i.keyCh,
+                    }"
+                  >
+                    <table>
+                      <p>
+                        Net Weight<br />
+                        净重
+                      </p>
+                      <p>
+                        Net Weight Unit<br />
+                        净重单位
+                      </p>
+                    </table>
+                  </td>
+                  <td>
+                    {{
+                      i.values && i.values.length > 0 && i.values[0].value
+                        ? i.values[0].value
+                        : ""
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  :class="{
+                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
+                  }"
+                  @click="(e) => clickHandler(e, i)"
+                  v-else-if="i.keyCh === 'Product CBM'"
+                  v-show="!i.notShow && !i.notEmpty"
+                >
+                  <td>{{ i.keyCh }}</td>
+                  <td
+                    :class="{
+                      activeTd:
+                        activeTextId === i.sortId && text.keyCh === i.keyCh,
+                    }"
+                  >
+                    Product CBM<br />
+                    商品体积
+                  </td>
+                  <td>
+                    {{
+                      i.values && i.values.length > 0 && i.values[0].value
+                        ? i.values[0].value
+                        : ""
+                    }}
+                  </td>
+                </tr>
+                <tr
+                  v-else
+                  @click="(e) => clickHandler(e, i)"
+                  :class="{
+                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
                   }"
                 >
-                  <table>
-                    <p>Goods Description<br />商品描述</p>
-                    <p>
-                      Commodity<br />
-                      商品名称
-                    </p>
-                    <p>
-                      HS Code<br />
-                      HS编码
-                    </p>
-                    <p>
-                      Quantity<br />
-                      数量
-                    </p>
-                    <p>
-                      Quantity Unit<br />
-                      数量单位
-                    </p>
-                  </table>
-                </td>
-                <td>
-                  {{
-                    i.values && i.values.length > 0 && i.values[0].value
-                      ? i.values[0].value
-                      : ""
-                  }}
-                </td>
-              </tr>
-              <tr
-                :class="{
-                  active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                }"
-                @click="(e) => clickHandler(e, i)"
-                v-else-if="i.keyCh === 'Gross Weight'"
-                v-show="!i.notShow && !i.notEmpty"
-              >
-                <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td
-                  :class="{
-                    activeTd:
-                      activeTextId === i.sortId && text.keyCh === i.keyCh,
-                  }"
-                >
-                  <table>
-                    <p>
-                      Gross Weight<br />
-                      毛重
-                    </p>
-                    <p>
-                      Gross Weight Unit<br />
-                      毛重单位
-                    </p>
-                    <p>
-                      Gross Weight per Carton<br />
-                      每箱毛重
-                    </p>
-                  </table>
-                </td>
-                <td>
-                  {{
-                    i.values && i.values.length > 0 && i.values[0].value
-                      ? i.values[0].value
-                      : ""
-                  }}
-                </td>
-              </tr>
-              <tr
-                :class="{
-                  active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                }"
-                @click="(e) => clickHandler(e, i)"
-                v-else-if="i.keyCh === 'Net Weight'"
-                v-show="!i.notShow && !i.notEmpty"
-              >
-                <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td
-                  :class="{
-                    activeTd:
-                      activeTextId === i.sortId && text.keyCh === i.keyCh,
-                  }"
-                >
-                  <table>
-                    <p>
-                      Net Weight<br />
-                      净重
-                    </p>
-                    <p>
-                      Net Weight Unit<br />
-                      净重单位
-                    </p>
-                  </table>
-                </td>
-                <td>
-                  {{
-                    i.values && i.values.length > 0 && i.values[0].value
-                      ? i.values[0].value
-                      : ""
-                  }}
-                </td>
-              </tr>
-              <tr
-                :class="{
-                  active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                }"
-                @click="(e) => clickHandler(e, i)"
-                v-else-if="i.keyCh === 'Product CBM'"
-                v-show="!i.notShow && !i.notEmpty"
-              >
-                <td>{{ i.keyCh }}</td>
-                <td
-                  :class="{
-                    activeTd:
-                      activeTextId === i.sortId && text.keyCh === i.keyCh,
-                  }"
-                >
-                  Product CBM<br />
-                  商品体积
-                </td>
-                <td>
-                  {{
-                    i.values && i.values.length > 0 && i.values[0].value
-                      ? i.values[0].value
-                      : ""
-                  }}
-                </td>
-              </tr>
-              <tr
-                v-else
-                @click="(e) => clickHandler(e, i)"
-                :class="{
-                  active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                }"
-              >
-                <td colspan="2">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                <td>
-                  {{
-                    i.values && i.values.length > 0 && i.values[0].value
-                      ? i.values[0].value
-                      : ""
-                  }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </lls-tab-pane>
-      </lls-tabs>
+                  <td colspan="2">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
+                  <td>
+                    {{
+                      i.values && i.values.length > 0 && i.values[0].value
+                        ? i.values[0].value
+                        : ""
+                    }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </lls-tab-pane>
+        </lls-tabs>
+      </div>
     </ocr-layout>
   </div>
 </template>
@@ -209,6 +210,7 @@ export default {
   },
   data() {
     return {
+      staticData,
       data: staticData[this.productName],
       activeTextId: '',
       page: [], // 当前页面数据信息
@@ -274,7 +276,9 @@ export default {
   methods: {
     clickHandler(e, i, noParent) {
       let el = e.target.parentNode.firstChild
-      if (el.tagName === 'P') { el = el.parentNode.parentNode.parentNode.firstChild }
+      if (el.tagName === 'P') {
+        el = el.parentNode.parentNode.parentNode.firstChild
+      }
       if (!(i.values && i.values.length > 0)) {
         return
       }
@@ -298,7 +302,6 @@ export default {
       //     }
       //   })
       // }
-
       this.data = res.data
       this.instance = this.data[0]
       this.documents = this.instance
@@ -420,7 +423,13 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
+<style lang="stylus" scoped>
+.bill-tabs{
+::v-deep .lls-tabs__active-bar {
+  min-width: 36px !important;
+}
+}
+
 .search-box {
   margin-top: 12px;
   display: flex;

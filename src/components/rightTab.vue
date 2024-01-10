@@ -225,7 +225,6 @@ export default {
       this.bank = bank
     },
     handleClickTabs(e) {
-      console.log(this.activeName, this.newActiveName)
       if (this.activeName === this.newActiveName) return
       this.$parent.resetProps()
       if (this.activeName !== 'first') {
@@ -341,32 +340,6 @@ export default {
     right: 0;
     border-left: none;
     border-top: none;
-  }
-}
-
-.right-tab {
-  ::-webkit-scrollbar {
-    width: 4px;
-    background: rgba(#202D40);
-    opacity: 0.5;
-  }
-
-  /* 滚动槽 */
-  ::-webkit-scrollbar-track {
-    padding-right: 4px;
-    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-  }
-
-  /* 滚动条滑块 */
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
-  }
-
-  ::-webkit-scrollbar-thumb:window-inactive {
-    background: rgba(0, 0, 0, 0.3);
   }
 }
 </style>
