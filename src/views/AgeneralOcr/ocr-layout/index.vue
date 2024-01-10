@@ -532,6 +532,9 @@ export default {
       this.activePageIndex = 0
       this.reRenderImage()
       this.resetProps()
+      this.$nextTick(() => {
+        this.$refs.rightTab.activeName = 'first'
+      })
     }
   },
   beforeDestroy() {
@@ -798,7 +801,6 @@ export default {
         const el = this.$refs[`maskEl${this.activeTextId}`]
         const maskEl = el.length ? el[0] : el
         const documentLayout = this.$refs.documentLayout
-        console.log(this.$refs)
         const ocrTextWrapper = this.$refs.rightTab.$refs.ocrTextWrapper
         const maskElRect = maskEl.getBoundingClientRect()
         const documentLayoutRect = documentLayout.getBoundingClientRect()
@@ -964,18 +966,6 @@ export default {
 
 .document-layout {
   background: rgba(255, 255, 255, 0.7);
-}
-
-::v-deep .CodeMirror {
-  height: calc(100vh - 200px);
-}
-
-::v-deep .CodeMirror-gutters {
-  display: none;
-}
-
-::v-deep .cm-string {
-  color: red;
 }
 </style>
 <style lang="stylus">

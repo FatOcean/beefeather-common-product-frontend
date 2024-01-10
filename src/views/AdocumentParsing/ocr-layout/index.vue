@@ -573,6 +573,7 @@ export default {
     data() {
       this.pageIndex = 1
       this.activePageIndex = 0
+      this.activeName = 'first'
       this.reRenderImage()
       this.resetProps()
     }

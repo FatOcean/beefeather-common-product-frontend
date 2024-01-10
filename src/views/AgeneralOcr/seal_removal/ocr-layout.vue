@@ -93,10 +93,10 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <rightTab :codeTest="codeTest" :isImgdownload="true"> <slot></slot></rightTab>
+        <rightTab :codeTest="codeTest" :isImgdownload="true" ref="rightTab">  <slot></slot></rightTab>
       </div>
       <lls-collapse-transition>
-        <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
+        <upload-File @uploadFileData="$parent.uploadFileData" :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"></upload-File>
       </lls-collapse-transition>
     </div>
     <!-- 大图预览 -->
@@ -109,50 +109,10 @@
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
-import ImageViewer from '@linklogis/image-viewer'
-function Events() {
-  this.clientList = {}
-  this.listen = function (key, fn) {
-    if (!this.clientList[key]) {
-      this.clientList[key] = []
-    }
-    this.clientList[key].push(fn)
-  }
-  this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments)
-    const fns = this.clientList[key]
-    if (!fns || fns.length === 0) {
-      return
-    }
-    for (let i = 0, fn; (fn = fns[i++]);) {
-      fn.apply(this, arguments)
-    }
-  }
-  this.remove = function (key, fn) {
-    const fns = this.clientList[key]
-    if (!fns) {
-      return
-    }
-    if (!fn) {
-      fns.length = 0
-    } else {
-      for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len]
-        if (_fn === fn) {
-          fns.splice(len, 1)
-        }
-      }
-    }
-  }
-}
-
 export default {
   model: {
     prop: 'value',
     event: 'handle-change'
-  },
-  components: {
-    [ImageViewer.name]: ImageViewer
   },
   props: {
     data: {
@@ -228,7 +188,6 @@ export default {
     // 兼容firefox
     this.bind(this.$refs.documentLayout, 'DOMMouseScroll', this.handleZoom)
 
-    this.$events = new Events()
     this.$events.listen('click-ocr-el', this.handleClickText)
     this.$events.listen('drag-document', this.transferDocument)
     this.$events.listen('drag-view', this.transferView)
@@ -238,6 +197,9 @@ export default {
       this.activeDocumentIndex = 0
       this.reRenderImage()
       this.resetProps()
+      this.$nextTick(() => {
+        this.$refs.rightTab.activeName = 'first'
+      })
       // console.log(val, "watch.val");
     }
   },

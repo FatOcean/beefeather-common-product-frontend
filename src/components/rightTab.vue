@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="right-tab">
     <div
       v-for="i in 4"
       :key="i"
@@ -27,7 +27,7 @@
             ref="editor"
             mode="application/json"
             theme="eclipse"
-            :height="'calc(100vh - 220px)'"
+            :height="'calc(100vh - 200px)'"
             :show-number="false"
             :auto-format="true"
           ></b-code-editor>
@@ -149,6 +149,9 @@ export default {
   },
   computed: {
     ...mapState(['ocrProductObj'])
+    // codeEditorHeight() {
+    //   return this.$route.path === '/tradeDocumentAnalysis'
+    // }
   },
   watch: {
     // codeTest: {
@@ -227,7 +230,35 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+.bin-json-editor {
+  height: calc(100vh - 200px);
 
+  ::-webkit-scrollbar {
+    width: 4px;
+    background: rgba(#202D40);
+    opacity: 0.5;
+  }
+
+  /* 滚动槽 */
+  ::-webkit-scrollbar-track {
+    padding-right: 4px;
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+</style>
 <style lang="stylus" scoped>
 ::v-deep #tab-first {
   margin-left: 22px !important;
@@ -238,7 +269,7 @@ export default {
 }
 
 ::v-deep .CodeMirror {
-  height: calc(100vh - 219px);
+  height: calc(100vh - 200px);
 }
 
 ::v-deep .CodeMirror-gutters {
@@ -253,6 +284,11 @@ export default {
   ::v-deep .lls-tabs__active-bar {
     margin-left: 0px !important;
   }
+}
+
+::v-deep .lls-tabs__header {
+  border-bottom: none;
+  margin: 0;
 }
 
 .svgClass {
@@ -293,6 +329,32 @@ export default {
     right: 0;
     border-left: none;
     border-top: none;
+  }
+}
+
+.right-tab {
+  ::-webkit-scrollbar {
+    width: 4px;
+    background: rgba(#202D40);
+    opacity: 0.5;
+  }
+
+  /* 滚动槽 */
+  ::-webkit-scrollbar-track {
+    padding-right: 4px;
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+  }
+
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.3);
   }
 }
 </style>
