@@ -175,7 +175,7 @@ const data = [
       //   imageType: '身份证国徽页'
       // }
     ],
-    fileName: '身份证人像页.png',
+    fileName: 'id_card.png',
     height: 417,
     imagePath,
     json: {

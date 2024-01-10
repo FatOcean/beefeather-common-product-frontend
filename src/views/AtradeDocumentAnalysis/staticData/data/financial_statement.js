@@ -371,7 +371,7 @@ const data = [
       }
     ],
     bank: '招商银行',
-    fileName: '流水.jpg',
+    fileName: 'financial_statement.png',
     imagePath,
     json: {
       predict_status: 'success',

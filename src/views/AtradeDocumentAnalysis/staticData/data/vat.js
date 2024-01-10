@@ -733,7 +733,7 @@ const data = [
         ]
       }
     ],
-    fileName: '增值税.jpg',
+    fileName: 'vat.png',
     height: 600,
     imagePath,
     json: {

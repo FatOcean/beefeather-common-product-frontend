@@ -11,7 +11,7 @@ const data = [
       {
         height: 251,
         id: 1,
-        imageName: '示例一_1.jpg',
+        imageName: 'seal_detection_1.png',
         sealImage: imagePath_1,
         sealType: '椭圆章',
         position: [
@@ -37,7 +37,7 @@ const data = [
       {
         height: 383,
         id: 2,
-        imageName: '示例一_2.jpg',
+        imageName: 'seal_detection_2.png',
         sealImage: imagePath_2,
         sealType: '椭圆章',
         position: [
@@ -61,7 +61,7 @@ const data = [
         width: 532
       }
     ],
-    fileName: '示例一.jpg',
+    fileName: 'seal_detection.png',
     height: 1650,
     imagePath,
     json: {

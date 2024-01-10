@@ -715,7 +715,7 @@ const data = [
         values: []
       }
     ],
-    fileName: '订单.png',
+    fileName: 'order.png',
     imagePath,
     json: {
       predict_status: 'success',

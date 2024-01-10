@@ -412,7 +412,7 @@ const data = [
         key: '权利其他状况'
       }
     ],
-    fileName: '房产证.jpg',
+    fileName: 'property_certificate.png',
     height: 2480,
     imagePath,
     json: {

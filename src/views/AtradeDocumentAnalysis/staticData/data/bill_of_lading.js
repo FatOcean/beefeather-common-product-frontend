@@ -2,10 +2,9 @@
 import imagePath from '../images/bill_of_lading.png'
 const data = [
   {
-    isexample: true,
-    taskId: 'U2024010517926571',
+    taskId: 'U2024011013820181',
     status: 1,
-    fileName: '提货单.png',
+    fileName: 'bill_of_lading.png',
     imagePath,
     height: 1024,
     width: 791,
@@ -20,24 +19,24 @@ const data = [
             position: [
               [
                 {
-                  x: 506,
-                  y: 122
+                  x: 501,
+                  y: 91
                 },
                 {
                   x: 581,
-                  y: 122
+                  y: 91
                 },
                 {
                   x: 581,
-                  y: 134
+                  y: 102
                 },
                 {
-                  x: 506,
-                  y: 134
+                  x: 501,
+                  y: 102
                 }
               ]
             ],
-            value: 'VASNSANGB015771'
+            value: 'VASHYDSHA000131'
           }
         ]
       },
@@ -51,20 +50,20 @@ const data = [
             position: [
               [
                 {
-                  x: 418,
-                  y: 154
+                  x: 397,
+                  y: 135
                 },
                 {
                   x: 621,
-                  y: 154
+                  y: 135
                 },
                 {
                   x: 621,
-                  y: 199
+                  y: 187
                 },
                 {
-                  x: 418,
-                  y: 199
+                  x: 397,
+                  y: 187
                 }
               ]
             ],
@@ -82,24 +81,24 @@ const data = [
             position: [
               [
                 {
-                  x: 143,
-                  y: 127
+                  x: 93,
+                  y: 97
                 },
                 {
-                  x: 243,
-                  y: 127
+                  x: 253,
+                  y: 97
                 },
                 {
-                  x: 243,
-                  y: 139
+                  x: 253,
+                  y: 108
                 },
                 {
-                  x: 143,
-                  y: 139
+                  x: 93,
+                  y: 108
                 }
               ]
             ],
-            value: 'TRANSPEK INDUSTRY UIMITED'
+            value: 'SYNERGENE ACTIVE INGREDIENTS PVT LTD.'
           }
         ]
       },
@@ -134,24 +133,24 @@ const data = [
             position: [
               [
                 {
-                  x: 140,
-                  y: 210
+                  x: 92,
+                  y: 187
                 },
                 {
-                  x: 257,
-                  y: 210
+                  x: 215,
+                  y: 187
                 },
                 {
-                  x: 257,
-                  y: 222
+                  x: 215,
+                  y: 197
                 },
                 {
-                  x: 140,
-                  y: 222
+                  x: 92,
+                  y: 197
                 }
               ]
             ],
-            value: 'SHAINGHAI RC CHEMICALS CO.,LTD'
+            value: 'SHANGHAI RC CHEMICALS CO LTD'
           }
         ]
       },
@@ -186,24 +185,24 @@ const data = [
             position: [
               [
                 {
-                  x: 138,
-                  y: 294
+                  x: 92,
+                  y: 276
                 },
                 {
-                  x: 253,
-                  y: 294
+                  x: 215,
+                  y: 276
                 },
                 {
-                  x: 253,
-                  y: 303
+                  x: 215,
+                  y: 287
                 },
                 {
-                  x: 138,
-                  y: 303
+                  x: 92,
+                  y: 287
                 }
               ]
             ],
-            value: 'SHANGHAI RC CHEMICALS CO.,LTD'
+            value: 'SHANGHAI RC CHEMICALS CO LTD'
           }
         ]
       },
@@ -238,24 +237,24 @@ const data = [
             position: [
               [
                 {
-                  x: 262,
-                  y: 380
+                  x: 237,
+                  y: 368
                 },
                 {
-                  x: 337,
-                  y: 380
+                  x: 282,
+                  y: 368
                 },
                 {
-                  x: 337,
-                  y: 391
+                  x: 282,
+                  y: 377
                 },
                 {
-                  x: 262,
-                  y: 391
+                  x: 237,
+                  y: 377
                 }
               ]
             ],
-            value: 'NHAVA SHEVA, INDIA'
+            value: 'HYDERABAD'
           }
         ]
       },
@@ -269,24 +268,24 @@ const data = [
             position: [
               [
                 {
-                  x: 262,
-                  y: 407
+                  x: 237,
+                  y: 391
                 },
                 {
-                  x: 337,
-                  y: 407
+                  x: 263,
+                  y: 391
                 },
                 {
-                  x: 337,
-                  y: 416
+                  x: 263,
+                  y: 401
                 },
                 {
-                  x: 262,
-                  y: 416
+                  x: 237,
+                  y: 401
                 }
               ]
             ],
-            value: 'NHAVA SHEVA, INDIA'
+            value: 'BMCT'
           }
         ]
       },
@@ -300,24 +299,24 @@ const data = [
             position: [
               [
                 {
-                  x: 135,
-                  y: 435
+                  x: 90,
+                  y: 412
                 },
                 {
-                  x: 190,
-                  y: 435
+                  x: 133,
+                  y: 412
                 },
                 {
-                  x: 190,
-                  y: 444
+                  x: 133,
+                  y: 421
                 },
                 {
-                  x: 135,
-                  y: 444
+                  x: 90,
+                  y: 421
                 }
               ]
             ],
-            value: 'NINGBO, CHINA'
+            value: 'SHANGHAI'
           }
         ]
       },
@@ -331,24 +330,24 @@ const data = [
             position: [
               [
                 {
-                  x: 260,
-                  y: 435
+                  x: 235,
+                  y: 414
                 },
                 {
-                  x: 318,
-                  y: 435
+                  x: 278,
+                  y: 414
                 },
                 {
-                  x: 318,
-                  y: 447
+                  x: 278,
+                  y: 423
                 },
                 {
-                  x: 260,
-                  y: 447
+                  x: 235,
+                  y: 423
                 }
               ]
             ],
-            value: 'NINGBO, CHINA'
+            value: 'SHANGHAI'
           }
         ]
       },
@@ -369,24 +368,24 @@ const data = [
             position: [
               [
                 {
-                  x: 136,
-                  y: 406
+                  x: 90,
+                  y: 388
                 },
                 {
-                  x: 181,
-                  y: 406
+                  x: 164,
+                  y: 388
                 },
                 {
-                  x: 181,
-                  y: 414
+                  x: 164,
+                  y: 399
                 },
                 {
-                  x: 136,
-                  y: 414
+                  x: 90,
+                  y: 399
                 }
               ]
             ],
-            value: 'WAN HAI 507'
+            value: 'SINGAPORE BRIDGE'
           }
         ]
       },
@@ -400,24 +399,24 @@ const data = [
             position: [
               [
                 {
-                  x: 186,
-                  y: 404
+                  x: 169,
+                  y: 388
                 },
                 {
-                  x: 204,
-                  y: 404
+                  x: 194,
+                  y: 388
                 },
                 {
-                  x: 204,
-                  y: 415
+                  x: 194,
+                  y: 400
                 },
                 {
-                  x: 186,
-                  y: 415
+                  x: 169,
+                  y: 400
                 }
               ]
             ],
-            value: '152E'
+            value: '2102E'
           }
         ]
       },
@@ -438,20 +437,20 @@ const data = [
             position: [
               [
                 {
-                  x: 289,
-                  y: 472
+                  x: 248,
+                  y: 453
                 },
                 {
-                  x: 528,
-                  y: 472
+                  x: 603,
+                  y: 453
                 },
                 {
-                  x: 528,
-                  y: 729
+                  x: 603,
+                  y: 695
                 },
                 {
-                  x: 289,
-                  y: 729
+                  x: 248,
+                  y: 695
                 }
               ]
             ],
@@ -469,24 +468,24 @@ const data = [
             position: [
               [
                 {
-                  x: 512,
-                  y: 807
+                  x: 525,
+                  y: 825
                 },
                 {
-                  x: 543,
-                  y: 807
+                  x: 578,
+                  y: 825
                 },
                 {
-                  x: 543,
-                  y: 817
+                  x: 578,
+                  y: 835
                 },
                 {
-                  x: 512,
-                  y: 817
+                  x: 525,
+                  y: 835
                 }
               ]
             ],
-            value: 'MUMBAI'
+            value: 'HYDERABAD'
           }
         ]
       },
@@ -500,24 +499,24 @@ const data = [
             position: [
               [
                 {
-                  x: 546,
-                  y: 805
+                  x: 580,
+                  y: 823
                 },
                 {
-                  x: 596,
-                  y: 805
+                  x: 630,
+                  y: 823
                 },
                 {
-                  x: 596,
-                  y: 817
+                  x: 630,
+                  y: 835
                 },
                 {
-                  x: 546,
-                  y: 817
+                  x: 580,
+                  y: 835
                 }
               ]
             ],
-            value: '2021/03/23'
+            value: '2021/05/04'
           }
         ]
       },
@@ -531,24 +530,24 @@ const data = [
             position: [
               [
                 {
-                  x: 362,
-                  y: 608
+                  x: 336,
+                  y: 684
                 },
                 {
-                  x: 402,
-                  y: 608
+                  x: 383,
+                  y: 684
                 },
                 {
-                  x: 402,
-                  y: 611
+                  x: 383,
+                  y: 693
                 },
                 {
-                  x: 362,
-                  y: 611
+                  x: 336,
+                  y: 693
                 }
               ]
             ],
-            value: '16/03/2021'
+            value: '29/04/2021'
           }
         ]
       },
@@ -585,21 +584,93 @@ const data = [
         keyEn: ' Principal Role',
         keyCh: '被代理人角色',
         groupable: false,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 538,
+                  y: 840
+                },
+                {
+                  x: 565,
+                  y: 840
+                },
+                {
+                  x: 565,
+                  y: 850
+                },
+                {
+                  x: 538,
+                  y: 850
+                }
+              ]
+            ],
+            value: 'CARRIER'
+          }
+        ]
       },
       {
         sortId: 32,
         keyEn: 'Principal name',
         keyCh: '被代理人名称',
         groupable: false,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 457,
+                  y: 847
+                },
+                {
+                  x: 603,
+                  y: 847
+                },
+                {
+                  x: 603,
+                  y: 859
+                },
+                {
+                  x: 457,
+                  y: 859
+                }
+              ]
+            ],
+            value: 'VASCO MARITIME PTE LTD.'
+          }
+        ]
       },
       {
         sortId: 33,
         keyEn: 'Carrier',
         keyCh: '承运人',
         groupable: false,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 457,
+                  y: 847
+                },
+                {
+                  x: 603,
+                  y: 847
+                },
+                {
+                  x: 603,
+                  y: 859
+                },
+                {
+                  x: 457,
+                  y: 859
+                }
+              ]
+            ],
+            value: 'VASCO MARITIME PTE LTD.'
+          }
+        ]
       },
       {
         sortId: 34,
@@ -627,31 +698,7 @@ const data = [
         keyEn: 'Manufacturer',
         keyCh: '制造商',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 131,
-                  y: 524
-                },
-                {
-                  x: 234,
-                  y: 524
-                },
-                {
-                  x: 234,
-                  y: 536
-                },
-                {
-                  x: 131,
-                  y: 536
-                }
-              ]
-            ],
-            value: 'TRANSPEK INDUSTRY LIMITED'
-          }
-        ]
+        values: []
       },
       {
         sortId: 38,
@@ -670,24 +717,24 @@ const data = [
             position: [
               [
                 {
-                  x: 566,
-                  y: 479
+                  x: 612,
+                  y: 451
                 },
                 {
-                  x: 610,
-                  y: 479
+                  x: 649,
+                  y: 451
                 },
                 {
-                  x: 610,
-                  y: 488
+                  x: 649,
+                  y: 460
                 },
                 {
-                  x: 566,
-                  y: 488
+                  x: 612,
+                  y: 460
                 }
               ]
             ],
-            value: '17,567.700'
+            value: '5,236.720'
           }
         ]
       },
@@ -701,24 +748,24 @@ const data = [
             position: [
               [
                 {
-                  x: 566,
-                  y: 479
+                  x: 609,
+                  y: 477
                 },
                 {
-                  x: 610,
-                  y: 479
+                  x: 646,
+                  y: 477
                 },
                 {
-                  x: 610,
-                  y: 488
+                  x: 646,
+                  y: 487
                 },
                 {
-                  x: 566,
-                  y: 488
+                  x: 609,
+                  y: 487
                 }
               ]
             ],
-            value: '17,567.700'
+            value: '5,000.000'
           }
         ]
       },
@@ -732,20 +779,20 @@ const data = [
             position: [
               [
                 {
-                  x: 126,
-                  y: 473
+                  x: 86,
+                  y: 450
                 },
                 {
-                  x: 234,
-                  y: 473
+                  x: 201,
+                  y: 450
                 },
                 {
-                  x: 234,
-                  y: 655
+                  x: 201,
+                  y: 595
                 },
                 {
-                  x: 126,
-                  y: 655
+                  x: 86,
+                  y: 595
                 }
               ]
             ],
@@ -753,7 +800,636 @@ const data = [
           }
         ]
       }
-    ]
+    ],
+    json: {
+      predict_status: 'success',
+      trace_id: 'U2024011013820181',
+      role: 'beefeather',
+      extra_info: {},
+      error_info: '',
+      predict_result: [
+        {
+          bl_shipper: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 93,
+                    y: 97
+                  },
+                  {
+                    x: 253,
+                    y: 97
+                  },
+                  {
+                    x: 253,
+                    y: 108
+                  },
+                  {
+                    x: 93,
+                    y: 108
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'SYNERGENE ACTIVE INGREDIENTS PVT LTD.',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'SYNERGENE ACTIVE INGREDIENTS PVT LTD.'
+            }
+          ],
+          bl_signer_name: [],
+          bl_voyage_number: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 169,
+                    y: 388
+                  },
+                  {
+                    x: 194,
+                    y: 388
+                  },
+                  {
+                    x: 194,
+                    y: 400
+                  },
+                  {
+                    x: 169,
+                    y: 400
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '2102E',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '2102E'
+            }
+          ],
+          bl_notify_party: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 92,
+                    y: 276
+                  },
+                  {
+                    x: 215,
+                    y: 276
+                  },
+                  {
+                    x: 215,
+                    y: 287
+                  },
+                  {
+                    x: 92,
+                    y: 287
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'SHANGHAI RC CHEMICALS CO LTD',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'SHANGHAI RC CHEMICALS CO LTD'
+            }
+          ],
+          bl_vessel: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 90,
+                    y: 388
+                  },
+                  {
+                    x: 164,
+                    y: 388
+                  },
+                  {
+                    x: 164,
+                    y: 399
+                  },
+                  {
+                    x: 90,
+                    y: 399
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'SINGAPORE BRIDGE',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'SINGAPORE BRIDGE'
+            }
+          ],
+          bl_draft: [],
+          net_weight: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 609,
+                    y: 477
+                  },
+                  {
+                    x: 646,
+                    y: 477
+                  },
+                  {
+                    x: 646,
+                    y: 487
+                  },
+                  {
+                    x: 609,
+                    y: 487
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '5,000.000',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '5,000.000'
+            }
+          ],
+          bl_goods_description: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 248,
+                    y: 453
+                  },
+                  {
+                    x: 603,
+                    y: 453
+                  },
+                  {
+                    x: 603,
+                    y: 695
+                  },
+                  {
+                    x: 248,
+                    y: 695
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '详情见高亮部分'
+            }
+          ],
+          bl_place_of_delivery: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 235,
+                    y: 414
+                  },
+                  {
+                    x: 278,
+                    y: 414
+                  },
+                  {
+                    x: 278,
+                    y: 423
+                  },
+                  {
+                    x: 235,
+                    y: 423
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'SHANGHAI',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'SHANGHAI'
+            }
+          ],
+          bl_precarried_by: [],
+          bl_issue_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 580,
+                    y: 823
+                  },
+                  {
+                    x: 630,
+                    y: 823
+                  },
+                  {
+                    x: 630,
+                    y: 835
+                  },
+                  {
+                    x: 580,
+                    y: 835
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '04-MAY-2021',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '2021/05/04'
+            }
+          ],
+          bl_consignee: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 92,
+                    y: 187
+                  },
+                  {
+                    x: 215,
+                    y: 187
+                  },
+                  {
+                    x: 215,
+                    y: 197
+                  },
+                  {
+                    x: 92,
+                    y: 197
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'SHANGHAI RC CHEMICALS CO LTD',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'SHANGHAI RC CHEMICALS CO LTD'
+            }
+          ],
+          bl_carrier: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 457,
+                    y: 847
+                  },
+                  {
+                    x: 603,
+                    y: 847
+                  },
+                  {
+                    x: 603,
+                    y: 859
+                  },
+                  {
+                    x: 457,
+                    y: 859
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'VASCO MARITIME PTE LTD.',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'VASCO MARITIME PTE LTD.'
+            }
+          ],
+          bl_issuer: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 397,
+                    y: 135
+                  },
+                  {
+                    x: 621,
+                    y: 135
+                  },
+                  {
+                    x: 621,
+                    y: 187
+                  },
+                  {
+                    x: 397,
+                    y: 187
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'VASCO MARITIME PTE LTD.',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'VASCO MARITIME PTE LTD.'
+            }
+          ],
+          bl_place_of_receipt: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 237,
+                    y: 368
+                  },
+                  {
+                    x: 282,
+                    y: 368
+                  },
+                  {
+                    x: 282,
+                    y: 377
+                  },
+                  {
+                    x: 237,
+                    y: 377
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'HYDERABAD',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'HYDERABAD'
+            }
+          ],
+          gross_weight: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 612,
+                    y: 451
+                  },
+                  {
+                    x: 649,
+                    y: 451
+                  },
+                  {
+                    x: 649,
+                    y: 460
+                  },
+                  {
+                    x: 612,
+                    y: 460
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '5,236.720',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '5,236.720'
+            }
+          ],
+          bl_port_of_loading: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 237,
+                    y: 391
+                  },
+                  {
+                    x: 263,
+                    y: 391
+                  },
+                  {
+                    x: 263,
+                    y: 401
+                  },
+                  {
+                    x: 237,
+                    y: 401
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'BMCT',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'BMCT'
+            }
+          ],
+          bl_agent_of_carrier: [],
+          bl_signer_principal: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 457,
+                    y: 847
+                  },
+                  {
+                    x: 603,
+                    y: 847
+                  },
+                  {
+                    x: 603,
+                    y: 859
+                  },
+                  {
+                    x: 457,
+                    y: 859
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'VASCO MARITIME PTE LTD.',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'VASCO MARITIME PTE LTD.'
+            }
+          ],
+          bl_id: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 501,
+                    y: 91
+                  },
+                  {
+                    x: 581,
+                    y: 91
+                  },
+                  {
+                    x: 581,
+                    y: 102
+                  },
+                  {
+                    x: 501,
+                    y: 102
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'VASHYDSHA000131',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'VASHYDSHA000131'
+            }
+          ],
+          bl_signer: [],
+          marks: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 86,
+                    y: 450
+                  },
+                  {
+                    x: 201,
+                    y: 450
+                  },
+                  {
+                    x: 201,
+                    y: 595
+                  },
+                  {
+                    x: 86,
+                    y: 595
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '详情见高亮部分'
+            }
+          ],
+          bl_manufacturer: [],
+          bl_is_original: [],
+          bl_signer_principal_role: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 538,
+                    y: 840
+                  },
+                  {
+                    x: 565,
+                    y: 840
+                  },
+                  {
+                    x: 565,
+                    y: 850
+                  },
+                  {
+                    x: 538,
+                    y: 850
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'Carrier',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'CARRIER'
+            }
+          ],
+          bl_issue_place: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 525,
+                    y: 825
+                  },
+                  {
+                    x: 578,
+                    y: 825
+                  },
+                  {
+                    x: 578,
+                    y: 835
+                  },
+                  {
+                    x: 525,
+                    y: 835
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'HYDERABAD',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'HYDERABAD'
+            }
+          ],
+          bl_on_board_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 336,
+                    y: 684
+                  },
+                  {
+                    x: 383,
+                    y: 684
+                  },
+                  {
+                    x: 383,
+                    y: 693
+                  },
+                  {
+                    x: 336,
+                    y: 693
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '29/04/2021',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '29/04/2021'
+            }
+          ],
+          bl_signer_role: [],
+          bl_port_of_discharge: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 90,
+                    y: 412
+                  },
+                  {
+                    x: 133,
+                    y: 412
+                  },
+                  {
+                    x: 133,
+                    y: 421
+                  },
+                  {
+                    x: 90,
+                    y: 421
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'SHANGHAI',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: 'SHANGHAI'
+            }
+          ]
+        }
+      ],
+      ret_code: 200
+    }
   }
 ]
 

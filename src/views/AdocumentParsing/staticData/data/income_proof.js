@@ -62,7 +62,7 @@ const data = [
         value: ''
       }
     ],
-    fileName: '收入证明.jpg',
+    fileName: 'income_proof.png',
     height: 1963,
     imagePath,
     json: {

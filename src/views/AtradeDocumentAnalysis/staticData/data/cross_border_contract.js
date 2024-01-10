@@ -6,7 +6,7 @@ const data = [
     isexample: true,
     taskId: 'U2024010517292705',
     status: 1,
-    fileName: '跨境合同.jpg',
+    fileName: 'cross_border_contract.png',
     imagePath,
     height: 836,
     width: 687,

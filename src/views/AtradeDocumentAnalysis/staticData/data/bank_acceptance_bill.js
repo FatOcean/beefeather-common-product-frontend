@@ -6,7 +6,7 @@ const data = [
     isexample: true,
     taskId: 'U2024010517124307',
     status: 1,
-    fileName: '银行承兑汇票.jpg',
+    fileName: 'bank_acceptance_bill.png',
     imagePath,
     height: 1190,
     width: 1684,

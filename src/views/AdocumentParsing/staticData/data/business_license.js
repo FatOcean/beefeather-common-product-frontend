@@ -247,7 +247,7 @@ const data = [
         value: ''
       }
     ],
-    fileName: '营业执照.png',
+    fileName: 'business_license.png',
     height: 1243,
     imagePath,
     json: {

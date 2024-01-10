@@ -6,7 +6,7 @@ const data = [
     isexample: true,
     taskId: 'U2024010517298735',
     status: 1,
-    fileName: '报关单.png',
+    fileName: 'customs_declaration.png',
     imagePath,
     height: 1024,
     width: 723,

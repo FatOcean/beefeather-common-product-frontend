@@ -5,7 +5,7 @@ const data = [{
   isexample: true,
   taskId: 'U2023122617637447',
   status: 1,
-  fileName: '资质证书.png',
+  fileName: 'qualification_certificate.png',
   imagePath,
   height: 4094,
   width: 2894,

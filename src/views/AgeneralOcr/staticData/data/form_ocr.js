@@ -5,7 +5,7 @@ const data = [
   {
     taskId: 'U2023122713707689',
     status: 1,
-    fileName: '表格ocr.jpg',
+    fileName: 'form_ocr.png',
     imagePath,
     height: 3508,
     width: 2481,

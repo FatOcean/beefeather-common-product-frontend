@@ -5,7 +5,7 @@ const data = [
   {
     taskId: 'U2023122714348355',
     status: 1,
-    fileName: '印章识别.png',
+    fileName: 'seal_recognition.png',
     imagePath,
     height: 1650,
     width: 2598,

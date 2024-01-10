@@ -257,7 +257,7 @@ const data = [
         value: '河北省秦皇岛市公安局交通警察支队'
       }
     ],
-    fileName: '驾驶证.jpg',
+    fileName: 'driver_license.png',
     height: 1210,
     imagePath,
     json: {

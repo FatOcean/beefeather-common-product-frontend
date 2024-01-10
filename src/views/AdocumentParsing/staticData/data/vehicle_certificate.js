@@ -82,7 +82,7 @@ const data = [
         value: '传奇黑'
       }
     ],
-    fileName: '车辆合格证.png',
+    fileName: 'vehicle_certificate.png',
     height: 1800,
     imagePath,
     json: {

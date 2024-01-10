@@ -3,10 +3,9 @@ import imagePath from '../images/airway_bill.png'
 
 const data = [
   {
-    isexample: true,
-    taskId: 'U2024010516147382',
+    taskId: 'U2024011015193126',
     status: 1,
-    fileName: '航空单.jpg',
+    fileName: 'airway_bill.png',
     imagePath,
     height: 1428,
     width: 1080,
@@ -513,7 +512,347 @@ const data = [
         groupable: false,
         values: []
       }
-    ]
+    ],
+    json: {
+      predict_status: 'success',
+      trace_id: 'U2024011015193126',
+      role: 'beefeather',
+      extra_info: {},
+      error_info: '',
+      predict_result: [
+        {
+          is_signer: [],
+          is_original: [],
+          airline_company: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 550,
+                    y: 109
+                  },
+                  {
+                    x: 733,
+                    y: 109
+                  },
+                  {
+                    x: 733,
+                    y: 149
+                  },
+                  {
+                    x: 550,
+                    y: 149
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '数字 career',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: '数字 career'
+            }
+          ],
+          airport_of_departure: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 52,
+                    y: 514
+                  },
+                  {
+                    x: 124,
+                    y: 514
+                  },
+                  {
+                    x: 124,
+                    y: 540
+                  },
+                  {
+                    x: 52,
+                    y: 540
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'CRST/FHW',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: 'CRST/FHW'
+            }
+          ],
+          consignee_name: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 54,
+                    y: 213
+                  },
+                  {
+                    x: 297,
+                    y: 213
+                  },
+                  {
+                    x: 297,
+                    y: 241
+                  },
+                  {
+                    x: 54,
+                    y: 241
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'LE海洋',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: 'LE海洋'
+            }
+          ],
+          goods_description: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 709,
+                    y: 661
+                  },
+                  {
+                    x: 993,
+                    y: 661
+                  },
+                  {
+                    x: 993,
+                    y: 835
+                  },
+                  {
+                    x: 709,
+                    y: 835
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: '详情见高亮部分'
+            }
+          ],
+          net_weight: [],
+          flight_id: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 146,
+                    y: 541
+                  },
+                  {
+                    x: 200,
+                    y: 541
+                  },
+                  {
+                    x: 200,
+                    y: 565
+                  },
+                  {
+                    x: 146,
+                    y: 565
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '9C8835',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: '9C8835'
+            }
+          ],
+          manufacturer: [],
+          agent_name_of_carrier: [],
+          signer_name: [],
+          issue_date: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 542,
+                    y: 1270
+                  },
+                  {
+                    x: 639,
+                    y: 1270
+                  },
+                  {
+                    x: 639,
+                    y: 1291
+                  },
+                  {
+                    x: 542,
+                    y: 1291
+                  }
+                ]
+              ],
+              is_std: true,
+              ori_value: '2021-2-3',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: '2021/02/03'
+            }
+          ],
+          flight_date: [],
+          is_draft: [],
+          signer_role: [],
+          airport_of_destination: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 52,
+                    y: 598
+                  },
+                  {
+                    x: 200,
+                    y: 598
+                  },
+                  {
+                    x: 200,
+                    y: 624
+                  },
+                  {
+                    x: 52,
+                    y: 624
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '储运注意事项及其他"Handlins Inton and others"',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: '储运注意事项及其他"Handlins Inton and others"'
+            }
+          ],
+          gross_weight: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 166,
+                    y: 716
+                  },
+                  {
+                    x: 264,
+                    y: 716
+                  },
+                  {
+                    x: 264,
+                    y: 739
+                  },
+                  {
+                    x: 166,
+                    y: 739
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'Gross weight',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: 'Gross weight'
+            }
+          ],
+          MAWB: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 52,
+                    y: 15
+                  },
+                  {
+                    x: 175,
+                    y: 15
+                  },
+                  {
+                    x: 175,
+                    y: 43
+                  },
+                  {
+                    x: 52,
+                    y: 43
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '106-20210204',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: '106-20210204'
+            }
+          ],
+          shipper_name: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 64,
+                    y: 75
+                  },
+                  {
+                    x: 250,
+                    y: 75
+                  },
+                  {
+                    x: 250,
+                    y: 100
+                  },
+                  {
+                    x: 64,
+                    y: 100
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'Airport of',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: 'Airport of'
+            }
+          ],
+          carrier_name: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 573,
+                    y: 162
+                  },
+                  {
+                    x: 860,
+                    y: 162
+                  },
+                  {
+                    x: 860,
+                    y: 187
+                  },
+                  {
+                    x: 573,
+                    y: 187
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'ok ever power LLC.',
+              img_name: 'airway_bill.png',
+              language: '',
+              value: 'ok ever power LLC.'
+            }
+          ]
+        }
+      ],
+      ret_code: 200
+    }
   }
 ]
 

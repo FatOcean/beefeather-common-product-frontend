@@ -321,7 +321,7 @@ const data = [
       }
     ],
     bank: '光大银行',
-    fileName: '回单.jpg',
+    fileName: 'receipt.png',
     imagePath,
     json: {
       predict_status: 'success',
