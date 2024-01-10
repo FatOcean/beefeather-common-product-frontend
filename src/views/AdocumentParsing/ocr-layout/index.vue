@@ -637,10 +637,11 @@ export default {
       if (this.activeName !== 'first') this.handleClickTabs()
       this.$parent.setProductName(data)
     },
-    handleClickTabs() {
+    handleClickTabs(e) {
       // this.$nextTick(() => {
       //   this.$refs.editor.formatCode()
       // })
+      if (this.activeName === e.name) return
       if (this.activeName !== 'first') {
         this.newCodeTest = this.codeTest
         this.$nextTick(() => {

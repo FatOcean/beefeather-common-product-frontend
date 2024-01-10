@@ -218,7 +218,8 @@ export default {
     setBank(bank) {
       this.bank = bank
     },
-    handleClickTabs() {
+    handleClickTabs(e) {
+      if (this.activeName === e.name) return
       this.$parent.resetProps()
       if (this.activeName !== 'first') {
         this.newCodeTest = this.codeTest

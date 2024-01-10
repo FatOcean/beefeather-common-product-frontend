@@ -225,9 +225,6 @@ export default {
     }
   },
   computed: {
-    activeImage() {
-      return this.instance.images[this.$refs.documents.activePageIndex - 1]
-    },
     isbillofLading() {
       return this.productName === 'bill_of_lading' ? '提单' : '航空单'
     },

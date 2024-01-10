@@ -247,6 +247,7 @@ export default {
       this.activeDocumentIndex = 0
       this.reRenderImage()
       this.resetProps()
+      this.$refs.rightTab.activeName = 'first'
     }
   },
   beforeDestroy() {

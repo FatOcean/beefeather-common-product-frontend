@@ -3,11 +3,7 @@
     class="treasury-flow-analysis-wrapper"
     style="flex-shrink: 1; flex-grow: 1; width: calc(100vw - 230px)"
   >
-    <ocrLayout
-      @tabs="tabs"
-      :data="data"
-      ref="documents"
-    >
+    <ocrLayout :data="data" ref="documents">
       <template>
         <div
           v-show="bank === '' && !loading && !failedStatus"
@@ -54,7 +50,6 @@
         </div>
       </template>
     </ocrLayout>
-
   </div>
 </template>
 <script>
@@ -123,7 +118,7 @@ export default {
       extractInfo(param)
         .then((res) => {
           res = res.data
-          if (res.code === '200' && res.data[0]?.content?.length !== 0) {
+          if (res.code === '200' && res.data[0]?.content?.length > 0) {
             this.documents.content = res.data[0].content
             this.$refs.documents.resizeImg()
             this.documents.bank = this.bank
@@ -149,18 +144,6 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    },
-    tabs(activeDocumentIndex, activePageIndex) {
-      this.failedStatus = false
-      this.activeDocumentIndex = activeDocumentIndex
-      this.documents = this.data[activeDocumentIndex]
-      this.bank = this.documents.flag
-      if (this.bank !== '') {
-        this.page = this.documents.resultVO
-        if (this.page.content.length > 0) {
-          this.$refs.documents.down_allow = true
-        } else this.$refs.documents.down_allow = false
-      } else this.$refs.documents.down_allow = false
     }
   }
 }
@@ -168,6 +151,7 @@ export default {
 <style lang="stylus" scoped>
 .table-data {
   width: 100%;
+
   tr {
     &:hover {
       background: #f6f9fb;
@@ -175,7 +159,8 @@ export default {
     }
 
     &:first-child {
-          background: #f3f4f6;
+      background: #f3f4f6;
+
       td {
         border-top: 1px solid #E3E8F0;
         color: #202D40;
