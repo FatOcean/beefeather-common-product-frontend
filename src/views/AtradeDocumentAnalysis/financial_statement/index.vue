@@ -126,6 +126,7 @@ export default {
             this.failedStatus = false
             this.data[0] = { ...this.documents, ...res.data[0] }
           } else {
+            this.data[0].json = res.data[0]?.json || ''
             this.failedStatus = true
           }
         })

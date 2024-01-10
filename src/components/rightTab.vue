@@ -138,7 +138,8 @@ export default {
       newCodeTest: '',
       bank: '',
       options: [],
-      bankType: true
+      bankType: true,
+      oldActiveName: ''
     }
   },
   created() {
@@ -168,6 +169,11 @@ export default {
     //   deep: true,
     //   immediate: true,
     // },
+    activeName: {
+      handler(newActiveName, oldActiveName) {
+        this.newActiveName = newActiveName
+      }
+    }
   },
   methods: {
     // fileFormat 判断是否是下载图片
@@ -219,7 +225,8 @@ export default {
       this.bank = bank
     },
     handleClickTabs(e) {
-      if (this.activeName === e.name) return
+      console.log(this.activeName, this.newActiveName)
+      if (this.activeName === this.newActiveName) return
       this.$parent.resetProps()
       if (this.activeName !== 'first') {
         this.newCodeTest = this.codeTest

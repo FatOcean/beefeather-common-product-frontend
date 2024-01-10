@@ -140,7 +140,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <RightTab :codeTest="codeTest" ref="rightTab" :isshowBank="true"
+        <RightTab :codeTest="JSON.stringify(data[0].json) || ''" ref="rightTab" :isshowBank="true"
           ><slot></slot>
         </RightTab>
       </div>

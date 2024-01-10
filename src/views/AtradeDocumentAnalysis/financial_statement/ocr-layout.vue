@@ -110,21 +110,6 @@
               :src="imageUrl"
               :alt="imageName"
             />
-            <!-- <div
-              class="frame-mask"
-              :data-id="i.id"
-              :class="{ active: activeTextId === i.id }"
-              v-for="i in pageDetail"
-              :ref="`maskEl${i.id}`"
-              :key="i.key"
-              :style="{
-                top: `${i.startY * imgScale}px`,
-                left: `${i.startX * imgScale}px`,
-                height: `${i.height * imgScale}px`,
-                width: `${i.width * imgScale}px`,
-                transform: `rotate(${i.deg}deg)`,
-              }"
-            ></div> -->
           </div>
         </div>
       </div>
@@ -140,16 +125,14 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <RightTab :codeTest="codeTest" ref="rightTab" :isshowBank="true"
+        <RightTab :codeTest="JSON.stringify(data[0].json) || ''" ref="rightTab" :isshowBank="true"
           ><slot></slot>
         </RightTab>
       </div>
-      <svgPath v-if="pathValue" :pathValue="pathValue" :documentWidth="documentWidth" :documentHeight="documentHeight"></svgPath>
       <lls-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
       </lls-collapse-transition>
     </div>
-    <!-- 大图预览 -->
     <!-- 大图预览 -->
     <showImg
       v-if="showImageViewer"
@@ -160,23 +143,14 @@
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
-import ImageViewer from '@linklogis/image-viewer'
-
 export default {
-  components: {
-    [ImageViewer.name]: ImageViewer
-  },
   props: {
     data: {
       // 文档数组
       type: Array,
       required: true,
       default: () => []
-    },
-    activeTabIndex: {
-      type: Number
-    },
-    pageMenuPerm: Object
+    }
   },
   data() {
     return {
@@ -184,12 +158,9 @@ export default {
       documentHeight: null, // 画布的高度
       activeDocumentIndex: 0, // 当前示例索引
       activePageIndex: 1, // 当前页面索引
-      activeTextId: null, // 高亮的文本索引
-      pathValue: null, // 连线的起点、终点路径
       rotateIndex: 0, // 旋转次数
       zoomScale: 1, // 手动缩放比例
       zoomStep: 0.1, // 缩放梯度
-      // windowResizeScale: 1, // 浏览器窗口缩放比例
       dragX: 0, // x方向拖动距离
       dragY: 0, // y方向拖动距离
       moveX: 0, // x方向平移距离
@@ -202,11 +173,9 @@ export default {
       realRenderWidth: 0,
       scale: 1,
       total: 1,
-      down_allow: true,
       codeTest: ''
     }
   },
-  created() {},
   mounted() {
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg()
@@ -214,7 +183,6 @@ export default {
     // 兼容firefox
     this.bind(this.$refs.documentLayout, 'DOMMouseScroll', this.handleZoom)
 
-    this.$events.listen('click-ocr-el', this.handleClickText)
     this.$events.listen('drag-document', this.transferDocument)
     this.$events.listen('drag-view', this.transferView)
   },
@@ -223,11 +191,10 @@ export default {
       this.activeDocumentIndex = 0
       this.reRenderImage()
       this.resetProps()
-      // console.log(val, "watch.val");
+      this.$refs.rightTab.activeName = 'first'
     }
   },
   beforeDestroy() {
-    this.$events.remove('click-ocr-el', this.clickOcrEl)
     this.$events.remove('drag-document', this.transferDocument)
     this.$events.remove('drag-view', this.transferView)
     this.resizeObserver.disconnect()
@@ -248,7 +215,6 @@ export default {
         this.proxy((_) => {
           this.documentWidth = this.$refs.documentLayout.clientWidth
           this.documentHeight = this.$refs.documentLayout.clientHeight
-          // console.log(this.documentWidth, this.documentHeight);
           // 初始化每张图片的宽高
           this.reRenderImage()
         })
@@ -259,14 +225,7 @@ export default {
     reRenderImage() {
       this.data.forEach((page) => {
         const vm = this
-        // const img = new Image();
-        // img.src = page.img;
-        // img.onload = function () {
-        // page.originalWidth = this.width // 图片原始宽度
-        // page.originalHeight = this.height // 图片原始高度
         page.scale = vm.documentWidth / +page.width
-        // page.scale = vm.documentHeight / page.height;
-        // 初始图片缩放比例
 
         page.realRenderHeight = +page.height * page.scale // 图片实际渲染高度
         if (page.realRenderHeight > vm.documentHeight) {
@@ -274,32 +233,13 @@ export default {
           page.scale = vm.documentHeight / +page.height
         }
         page.realRenderWidth = +page.width * page.scale // 图片实际渲染宽度
-        // page.initTranslateY = (page.realRenderHeight - vm.documentHeight) / 2; // 图片实际渲染高度
-        // };
       })
-      // console.log("render")
-      window.setTimeout((_) => {
-        this.calculateXy()
-      })
-      // this.$nextTick((_) => {
-      //   this.calculateXy();
-      // });
       this.updateTranslateY()
       const page = this.data[this.activeDocumentIndex]
       // console.log(page, "page");
       this.realRenderHeight = page.realRenderHeight
       this.realRenderWidth = page.realRenderWidth
       this.scale = page.scale
-    },
-    // 切换示例
-    handleClickExample(index) {
-      if (this.activeDocumentIndex === index) {
-        return
-      }
-      this.activeDocumentIndex = index
-      this.resetProps()
-      this.resizeImg()
-      this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
     },
     // 翻页
     handleTurnPage(val) {},
@@ -320,14 +260,7 @@ export default {
         this.moveX = -this.dragY
         this.moveY = this.dragX
       }
-      // this.dragX = 0;
-      // this.dragY = 0;
-      // this.moveX = 0;
-      // this.moveY = 0;
       this.updateTranslateY()
-      this.$nextTick((_) => {
-        this.calculateXy()
-      })
     },
     // 缩放图片
     handleZoom(e) {
@@ -349,7 +282,6 @@ export default {
         scale = 3
       }
       this.zoomScale = scale
-      this.calculateXy()
       e.preventDefault && e.preventDefault()
       return false
     },
@@ -379,7 +311,6 @@ export default {
         this.moveX = -this.dragY
         this.moveY = this.dragX
       }
-      this.calculateXy()
     },
     // 移动两侧视口
     transferView({ disX, disY }) {
@@ -397,89 +328,12 @@ export default {
         this.documentWidth = this.$refs.documentLayout.clientWidth
         this.documentHeight = this.$refs.documentLayout.clientHeight
         this.reRenderImage()
-        this.calculateXy()
-      })
-    },
-    // 激活文本
-    handleClickText({ el, id }) {
-      // console.log(el, "el2");
-      // if (imageIndex !== this.activePageIndex) {
-      //   this.activePageIndex = imageIndex;
-      // }
-      this.activeEl = el
-      this.activeTextId = id
-      this.calculateXy()
-    },
-    // 计算path起点、终点坐标
-    calculateXy() {
-      if (this.activeTextId == null) {
-        return
-      }
-      const activeTextId = this.activeTextId
-      const page = this.page
-      const rotateIndex = this.rotateIndex
-      const zoomScale = this.zoomScale || 1
-      this.$nextTick((_) => {
-        const // maskValue = page.tableData[activeTextId],
-          maskEl = this.$refs[`maskEl${activeTextId}`][0]
-        const documentLayout = this.$refs.documentLayout
-        const ocrTextWrapper = this.$refs.ocrTextWrapper
-        const maskElRect = maskEl.getBoundingClientRect()
-        const documentLayoutRect = documentLayout.getBoundingClientRect()
-        const lY = documentLayoutRect.top
-        const lX = documentLayoutRect.left
-        const mY = maskElRect.top
-        const mX = maskElRect.right
-        const startX = mX - lX
-        const startY = mY - lY
-        const offsetTop = this.activeEl.offsetTop + 69
-        const offsetLeft = this.activeEl.offsetLeft
-        const scrollTop = ocrTextWrapper.scrollTop
-        const pathEndX = this.documentWidth + offsetLeft + 52
-        const pathEndY = offsetTop - scrollTop + this.activeEl.clientHeight / 2
-        const scale = page.rotateScale * zoomScale * this.imgScale
-        const w = this.text.width
-        const h = this.text.height
-        // const Q = this.text.deg
-        // const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
-
-        let x = startX
-        let y = startY + (h * scale) / 2
-
-        if (rotateIndex % 4 === 1) {
-          // x = startX + leanX;
-          y = startY + (w * scale) / 2
-        }
-        if (rotateIndex % 4 === 2) {
-          x = startX
-          y = startY + (h * scale) / 2
-        }
-        if (rotateIndex % 4 === 3) {
-          // x = startX + leanX;
-          y = startY + (w * scale) / 2
-        }
-
-        // 处理边界
-        if (x > this.documentWidth) {
-          x = this.documentWidth
-        }
-        // if (y > this.documentHeight) {
-        //   y = this.documentHeight;
-        // }
-
-        this.pathValue = {
-          pathStartX: x,
-          pathStartY: y,
-          pathEndX,
-          pathEndY
-        }
       })
     },
     // 还原
     resetProps() {
       this.rotateIndex = 0
       this.activePageIndex = 1
-      this.activeTextId = null
       this.zoomScale = 1
       this.pathValue = null
       this.dragX = 0
@@ -533,18 +387,9 @@ export default {
       )
     },
     removeEventListener(e, elName, w) {
-      // console.log(elName);
-      // const el = this.$refs[elName];
-
       window.removeEventListener('mousemove', this[`${elName}Mousemove`])
       window.removeEventListener('mouseup', this.removeEventListener)
-      // this[`${elName}Mousemove`] = null;
       this.draggable = false
-    },
-    fn(arr) {
-      return arr.reduce((prev, cur) => {
-        return prev.concat(Array.isArray(cur) ? this.fn(cur) : cur)
-      }, [])
     },
     // 绑定事件函数
     bind(node, event, fun) {
@@ -557,7 +402,6 @@ export default {
       }
     },
     parentProxy() {
-      this.proxy(this.calculateXy)
     },
     // 代理函数
     proxy(fun, args) {
@@ -591,12 +435,6 @@ export default {
 
       return page
     },
-    pageDetail() {
-      return this.page.value
-    },
-    originalLocation() {
-      return `${window.location.origin}/file-handle-web/file/image?filename=`
-    },
     // 文档图片地址
     imageUrl() {
       return this.data[this.activeDocumentIndex].imagePath
@@ -604,26 +442,9 @@ export default {
     imageName() {
       return this.data[this.activeDocumentIndex].fileName
     },
-    // fileName() {
-    //   return this.allData[this.activeDocumentIndex].fileName.substring(
-    //     0,
-    //     this.allData[this.activeDocumentIndex].fileName.indexOf(".")
-    //   );
-    // },
     // 大图预览所需数据
     urlList() {
       return [{ url: this.imageUrl, title: this.imageName }]
-    },
-    // 当前文本信息
-    text() {
-      const { value } = this.page
-
-      const textArr = [...value]
-      const textValue = textArr[this.activeTabIndex].identityList
-      // console.log(textValue, "textValue");
-      return textValue.filter((i) => {
-        return i.id === this.activeTextId
-      })[0]
     },
     // 当前图片初始缩放比例
     imgScale() {
@@ -639,27 +460,4 @@ export default {
   flex-shift: 1;
   flex-grow:1;
 }
-// .ocr-text {
-//   border: 1px solid #e3e8f0;
-//   height: calc(100% - 74px);
-//   overflow: auto;
-//   padding: 12px 8px;
-//   background: #fff;
-//   position: relative;
-
-//   ::-webkit-scrollbar {
-//     width: 4px;
-//     height: 8px;
-//   }
-
-//   ::-webkit-scrollbar-thumb {
-//     background: rgba(32, 45, 64, 0.5);
-//   }
-
-//   // 竖向滚动条
-//   &::-webkit-scrollbar-thumb:horizontal {
-//     background-color: rgba(32, 45, 64, 0.5);
-//     -webkit-border-radius: 2px;
-//   }
-// }
 </style>

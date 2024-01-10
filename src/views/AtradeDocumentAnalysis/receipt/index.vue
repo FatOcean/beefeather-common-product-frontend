@@ -138,7 +138,8 @@ export default {
       extractInfo(param)
         .then((res) => {
           res = res.data
-          if (res.code === '200' && res.data[0]?.content.length !== 0) {
+          if (res.code === '200' && res.data[0]?.content.length > 0) {
+            this.data[0] = { ...this.data[0], ...res.data[0] }
             this.instance.content = res.data[0].content
             this.$refs.documents.resizeImg()
             this.instance.flag = this.bank
@@ -151,6 +152,7 @@ export default {
             this.failedStatus = false
             this.$refs.documents.handleClick(this.page.boundingBox || {})
           } else {
+            this.data[0].json = res.data[0]?.json || ''
             this.failedStatus = true
           }
         })
