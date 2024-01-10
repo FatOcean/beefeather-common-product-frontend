@@ -144,6 +144,7 @@ export default {
           item.name = `${name}${nameCountMap[name]}`
         }
       }
+      // 摆烂处理
       if (nameCountMap['身份证人像页'] === 1) {
         arr.map((item) => {
           if (item.name === '身份证人像页1') {

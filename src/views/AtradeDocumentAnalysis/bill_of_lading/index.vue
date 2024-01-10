@@ -210,27 +210,16 @@ export default {
   data() {
     return {
       data: staticData[this.productName],
-      isLoading: false,
-      files: [],
       activeTextId: '',
       page: [], // 当前页面数据信息
-      percent: 0, // 进度条
       activeName: '',
-      servicePortAddress: '',
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: [],
-      dragenter: false,
-      token: window.sessionStorage.getItem('token'),
-      origin: window.sessionStorage.getItem('origin'),
-      href: window.location.href,
       search: '',
-      documents_backup: [],
       checked: false,
-      hideResult: [],
       activeTabIndex: 0,
       instance: {},
-      falg: true,
       pageDetail: [],
       text: ''
     }
@@ -385,11 +374,6 @@ export default {
       // }
     },
 
-    handleDragLeave() {
-      setTimeout((_) => {
-        this.dragenter = false
-      }, 200)
-    },
     filterEmpty(flag) {
       const data = this.pageDetail
       if (flag) {

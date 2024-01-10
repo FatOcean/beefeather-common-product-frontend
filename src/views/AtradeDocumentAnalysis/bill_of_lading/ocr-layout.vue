@@ -386,9 +386,9 @@ export default {
       this.activeDocumentIndex = parent ? val - 1 : this.activePageIndex - 1
       this.rectanglePosition = ''
       this.text = ''
+      this.$emit('resetId')
       this.pathValue = null
       this.resizeImg()
-      this.resetProps()
 
       // const num = this.activePageIndex - 1 + val
 
