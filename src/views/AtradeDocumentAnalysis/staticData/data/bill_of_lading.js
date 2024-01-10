@@ -2,6 +2,7 @@
 import imagePath from '../images/bill_of_lading.png'
 const data = [
   {
+    isexample: true,
     taskId: 'U2024011013820181',
     status: 1,
     fileName: 'bill_of_lading.png',

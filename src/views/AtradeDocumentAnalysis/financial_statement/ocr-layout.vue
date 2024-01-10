@@ -574,7 +574,7 @@ export default {
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.codeTest =
-        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || '{}'
       return this.data[this.activeDocumentIndex]
     },
     // 当前页面信息
