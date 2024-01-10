@@ -206,7 +206,7 @@ export default {
       scale: 1,
       total: 1,
       position: { left: 0, top: 0, width: 0, height: 0 },
-      codeTest: '{}'
+      codeTest: ''
     }
   },
   created() {},
@@ -567,7 +567,7 @@ export default {
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.codeTest =
-        JSON.stringify(this.data[this.activeDocumentIndex].json) || '{}'
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
       return this.data[this.activeDocumentIndex]
     },
     // 当前页面信息

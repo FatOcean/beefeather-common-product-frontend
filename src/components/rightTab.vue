@@ -18,7 +18,7 @@
         </div>
       </lls-tab-pane>
       <lls-tab-pane label="Json结果" name="second" v-if="isShowJson">
-        <div style="border: 1px solid #e3e8f0">
+        <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
           <b-code-editor
             :indent-unit="4"
             v-model="newCodeTest"
@@ -220,11 +220,11 @@ export default {
     },
     handleClickTabs() {
       this.$parent.resetProps()
-      document.getElementsByClassName('CodeMirror-lines')[0].click()
       if (this.activeName !== 'first') {
         this.newCodeTest = this.codeTest
         this.$nextTick(() => {
-          this.$refs.editor.formatCode()
+          // this.$refs.editor.formatCode()
+          // document.getElementsByClassName('CodeMirror')[0].click()
         })
       }
     },

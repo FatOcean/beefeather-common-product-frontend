@@ -203,7 +203,7 @@ export default {
       scale: 1,
       total: 1,
       down_allow: true,
-      codeTest: '{}'
+      codeTest: ''
     }
   },
   created() {},
@@ -440,8 +440,8 @@ export default {
         const scale = page.rotateScale * zoomScale * this.imgScale
         const w = this.text.width
         const h = this.text.height
-        const Q = this.text.deg
-        const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
+        // const Q = this.text.deg
+        // const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
 
         let x = startX
         let y = startY + (h * scale) / 2
@@ -574,7 +574,7 @@ export default {
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.codeTest =
-        JSON.stringify(this.data[this.activeDocumentIndex].json) || '{}'
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
       return this.data[this.activeDocumentIndex]
     },
     // 当前页面信息

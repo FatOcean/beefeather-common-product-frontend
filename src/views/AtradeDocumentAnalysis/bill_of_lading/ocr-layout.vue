@@ -207,7 +207,7 @@ export default {
   },
   data() {
     return {
-      codeTest: '{}',
+      codeTest: '',
       rectanglePosition: '',
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
@@ -722,7 +722,7 @@ export default {
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.codeTest =
-        JSON.stringify(this.data[this.activeDocumentIndex].json) || '{}'
+        JSON.stringify(this.data[this.activeDocumentIndex].json) || ''
       return this.data[this.activeDocumentIndex]
     },
     // 总页数

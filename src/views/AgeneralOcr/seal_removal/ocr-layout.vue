@@ -153,7 +153,7 @@ export default {
       selectValue: '',
       baseWidth: 0,
       newScale: 1,
-      codeTest: '{}',
+      codeTest: '',
       productObj: {
         name: '印章去除',
         staticName: 'seal_removal'

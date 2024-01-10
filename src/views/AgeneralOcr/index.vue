@@ -53,7 +53,7 @@
                     v-for="(column, columnIndex) in columns"
                     :key="columnIndex"
                     :value="column"
-                    :colspan="column.endCol - column.startCol + 1"
+                    :colspan="column.endColumn - column.startColumn + 1"
                     :rowspan="column.endRow - column.startRow + 1"
                     :style="{
                       height: `${column.height * page.scale}px`,

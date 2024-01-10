@@ -230,7 +230,7 @@ export default {
       realRenderWidth: 0,
       imgRotatingDeg: 0,
       scale: 1,
-      codeTest: '{}'
+      codeTest: ''
     }
   },
   mounted() {

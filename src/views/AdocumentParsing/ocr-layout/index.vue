@@ -307,10 +307,10 @@
             </div>
           </lls-tab-pane>
           <lls-tab-pane label="Json结果" name="second">
-            <div style="border: 1px solid #e3e8f0">
+            <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
               <b-code-editor
                 :indent-unit="4"
-                v-model="codeTest"
+                v-model="newCodeTest"
                 :readonly="true"
                 :gutter="false"
                 ref="editor"
@@ -468,7 +468,9 @@ export default {
         name: '身份证',
         staticName: 'id_card'
       },
-      isshowRight: true
+      isshowRight: true,
+      codeTest: '',
+      newCodeTest: ''
     }
   },
   computed: {
@@ -495,7 +497,7 @@ export default {
         rotateScale // 旋转导致的缩放比例
       }
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.codeTest = JSON.stringify(page.json)
+      this.codeTest = JSON.stringify(page.json) || ''
       return page
     },
     // 文档图片地址
@@ -636,9 +638,16 @@ export default {
       this.$parent.setProductName(data)
     },
     handleClickTabs() {
-      this.$nextTick(() => {
-        this.$refs.editor.formatCode()
-      })
+      // this.$nextTick(() => {
+      //   this.$refs.editor.formatCode()
+      // })
+      if (this.activeName !== 'first') {
+        this.newCodeTest = this.codeTest
+        this.$nextTick(() => {
+          // this.$refs.editor.formatCode()
+          // document.getElementsByClassName('CodeMirror')[0].click()
+        })
+      }
       this.resetProps()
     },
     // 翻页
