@@ -587,7 +587,7 @@ export default {
         const mX = maskElRect.right
         const startX = mX - lX
         const startY = mY - lY
-        const offsetTop = this.activeEl.offsetTop + 120
+        const offsetTop = this.activeEl.offsetTop + 92
         const offsetLeft = this.activeEl.offsetLeft
         const scrollTop = ocrTextWrapper.scrollTop
         const pathEndX = this.documentWidth + offsetLeft + 52

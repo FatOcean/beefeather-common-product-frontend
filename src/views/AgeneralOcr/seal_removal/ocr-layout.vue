@@ -93,7 +93,7 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <rightTab :codeTest="codeTest" :isImgdownload="true" ref="rightTab">  <slot></slot></rightTab>
+        <rightTab :codeTest="codeTest" :isImgdownload="true" ref="rightTab" :isShowJson="false">  <slot></slot></rightTab>
       </div>
       <lls-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData" :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"></upload-File>

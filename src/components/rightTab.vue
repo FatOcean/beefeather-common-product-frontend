@@ -17,7 +17,7 @@
           <slot></slot>
         </div>
       </lls-tab-pane>
-      <lls-tab-pane label="Json结果" name="second">
+      <lls-tab-pane label="Json结果" name="second" v-if="isShowJson">
         <div style="border: 1px solid #e3e8f0">
           <b-code-editor
             :indent-unit="4"
@@ -124,6 +124,10 @@ export default {
       default: false
     },
     isshowDownButton: {
+      type: Boolean,
+      default: true
+    },
+    isShowJson: {
       type: Boolean,
       default: true
     }
