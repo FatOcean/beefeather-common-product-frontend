@@ -470,7 +470,8 @@ export default {
       },
       isshowRight: true,
       codeTest: '',
-      newCodeTest: ''
+      newCodeTest: '',
+      newActiveName: ''
     }
   },
   computed: {
@@ -578,6 +579,11 @@ export default {
       this.activeName = 'first'
       this.reRenderImage()
       this.resetProps()
+    },
+    activeName: {
+      handler(newActiveName, oldActiveName) {
+        this.newActiveName = newActiveName
+      }
     }
   },
   beforeDestroy() {
@@ -638,10 +644,7 @@ export default {
       this.$parent.setProductName(data)
     },
     handleClickTabs(e) {
-      // this.$nextTick(() => {
-      //   this.$refs.editor.formatCode()
-      // })
-      if (this.activeName === e.name) return
+      if (this.activeName === this.newActiveName) return
       if (this.activeName !== 'first') {
         this.newCodeTest = this.codeTest
         this.$nextTick(() => {

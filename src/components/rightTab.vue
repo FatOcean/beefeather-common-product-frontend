@@ -139,7 +139,7 @@ export default {
       bank: '',
       options: [],
       bankType: true,
-      oldActiveName: ''
+      newActiveName: ''
     }
   },
   created() {
