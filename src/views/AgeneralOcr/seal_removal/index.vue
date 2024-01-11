@@ -37,18 +37,18 @@
         @mousewheel="handleZoom"
         @mouseleave="
           (e) => {
-            removeEventListener(e, 'drag-document');
+            removeEventListener(e, 'drag-document-parent');
           }
         "
       >
         <div
           class="document"
-          ref="drag-document"
+          ref="drag-document-parent"
           :key="example.id"
           :class="{ draggable: draggable }"
           @mousedown="
             (e) => {
-              handleMousedown(e, 'drag-document');
+              handleMousedown(e, 'drag-document-parent');
             }
           "
           :style="{
@@ -117,10 +117,10 @@ export default {
   },
   mounted() {
     this.resizeImg()
-    this.$events.listen('drag-document', this.transferDocument)
+    this.$events.listen('drag-document-parent', this.transferDocument)
   },
   beforeDestroy() {
-    this.$events.remove('drag-document', this.transferDocument)
+    this.$events.remove('drag-document-parent', this.transferDocument)
 
     this.resizeObserver.disconnect()
   },

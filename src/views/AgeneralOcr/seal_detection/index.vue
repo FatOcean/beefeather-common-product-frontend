@@ -8,85 +8,94 @@
     :activeTabIndex="activeTabIndex"
     :pageMenuPerm="pageMenuPerm"
   >
-    <lls-tabs @tab-click="handleClick" v-model="activeName">
-      <lls-tab-pane
-        v-for="(item, index) in tabsArray"
-        :key="index"
-        :label="item.name"
-        :name="item.name"
-      ></lls-tab-pane>
-    </lls-tabs>
-    <div class="tool-bar">
-      <div class="name">
+    <div v-show="documents.content.length > 0">
+      <lls-tabs @tab-click="handleClick" v-model="activeName">
+        <lls-tab-pane
+          v-for="(item, index) in tabsArray"
+          :key="index"
+          :label="item.name"
+          :name="item.name"
+        ></lls-tab-pane>
+      </lls-tabs>
+      <div class="tool-bar">
+        <div class="name">
+          <div>
+            <span style="color: #8492a6; margin-right: 8px">印章类型</span>
+            <span style="font-weight: bold">{{ sealName }}</span>
+          </div>
+        </div>
         <div>
-          <span style="color: #8492a6; margin-right: 8px">印章类型</span>
-          <span style="font-weight: bold">{{ sealName }}</span>
+          <svg-icon
+            iconClass="放大"
+            @click.native="handleZoom(zoomStep)"
+          ></svg-icon>
+          <svg-icon
+            iconClass="ic-缩小"
+            @click.native="handleZoom(-zoomStep)"
+          ></svg-icon>
+          <svg-icon
+            iconClass="旋转"
+            @click.native="handleClickRotate"
+          ></svg-icon>
+          <svg-icon iconClass="还原" @click.native="resetProps"></svg-icon>
+          <svg-icon
+            iconClass="全屏"
+            @click.native="
+              showImageViewer = true;
+              postFixedMessage(true);
+            "
+          ></svg-icon>
         </div>
       </div>
-      <div>
-        <svg-icon
-          iconClass="放大"
-          @click.native="handleZoom(zoomStep)"
-        ></svg-icon>
-        <svg-icon
-          iconClass="ic-缩小"
-          @click.native="handleZoom(-zoomStep)"
-        ></svg-icon>
-        <svg-icon iconClass="旋转" @click.native="handleClickRotate"></svg-icon>
-        <svg-icon iconClass="还原" @click.native="resetProps"></svg-icon>
-        <svg-icon
-          iconClass="全屏"
-          @click.native="
-            showImageViewer = true;
-            postFixedMessage(true);
-          "
-        ></svg-icon>
-      </div>
-    </div>
-    <div
-      class="document-layout"
-      @mouseleave="
-        (e) => {
-          removeEventListener(e, 'drag-document');
-        }
-      "
-      ref="documentLayout"
-      @mousewheel="handleZoom"
-    >
       <div
-        class="document"
-        ref="drag-document"
-        :key="example.id"
-        :class="{ draggable: draggable }"
-        @mousedown="
+        class="document-layout"
+        @mouseleave="
           (e) => {
-            handleMousedown(e, 'drag-document');
+            removeEventListener(e, 'drag-document');
           }
         "
-        :style="{
-          height: `${realRenderHeight}px`,
-          width: `${realRenderWidth}px`,
-          transform: `rotate(${90 * rotateIndex}deg) translateY(${
-            page.translateY + moveY
-          }px) translateX(${page.translateX + moveX}px) scale(${
-            page.rotateScale * zoomScale
-          })`,
-          transformOrigin: page.transformOrigin,
-        }"
+        ref="documentLayout"
+        @mousewheel="handleZoom"
       >
-        <img :src="imageUrl" :alt="imageName" />
+        <div
+          class="document"
+          ref="drag-document"
+          :key="example.id"
+          :class="{ draggable: draggable }"
+          @mousedown="
+            (e) => {
+              handleMousedown(e, 'drag-document');
+            }
+          "
+          :style="{
+            height: `${realRenderHeight}px`,
+            width: `${realRenderWidth}px`,
+            transform: `rotate(${90 * rotateIndex}deg) translateY(${
+              page.translateY + moveY
+            }px) translateX(${page.translateX + moveX}px) scale(${
+              page.rotateScale * zoomScale
+            })`,
+            transformOrigin: page.transformOrigin,
+          }"
+        >
+          <img :src="imageUrl" :alt="imageName" />
+        </div>
       </div>
+      <lls-image-viewer
+        v-if="showImageViewer"
+        :urlList="urlList"
+        :on-close="
+          () => {
+            showImageViewer = false;
+            postFixedMessage(false);
+          }
+        "
+      ></lls-image-viewer>
     </div>
-    <lls-image-viewer
-      v-if="showImageViewer"
-      :urlList="urlList"
-      :on-close="
-        () => {
-          showImageViewer = false;
-          postFixedMessage(false);
-        }
-      "
-    ></lls-image-viewer>
+    <div v-show="documents.content.length < 0" class="no-data">
+      <img :src="require('@/assets/images/暂无数据.png')" alt />
+      <div>暂无解析数据</div>
+    </div>
   </ocr-layout>
 </template>
 <script>
@@ -619,9 +628,24 @@ export default {
   }
 }
 
+.no-data {
+  height:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    color: #05121E;
+    font-size: 14px;
+    margin-top: 12px;
+    line-height: 20px;
+    font-weight: bold;
+  }
+}
 </style>
 <style lang="stylus">
- .ocr-text {
+.ocr-text {
   ::v-deep .lls-tabs__active-bar {
     margin-left: 0px !important;
   }

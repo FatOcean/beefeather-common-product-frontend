@@ -237,6 +237,9 @@ export default {
     },
     uploadFileData(res) {
       const data = res.data
+      this.activePageIndex = 0
+      this.activeTextId = 0
+      this.$refs.documents.resetProps()
       data.map((item) => {
         item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
           item.imagePath
