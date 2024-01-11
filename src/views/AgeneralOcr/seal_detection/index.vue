@@ -8,7 +8,7 @@
     :activeTabIndex="activeTabIndex"
     :pageMenuPerm="pageMenuPerm"
   >
-    <div v-show="documents.content.length > 0">
+    <template v-if="tabsArray.length > 0">
       <lls-tabs @tab-click="handleClick" v-model="activeName">
         <lls-tab-pane
           v-for="(item, index) in tabsArray"
@@ -91,11 +91,13 @@
           }
         "
       ></lls-image-viewer>
-    </div>
-    <div v-show="documents.content.length < 0" class="no-data">
-      <img :src="require('@/assets/images/暂无数据.png')" alt />
-      <div>暂无解析数据</div>
-    </div>
+    </template>
+    <template v-else>
+      <div class="no-data">
+        <img :src="require('@/assets/images/暂无数据.png')" alt />
+        <div>暂无解析数据</div>
+      </div>
+    </template>
   </ocr-layout>
 </template>
 <script>
@@ -104,41 +106,6 @@ import beeLoading from '@linklogis/beeLoading'
 import ImageViewer from '@linklogis/image-viewer'
 import ocrLayout from './ocr-layout.vue'
 import { mapState } from 'vuex'
-function Events() {
-  this.clientList = {}
-  this.listen = function (key, fn) {
-    if (!this.clientList[key]) {
-      this.clientList[key] = []
-    }
-    this.clientList[key].push(fn)
-  }
-  this.trigger = function () {
-    const key = Array.prototype.shift.call(arguments)
-    const fns = this.clientList[key]
-    if (!fns || fns.length === 0) {
-      return
-    }
-    for (let i = 0, fn; (fn = fns[i++]);) {
-      fn.apply(this, arguments)
-    }
-  }
-  this.remove = function (key, fn) {
-    const fns = this.clientList[key]
-    if (!fns) {
-      return
-    }
-    if (!fn) {
-      fns.length = 0
-    } else {
-      for (let len = fns.length - 1; len >= 0; len--) {
-        const _fn = fns[len]
-        if (_fn === fn) {
-          fns.splice(len, 1)
-        }
-      }
-    }
-  }
-}
 
 export default {
   data() {
@@ -205,7 +172,6 @@ export default {
   },
   mounted() {
     this.resizeImg()
-    this.$events = new Events()
     this.$events.listen('drag-document', this.transferDocument)
   },
   beforeDestroy() {
@@ -519,6 +485,22 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.no-data {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    color: #05121E;
+    font-size: 14px;
+    margin-top: 12px;
+    line-height: 20px;
+    font-weight: bold;
+  }
+}
+
 .tool-bar {
   height: 38px;
   line-height: 38px;
@@ -612,35 +594,6 @@ export default {
     &.draggable {
       cursor: url('~@/assets/images/icon/手势-握紧.svg'), grabbing;
     }
-
-    // transition: all 0.3s linear;
-    .frame-mask {
-      position: absolute;
-      cursor: pointer;
-      pointer-events: none;
-
-      &.active, &:hover {
-        background: rgba(8, 135, 255, 0.1);
-        border: 1px solid #0887ff;
-        border-radius: 4px;
-      }
-    }
-  }
-}
-
-.no-data {
-  height:100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  div {
-    color: #05121E;
-    font-size: 14px;
-    margin-top: 12px;
-    line-height: 20px;
-    font-weight: bold;
   }
 }
 </style>
