@@ -87,6 +87,7 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
+      staticData,
       data: staticData.seal_removal,
       isLoading: false,
       zoomStep: 0.1,

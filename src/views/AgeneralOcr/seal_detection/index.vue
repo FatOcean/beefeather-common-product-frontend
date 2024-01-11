@@ -135,6 +135,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      staticData,
       data: staticData.seal_detection,
       zoomStep: 0.1,
       scale: 1,
