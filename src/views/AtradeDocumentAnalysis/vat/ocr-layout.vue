@@ -528,23 +528,24 @@ export default {
         const leanX = (scale * w * Math.sin((2 * Math.PI * Q) / 360)) / 2
 
         let x = startX
-        let y = startY + (h * scale) / 2
-        if (rotateIndex % 4 === 1) {
-          x = startX + leanX
-          y = startY + (w * scale) / 2
-        }
-        if (rotateIndex % 4 === 2) {
-          x = startX
-          y = startY + (h * scale) / 2
-        }
-        if (rotateIndex % 4 === 3) {
-          x = startX + leanX
-          y = startY + (w * scale) / 2
-        }
+        const y = startY + h / 2
+        // if (rotateIndex % 4 === 1) {
+        //   console.log(w)
+        //   x = startX + leanX
+        //   y = startY + (w * scale) / 2
+        // }
+        // if (rotateIndex % 4 === 2) {
+        //   x = startX
+        //   y = startY + (h * scale) / 2
+        // }
+        // if (rotateIndex % 4 === 3) {
+        //   x = startX + leanX
+        //   y = startY + (w * scale) / 2
+        // }
 
         // 处理边界
         if (x > this.documentWidth) {
-          x = this.documentWidth
+          x = this.documentWidths
         }
 
         this.pathValue = {

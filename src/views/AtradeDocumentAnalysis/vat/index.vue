@@ -56,7 +56,7 @@
             v-for="item in page.content[0].commodity[index]"
             :key="item.key"
           >
-            <td>{{ item.key }}</td>
+            <td style="width:33%">{{ item.key }}</td>
             <td>{{ item.value }}</td>
           </tr>
         </template>

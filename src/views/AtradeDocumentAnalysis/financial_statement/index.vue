@@ -130,14 +130,13 @@ export default {
             this.failedStatus = true
           }
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(() => {
           this.failedStatus = true
           this.documents.flag = ''
           this.bank = ''
           this.$refs.documents.down_allow = false
           this.$message({
-            message: err,
+            message: '解析失败',
             type: 'error',
             offset: 60
           })
