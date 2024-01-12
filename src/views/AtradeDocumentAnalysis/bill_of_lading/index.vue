@@ -2,7 +2,6 @@
   <div class="bill-of-lading-wrapper" style="width: 100%">
     <ocr-layout
       @resetId="() => (activeTextId = null)"
-      @tabs="tabs"
       :data="data"
       v-model="pageDetail"
       ref="documents"
@@ -292,16 +291,6 @@ export default {
       this.activeTextId = this.$refs.documents.activeTextId
     },
     uploadFileData(res) {
-      // console.log(this.productName, res)
-      // if (this.productName === 'bill_of_lading') {
-      //   res.data && res.data.map((item) => {
-      //     if (item.imagePath) {
-      //       item.imagePath = `${
-      //           this.originLocation
-      //         }?filename=${encodeURIComponent(item.imagePath)}`
-      //     }
-      //   })
-      // }
       this.data = res.data
       this.instance = this.data[0]
       this.documents = this.instance
@@ -311,23 +300,8 @@ export default {
       })
       this.activeName = this.tabsArray[0].name
       this.pageDetail = this.page
-    },
-    tabs(activeDocumentIndex, activePageIndex) {
-      this.search = ''
       this.checked = false
-      this.filterEmpty(false)
-      this.searchData()
-      this.activeDocumentIndex = activeDocumentIndex
-      this.instance = this.data[this.activeDocumentIndex]
-      this.documents = this.instance.tabList
-      this.page = this.documents[0]
-      this.tabsArray = this.documents.map((item, index) => {
-        return { name: item.tabName }
-      })
-      this.activeName = this.tabsArray[0].name
-      this.pageDetail = this.page
-      this.activeTabIndex = 0
-      // console.log(this.example, "ex2");
+      this.search = ''
     },
 
     handleClick(value) {
@@ -339,43 +313,15 @@ export default {
         this.page = this.documents.content
         this.activeName = this.tabsArray[index].name
         this.pageDetail = this.page
+        this.checked = false
+        this.search = ''
       } else {
         this.$refs.documents.handleTurnPage(Number(value.index) + 1, true)
       }
-
-      // if (value.name === this.activeName) return
-      // this.search = ''
-      // this.checked = false
-      // this.filterEmpty(false)
-      // this.searchData()
-      // if (typeof value === 'number') {
-      //   if (value === 0) {
-      //     this.activeTabIndex = 0
-      //     this.activeName = this.tabsArray[this.activeTabIndex].name
-      //     this.$refs.documents.handleClick(this.activeTabIndex)
-      //     this.page = this.documents[this.activeTabIndex]
-      //     this.pageDetail = this.page
-      //   } else {
-      //     this.activeTabIndex += value
-      //     this.activeName = this.tabsArray[this.activeTabIndex].name
-      //     this.$refs.documents.handleClick(this.activeTabIndex)
-      //     this.page = this.documents[this.activeTabIndex]
-      //     this.pageDetail = this.page
-      //   }
-      // } else {
-      //   this.tabsArray.forEach((item, index) => {
-      //     if (item.name === value.name) {
-      //       this.activeTabIndex = index
-      //       this.$refs.documents.handleClick(index)
-      //       this.page = this.documents[index]
-      //       this.pageDetail = this.page
-      //     }
-      //   })
-      // }
     },
 
     filterEmpty(flag) {
-      const data = this.pageDetail
+      const data = this.search !== '' ? this.searchArray(this.pageDetail, this.search.toLowerCase()) : this.pageDetail
       if (flag) {
         this.page = data.filter((item) => {
           // 过滤掉values为空或者values为数组但value为空的项
@@ -393,12 +339,12 @@ export default {
       }
     },
     searchData() {
-      // this.$refs.documents.resetProps()
       this.activeTextId = null
       this.$refs.documents.activeTextId = null
       this.$refs.documents.pathValue = null
       this.$refs.documents.rectanglePosition = []
-      this.page = this.searchArray(this.pageDetail, this.search.toLowerCase())
+      if (this.checked) this.filterEmpty(true)
+      this.page = this.searchArray(this.checked ? this.page : this.pageDetail, this.search.toLowerCase())
     },
     searchArray(data, searchTerm) {
       const lowerSearchTerm = searchTerm.toLowerCase()

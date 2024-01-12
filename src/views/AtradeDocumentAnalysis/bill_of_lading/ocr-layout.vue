@@ -350,20 +350,6 @@ export default {
       // this.realRenderWidth = page.realRenderWidth
       // this.scale = page.scale
     },
-    // 切换示例
-    handleClickExample(index) {
-      if (this.activeDocumentIndex === index) {
-        return
-      }
-      this.activeDocumentIndex = index
-      this.resetProps()
-      const page =
-        this.example.tabList[this.activeTabIndex].customDeclarationList
-
-      this.resizeImg()
-      this.$emit('handle-change', page)
-      this.$emit('tabs', this.activeDocumentIndex, this.activePageIndex - 1)
-    },
     // 翻页
     handleTurnPage(val, parent = false) {
       this.activePageIndex = parent ? val : this.activePageIndex + val
