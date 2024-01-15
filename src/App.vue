@@ -45,12 +45,6 @@ export default {
       if (e?.data) {
         this.setProductData(e.data)
       }
-      if (e && e.data && e.data.pageMenuPerm) {
-        const pageMenuPerm = e.data.pageMenuPerm
-        this.$nextTick(() => {
-          this.changePageMenuPerm(pageMenuPerm)
-        })
-      }
     }
   },
   beforeDestroy() {
