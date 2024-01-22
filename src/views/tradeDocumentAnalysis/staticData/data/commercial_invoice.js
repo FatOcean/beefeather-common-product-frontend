@@ -4,7 +4,7 @@ import imagePath from '../images/commercial_invoice.png'
 const data = [
   {
     isexample: true,
-    taskId: 'U2024010518976951',
+    taskId: 'U2024011910472864',
     status: 1,
     fileName: 'commercial_invoice.png',
     imagePath,
@@ -21,7 +21,7 @@ const data = [
             position: [
               [
                 {
-                  x: 794,
+                  x: 831,
                   y: 183
                 },
                 {
@@ -30,15 +30,15 @@ const data = [
                 },
                 {
                   x: 909,
-                  y: 206
+                  y: 207
                 },
                 {
-                  x: 794,
-                  y: 206
+                  x: 831,
+                  y: 207
                 }
               ]
             ],
-            value: 'S0110263165'
+            value: '10263165'
           }
         ]
       },
@@ -52,20 +52,20 @@ const data = [
             position: [
               [
                 {
-                  x: 794,
-                  y: 201
+                  x: 793,
+                  y: 200
                 },
                 {
-                  x: 870,
-                  y: 201
+                  x: 869,
+                  y: 200
                 },
                 {
-                  x: 870,
-                  y: 224
+                  x: 869,
+                  y: 225
                 },
                 {
-                  x: 794,
-                  y: 224
+                  x: 793,
+                  y: 225
                 }
               ]
             ],
@@ -83,24 +83,24 @@ const data = [
             position: [
               [
                 {
-                  x: 147,
+                  x: 215,
                   y: 223
                 },
                 {
-                  x: 436,
+                  x: 437,
                   y: 223
                 },
                 {
-                  x: 436,
+                  x: 437,
                   y: 269
                 },
                 {
-                  x: 147,
+                  x: 215,
                   y: 269
                 }
               ]
             ],
-            value: 'Ericsson China Communications Co. Ltd'
+            value: 'China Communications Co. Ltd'
           }
         ]
       },
@@ -114,19 +114,19 @@ const data = [
             position: [
               [
                 {
-                  x: 150,
-                  y: 267
+                  x: 146,
+                  y: 266
                 },
                 {
                   x: 276,
-                  y: 267
+                  y: 266
                 },
                 {
                   x: 276,
                   y: 312
                 },
                 {
-                  x: 150,
+                  x: 146,
                   y: 312
                 }
               ]
@@ -152,24 +152,24 @@ const data = [
             position: [
               [
                 {
-                  x: 110,
-                  y: 47
+                  x: 216,
+                  y: 93
                 },
                 {
-                  x: 288,
-                  y: 47
+                  x: 299,
+                  y: 93
                 },
                 {
-                  x: 288,
-                  y: 89
+                  x: 299,
+                  y: 122
                 },
                 {
-                  x: 110,
-                  y: 89
+                  x: 216,
+                  y: 122
                 }
               ]
             ],
-            value: 'TELEVINE LeCroy Inc.'
+            value: 'Rise Rd'
           }
         ]
       },
@@ -183,24 +183,24 @@ const data = [
             position: [
               [
                 {
-                  x: 114,
-                  y: 96
+                  x: 184,
+                  y: 102
                 },
                 {
-                  x: 322,
-                  y: 96
+                  x: 294,
+                  y: 102
                 },
                 {
-                  x: 322,
-                  y: 141
+                  x: 294,
+                  y: 156
                 },
                 {
-                  x: 114,
-                  y: 141
+                  x: 184,
+                  y: 156
                 }
               ]
             ],
-            value: '700 Chenkun Ridge Road Chenkun Ridge, NY10977'
+            value: 'Ridge Rd 4439'
           }
         ]
       },
@@ -209,31 +209,7 @@ const data = [
         keyEn: 'Seller Bank',
         keyCh: '卖方开户行',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 66,
-                  y: 960
-                },
-                {
-                  x: 221,
-                  y: 960
-                },
-                {
-                  x: 221,
-                  y: 990
-                },
-                {
-                  x: 66,
-                  y: 990
-                }
-              ]
-            ],
-            value: 'Bank of America'
-          }
-        ]
+        values: []
       },
       {
         sortId: 9,
@@ -259,24 +235,24 @@ const data = [
             position: [
               [
                 {
-                  x: 153,
+                  x: 257,
                   y: 332
                 },
                 {
-                  x: 451,
+                  x: 462,
                   y: 332
                 },
                 {
-                  x: 451,
-                  y: 357
+                  x: 462,
+                  y: 355
                 },
                 {
-                  x: 153,
-                  y: 357
+                  x: 257,
+                  y: 355
                 }
               ]
             ],
-            value: 'CBC Ericsson China Communications C'
+            value: 'China Communications C'
           }
         ]
       },
@@ -311,7 +287,7 @@ const data = [
             position: [
               [
                 {
-                  x: 915,
+                  x: 914,
                   y: 943
                 },
                 {
@@ -323,7 +299,7 @@ const data = [
                   y: 971
                 },
                 {
-                  x: 915,
+                  x: 914,
                   y: 971
                 }
               ]
@@ -342,19 +318,19 @@ const data = [
             position: [
               [
                 {
-                  x: 789,
+                  x: 790,
                   y: 944
                 },
                 {
-                  x: 840,
+                  x: 837,
                   y: 944
                 },
                 {
-                  x: 840,
+                  x: 837,
                   y: 971
                 },
                 {
-                  x: 789,
+                  x: 790,
                   y: 971
                 }
               ]
@@ -373,20 +349,20 @@ const data = [
             position: [
               [
                 {
-                  x: 35,
-                  y: 448
+                  x: 33,
+                  y: 451
                 },
                 {
                   x: 1162,
-                  y: 448
+                  y: 451
                 },
                 {
                   x: 1162,
-                  y: 977
+                  y: 979
                 },
                 {
-                  x: 35,
-                  y: 977
+                  x: 33,
+                  y: 979
                 }
               ]
             ],
@@ -473,19 +449,19 @@ const data = [
             position: [
               [
                 {
-                  x: 823,
+                  x: 830,
                   y: 248
                 },
                 {
-                  x: 891,
+                  x: 888,
                   y: 248
                 },
                 {
-                  x: 891,
+                  x: 888,
                   y: 271
                 },
                 {
-                  x: 823,
+                  x: 830,
                   y: 271
                 }
               ]
@@ -553,24 +529,24 @@ const data = [
             position: [
               [
                 {
-                  x: 796,
-                  y: 228
+                  x: 804,
+                  y: 226
                 },
                 {
                   x: 886,
-                  y: 228
+                  y: 226
                 },
                 {
                   x: 886,
                   y: 246
                 },
                 {
-                  x: 796,
+                  x: 804,
                   y: 246
                 }
               ]
             ],
-            value: 'S0F008132'
+            value: 'OF008132'
           }
         ]
       },
@@ -607,62 +583,14 @@ const data = [
         keyEn: 'Seller Bank Account',
         keyCh: '卖方银行账号',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 451,
-                  y: 942
-                },
-                {
-                  x: 566,
-                  y: 942
-                },
-                {
-                  x: 566,
-                  y: 969
-                },
-                {
-                  x: 451,
-                  y: 969
-                }
-              ]
-            ],
-            value: '1233295232'
-          }
-        ]
+        values: []
       },
       {
         sortId: 35,
         keyEn: 'Due Date',
         keyCh: '截止日期',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 795,
-                  y: 400
-                },
-                {
-                  x: 909,
-                  y: 400
-                },
-                {
-                  x: 909,
-                  y: 427
-                },
-                {
-                  x: 795,
-                  y: 427
-                }
-              ]
-            ],
-            value: '2022/05/13'
-          }
-        ]
+        values: []
       },
       {
         sortId: 36,
@@ -749,7 +677,7 @@ const data = [
                 position: [
                   [
                     {
-                      x: 808,
+                      x: 847,
                       y: 495
                     },
                     {
@@ -761,7 +689,7 @@ const data = [
                       y: 515
                     },
                     {
-                      x: 808,
+                      x: 847,
                       y: 515
                     }
                   ]
@@ -819,6 +747,37 @@ const data = [
                 position: [
                   [
                     {
+                      x: 1090,
+                      y: 539
+                    },
+                    {
+                      x: 1151,
+                      y: 539
+                    },
+                    {
+                      x: 1151,
+                      y: 559
+                    },
+                    {
+                      x: 1090,
+                      y: 559
+                    }
+                  ]
+                ],
+                value: '112022.0'
+              }
+            ]
+          },
+          {
+            sortId: 50,
+            keyEn: 'Unit Price of Goods',
+            keyCh: '商品单价',
+            groupable: false,
+            values: [
+              {
+                position: [
+                  [
+                    {
                       x: 976,
                       y: 539
                     },
@@ -837,37 +796,6 @@ const data = [
                   ]
                 ],
                 value: '6602.16'
-              }
-            ]
-          },
-          {
-            sortId: 50,
-            keyEn: 'Unit Price of Goods',
-            keyCh: '商品单价',
-            groupable: false,
-            values: [
-              {
-                position: [
-                  [
-                    {
-                      x: 851,
-                      y: 541
-                    },
-                    {
-                      x: 919,
-                      y: 541
-                    },
-                    {
-                      x: 919,
-                      y: 561
-                    },
-                    {
-                      x: 851,
-                      y: 561
-                    }
-                  ]
-                ],
-                value: '1650.54'
               }
             ]
           }
@@ -889,24 +817,24 @@ const data = [
                 position: [
                   [
                     {
-                      x: 48,
-                      y: 585
+                      x: 117,
+                      y: 664
                     },
                     {
-                      x: 91,
-                      y: 585
+                      x: 128,
+                      y: 664
                     },
                     {
-                      x: 91,
-                      y: 600
+                      x: 128,
+                      y: 679
                     },
                     {
-                      x: 48,
-                      y: 600
+                      x: 117,
+                      y: 679
                     }
                   ]
                 ],
-                value: '30'
+                value: '1'
               }
             ]
           },
@@ -920,7 +848,7 @@ const data = [
                 position: [
                   [
                     {
-                      x: 974,
+                      x: 979,
                       y: 582
                     },
                     {
@@ -932,7 +860,7 @@ const data = [
                       y: 603
                     },
                     {
-                      x: 974,
+                      x: 979,
                       y: 603
                     }
                   ]
@@ -951,7 +879,7 @@ const data = [
                 position: [
                   [
                     {
-                      x: 976,
+                      x: 1016,
                       y: 582
                     },
                     {
@@ -960,11 +888,11 @@ const data = [
                     },
                     {
                       x: 1045,
-                      y: 603
+                      y: 601
                     },
                     {
-                      x: 976,
-                      y: 603
+                      x: 1016,
+                      y: 601
                     }
                   ]
                 ],
@@ -990,24 +918,24 @@ const data = [
                 position: [
                   [
                     {
-                      x: 45,
-                      y: 674
+                      x: 121,
+                      y: 673
                     },
                     {
-                      x: 68,
-                      y: 674
+                      x: 128,
+                      y: 673
                     },
                     {
-                      x: 68,
-                      y: 692
+                      x: 128,
+                      y: 689
                     },
                     {
-                      x: 45,
-                      y: 692
+                      x: 121,
+                      y: 689
                     }
                   ]
                 ],
-                value: '40'
+                value: '1'
               }
             ]
           },
@@ -1021,7 +949,7 @@ const data = [
                 position: [
                   [
                     {
-                      x: 977,
+                      x: 979,
                       y: 671
                     },
                     {
@@ -1033,7 +961,7 @@ const data = [
                       y: 691
                     },
                     {
-                      x: 977,
+                      x: 979,
                       y: 691
                     }
                   ]
@@ -1061,11 +989,11 @@ const data = [
                     },
                     {
                       x: 1044,
-                      y: 691
+                      y: 689
                     },
                     {
                       x: 980,
-                      y: 691
+                      y: 689
                     }
                   ]
                 ],
@@ -1091,24 +1019,24 @@ const data = [
                 position: [
                   [
                     {
-                      x: 52,
-                      y: 744
+                      x: 121,
+                      y: 743
                     },
                     {
-                      x: 73,
-                      y: 744
+                      x: 128,
+                      y: 743
                     },
                     {
-                      x: 73,
-                      y: 761
+                      x: 128,
+                      y: 759
                     },
                     {
-                      x: 52,
-                      y: 761
+                      x: 121,
+                      y: 759
                     }
                   ]
                 ],
-                value: '50'
+                value: '1'
               }
             ]
           },
@@ -1122,7 +1050,7 @@ const data = [
                 position: [
                   [
                     {
-                      x: 1090,
+                      x: 1091,
                       y: 742
                     },
                     {
@@ -1131,11 +1059,11 @@ const data = [
                     },
                     {
                       x: 1150,
-                      y: 761
+                      y: 762
                     },
                     {
-                      x: 1090,
-                      y: 761
+                      x: 1091,
+                      y: 762
                     }
                   ]
                 ],
@@ -1157,11 +1085,11 @@ const data = [
                       y: 742
                     },
                     {
-                      x: 1045,
+                      x: 1044,
                       y: 742
                     },
                     {
-                      x: 1045,
+                      x: 1044,
                       y: 762
                     },
                     {
@@ -1192,20 +1120,20 @@ const data = [
                 position: [
                   [
                     {
-                      x: 48,
-                      y: 814
+                      x: 47,
+                      y: 1016
                     },
                     {
                       x: 76,
-                      y: 814
+                      y: 1016
                     },
                     {
                       x: 76,
-                      y: 833
+                      y: 1035
                     },
                     {
-                      x: 48,
-                      y: 833
+                      x: 47,
+                      y: 1035
                     }
                   ]
                 ],
@@ -1258,11 +1186,11 @@ const data = [
                       y: 810
                     },
                     {
-                      x: 918,
+                      x: 916,
                       y: 810
                     },
                     {
-                      x: 918,
+                      x: 916,
                       y: 830
                     },
                     {
@@ -1282,31 +1210,7 @@ const data = [
         keyEn: 'Page',
         keyCh: '页数',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 1087,
-                  y: 810
-                },
-                {
-                  x: 1151,
-                  y: 810
-                },
-                {
-                  x: 1151,
-                  y: 831
-                },
-                {
-                  x: 1087,
-                  y: 831
-                }
-              ]
-            ],
-            value: '112022'
-          }
-        ]
+        values: []
       },
       {
         sortId: 56,
@@ -1318,7 +1222,7 @@ const data = [
     ],
     json: {
       predict_status: 'success',
-      trace_id: 'U2024010518976951',
+      trace_id: 'U2024011910472864',
       role: 'beefeather',
       extra_info: {},
       error_info: '',
@@ -1329,28 +1233,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 110,
-                    y: 47
+                    x: 216,
+                    y: 93
                   },
                   {
-                    x: 288,
-                    y: 47
+                    x: 299,
+                    y: 93
                   },
                   {
-                    x: 288,
-                    y: 89
+                    x: 299,
+                    y: 122
                   },
                   {
-                    x: 110,
-                    y: 89
+                    x: 216,
+                    y: 122
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'TELEVINE LeCroy Inc.',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              ori_value: 'Rise Rd',
+              img_name: '组 593.png',
               language: '',
-              value: 'TELEVINE LeCroy Inc.'
+              value: 'Rise Rd'
             }
           ],
           shipper: [],
@@ -1378,7 +1282,7 @@ const data = [
               ],
               is_std: true,
               ori_value: 'invoice date',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: 'invoice date'
             }
@@ -1389,28 +1293,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 796,
-                    y: 228
+                    x: 804,
+                    y: 226
                   },
                   {
                     x: 886,
-                    y: 228
+                    y: 226
                   },
                   {
                     x: 886,
                     y: 246
                   },
                   {
-                    x: 796,
+                    x: 804,
                     y: 246
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'S0F008132',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              ori_value: 'OF008132',
+              img_name: '组 593.png',
               language: '',
-              value: 'S0F008132'
+              value: 'OF008132'
             }
           ],
           goods_description: [
@@ -1418,26 +1322,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 35,
-                    y: 448
+                    x: 33,
+                    y: 451
                   },
                   {
                     x: 1162,
-                    y: 448
+                    y: 451
                   },
                   {
                     x: 1162,
-                    y: 977
+                    y: 979
                   },
                   {
-                    x: 35,
-                    y: 977
+                    x: 33,
+                    y: 979
                   }
                 ]
               ],
               is_std: true,
               ori_value: '',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: '详情见高亮部分'
             }
@@ -1461,26 +1365,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 794,
-                    y: 201
+                    x: 793,
+                    y: 200
                   },
                   {
-                    x: 870,
-                    y: 201
+                    x: 869,
+                    y: 200
                   },
                   {
-                    x: 870,
-                    y: 224
+                    x: 869,
+                    y: 225
                   },
                   {
-                    x: 794,
-                    y: 224
+                    x: 793,
+                    y: 225
                   }
                 ]
               ],
               is_std: true,
               ori_value: '3/14/2022',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: '2022/03/14'
             }
@@ -1494,26 +1398,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 789,
+                    x: 790,
                     y: 944
                   },
                   {
-                    x: 840,
+                    x: 837,
                     y: 944
                   },
                   {
-                    x: 840,
+                    x: 837,
                     y: 971
                   },
                   {
-                    x: 789,
+                    x: 790,
                     y: 971
                   }
                 ]
               ],
               is_std: true,
               ori_value: 'USD',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: '美元 – United States Dollar'
             }
@@ -1523,26 +1427,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 823,
+                    x: 830,
                     y: 248
                   },
                   {
-                    x: 891,
+                    x: 888,
                     y: 248
                   },
                   {
-                    x: 891,
+                    x: 888,
                     y: 271
                   },
                   {
-                    x: 823,
+                    x: 830,
                     y: 271
                   }
                 ]
               ],
               is_std: false,
               ori_value: '60 days',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: '60 days'
             }
@@ -1552,7 +1456,7 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 794,
+                    x: 831,
                     y: 183
                   },
                   {
@@ -1561,19 +1465,19 @@ const data = [
                   },
                   {
                     x: 909,
-                    y: 206
+                    y: 207
                   },
                   {
-                    x: 794,
-                    y: 206
+                    x: 831,
+                    y: 207
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'S0110263165',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              ori_value: '10263165',
+              img_name: '组 593.png',
               language: '',
-              value: 'S0110263165'
+              value: '10263165'
             }
           ],
           payment_method: [],
@@ -1605,7 +1509,7 @@ const data = [
                       ],
                       is_std: false,
                       ori_value: '1',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: '1'
                     }
@@ -1634,7 +1538,7 @@ const data = [
                       ],
                       is_std: true,
                       ori_value: '30,811.32',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 30811.32
                     }
@@ -1644,7 +1548,7 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 808,
+                            x: 847,
                             y: 495
                           },
                           {
@@ -1656,14 +1560,14 @@ const data = [
                             y: 515
                           },
                           {
-                            x: 808,
+                            x: 847,
                             y: 515
                           }
                         ]
                       ],
                       is_std: true,
                       ori_value: '30,811.32',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 30811.32
                     }
@@ -1694,12 +1598,41 @@ const data = [
                       ],
                       is_std: false,
                       ori_value: '4',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: '4'
                     }
                   ],
                   amount_of_goods: [
+                    {
+                      boxes: [
+                        [
+                          {
+                            x: 1090,
+                            y: 539
+                          },
+                          {
+                            x: 1151,
+                            y: 539
+                          },
+                          {
+                            x: 1151,
+                            y: 559
+                          },
+                          {
+                            x: 1090,
+                            y: 559
+                          }
+                        ]
+                      ],
+                      is_std: true,
+                      ori_value: '112022',
+                      img_name: '组 593.png',
+                      language: '',
+                      value: 112022
+                    }
+                  ],
+                  unit_price_of_goods: [
                     {
                       boxes: [
                         [
@@ -1723,38 +1656,9 @@ const data = [
                       ],
                       is_std: true,
                       ori_value: '6,602.16',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 6602.16
-                    }
-                  ],
-                  unit_price_of_goods: [
-                    {
-                      boxes: [
-                        [
-                          {
-                            x: 851,
-                            y: 541
-                          },
-                          {
-                            x: 919,
-                            y: 541
-                          },
-                          {
-                            x: 919,
-                            y: 561
-                          },
-                          {
-                            x: 851,
-                            y: 561
-                          }
-                        ]
-                      ],
-                      is_std: true,
-                      ori_value: '1,650.54',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
-                      language: '',
-                      value: 1650.54
                     }
                   ]
                 },
@@ -1764,28 +1668,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 48,
-                            y: 585
+                            x: 117,
+                            y: 664
                           },
                           {
-                            x: 91,
-                            y: 585
+                            x: 128,
+                            y: 664
                           },
                           {
-                            x: 91,
-                            y: 600
+                            x: 128,
+                            y: 679
                           },
                           {
-                            x: 48,
-                            y: 600
+                            x: 117,
+                            y: 679
                           }
                         ]
                       ],
                       is_std: false,
-                      ori_value: '30',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      ori_value: '1',
+                      img_name: '组 593.png',
                       language: '',
-                      value: '30'
+                      value: '1'
                     }
                   ],
                   amount_of_goods: [
@@ -1793,7 +1697,7 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 974,
+                            x: 979,
                             y: 582
                           },
                           {
@@ -1805,14 +1709,14 @@ const data = [
                             y: 603
                           },
                           {
-                            x: 974,
+                            x: 979,
                             y: 603
                           }
                         ]
                       ],
                       is_std: true,
                       ori_value: '112022',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 112022
                     }
@@ -1822,7 +1726,7 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 976,
+                            x: 1016,
                             y: 582
                           },
                           {
@@ -1831,17 +1735,17 @@ const data = [
                           },
                           {
                             x: 1045,
-                            y: 603
+                            y: 601
                           },
                           {
-                            x: 976,
-                            y: 603
+                            x: 1016,
+                            y: 601
                           }
                         ]
                       ],
                       is_std: true,
                       ori_value: '2,178.97',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 2178.97
                     }
@@ -1853,28 +1757,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 45,
-                            y: 674
+                            x: 121,
+                            y: 673
                           },
                           {
-                            x: 68,
-                            y: 674
+                            x: 128,
+                            y: 673
                           },
                           {
-                            x: 68,
-                            y: 692
+                            x: 128,
+                            y: 689
                           },
                           {
-                            x: 45,
-                            y: 692
+                            x: 121,
+                            y: 689
                           }
                         ]
                       ],
                       is_std: false,
-                      ori_value: '40',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      ori_value: '1',
+                      img_name: '组 593.png',
                       language: '',
-                      value: '40'
+                      value: '1'
                     }
                   ],
                   amount_of_goods: [
@@ -1882,7 +1786,7 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 977,
+                            x: 979,
                             y: 671
                           },
                           {
@@ -1894,14 +1798,14 @@ const data = [
                             y: 691
                           },
                           {
-                            x: 977,
+                            x: 979,
                             y: 691
                           }
                         ]
                       ],
                       is_std: true,
                       ori_value: '3,710.88',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 3710.88
                     }
@@ -1920,17 +1824,17 @@ const data = [
                           },
                           {
                             x: 1044,
-                            y: 691
+                            y: 689
                           },
                           {
                             x: 980,
-                            y: 691
+                            y: 689
                           }
                         ]
                       ],
                       is_std: true,
                       ori_value: '3,710.88',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 3710.88
                     }
@@ -1942,28 +1846,28 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 52,
-                            y: 744
+                            x: 121,
+                            y: 743
                           },
                           {
-                            x: 73,
-                            y: 744
+                            x: 128,
+                            y: 743
                           },
                           {
-                            x: 73,
-                            y: 761
+                            x: 128,
+                            y: 759
                           },
                           {
-                            x: 52,
-                            y: 761
+                            x: 121,
+                            y: 759
                           }
                         ]
                       ],
                       is_std: false,
-                      ori_value: '50',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      ori_value: '1',
+                      img_name: '组 593.png',
                       language: '',
-                      value: '50'
+                      value: '1'
                     }
                   ],
                   amount_of_goods: [
@@ -1971,7 +1875,7 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 1090,
+                            x: 1091,
                             y: 742
                           },
                           {
@@ -1980,17 +1884,17 @@ const data = [
                           },
                           {
                             x: 1150,
-                            y: 761
+                            y: 762
                           },
                           {
-                            x: 1090,
-                            y: 761
+                            x: 1091,
+                            y: 762
                           }
                         ]
                       ],
                       is_std: true,
                       ori_value: '112022',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 112022
                     }
@@ -2004,11 +1908,11 @@ const data = [
                             y: 742
                           },
                           {
-                            x: 1045,
+                            x: 1044,
                             y: 742
                           },
                           {
-                            x: 1045,
+                            x: 1044,
                             y: 762
                           },
                           {
@@ -2019,7 +1923,7 @@ const data = [
                       ],
                       is_std: true,
                       ori_value: '1,343.73',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 1343.73
                     }
@@ -2031,26 +1935,26 @@ const data = [
                       boxes: [
                         [
                           {
-                            x: 48,
-                            y: 814
+                            x: 47,
+                            y: 1016
                           },
                           {
                             x: 76,
-                            y: 814
+                            y: 1016
                           },
                           {
                             x: 76,
-                            y: 833
+                            y: 1035
                           },
                           {
-                            x: 48,
-                            y: 833
+                            x: 47,
+                            y: 1035
                           }
                         ]
                       ],
                       is_std: false,
                       ori_value: '60',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: '60'
                     }
@@ -2079,7 +1983,7 @@ const data = [
                       ],
                       is_std: true,
                       ori_value: '892.94',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 892.94
                     }
@@ -2093,11 +1997,11 @@ const data = [
                             y: 810
                           },
                           {
-                            x: 918,
+                            x: 916,
                             y: 810
                           },
                           {
-                            x: 918,
+                            x: 916,
                             y: 830
                           },
                           {
@@ -2108,7 +2012,7 @@ const data = [
                       ],
                       is_std: true,
                       ori_value: '892.94',
-                      img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+                      img_name: '组 593.png',
                       language: '',
                       value: 892.94
                     }
@@ -2125,26 +2029,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 150,
-                    y: 267
+                    x: 146,
+                    y: 266
                   },
                   {
                     x: 276,
-                    y: 267
+                    y: 266
                   },
                   {
                     x: 276,
                     y: 312
                   },
                   {
-                    x: 150,
+                    x: 146,
                     y: 312
                   }
                 ]
               ],
               is_std: false,
               ori_value: 'Beijing,100102 CHINA',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: 'Beijing,100102 CHINA'
             }
@@ -2154,28 +2058,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 153,
+                    x: 257,
                     y: 332
                   },
                   {
-                    x: 451,
+                    x: 462,
                     y: 332
                   },
                   {
-                    x: 451,
-                    y: 357
+                    x: 462,
+                    y: 355
                   },
                   {
-                    x: 153,
-                    y: 357
+                    x: 257,
+                    y: 355
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'CBC Ericsson China Communications C',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              ori_value: 'China Communications C',
+              img_name: '组 593.png',
               language: '',
-              value: 'CBC Ericsson China Communications C'
+              value: 'China Communications C'
             }
           ],
           payment_term: [
@@ -2202,69 +2106,13 @@ const data = [
               ],
               is_std: false,
               ori_value: 'Due 60 days from invoice date',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: '详情见高亮部分'
             }
           ],
-          seller_bank: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 66,
-                    y: 960
-                  },
-                  {
-                    x: 221,
-                    y: 960
-                  },
-                  {
-                    x: 221,
-                    y: 990
-                  },
-                  {
-                    x: 66,
-                    y: 990
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'Bank of America',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
-              language: '',
-              value: 'Bank of America'
-            }
-          ],
-          due_date: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 795,
-                    y: 400
-                  },
-                  {
-                    x: 909,
-                    y: 400
-                  },
-                  {
-                    x: 909,
-                    y: 427
-                  },
-                  {
-                    x: 795,
-                    y: 427
-                  }
-                ]
-              ],
-              is_std: true,
-              ori_value: '5/13/2022',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
-              language: '',
-              value: '2022/05/13'
-            }
-          ],
+          seller_bank: [],
+          due_date: [],
           country_of_origin: [],
           price_term: [],
           vessel_name: [],
@@ -2273,28 +2121,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 114,
-                    y: 96
+                    x: 184,
+                    y: 102
                   },
                   {
-                    x: 322,
-                    y: 96
+                    x: 294,
+                    y: 102
                   },
                   {
-                    x: 322,
-                    y: 141
+                    x: 294,
+                    y: 156
                   },
                   {
-                    x: 114,
-                    y: 141
+                    x: 184,
+                    y: 156
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '700 Chenkun Ridge Road Chenkun Ridge, NY10977',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              ori_value: 'Ridge Rd 4439',
+              img_name: '组 593.png',
               language: '',
-              value: '700 Chenkun Ridge Road Chenkun Ridge, NY10977'
+              value: 'Ridge Rd 4439'
             }
           ],
           buyer: [
@@ -2302,28 +2150,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 147,
+                    x: 215,
                     y: 223
                   },
                   {
-                    x: 436,
+                    x: 437,
                     y: 223
                   },
                   {
-                    x: 436,
+                    x: 437,
                     y: 269
                   },
                   {
-                    x: 147,
+                    x: 215,
                     y: 269
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'Ericsson China Communications Co. Ltd',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              ori_value: 'China Communications Co. Ltd',
+              img_name: '组 593.png',
               language: '',
-              value: 'Ericsson China Communications Co. Ltd'
+              value: 'China Communications Co. Ltd'
             }
           ],
           carrier: [],
@@ -2333,7 +2181,7 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 915,
+                    x: 914,
                     y: 943
                   },
                   {
@@ -2345,76 +2193,20 @@ const data = [
                     y: 971
                   },
                   {
-                    x: 915,
+                    x: 914,
                     y: 971
                   }
                 ]
               ],
               is_std: true,
               ori_value: '45,540.00',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
+              img_name: '组 593.png',
               language: '',
               value: 45540
             }
           ],
-          seller_bank_number: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 451,
-                    y: 942
-                  },
-                  {
-                    x: 566,
-                    y: 942
-                  },
-                  {
-                    x: 566,
-                    y: 969
-                  },
-                  {
-                    x: 451,
-                    y: 969
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: '1233295232',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
-              language: '',
-              value: '1233295232'
-            }
-          ],
-          page: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 1087,
-                    y: 810
-                  },
-                  {
-                    x: 1151,
-                    y: 810
-                  },
-                  {
-                    x: 1151,
-                    y: 831
-                  },
-                  {
-                    x: 1087,
-                    y: 831
-                  }
-                ]
-              ],
-              is_std: true,
-              ori_value: '112022',
-              img_name: 'Cash-货物贸易-商业发票_0508_WH_Invoice_8[0].jpg',
-              language: '',
-              value: '112022'
-            }
-          ],
+          seller_bank_number: [],
+          page: [],
           port_of_discharge: [],
           payment_term_after_before: []
         }
