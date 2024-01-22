@@ -240,7 +240,7 @@ export default {
   },
   methods: {
     setRectangle(index = 0) {
-      const rectangle = this.text.values[0].position[0]
+      const rectangle = this?.text?.values[0].position[0]
       if (rectangle) {
         this.rectanglePosition = rectangle.reduce((total, cur) => {
           const str = (total +=
@@ -257,6 +257,13 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1
       }
+      this.$parent.handleClick(this.activePageIndex)
+      this.activeDocumentIndex = this.activePageIndex - 1
+      this.rectanglePosition = ''
+      this.text = ''
+      this.activeTextId = ''
+      this.pathValue = null
+      this.resizeImg()
     },
     handleClick(index) {
       this.rotateIndex = 0
@@ -336,6 +343,7 @@ export default {
       this.rectanglePosition = ''
       this.text = ''
       this.pathValue = null
+      this.activeTextId = ''
       this.resizeImg()
     },
     // 旋转图片
@@ -491,10 +499,12 @@ export default {
     },
     // 计算path起点、终点坐标
     calculateXy() {
+      console.log(this.activeTextId)
       if (this.activeTextId == null) {
         return
       }
-      this.setRectangle()
+      console.log('往下执行')
+      // this.setRectangle()
       const page = this.page
       const rotateIndex = this.rotateIndex
       const zoomScale = this.zoomScale || 1
@@ -541,6 +551,7 @@ export default {
         if (x > this.documentWidth) {
           x = this.documentWidth
         }
+
         this.pathValue = {
           pathStartX: x,
           pathStartY: y,
@@ -629,6 +640,7 @@ export default {
       }
     },
     parentProxy() {
+      console.log('parentProxy')
       this.proxy(this.calculateXy)
     },
     // 代理函数

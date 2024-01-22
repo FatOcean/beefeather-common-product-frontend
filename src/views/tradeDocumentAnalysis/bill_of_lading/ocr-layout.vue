@@ -279,6 +279,13 @@ export default {
       if (this.activePageIndex < 1) {
         this.activePageIndex = 1
       }
+      this.$parent.handleClick(this.activePageIndex - 1)
+      this.activeDocumentIndex = this.activePageIndex - 1
+      this.rectanglePosition = ''
+      this.text = ''
+      this.$emit('resetId')
+      this.pathValue = null
+      this.resizeImg()
     },
     handleClick(index) {
       // 点击右侧tabs
