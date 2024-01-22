@@ -25,13 +25,15 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
-
             <span class="number">
-              <lls-input
+              <input
+                class="dih-page-input"
+                type="number"
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
-              /><span>/1</span></span
+              /><span>/&nbsp;&nbsp;1</span></span
             >
+
             <svg-icon
               v-if="activePageIndex === total"
               class="dis-icon"
@@ -140,7 +142,10 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <RightTab :codeTest="JSON.stringify(data[0].json) || ''" ref="rightTab" :isshowBank="true"
+        <RightTab
+          :codeTest="JSON.stringify(data[0].json) || ''"
+          ref="rightTab"
+          :isshowBank="true"
           ><slot></slot>
         </RightTab>
       </div>

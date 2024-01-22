@@ -26,13 +26,14 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
-            <span class="number">
-              <lls-input
+             <span class="number">
+              <input
+                class="dih-page-input"
+                type="number"
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
-              />
-              <span>/{{ total }}</span>
-            </span>
+              /><span>/&nbsp;&nbsp;{{ total }}</span></span
+            >
             <svg-icon
               v-if="activePageIndex === total"
               class="dis-icon"

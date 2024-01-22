@@ -27,12 +27,13 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
-
             <span class="number">
-              <lls-input
+              <input
+                class="dih-page-input"
+                type="number"
                 v-model.number="activePageIndex"
                 v-on:change="inputChange($event)"
-              /><span>/1</span></span
+              /><span>/&nbsp;&nbsp;1</span></span
             >
             <svg-icon
               v-if="activePageIndex === total"
@@ -65,9 +66,7 @@
             ></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
-              @click.native="
-                showImageViewer = true;
-              "
+              @click.native="showImageViewer = true"
             ></svg-icon>
           </div>
         </div>
@@ -125,7 +124,10 @@
       ></div>
       <!-- ocr识别结果 -->
       <div class="ocr-result" ref="ocrResult">
-        <RightTab :codeTest="JSON.stringify(data[0].json) || ''" ref="rightTab" :isshowBank="true"
+        <RightTab
+          :codeTest="JSON.stringify(data[0].json) || ''"
+          ref="rightTab"
+          :isshowBank="true"
           ><slot></slot>
         </RightTab>
       </div>
@@ -401,8 +403,7 @@ export default {
         node.attachEvent('on' + event, fun.call())
       }
     },
-    parentProxy() {
-    },
+    parentProxy() {},
     // 代理函数
     proxy(fun, args) {
       if (this.proxying) return
@@ -455,9 +456,10 @@ export default {
 </script>
 <style lang="stylus" scoped>
 @import '../ocr-layout.styl';
-.ocr-result{
-  width:calc(50% - 8px);
+
+.ocr-result {
+  width: calc(50% - 8px);
   flex-shift: 1;
-  flex-grow:1;
+  flex-grow: 1;
 }
 </style>
