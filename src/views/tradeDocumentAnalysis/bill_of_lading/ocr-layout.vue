@@ -563,7 +563,7 @@ export default {
       if (this.activeTextId == null) {
         return
       }
-      this.setRectangle(this.activeTextId)
+      // this.setRectangle(this.activeTextId)
       const page = this.page
       const rotateIndex = this.rotateIndex
       const zoomScale = this.zoomScale || 1
