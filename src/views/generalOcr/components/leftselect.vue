@@ -69,6 +69,7 @@ export default {
           this.productList = generalOcr
           this.activebgName = this.productList[0].name
           this.product = this.productList
+          this.productNameClick(this.productList[0])
         })
       }
     },
