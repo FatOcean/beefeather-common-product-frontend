@@ -184,6 +184,7 @@ export default {
       this.activePageIndex = 0
       this.productName = data.staticName
       this.productObj = data
+      this.isIdcard()
     },
     resetId() {},
     clickHandler(e, i) {
