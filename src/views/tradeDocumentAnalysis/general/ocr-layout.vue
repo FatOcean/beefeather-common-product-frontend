@@ -499,11 +499,9 @@ export default {
     },
     // 计算path起点、终点坐标
     calculateXy() {
-      console.log(this.activeTextId)
       if (this.activeTextId == null) {
         return
       }
-      console.log('往下执行')
       // this.setRectangle()
       const page = this.page
       const rotateIndex = this.rotateIndex
@@ -640,7 +638,6 @@ export default {
       }
     },
     parentProxy() {
-      console.log('parentProxy')
       this.proxy(this.calculateXy)
     },
     // 代理函数

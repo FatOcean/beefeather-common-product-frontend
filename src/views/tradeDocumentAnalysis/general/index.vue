@@ -128,7 +128,7 @@ export default {
       let el = e.target.parentNode.firstChild
       this.text = i
       if (el.tagName === 'TR') el = el.firstChild
-      if (!(i.values && i.values.length > 0)) {
+      if (!(i.values && i.values.length > 0 && i.values[0].value !== '')) {
         return
       }
       e = e || window.event
