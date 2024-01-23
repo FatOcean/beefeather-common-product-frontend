@@ -213,10 +213,11 @@ export default {
           item.imagePath
         )}`
       })
+      this.activeTextId = ''
       this.staticData[this.productName] = data
       this.isIdcard()
     },
-    tabs(activeDocumentIndex, activePageIndex) {
+    tabs(activeDocumentIndex) {
       this.checked = false
       this.filterEmpty(false)
       this.activeDocumentIndex = activeDocumentIndex
