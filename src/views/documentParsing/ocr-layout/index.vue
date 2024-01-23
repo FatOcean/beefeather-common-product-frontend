@@ -6,12 +6,11 @@
       height: layoutHeight,
     }"
   >
-    <RightSelect ref="RightSelectRefs"></RightSelect>
+    <!-- <RightSelect ref="RightSelectRefs"></RightSelect> -->
     <!-- ocr -->
     <div
       :class="{
         'ocr-inner': true,
-        ocrInnerWidth: isshowRight,
       }"
     >
       <!-- 文档 -->
@@ -362,7 +361,7 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-import RightSelect from './rightselect.vue'
+// import RightSelect from './LeftSelect.vue'
 import { downloadResult, downloadJson } from '@/api/receiptAnalysis'
 import '@/icons'
 
@@ -409,8 +408,8 @@ export default {
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer,
-    RightSelect
+    [ImageViewer.name]: ImageViewer
+    // RightSelect
   },
   props: {
     value: {
@@ -446,6 +445,16 @@ export default {
     isMultiCoordinate: {
       type: Boolean,
       default: true
+    },
+    productObj: {
+      type: Object,
+      default: () => {
+        return {
+          name: '身份证',
+          staticName: 'id_card'
+        }
+      }
+
     }
   },
   data() {
@@ -475,11 +484,10 @@ export default {
       transition: false, // 是否开启缓动效果
       scale: 1,
       newpage: {},
-      productObj: {
-        name: '身份证',
-        staticName: 'id_card'
-      },
-      isshowRight: true,
+      // productObj: {
+      //   name: '身份证',
+      //   staticName: 'id_card'
+      // },
       codeTest: '',
       newCodeTest: '',
       newActiveName: ''
@@ -647,19 +655,7 @@ export default {
           })
         })
     },
-    setisshowRight(data) {
-      this.isshowRight = data
-      this.proxy((_) => {
-        this.documentWidth = this.$refs.documentLayout.clientWidth
-        this.documentHeight = this.$refs.documentLayout.clientHeight
-        this.ocrResultWidth = this.$refs.ocrResult.clientWidth
-        // 初始化每张图片的宽高
-        this.reRenderImage()
-        this.$emit('on-resize')
-      })
-    },
     setProductName(data) {
-      this.productObj = data
       this.activeName = 'first'
       this.resetProps()
       if (this.activeName !== 'first') this.handleClickTabs()
@@ -1078,9 +1074,9 @@ export default {
 @import './ocr-layout.styl';
 
 .ocr-layout {
-  background-image: url('~@/assets/images/bj.png');
-  background-size: auto 100%;
-  background-position: center;
+  // background-image: url('~@/assets/images/bj.png');
+  // background-size: auto 100%;
+  // background-position: center;
 }
 
 .document-layout {
