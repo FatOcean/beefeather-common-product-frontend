@@ -39,20 +39,18 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
-            <lls-input
-              :min="1"
-              :max="total"
-              class="number"
-              v-model.number="pageIndex"
-              @change="
-                (e) => {
-                  handleTurnPage(0, e);
-                }
-              "
-              :short="true"
-            >
-              <span slot="suffix">/{{ total }}</span>
-            </lls-input>
+          <span class="number">
+              <input
+                class="dih-page-input"
+                type="number"
+                :min="1"
+                :max="total"
+                v-model.number="pageIndex"
+                v-on:change="inputChange($event)"
+                :short="true"
+              />
+              <span>/&nbsp;&nbsp;{{ total }}</span>
+            </span>
             <!-- <span class="number"
               >{{ activePageIndex + 1 }}&nbsp;&nbsp;<span
                 >/{{ total }}</span
@@ -544,6 +542,17 @@ export default {
     this.resizeObserver.disconnect()
   },
   methods: {
+    inputChange() {
+      if (this.pageIndex > this.total) {
+        this.pageIndex = this.total
+      }
+      if (this.pageIndex < 1) {
+        this.pageIndex = 1
+      }
+      this.activePageIndex = this.pageIndex - 1
+      this.$parent.setTableData()
+      this.reRenderImage()
+    },
     getPosition(item) {
       return item.position[0]
     },

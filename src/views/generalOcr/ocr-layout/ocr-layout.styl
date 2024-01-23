@@ -14,6 +14,13 @@ height: calc(100vh - 122px);
     -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     background: rgba(124, 125, 125, 0.5);
   }
+      input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
   * {
     user-select: none;
     box-sizing: border-box;
@@ -68,21 +75,34 @@ height: calc(100vh - 122px);
         }
 
         .number {
-          width: 40px;
+          border-bottom: 1px solid #E3E8F0;
+          padding: 0 8px;
+          .dih-page-input {
+  background-color: transparent;
+  max-width: 20px;
+  border: none;
+  text-align: center;
+  outline: medium;
+  color: #999;
+}
 
-          ::v-deep .lls-input__inner {
-            width: 20px;
-            position: relative;
-            left: -8px;
-            border: none;
-            border-bottom: 1px solid #e3e8f0;
-            height: 14px;
-            padding: 0;
-            border-radius: 0;
-            text-align: center;
+          .lls-input {
+            width: auto;
 
-            &:focus {
-              border-color: #0887ff;
+            .lls-input__inner {
+              max-width: 30px;
+              color:#999;
+              position: relative;
+              left: -4px;
+              border: none;
+              height: 14px;
+              padding: 0;
+              border-radius: 0;
+              text-align: center;
+
+              &:focus {
+                border-color: #0887ff;
+              }
             }
           }
 

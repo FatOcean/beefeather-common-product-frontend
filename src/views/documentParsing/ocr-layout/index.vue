@@ -38,20 +38,19 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
-            <lls-input
-              :min="1"
-              :max="total"
-              class="number"
-              v-model.number="pageIndex"
-              @change="
-                (e) => {
-                  handleTurnPage(0, e);
-                }
-              "
-              :short="true"
-            >
-              <span slot="suffix">/{{ total }}</span>
-            </lls-input>
+            <span class="number">
+              <input
+                class="dih-page-input"
+                type="number"
+                :min="1"
+                :max="total"
+                v-model.number="pageIndex"
+                v-on:change="inputChange($event)"
+                :short="true"
+              />
+              <span>/&nbsp;&nbsp;{{ total }}</span>
+            </span>
+
             <!-- <span class="number"
               >{{ activePageIndex + 1 }}&nbsp;&nbsp;<span
                 >/{{ total }}</span
@@ -89,7 +88,11 @@
             ></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
-              @click.native="()=>{showImageViewer = true}"
+              @click.native="
+                () => {
+                  showImageViewer = true;
+                }
+              "
             ></svg-icon>
           </div>
         </div>
@@ -307,7 +310,10 @@
             </div>
           </lls-tab-pane>
           <lls-tab-pane label="Json结果" name="second">
-            <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
+            <div
+              style="border: 1px solid #e3e8f0"
+              v-if="activeName === 'second'"
+            >
               <b-code-editor
                 :indent-unit="4"
                 v-model="newCodeTest"
@@ -332,7 +338,12 @@
           </template>
         </lls-tabs>
       </div>
-      <svgPath v-if="pathValue" :pathValue="pathValue" :documentWidth="documentWidth" :documentHeight="documentHeight"></svgPath>
+      <svgPath
+        v-if="pathValue"
+        :pathValue="pathValue"
+        :documentWidth="documentWidth"
+        :documentHeight="documentHeight"
+      ></svgPath>
       <lls-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
@@ -593,6 +604,17 @@ export default {
     this.resizeObserver.disconnect()
   },
   methods: {
+    inputChange() {
+      if (this.pageIndex > this.total) {
+        this.pageIndex = this.total
+      }
+      if (this.pageIndex < 1) {
+        this.pageIndex = 1
+      }
+      this.activePageIndex = this.pageIndex - 1
+      this.$parent.setTableData()
+      this.reRenderImage()
+    },
     downloadResult() {
       const download =
         this.activeName === 'first' ? downloadResult : downloadJson
@@ -947,7 +969,11 @@ export default {
         // this.data_.push(document)
         const vm = this
         if (index === this.activePageIndex) {
-          if (['property_certificate', 'income_proof'].indexOf(this.productObj.staticName) > -1) {
+          if (
+            ['property_certificate', 'income_proof'].indexOf(
+              this.productObj.staticName
+            ) > -1
+          ) {
             if (/1|3/.test(document.angle / 90)) {
               const width = document.height
               document.height = document.width
