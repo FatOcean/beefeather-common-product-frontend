@@ -49,10 +49,10 @@ export default {
   },
   data() {
     return {
-      productName: 'bill_of_lading',
+      productName: '',
       productObj: {
-        name: '提单',
-        staticName: 'bill_of_lading'
+        name: '',
+        staticName: ''
       }
     }
   },
