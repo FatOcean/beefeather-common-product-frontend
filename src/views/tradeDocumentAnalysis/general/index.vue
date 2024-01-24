@@ -183,7 +183,35 @@ export default {
       this.$refs.documents.pathValue = null
       this.$refs.documents.text = ''
       this.$refs.documents.rectanglePosition = null
-      this.showPageData = this.fuzzySearch(fieldName, this.page, this.checkedNull)
+      this.showPageData = this.fuzzySearch(
+        fieldName,
+        this.page,
+        this.checkedNull
+      )
+      // 对多层级数组再进行操作
+      if (this.checkedNull) {
+        this.showPageData = this.showPageData
+          .map((item) => {
+            if (item.row) {
+              const filteredRow = item.row.filter((rowItem) => {
+                return (
+                  rowItem.values &&
+                  rowItem.values.length > 0 &&
+                  rowItem.values[0].value !== ''
+                )
+              })
+
+              if (filteredRow.length > 0) {
+                return { ...item, row: filteredRow }
+              } else {
+                return null
+              }
+            } else {
+              return item
+            }
+          })
+          .filter(Boolean)
+      }
     },
     fuzzySearch(keyword, data, isCheckboxChecked) {
       // 将搜索关键字转换为小写，以进行不区分大小写的搜索
@@ -193,11 +221,10 @@ export default {
       const results = data.filter((item) => {
         // 检查 checkbox 是否选中，只有在选中时才判断隐藏空白字段
         // const isHiddenFieldChecked = isCheckboxChecked && item?.values?.length === 0
-        const isHiddenFieldChecked = isCheckboxChecked && (
-          item?.values?.length === 0 || item?.values?.every(valueObj =>
-            valueObj.value.trim() === ''
-          )
-        )
+        const isHiddenFieldChecked =
+          isCheckboxChecked &&
+          (item?.values?.length === 0 ||
+            item?.values?.every((valueObj) => valueObj.value.trim() === ''))
         // 检查 keyEn 和 keyCh 是否包含关键字
         const keyEnMatch = item.keyEn.toLowerCase().includes(lowerKeyword)
         const keyChMatch = item.keyCh.toLowerCase().includes(lowerKeyword)
@@ -208,12 +235,18 @@ export default {
         )
 
         // 递归检查 row 中的每个子项
-        const rowMatch = item.row && item.row.some(rowItem =>
-          this.fuzzySearch(keyword, item.row, isCheckboxChecked).length > 0
-        )
+        const rowMatch =
+          item.row &&
+          item.row.some(
+            (rowItem) =>
+              this.fuzzySearch(keyword, item.row, isCheckboxChecked).length > 0
+          )
 
         // 返回任何匹配的项
-        return (keyEnMatch || keyChMatch || valueMatch || rowMatch) && !isHiddenFieldChecked
+        return (
+          (keyEnMatch || keyChMatch || valueMatch || rowMatch) &&
+          !isHiddenFieldChecked
+        )
       })
 
       return results
