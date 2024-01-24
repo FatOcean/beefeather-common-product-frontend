@@ -10,8 +10,17 @@
       :data="documents"
       v-model="page"
       ref="documents"
-      :pageMenuPerm="pageMenuPerm"
     >
+      <div class="search-box">
+        <lls-input
+          placeholder="请输入字段名进行搜索"
+          prefix-icon="lls-icon-search"
+          @input="fieldNameInput"
+          v-model="fieldName"
+        >
+        </lls-input>
+        <lls-checkbox v-model="checkedNull">隐藏空白字段</lls-checkbox>
+      </div>
       <lls-tabs @tab-click="handleClick" v-model="activeName">
         <lls-tab-pane
           v-for="(item, index) in tabsArray"
@@ -31,17 +40,18 @@
             pointer: i.position,
           }"
           @click="(e) => clickHandler(e, i, 'info')"
-          v-for="i in page.content[0].info"
+          v-for="i in showPageData.content[0].info"
           :key="i.key"
         >
           <td colspan="2">{{ i.key }}</td>
           <td style="white-space: pre-line">{{ i.value }}</td>
         </tr>
-        <template v-for="(item, index) in page.content[0].commodity">
+        <template v-for="(item, index) in showPageData.content[0].commodity">
           <tr v-bind:key="index">
             <td
               class="td-title"
-              :rowspan="page.content[0].commodity[index].length + 1"
+              v-show="showPageData.content[0].commodity[index].length > 0"
+              :rowspan="showPageData.content[0].commodity[index].length + 1"
             >
               货物或应税劳务、服务描述{{ index + 1 }}
             </td>
@@ -53,10 +63,10 @@
               pointer: item.position,
             }"
             @click="(e) => clickHandler(e, item, 'commodity')"
-            v-for="item in page.content[0].commodity[index]"
+            v-for="item in showPageData.content[0].commodity[index]"
             :key="item.key"
           >
-            <td style="width:33%">{{ item.key }}</td>
+            <td style="width: 33%">{{ item.key }}</td>
             <td>{{ item.value }}</td>
           </tr>
         </template>
@@ -66,7 +76,7 @@
             pointer: i.position,
           }"
           @click="(e) => clickHandler(e, i, 'others')"
-          v-for="i in page.content[0].others"
+          v-for="i in showPageData.content[0].others"
           :key="i.key"
         >
           <td colspan="2">{{ i.key }}</td>
@@ -77,10 +87,9 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
 import ocrLayout from './ocr-layout'
 import { staticData } from '../staticData'
-
+import { cloneDeep } from 'lodash'
 export default {
   data() {
     return {
@@ -91,12 +100,26 @@ export default {
       activeDocumentIndex: 0,
       tabsArray: [],
       documents: staticData.vat,
-      activeTableType: ''
+      activeTableType: '',
+      fieldName: '',
+      checkedNull: false,
+      showPageData: {} // 用作展示
     }
   },
   components: { ocrLayout },
+  watch: {
+    checkedNull() {
+      this.fieldNameInput()
+    },
+    page: {
+      handler(val) {
+        this.showPageData = cloneDeep(val)
+      },
+      deep: true,
+      immediate: true // 立即执行
+    }
+  },
   computed: {
-    ...mapState(['pageMenuPerm']),
     originLocation() {
       return process.env.NODE_ENV === 'development'
         ? 'https://beefeather-ng-front.lianyirong.com.cn//file-handle-web/file/image'
@@ -105,6 +128,8 @@ export default {
   },
   created() {
     this.page = this.documents[0]
+    this.showPageData = cloneDeep(this.page)
+
     this.tabsArray = this.documents.map((item, index) => {
       return {
         name: `发票${index + 1}`
@@ -119,13 +144,13 @@ export default {
     tabs(activeDocumentIndex, activePageIndex) {
       this.activePageIndex = 0
       this.activeDocumentIndex = activeDocumentIndex
-      this.tabsArray = this.documents.map(
-        (item, index) => {
-          return {
-            name: `发票${index + 1}`
-          }
+      this.tabsArray = this.documents.map((item, index) => {
+        return {
+          name: `发票${index + 1}`
         }
-      )
+      })
+      this.fieldName = ''
+      this.checkedNull = false
       this.activeName = this.tabsArray[activePageIndex].name
     },
     handleClick(value) {
@@ -134,6 +159,8 @@ export default {
           this.$refs.documents.handleClick(index)
         }
       })
+      this.fieldName = ''
+      this.checkedNull = false
     },
     clickHandler(e, i, type) {
       if (i.value === '' || i.position[0].length !== 4) {
@@ -160,12 +187,46 @@ export default {
       })
       this.documents = data
       this.page = this.documents[0]
+      this.showPageData = cloneDeep(this.page)
       this.tabsArray = this.documents.map((item, index) => {
         return {
           name: `发票${index + 1}`
         }
       })
+      this.fieldName = ''
+      this.checkedNull = false
       this.activeName = this.tabsArray[0].name
+    },
+    fieldNameInput() {
+      const fieldName = this.fieldName.toLowerCase()
+      this.activeTextId = ''
+      this.$refs.documents.pathValue = null
+      this.$refs.documents.activeText = null
+      this.showPageData.content[0] = this.fuzzySearch(fieldName, this.page.content[0], this.checkedNull)
+    },
+    fuzzySearch(keyword, data) {
+      const lowerKeyword = keyword.toLowerCase()
+
+      // 进行模糊搜索
+      const results = {
+        info: this.searchAndCheckEmpty(data.info, lowerKeyword),
+        commodity: data.commodity.map((subArray) => {
+          return this.searchAndCheckEmpty(subArray, lowerKeyword)
+        }),
+        others: this.searchAndCheckEmpty(data.others, lowerKeyword)
+      }
+
+      return results
+    },
+    // 辅助函数
+    searchAndCheckEmpty(categoryData, keyword, isNull = this.checkedNull) {
+      const results = categoryData.filter((item) => {
+        const isKeyMatch = item.key.toLowerCase().includes(keyword)
+        const isValueMatch = item.value.toLowerCase().includes(keyword)
+        const isNullMatch = isNull && item.value === ''
+        return (isKeyMatch || isValueMatch) && !isNullMatch
+      })
+      return results
     }
   }
 }
@@ -173,5 +234,25 @@ export default {
 <style lang="stylus">
 .pre-line {
   white-space: pre-line;
+}
+
+.search-box {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .lls-checkbox__label {
+    padding-left: 4px;
+    color: #202D40;
+  }
+
+  .lls-checkbox {
+    margin-left: 32px;
+  }
+
+  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+    color: #202D40;
+  }
 }
 </style>
