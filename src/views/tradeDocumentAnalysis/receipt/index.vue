@@ -6,6 +6,16 @@
       ref="documents"
       :activeTabIndex="activeTabIndex"
     >
+    <div class="search-box">
+        <lls-input
+          placeholder="请输入字段名进行搜索"
+          prefix-icon="lls-icon-search"
+          @input="fieldNameInput"
+          v-model="fieldName"
+        >
+        </lls-input>
+        <lls-checkbox v-model="checkedNull">隐藏空白字段</lls-checkbox>
+      </div>
       <template>
         <div
           v-show="bank === ''&& !loading && !failedStatus"
@@ -33,7 +43,7 @@
                   <td colspan="2">字段名</td>
                   <td>识别结果</td>
                 </thead>
-                <tbody v-for="i in page.fields" :key="i.id">
+                <tbody v-for="i in showPage.fields" :key="i.id">
                   <tr>
                     <td colspan="2">{{ i.key }}</td>
                     <td>{{ i.value }}</td>
@@ -68,6 +78,7 @@ import failed from '@/assets/images/failed.png'
 import searching from '@/assets/images/searching.png'
 import { extractInfo } from '@/api/receiptAnalysis'
 import ocrLayout from './ocr-layout'
+import { cloneDeep } from 'lodash'
 export default {
   data() {
     return {
@@ -85,11 +96,28 @@ export default {
       loading: false,
       failedStatus: false,
       taskId: 0,
-      instance: {}
+      instance: {},
+      fieldName: '',
+      checkedNull: false,
+      showPage: []
     }
   },
   components: {
     ocrLayout
+  },
+  watch: {
+    checkedNull: {
+      handler(val) {
+        this.fieldNameInput()
+      }
+    },
+    page: {
+      handler(val) {
+        this.showPage = cloneDeep(val)
+      },
+      deep: true,
+      immediate: true // 立即执行
+    }
   },
   computed: {
     originLocation() {
@@ -102,6 +130,7 @@ export default {
     this.instance = this.data[0]
     this.documents = this.instance.content
     this.page = this.documents[0]
+    // this.showPage = this.page
     this.tabsArray = this.documents.map((item, index) => {
       return { name: `回单${index + 1}` }
     })
@@ -150,6 +179,8 @@ export default {
             this.activeName = this.tabsArray[0].name
             this.page = this.documents[0]
             this.failedStatus = false
+            this.fieldName = ''
+            this.checkedNull = false
             this.$refs.documents.handleClick(this.page.boundingBox || {})
           } else {
             this.data[0].json = res.data[0]?.json || ''
@@ -188,7 +219,25 @@ export default {
       this.$refs.documents.resetPosition()
       this.activeTabIndex = Number(value.index)
       this.page = this.documents[this.activeTabIndex]
+      this.fieldName = ''
+      this.checkedNull = false
       this.$refs.documents.handleClick(this.page.boundingBox || {})
+    },
+    fieldNameInput() {
+      const fieldName = this.fieldName.toLowerCase()
+      this.showPage.fields = this.fuzzySearch(fieldName, this.page.fields, this.checkedNull)
+    },
+    fuzzySearch(keyword, data, checkedNull) {
+      return data.filter((item) => {
+        const key = (item?.key || '').toLowerCase()
+        const value = (item?.value || '').toLowerCase()
+
+        const isKeyMatch = key.includes(keyword.toLowerCase())
+        const isValueMatch = value.includes(keyword.toLowerCase())
+        const isNullMatch = checkedNull && !value
+
+        return (isKeyMatch || isValueMatch) && !isNullMatch
+      })
     }
   }
 }
@@ -301,5 +350,24 @@ export default {
 
 .lls-select .lls-input.is-disabled .lls-input__inner:hover {
   border-color: #E9E9E9 !important;
+}
+.search-box {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .lls-checkbox__label {
+    padding-left: 4px;
+    color: #202D40;
+  }
+
+  .lls-checkbox {
+    margin-left: 32px;
+  }
+
+  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+    color: #202D40;
+  }
 }
 </style>
