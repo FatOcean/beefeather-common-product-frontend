@@ -6,16 +6,24 @@
       v-model="page"
       ref="documents"
       :activeTabIndex="activeTabIndex"
-    >
+      ><div class="search-box">
+        <lls-input
+          placeholder="请输入字段名进行搜索"
+          prefix-icon="lls-icon-search"
+          @input="fieldNameInput"
+          v-model="fieldName"
+        >
+        </lls-input>
+        <lls-checkbox v-model="checkedNull">隐藏空白字段</lls-checkbox>
+      </div>
       <table cellspacing="0" class="table-data">
         <thead>
           <td colspan="2">字段名</td>
           <td>识别结果</td>
         </thead>
-        <tbody v-for="i in page" :key="i.sortId">
+        <tbody v-for="i in showPageData" :key="i.sortId">
           <template v-if="i.groupable">
-            <tr
-            >
+            <tr>
               <td :rowspan="i.row.length + 1" class="td-title">
                 {{ i.keyEn }}<br />{{ i.keyCh }}
               </td>
@@ -23,7 +31,9 @@
             <tr
               v-for="(j, jindex) in i.row"
               :key="jindex"
-              :class="{ active: activeTextId === j.sortId && text.keyCh === j.keyCh }"
+              :class="{
+                active: activeTextId === j.sortId && text.keyCh === j.keyCh,
+              }"
               @click="(e) => clickHandler(e, j)"
             >
               <template>
@@ -78,7 +88,10 @@ export default {
       page: [], // 当前页面数据信息
       activeDocumentIndex: 0,
       activeTabIndex: 0,
-      text: ''
+      text: '',
+      fieldName: '',
+      checkedNull: false,
+      showPageData: [] // 用作展示
     }
   },
   watch: {
@@ -88,6 +101,17 @@ export default {
       this.$nextTick(() => {
         this.$refs.documents.resetProps()
       })
+    },
+    page: {
+      handler(val) {
+        this.showPageData = val
+      },
+      immediate: true // 立即执行
+    },
+    checkedNull() {
+      // handler(val) {
+      this.fieldNameInput()
+      // }
     }
   },
   created() {
@@ -99,7 +123,7 @@ export default {
     // 处理数据
     disposeContent(content) {
       // 找出groupable为true的数组中，row数组中存在values数组下数据为多个的情况
-    // 修改原有数据，直接替换掉row数组
+      // 修改原有数据，直接替换掉row数组
       const contents = content
       contents.forEach((item) => {
         if (item.groupable && item.row) {
@@ -142,44 +166,82 @@ export default {
     uploadFileData(res) {
       this.data = res.data
       this.page = this.disposeContent(this.data[0].content)
+      this.checkedNull = false
+      this.fieldName = ''
+      this.activeTextId = ''
       this.$refs.documents.resetProps()
     },
-    tabs(activeDocumentIndex, activePageIndex) {
-      this.filterEmpty(false)
-      this.activeDocumentIndex = activeDocumentIndex
-      this.page = this.data[this.activeDocumentIndex][0]
-    },
-
     handleClick(value) {
       this.page = this.disposeContent(this.data[value - 1].content)
+      this.checkedNull = false
+      this.fieldName = ''
       this.activeTextId = ''
-      // if (typeof value === 'number') {
-      //   console.log(value)
-      //   if (value === 0) {
-      //     this.activeTabIndex = 0
-      //     this.activeName = this.tabsArray[this.activeTabIndex].name
-      //     this.$refs.documents.handleClick(this.activeTabIndex)
-      //     this.page = this.documents[this.activeTabIndex]
-      //   } else {
-      //     this.activeTabIndex += value
-      //     this.activeName = this.tabsArray[this.activeTabIndex].name
-      //     this.$refs.documents.handleClick(this.activeTabIndex)
-      //     this.page = this.documents[this.activeTabIndex]
-      //   }
-      // } else {
-      //   this.tabsArray.forEach((item, index) => {
-      //     if (item.name === value.name) {
-      //       this.activeTabIndex = index
-      //       this.$refs.documents.handleClick(index)
-      //       this.page = this.documents[index]
-      //     }
-      //   })
-      // }
+    },
+    fieldNameInput() {
+      const fieldName = this.fieldName.toLowerCase()
+      this.activeTextId = ''
+      this.$refs.documents.pathValue = null
+      this.$refs.documents.text = ''
+      this.$refs.documents.rectanglePosition = null
+      this.showPageData = this.fuzzySearch(fieldName, this.page, this.checkedNull)
+    },
+    fuzzySearch(keyword, data, isCheckboxChecked) {
+      // 将搜索关键字转换为小写，以进行不区分大小写的搜索
+      const lowerKeyword = keyword.toLowerCase()
+
+      // 进行模糊搜索
+      const results = data.filter((item) => {
+        // 检查 checkbox 是否选中，只有在选中时才判断隐藏空白字段
+        // const isHiddenFieldChecked = isCheckboxChecked && item?.values?.length === 0
+        const isHiddenFieldChecked = isCheckboxChecked && (
+          item?.values?.length === 0 || item?.values?.every(valueObj =>
+            valueObj.value.trim() === ''
+          )
+        )
+        // 检查 keyEn 和 keyCh 是否包含关键字
+        const keyEnMatch = item.keyEn.toLowerCase().includes(lowerKeyword)
+        const keyChMatch = item.keyCh.toLowerCase().includes(lowerKeyword)
+
+        // 检查 values 中的 value 是否包含关键字
+        const valueMatch = item?.values?.some((valueObj) =>
+          valueObj.value.toLowerCase().includes(lowerKeyword)
+        )
+
+        // 递归检查 row 中的每个子项
+        const rowMatch = item.row && item.row.some(rowItem =>
+          this.fuzzySearch(keyword, item.row, isCheckboxChecked).length > 0
+        )
+
+        // 返回任何匹配的项
+        return (keyEnMatch || keyChMatch || valueMatch || rowMatch) && !isHiddenFieldChecked
+      })
+
+      return results
     }
   }
 }
 </script>
 <style lang="stylus" scoped>
+.search-box {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+
+  .lls-checkbox__label {
+    padding-left: 4px;
+    color: #202D40;
+  }
+
+  .lls-checkbox {
+    margin-left: 32px;
+  }
+
+  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+    color: #202D40;
+  }
+}
+
 .table-data {
   width: 100%;
   margin: 12px 0;
