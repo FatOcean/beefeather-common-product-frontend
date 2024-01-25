@@ -150,11 +150,11 @@ export default {
     },
     clickHandler(e, i, noParent) {
       let el = e.target.parentNode.firstChild
-      this.text = i
       if (el.tagName === 'TR') el = el.firstChild
-      if (!(i.values && i.values.length > 0)) {
+      if (!(i.values && i.values.length > 0 && i.values[0].value !== '')) {
         return
       }
+      this.text = i
       e = e || window.event
       this.$refs.documents.$events.trigger('click-ocr-el', {
         el,

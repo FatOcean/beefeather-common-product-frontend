@@ -3,13 +3,17 @@
     <lls-page-header @back="goBack" content="证照解析" bottom-line>
     </lls-page-header>
     <!-- <button @click="pushtest">测试</button> -->
+    <div class="document-box">
+
+    <rightselectVue></rightselectVue>
     <ocrlayout
+    v-if="productName"
       @tabs="tabs"
       :data="documents"
       v-model="page"
       :activeTabIndex="activeTabIndex"
       ref="documents"
-      :pageMenuPerm="pageMenuPerm"
+      :productObj="productObj"
       @resetId="() => (activeTextId = null)"
     >
       <lls-tabs
@@ -61,14 +65,17 @@
         </tbody>
       </table>
     </ocrlayout>
+
+    </div>
   </div>
 </template>
 <script>
 import { staticData } from './staticData'
 import ocrlayout from './ocr-layout'
 import { mapState } from 'vuex'
+import rightselectVue from './ocr-layout/rightselect.vue'
 export default {
-  components: { ocrlayout },
+  components: { ocrlayout, rightselectVue },
   data() {
     return {
       // page: {}, // 当前页面数据信息
@@ -81,8 +88,9 @@ export default {
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
-      productName: 'id_card',
-      activePageIndex: 0
+      productName: '',
+      activePageIndex: 0,
+      productObj: {}
     }
   },
 
@@ -175,6 +183,8 @@ export default {
       this.activeTextId = 0
       this.activePageIndex = 0
       this.productName = data.staticName
+      this.productObj = data
+      this.isIdcard()
     },
     resetId() {},
     clickHandler(e, i) {
@@ -213,10 +223,11 @@ export default {
           item.imagePath
         )}`
       })
+      this.activeTextId = ''
       this.staticData[this.productName] = data
       this.isIdcard()
     },
-    tabs(activeDocumentIndex, activePageIndex) {
+    tabs(activeDocumentIndex) {
       this.checked = false
       this.filterEmpty(false)
       this.activeDocumentIndex = activeDocumentIndex
@@ -238,6 +249,12 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.document-box{
+  display: flex;
+    background-image: url('~@/assets/images/bj.png');
+  background-size: auto 100%;
+  background-position: center;
+}
 .table-data {
   width: 100%;
   margin-bottom: 16px;

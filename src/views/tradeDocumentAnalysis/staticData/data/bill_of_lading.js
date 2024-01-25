@@ -3,12 +3,12 @@ import imagePath from '../images/bill_of_lading.png'
 const data = [
   {
     isexample: true,
-    taskId: 'U2024011909873420',
+    taskId: 'U2024011013820181',
     status: 1,
     fileName: 'bill_of_lading.png',
     imagePath,
-    height: 1538,
-    width: 1170,
+    height: 1024,
+    width: 791,
     content: [
       {
         sortId: 1,
@@ -20,24 +20,24 @@ const data = [
             position: [
               [
                 {
-                  x: 808,
-                  y: 114
+                  x: 501,
+                  y: 91
                 },
                 {
-                  x: 894,
-                  y: 114
+                  x: 581,
+                  y: 91
                 },
                 {
-                  x: 894,
-                  y: 131
+                  x: 581,
+                  y: 102
                 },
                 {
-                  x: 808,
-                  y: 131
+                  x: 501,
+                  y: 102
                 }
               ]
             ],
-            value: 'DAD0007344'
+            value: 'VASHYDSHA000131'
           }
         ]
       },
@@ -51,24 +51,24 @@ const data = [
             position: [
               [
                 {
-                  x: 665,
-                  y: 203
+                  x: 397,
+                  y: 135
                 },
                 {
-                  x: 882,
-                  y: 203
+                  x: 621,
+                  y: 135
                 },
                 {
-                  x: 882,
-                  y: 236
+                  x: 621,
+                  y: 187
                 },
                 {
-                  x: 665,
-                  y: 236
+                  x: 397,
+                  y: 187
                 }
               ]
             ],
-            value: 'TXsen Logistics'
+            value: 'VASCO MARITIME PTE LTD.'
           }
         ]
       },
@@ -82,24 +82,24 @@ const data = [
             position: [
               [
                 {
-                  x: 126,
-                  y: 135
+                  x: 93,
+                  y: 97
                 },
                 {
-                  x: 225,
-                  y: 135
+                  x: 253,
+                  y: 97
                 },
                 {
-                  x: 225,
-                  y: 152
+                  x: 253,
+                  y: 108
                 },
                 {
-                  x: 126,
-                  y: 152
+                  x: 93,
+                  y: 108
                 }
               ]
             ],
-            value: 'ALBCO-CMAY'
+            value: 'SYNERGENE ACTIVE INGREDIENTS PVT LTD.'
           }
         ]
       },
@@ -134,24 +134,24 @@ const data = [
             position: [
               [
                 {
-                  x: 129,
-                  y: 264
+                  x: 92,
+                  y: 187
                 },
                 {
-                  x: 275,
-                  y: 264
+                  x: 215,
+                  y: 187
                 },
                 {
-                  x: 275,
-                  y: 280
+                  x: 215,
+                  y: 197
                 },
                 {
-                  x: 129,
-                  y: 280
+                  x: 92,
+                  y: 197
                 }
               ]
             ],
-            value: 'HCA HELTHCA EUR K102'
+            value: 'SHANGHAI RC CHEMICALS CO LTD'
           }
         ]
       },
@@ -186,24 +186,24 @@ const data = [
             position: [
               [
                 {
-                  x: 129,
-                  y: 363
+                  x: 92,
+                  y: 276
                 },
                 {
-                  x: 224,
-                  y: 363
+                  x: 215,
+                  y: 276
                 },
                 {
-                  x: 224,
-                  y: 379
+                  x: 215,
+                  y: 287
                 },
                 {
-                  x: 129,
-                  y: 379
+                  x: 92,
+                  y: 287
                 }
               ]
             ],
-            value: 'DEF COMPANY'
+            value: 'SHANGHAI RC CHEMICALS CO LTD'
           }
         ]
       },
@@ -238,24 +238,24 @@ const data = [
             position: [
               [
                 {
-                  x: 366,
-                  y: 481
+                  x: 237,
+                  y: 368
                 },
                 {
-                  x: 502,
-                  y: 481
+                  x: 282,
+                  y: 368
                 },
                 {
-                  x: 502,
-                  y: 496
+                  x: 282,
+                  y: 377
                 },
                 {
-                  x: 366,
-                  y: 496
+                  x: 237,
+                  y: 377
                 }
               ]
             ],
-            value: 'DA NANG, VIET NAM'
+            value: 'HYDERABAD'
           }
         ]
       },
@@ -269,24 +269,24 @@ const data = [
             position: [
               [
                 {
-                  x: 366,
-                  y: 516
+                  x: 237,
+                  y: 391
                 },
                 {
-                  x: 488,
-                  y: 516
+                  x: 263,
+                  y: 391
                 },
                 {
-                  x: 488,
-                  y: 533
+                  x: 263,
+                  y: 401
                 },
                 {
-                  x: 366,
-                  y: 533
+                  x: 237,
+                  y: 401
                 }
               ]
             ],
-            value: 'FELIXSTOWE, U.K.'
+            value: 'BMCT'
           }
         ]
       },
@@ -300,24 +300,24 @@ const data = [
             position: [
               [
                 {
-                  x: 151,
-                  y: 904
+                  x: 90,
+                  y: 412
                 },
                 {
-                  x: 255,
-                  y: 904
+                  x: 133,
+                  y: 412
                 },
                 {
-                  x: 255,
-                  y: 922
+                  x: 133,
+                  y: 421
                 },
                 {
-                  x: 151,
-                  y: 922
+                  x: 90,
+                  y: 421
                 }
               ]
             ],
-            value: 'COLLECT'
+            value: 'SHANGHAI'
           }
         ]
       },
@@ -331,24 +331,24 @@ const data = [
             position: [
               [
                 {
-                  x: 645,
-                  y: 554
+                  x: 235,
+                  y: 414
                 },
                 {
-                  x: 798,
-                  y: 554
+                  x: 278,
+                  y: 414
                 },
                 {
-                  x: 798,
-                  y: 570
+                  x: 278,
+                  y: 423
                 },
                 {
-                  x: 645,
-                  y: 570
+                  x: 235,
+                  y: 423
                 }
               ]
             ],
-            value: 'TILBURY, U.K. CFS'
+            value: 'SHANGHAI'
           }
         ]
       },
@@ -369,24 +369,24 @@ const data = [
             position: [
               [
                 {
-                  x: 131,
-                  y: 554
+                  x: 90,
+                  y: 388
                 },
                 {
-                  x: 276,
-                  y: 554
+                  x: 164,
+                  y: 388
                 },
                 {
-                  x: 276,
-                  y: 571
+                  x: 164,
+                  y: 399
                 },
                 {
-                  x: 131,
-                  y: 571
+                  x: 90,
+                  y: 399
                 }
               ]
             ],
-            value: 'DDM UNITED KINGDOM'
+            value: 'SINGAPORE BRIDGE'
           }
         ]
       },
@@ -400,24 +400,24 @@ const data = [
             position: [
               [
                 {
-                  x: 235,
-                  y: 480
+                  x: 169,
+                  y: 388
                 },
                 {
-                  x: 302,
-                  y: 480
+                  x: 194,
+                  y: 388
                 },
                 {
-                  x: 302,
-                  y: 496
+                  x: 194,
+                  y: 400
                 },
                 {
-                  x: 235,
-                  y: 496
+                  x: 169,
+                  y: 400
                 }
               ]
             ],
-            value: '0TU3M51N'
+            value: '2102E'
           }
         ]
       },
@@ -438,20 +438,20 @@ const data = [
             position: [
               [
                 {
-                  x: 438,
-                  y: 604
+                  x: 248,
+                  y: 453
                 },
                 {
-                  x: 731,
-                  y: 604
+                  x: 603,
+                  y: 453
                 },
                 {
-                  x: 731,
-                  y: 725
+                  x: 603,
+                  y: 695
                 },
                 {
-                  x: 438,
-                  y: 725
+                  x: 248,
+                  y: 695
                 }
               ]
             ],
@@ -469,24 +469,24 @@ const data = [
             position: [
               [
                 {
-                  x: 700,
-                  y: 1180
+                  x: 525,
+                  y: 825
                 },
                 {
-                  x: 756,
-                  y: 1180
+                  x: 578,
+                  y: 825
                 },
                 {
-                  x: 756,
-                  y: 1195
+                  x: 578,
+                  y: 835
                 },
                 {
-                  x: 700,
-                  y: 1195
+                  x: 525,
+                  y: 835
                 }
               ]
             ],
-            value: 'DHANG'
+            value: 'HYDERABAD'
           }
         ]
       },
@@ -500,24 +500,24 @@ const data = [
             position: [
               [
                 {
-                  x: 762,
-                  y: 1317
+                  x: 580,
+                  y: 823
                 },
                 {
-                  x: 842,
-                  y: 1317
+                  x: 630,
+                  y: 823
                 },
                 {
-                  x: 842,
-                  y: 1335
+                  x: 630,
+                  y: 835
                 },
                 {
-                  x: 762,
-                  y: 1335
+                  x: 580,
+                  y: 835
                 }
               ]
             ],
-            value: '29-Sep-19'
+            value: '2021/05/04'
           }
         ]
       },
@@ -531,24 +531,24 @@ const data = [
             position: [
               [
                 {
-                  x: 898,
-                  y: 1178
+                  x: 336,
+                  y: 684
                 },
                 {
-                  x: 975,
-                  y: 1178
+                  x: 383,
+                  y: 684
                 },
                 {
-                  x: 975,
-                  y: 1195
+                  x: 383,
+                  y: 693
                 },
                 {
-                  x: 898,
-                  y: 1195
+                  x: 336,
+                  y: 693
                 }
               ]
             ],
-            value: '29-Sep-19'
+            value: '29/04/2021'
           }
         ]
       },
@@ -564,93 +564,21 @@ const data = [
         keyEn: 'Has Signature (True or False)',
         keyCh: '是否有手签',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 771,
-                  y: 1324
-                },
-                {
-                  x: 853,
-                  y: 1324
-                },
-                {
-                  x: 853,
-                  y: 1384
-                },
-                {
-                  x: 771,
-                  y: 1384
-                }
-              ]
-            ],
-            value: 'T'
-          }
-        ]
+        values: []
       },
       {
         sortId: 29,
         keyEn: 'Signer Role',
         keyCh: '签字人角色',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 753,
-                  y: 1373
-                },
-                {
-                  x: 809,
-                  y: 1373
-                },
-                {
-                  x: 809,
-                  y: 1400
-                },
-                {
-                  x: 753,
-                  y: 1400
-                }
-              ]
-            ],
-            value: 'AGENT'
-          }
-        ]
+        values: []
       },
       {
         sortId: 30,
         keyEn: 'Signer Name',
         keyCh: '签字人名字',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 681,
-                  y: 1230
-                },
-                {
-                  x: 1005,
-                  y: 1230
-                },
-                {
-                  x: 1005,
-                  y: 1265
-                },
-                {
-                  x: 681,
-                  y: 1265
-                }
-              ]
-            ],
-            value: 'YUSEN LOGISTICS (VIETNAM) CO., LTD'
-          }
-        ]
+        values: []
       },
       {
         sortId: 31,
@@ -662,20 +590,20 @@ const data = [
             position: [
               [
                 {
-                  x: 873,
-                  y: 1375
+                  x: 538,
+                  y: 840
                 },
                 {
-                  x: 943,
-                  y: 1375
+                  x: 565,
+                  y: 840
                 },
                 {
-                  x: 943,
-                  y: 1405
+                  x: 565,
+                  y: 850
                 },
                 {
-                  x: 873,
-                  y: 1405
+                  x: 538,
+                  y: 850
                 }
               ]
             ],
@@ -693,24 +621,24 @@ const data = [
             position: [
               [
                 {
-                  x: 698,
-                  y: 1295
+                  x: 457,
+                  y: 847
                 },
                 {
-                  x: 870,
-                  y: 1295
+                  x: 603,
+                  y: 847
                 },
                 {
-                  x: 870,
-                  y: 1312
+                  x: 603,
+                  y: 859
                 },
                 {
-                  x: 698,
-                  y: 1312
+                  x: 457,
+                  y: 859
                 }
               ]
             ],
-            value: 'KOTA JOHAN/ OTU3MS1N'
+            value: 'VASCO MARITIME PTE LTD.'
           }
         ]
       },
@@ -724,24 +652,24 @@ const data = [
             position: [
               [
                 {
-                  x: 698,
-                  y: 1295
+                  x: 457,
+                  y: 847
                 },
                 {
-                  x: 870,
-                  y: 1295
+                  x: 603,
+                  y: 847
                 },
                 {
-                  x: 870,
-                  y: 1312
+                  x: 603,
+                  y: 859
                 },
                 {
-                  x: 698,
-                  y: 1312
+                  x: 457,
+                  y: 859
                 }
               ]
             ],
-            value: 'KOTA JOHAN/ OTU3MS1N'
+            value: 'VASCO MARITIME PTE LTD.'
           }
         ]
       },
@@ -750,62 +678,14 @@ const data = [
         keyEn: 'Agent Of Carrier',
         keyCh: '承运人代理机构',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 678,
-                  y: 1230
-                },
-                {
-                  x: 1005,
-                  y: 1230
-                },
-                {
-                  x: 1005,
-                  y: 1265
-                },
-                {
-                  x: 678,
-                  y: 1265
-                }
-              ]
-            ],
-            value: 'YUSEN LOGISTICS (VIETNAM) CO., LTD'
-          }
-        ]
+        values: []
       },
       {
         sortId: 35,
         keyEn: 'Is Original (True or False)',
         keyCh: '提单正本校验',
         groupable: false,
-        values: [
-          {
-            position: [
-              [
-                {
-                  x: 126,
-                  y: 1318
-                },
-                {
-                  x: 187,
-                  y: 1318
-                },
-                {
-                  x: 187,
-                  y: 1343
-                },
-                {
-                  x: 126,
-                  y: 1343
-                }
-              ]
-            ],
-            value: 'F'
-          }
-        ]
+        values: []
       },
       {
         sortId: 36,
@@ -838,24 +718,24 @@ const data = [
             position: [
               [
                 {
-                  x: 799,
-                  y: 619
+                  x: 612,
+                  y: 451
                 },
                 {
-                  x: 859,
-                  y: 619
+                  x: 649,
+                  y: 451
                 },
                 {
-                  x: 859,
-                  y: 622
+                  x: 649,
+                  y: 460
                 },
                 {
-                  x: 799,
-                  y: 622
+                  x: 612,
+                  y: 460
                 }
               ]
             ],
-            value: '796.590'
+            value: '5,236.720'
           }
         ]
       },
@@ -864,7 +744,31 @@ const data = [
         keyEn: 'Net Weight',
         keyCh: '净重',
         groupable: false,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 609,
+                  y: 477
+                },
+                {
+                  x: 646,
+                  y: 477
+                },
+                {
+                  x: 646,
+                  y: 487
+                },
+                {
+                  x: 609,
+                  y: 487
+                }
+              ]
+            ],
+            value: '5,000.000'
+          }
+        ]
       },
       {
         sortId: 41,
@@ -876,20 +780,20 @@ const data = [
             position: [
               [
                 {
-                  x: 127,
-                  y: 605
+                  x: 86,
+                  y: 450
                 },
                 {
-                  x: 301,
-                  y: 605
+                  x: 201,
+                  y: 450
                 },
                 {
-                  x: 301,
-                  y: 778
+                  x: 201,
+                  y: 595
                 },
                 {
-                  x: 127,
-                  y: 778
+                  x: 86,
+                  y: 595
                 }
               ]
             ],
@@ -900,7 +804,7 @@ const data = [
     ],
     json: {
       predict_status: 'success',
-      trace_id: 'U2024011909873420',
+      trace_id: 'U2024011013820181',
       role: 'beefeather',
       extra_info: {},
       error_info: '',
@@ -911,86 +815,58 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 126,
-                    y: 135
+                    x: 93,
+                    y: 97
                   },
                   {
-                    x: 225,
-                    y: 135
+                    x: 253,
+                    y: 97
                   },
                   {
-                    x: 225,
-                    y: 152
+                    x: 253,
+                    y: 108
                   },
                   {
-                    x: 126,
-                    y: 152
+                    x: 93,
+                    y: 108
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'ALBCO-CMAY',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'SYNERGENE ACTIVE INGREDIENTS PVT LTD.',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'ALBCO-CMAY'
+              value: 'SYNERGENE ACTIVE INGREDIENTS PVT LTD.'
             }
           ],
-          bl_signer_name: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 681,
-                    y: 1230
-                  },
-                  {
-                    x: 1005,
-                    y: 1230
-                  },
-                  {
-                    x: 1005,
-                    y: 1265
-                  },
-                  {
-                    x: 681,
-                    y: 1265
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'YUSEN LOGISTICS (VIETNAM) CO., LTD',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
-              language: '',
-              value: 'YUSEN LOGISTICS (VIETNAM) CO., LTD'
-            }
-          ],
+          bl_signer_name: [],
           bl_voyage_number: [
             {
               boxes: [
                 [
                   {
-                    x: 235,
-                    y: 480
+                    x: 169,
+                    y: 388
                   },
                   {
-                    x: 302,
-                    y: 480
+                    x: 194,
+                    y: 388
                   },
                   {
-                    x: 302,
-                    y: 496
+                    x: 194,
+                    y: 400
                   },
                   {
-                    x: 235,
-                    y: 496
+                    x: 169,
+                    y: 400
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '0TU3M51N',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: '2102E',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: '0TU3M51N'
+              value: '2102E'
             }
           ],
           bl_notify_party: [
@@ -998,28 +874,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 129,
-                    y: 363
+                    x: 92,
+                    y: 276
                   },
                   {
-                    x: 224,
-                    y: 363
+                    x: 215,
+                    y: 276
                   },
                   {
-                    x: 224,
-                    y: 379
+                    x: 215,
+                    y: 287
                   },
                   {
-                    x: 129,
-                    y: 379
+                    x: 92,
+                    y: 287
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'DEF COMPANY',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'SHANGHAI RC CHEMICALS CO LTD',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'DEF COMPANY'
+              value: 'SHANGHAI RC CHEMICALS CO LTD'
             }
           ],
           bl_vessel: [
@@ -1027,57 +903,85 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 131,
-                    y: 554
+                    x: 90,
+                    y: 388
                   },
                   {
-                    x: 276,
-                    y: 554
+                    x: 164,
+                    y: 388
                   },
                   {
-                    x: 276,
-                    y: 571
+                    x: 164,
+                    y: 399
                   },
                   {
-                    x: 131,
-                    y: 571
+                    x: 90,
+                    y: 399
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'DDM UNITED KINGDOM',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'SINGAPORE BRIDGE',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'DDM UNITED KINGDOM'
+              value: 'SINGAPORE BRIDGE'
             }
           ],
           bl_draft: [],
-          net_weight: [],
+          net_weight: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 609,
+                    y: 477
+                  },
+                  {
+                    x: 646,
+                    y: 477
+                  },
+                  {
+                    x: 646,
+                    y: 487
+                  },
+                  {
+                    x: 609,
+                    y: 487
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '5,000.000',
+              img_name: 'BL 6_1.png',
+              language: '',
+              value: '5,000.000'
+            }
+          ],
           bl_goods_description: [
             {
               boxes: [
                 [
                   {
-                    x: 438,
-                    y: 604
+                    x: 248,
+                    y: 453
                   },
                   {
-                    x: 731,
-                    y: 604
+                    x: 603,
+                    y: 453
                   },
                   {
-                    x: 731,
-                    y: 725
+                    x: 603,
+                    y: 695
                   },
                   {
-                    x: 438,
-                    y: 725
+                    x: 248,
+                    y: 695
                   }
                 ]
               ],
               is_std: false,
               ori_value: '',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              img_name: 'BL 6_1.png',
               language: '',
               value: '详情见高亮部分'
             }
@@ -1087,28 +991,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 645,
-                    y: 554
+                    x: 235,
+                    y: 414
                   },
                   {
-                    x: 798,
-                    y: 554
+                    x: 278,
+                    y: 414
                   },
                   {
-                    x: 798,
-                    y: 570
+                    x: 278,
+                    y: 423
                   },
                   {
-                    x: 645,
-                    y: 570
+                    x: 235,
+                    y: 423
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'TILBURY, U.K. CFS',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'SHANGHAI',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'TILBURY, U.K. CFS'
+              value: 'SHANGHAI'
             }
           ],
           bl_precarried_by: [],
@@ -1117,28 +1021,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 762,
-                    y: 1317
+                    x: 580,
+                    y: 823
                   },
                   {
-                    x: 842,
-                    y: 1317
+                    x: 630,
+                    y: 823
                   },
                   {
-                    x: 842,
-                    y: 1335
+                    x: 630,
+                    y: 835
                   },
                   {
-                    x: 762,
-                    y: 1335
+                    x: 580,
+                    y: 835
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '29-Sep-19',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: '04-MAY-2021',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: '29-Sep-19'
+              value: '2021/05/04'
             }
           ],
           bl_consignee: [
@@ -1146,28 +1050,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 129,
-                    y: 264
+                    x: 92,
+                    y: 187
                   },
                   {
-                    x: 275,
-                    y: 264
+                    x: 215,
+                    y: 187
                   },
                   {
-                    x: 275,
-                    y: 280
+                    x: 215,
+                    y: 197
                   },
                   {
-                    x: 129,
-                    y: 280
+                    x: 92,
+                    y: 197
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'HCA HELTHCA EUR K102',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'SHANGHAI RC CHEMICALS CO LTD',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'HCA HELTHCA EUR K102'
+              value: 'SHANGHAI RC CHEMICALS CO LTD'
             }
           ],
           bl_carrier: [
@@ -1175,28 +1079,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 698,
-                    y: 1295
+                    x: 457,
+                    y: 847
                   },
                   {
-                    x: 870,
-                    y: 1295
+                    x: 603,
+                    y: 847
                   },
                   {
-                    x: 870,
-                    y: 1312
+                    x: 603,
+                    y: 859
                   },
                   {
-                    x: 698,
-                    y: 1312
+                    x: 457,
+                    y: 859
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'KOTA JOHAN/ OTU3MS1N',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'VASCO MARITIME PTE LTD.',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'KOTA JOHAN/ OTU3MS1N'
+              value: 'VASCO MARITIME PTE LTD.'
             }
           ],
           bl_issuer: [
@@ -1204,28 +1108,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 665,
-                    y: 203
+                    x: 397,
+                    y: 135
                   },
                   {
-                    x: 882,
-                    y: 203
+                    x: 621,
+                    y: 135
                   },
                   {
-                    x: 882,
-                    y: 236
+                    x: 621,
+                    y: 187
                   },
                   {
-                    x: 665,
-                    y: 236
+                    x: 397,
+                    y: 187
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'TXsen Logistics',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'VASCO MARITIME PTE LTD.',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'TXsen Logistics'
+              value: 'VASCO MARITIME PTE LTD.'
             }
           ],
           bl_place_of_receipt: [
@@ -1233,28 +1137,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 366,
-                    y: 481
+                    x: 237,
+                    y: 368
                   },
                   {
-                    x: 502,
-                    y: 481
+                    x: 282,
+                    y: 368
                   },
                   {
-                    x: 502,
-                    y: 496
+                    x: 282,
+                    y: 377
                   },
                   {
-                    x: 366,
-                    y: 496
+                    x: 237,
+                    y: 377
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'DA NANG, VIET NAM',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'HYDERABAD',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'DA NANG, VIET NAM'
+              value: 'HYDERABAD'
             }
           ],
           gross_weight: [
@@ -1262,28 +1166,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 799,
-                    y: 619
+                    x: 612,
+                    y: 451
                   },
                   {
-                    x: 859,
-                    y: 619
+                    x: 649,
+                    y: 451
                   },
                   {
-                    x: 859,
-                    y: 622
+                    x: 649,
+                    y: 460
                   },
                   {
-                    x: 799,
-                    y: 622
+                    x: 612,
+                    y: 460
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '796.590',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: '5,236.720',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: '796.590'
+              value: '5,236.720'
             }
           ],
           bl_port_of_loading: [
@@ -1291,86 +1195,58 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 366,
-                    y: 516
+                    x: 237,
+                    y: 391
                   },
                   {
-                    x: 488,
-                    y: 516
+                    x: 263,
+                    y: 391
                   },
                   {
-                    x: 488,
-                    y: 533
+                    x: 263,
+                    y: 401
                   },
                   {
-                    x: 366,
-                    y: 533
+                    x: 237,
+                    y: 401
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'FELIXSTOWE, U.K.',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'BMCT',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'FELIXSTOWE, U.K.'
+              value: 'BMCT'
             }
           ],
-          bl_agent_of_carrier: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 678,
-                    y: 1230
-                  },
-                  {
-                    x: 1005,
-                    y: 1230
-                  },
-                  {
-                    x: 1005,
-                    y: 1265
-                  },
-                  {
-                    x: 678,
-                    y: 1265
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'YUSEN LOGISTICS (VIETNAM) CO., LTD',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
-              language: '',
-              value: 'YUSEN LOGISTICS (VIETNAM) CO., LTD'
-            }
-          ],
+          bl_agent_of_carrier: [],
           bl_signer_principal: [
             {
               boxes: [
                 [
                   {
-                    x: 698,
-                    y: 1295
+                    x: 457,
+                    y: 847
                   },
                   {
-                    x: 870,
-                    y: 1295
+                    x: 603,
+                    y: 847
                   },
                   {
-                    x: 870,
-                    y: 1312
+                    x: 603,
+                    y: 859
                   },
                   {
-                    x: 698,
-                    y: 1312
+                    x: 457,
+                    y: 859
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'KOTA JOHAN/ OTU3MS1N',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'VASCO MARITIME PTE LTD.',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'KOTA JOHAN/ OTU3MS1N'
+              value: 'VASCO MARITIME PTE LTD.'
             }
           ],
           bl_id: [
@@ -1378,143 +1254,87 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 808,
-                    y: 114
+                    x: 501,
+                    y: 91
                   },
                   {
-                    x: 894,
-                    y: 114
+                    x: 581,
+                    y: 91
                   },
                   {
-                    x: 894,
-                    y: 131
+                    x: 581,
+                    y: 102
                   },
                   {
-                    x: 808,
-                    y: 131
+                    x: 501,
+                    y: 102
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'DAD0007344',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'VASHYDSHA000131',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'DAD0007344'
+              value: 'VASHYDSHA000131'
             }
           ],
-          bl_signer: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 771,
-                    y: 1324
-                  },
-                  {
-                    x: 853,
-                    y: 1324
-                  },
-                  {
-                    x: 853,
-                    y: 1384
-                  },
-                  {
-                    x: 771,
-                    y: 1384
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'T',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
-              language: '',
-              value: 'T'
-            }
-          ],
+          bl_signer: [],
           marks: [
             {
               boxes: [
                 [
                   {
-                    x: 127,
-                    y: 605
+                    x: 86,
+                    y: 450
                   },
                   {
-                    x: 301,
-                    y: 605
+                    x: 201,
+                    y: 450
                   },
                   {
-                    x: 301,
-                    y: 778
+                    x: 201,
+                    y: 595
                   },
                   {
-                    x: 127,
-                    y: 778
+                    x: 86,
+                    y: 595
                   }
                 ]
               ],
               is_std: false,
               ori_value: '',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              img_name: 'BL 6_1.png',
               language: '',
               value: '详情见高亮部分'
             }
           ],
           bl_manufacturer: [],
-          bl_is_original: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 126,
-                    y: 1318
-                  },
-                  {
-                    x: 187,
-                    y: 1318
-                  },
-                  {
-                    x: 187,
-                    y: 1343
-                  },
-                  {
-                    x: 126,
-                    y: 1343
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'COPY',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
-              language: '',
-              value: 'F'
-            }
-          ],
+          bl_is_original: [],
           bl_signer_principal_role: [
             {
               boxes: [
                 [
                   {
-                    x: 873,
-                    y: 1375
+                    x: 538,
+                    y: 840
                   },
                   {
-                    x: 943,
-                    y: 1375
+                    x: 565,
+                    y: 840
                   },
                   {
-                    x: 943,
-                    y: 1405
+                    x: 565,
+                    y: 850
                   },
                   {
-                    x: 873,
-                    y: 1405
+                    x: 538,
+                    y: 850
                   }
                 ]
               ],
               is_std: false,
               ori_value: 'Carrier',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              img_name: 'BL 6_1.png',
               language: '',
               value: 'CARRIER'
             }
@@ -1524,28 +1344,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 700,
-                    y: 1180
+                    x: 525,
+                    y: 825
                   },
                   {
-                    x: 756,
-                    y: 1180
+                    x: 578,
+                    y: 825
                   },
                   {
-                    x: 756,
-                    y: 1195
+                    x: 578,
+                    y: 835
                   },
                   {
-                    x: 700,
-                    y: 1195
+                    x: 525,
+                    y: 835
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'DHANG',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'HYDERABAD',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'DHANG'
+              value: 'HYDERABAD'
             }
           ],
           bl_on_board_date: [
@@ -1553,86 +1373,58 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 898,
-                    y: 1178
+                    x: 336,
+                    y: 684
                   },
                   {
-                    x: 975,
-                    y: 1178
+                    x: 383,
+                    y: 684
                   },
                   {
-                    x: 975,
-                    y: 1195
+                    x: 383,
+                    y: 693
                   },
                   {
-                    x: 898,
-                    y: 1195
+                    x: 336,
+                    y: 693
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '29-Sep-19',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: '29/04/2021',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: '29-Sep-19'
+              value: '29/04/2021'
             }
           ],
-          bl_signer_role: [
-            {
-              boxes: [
-                [
-                  {
-                    x: 753,
-                    y: 1373
-                  },
-                  {
-                    x: 809,
-                    y: 1373
-                  },
-                  {
-                    x: 809,
-                    y: 1400
-                  },
-                  {
-                    x: 753,
-                    y: 1400
-                  }
-                ]
-              ],
-              is_std: false,
-              ori_value: 'agent',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
-              language: '',
-              value: 'AGENT'
-            }
-          ],
+          bl_signer_role: [],
           bl_port_of_discharge: [
             {
               boxes: [
                 [
                   {
-                    x: 151,
-                    y: 904
+                    x: 90,
+                    y: 412
                   },
                   {
-                    x: 255,
-                    y: 904
+                    x: 133,
+                    y: 412
                   },
                   {
-                    x: 255,
-                    y: 922
+                    x: 133,
+                    y: 421
                   },
                   {
-                    x: 151,
-                    y: 922
+                    x: 90,
+                    y: 421
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'COLLECT',
-              img_name: '企业微信截图_55fd36c2-f4b1-4de8-8847-faa08708b4c0.png',
+              ori_value: 'SHANGHAI',
+              img_name: 'BL 6_1.png',
               language: '',
-              value: 'COLLECT'
+              value: 'SHANGHAI'
             }
           ]
         }

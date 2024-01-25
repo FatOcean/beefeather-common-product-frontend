@@ -62,7 +62,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { productListAll } from './data.js'
+import { productListAll } from '../staticData/data.js'
 export default {
   name: 'RightSelect',
   data() {
@@ -127,7 +127,7 @@ export default {
     },
     showRight() {
       this.isshowRight = !this.isshowRight
-      this.$parent.setisshowRight(this.isshowRight)
+      // this.$parent.setisshowRight(this.isshowRight)
     },
     findProductName(val) {
       if (val !== '') {

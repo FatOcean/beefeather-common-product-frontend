@@ -6,12 +6,11 @@
       height: layoutHeight,
     }"
   >
-    <RightSelect ref="RightSelectRefs"></RightSelect>
+    <!-- <RightSelect ref="RightSelectRefs"></RightSelect> -->
     <!-- ocr -->
     <div
       :class="{
         'ocr-inner': true,
-        ocrInnerWidth: isshowRight,
       }"
     >
       <!-- 文档 -->
@@ -38,20 +37,19 @@
               iconClass="ic-左"
               @click.native="handleTurnPage(-1)"
             ></svg-icon>
-            <lls-input
-              :min="1"
-              :max="total"
-              class="number"
-              v-model.number="pageIndex"
-              @change="
-                (e) => {
-                  handleTurnPage(0, e);
-                }
-              "
-              :short="true"
-            >
-              <span slot="suffix">/{{ total }}</span>
-            </lls-input>
+            <span class="number">
+              <input
+                class="dih-page-input"
+                type="number"
+                :min="1"
+                :max="total"
+                v-model.number="pageIndex"
+                v-on:change="inputChange($event)"
+                :short="true"
+              />
+              <span>/&nbsp;&nbsp;{{ total }}</span>
+            </span>
+
             <!-- <span class="number"
               >{{ activePageIndex + 1 }}&nbsp;&nbsp;<span
                 >/{{ total }}</span
@@ -89,7 +87,11 @@
             ></svg-icon>
             <svg-icon
               iconClass="ic-全屏"
-              @click.native="()=>{showImageViewer = true}"
+              @click.native="
+                () => {
+                  showImageViewer = true;
+                }
+              "
             ></svg-icon>
           </div>
         </div>
@@ -307,7 +309,10 @@
             </div>
           </lls-tab-pane>
           <lls-tab-pane label="Json结果" name="second">
-            <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
+            <div
+              style="border: 1px solid #e3e8f0"
+              v-if="activeName === 'second'"
+            >
               <b-code-editor
                 :indent-unit="4"
                 v-model="newCodeTest"
@@ -332,7 +337,12 @@
           </template>
         </lls-tabs>
       </div>
-      <svgPath v-if="pathValue" :pathValue="pathValue" :documentWidth="documentWidth" :documentHeight="documentHeight"></svgPath>
+      <svgPath
+        v-if="pathValue"
+        :pathValue="pathValue"
+        :documentWidth="documentWidth"
+        :documentHeight="documentHeight"
+      ></svgPath>
       <lls-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
@@ -351,7 +361,7 @@
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@linklogis/image-viewer'
-import RightSelect from './rightselect.vue'
+// import RightSelect from './LeftSelect.vue'
 import { downloadResult, downloadJson } from '@/api/receiptAnalysis'
 import '@/icons'
 
@@ -398,8 +408,8 @@ export default {
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer,
-    RightSelect
+    [ImageViewer.name]: ImageViewer
+    // RightSelect
   },
   props: {
     value: {
@@ -435,6 +445,16 @@ export default {
     isMultiCoordinate: {
       type: Boolean,
       default: true
+    },
+    productObj: {
+      type: Object,
+      default: () => {
+        return {
+          name: '身份证',
+          staticName: 'id_card'
+        }
+      }
+
     }
   },
   data() {
@@ -464,11 +484,10 @@ export default {
       transition: false, // 是否开启缓动效果
       scale: 1,
       newpage: {},
-      productObj: {
-        name: '身份证',
-        staticName: 'id_card'
-      },
-      isshowRight: true,
+      // productObj: {
+      //   name: '身份证',
+      //   staticName: 'id_card'
+      // },
       codeTest: '',
       newCodeTest: '',
       newActiveName: ''
@@ -593,6 +612,17 @@ export default {
     this.resizeObserver.disconnect()
   },
   methods: {
+    inputChange() {
+      if (this.pageIndex > this.total) {
+        this.pageIndex = this.total
+      }
+      if (this.pageIndex < 1) {
+        this.pageIndex = 1
+      }
+      this.activePageIndex = this.pageIndex - 1
+      this.$parent.setTableData()
+      this.reRenderImage()
+    },
     downloadResult() {
       const download =
         this.activeName === 'first' ? downloadResult : downloadJson
@@ -625,19 +655,7 @@ export default {
           })
         })
     },
-    setisshowRight(data) {
-      this.isshowRight = data
-      this.proxy((_) => {
-        this.documentWidth = this.$refs.documentLayout.clientWidth
-        this.documentHeight = this.$refs.documentLayout.clientHeight
-        this.ocrResultWidth = this.$refs.ocrResult.clientWidth
-        // 初始化每张图片的宽高
-        this.reRenderImage()
-        this.$emit('on-resize')
-      })
-    },
     setProductName(data) {
-      this.productObj = data
       this.activeName = 'first'
       this.resetProps()
       if (this.activeName !== 'first') this.handleClickTabs()
@@ -947,7 +965,11 @@ export default {
         // this.data_.push(document)
         const vm = this
         if (index === this.activePageIndex) {
-          if (['property_certificate', 'income_proof'].indexOf(this.productObj.staticName) > -1) {
+          if (
+            ['property_certificate', 'income_proof'].indexOf(
+              this.productObj.staticName
+            ) > -1
+          ) {
             if (/1|3/.test(document.angle / 90)) {
               const width = document.height
               document.height = document.width
@@ -1052,9 +1074,9 @@ export default {
 @import './ocr-layout.styl';
 
 .ocr-layout {
-  background-image: url('~@/assets/images/bj.png');
-  background-size: auto 100%;
-  background-position: center;
+  // background-image: url('~@/assets/images/bj.png');
+  // background-size: auto 100%;
+  // background-position: center;
 }
 
 .document-layout {

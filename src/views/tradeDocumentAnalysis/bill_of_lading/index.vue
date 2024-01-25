@@ -278,7 +278,7 @@ export default {
       if (el.tagName === 'P') {
         el = el.parentNode.parentNode.parentNode.firstChild
       }
-      if (!(i.values && i.values.length > 0)) {
+      if (!(i.values && i.values.length > 0 && i.values[0].value !== '')) {
         return
       }
       e = e || window.event
