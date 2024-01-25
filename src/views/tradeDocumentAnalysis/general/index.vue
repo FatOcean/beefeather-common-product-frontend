@@ -101,6 +101,8 @@ export default {
       this.$nextTick(() => {
         this.$refs.documents.resetProps()
       })
+      this.fieldName = ''
+      this.checkedNull = false
     },
     page: {
       handler(val) {
