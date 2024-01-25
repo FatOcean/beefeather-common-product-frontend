@@ -4,12 +4,12 @@ import imagePath from '../images/airway_bill.png'
 const data = [
   {
     isexample: true,
-    taskId: 'U2024011016856900',
+    taskId: 'U2024011910147913',
     status: 1,
     fileName: 'airway_bill.png',
     imagePath,
-    height: 1024,
-    width: 791,
+    height: 1531,
+    width: 1183,
     content: [
       {
         sortId: 1,
@@ -21,24 +21,24 @@ const data = [
             position: [
               [
                 {
-                  x: 70,
-                  y: 14
+                  x: 135,
+                  y: 22
                 },
                 {
-                  x: 207,
-                  y: 14
+                  x: 345,
+                  y: 22
                 },
                 {
-                  x: 207,
-                  y: 46
+                  x: 345,
+                  y: 57
                 },
                 {
-                  x: 70,
-                  y: 46
+                  x: 135,
+                  y: 57
                 }
               ]
             ],
-            value: '043HKG76229742'
+            value: '724 4186 3183'
           }
         ]
       },
@@ -66,24 +66,24 @@ const data = [
             position: [
               [
                 {
-                  x: 70,
-                  y: 47
+                  x: 223,
+                  y: 66
                 },
                 {
-                  x: 224,
-                  y: 47
+                  x: 600,
+                  y: 66
                 },
                 {
-                  x: 224,
-                  y: 68
+                  x: 600,
+                  y: 93
                 },
                 {
-                  x: 70,
-                  y: 68
+                  x: 223,
+                  y: 93
                 }
               ]
             ],
-            value: 'KGK Diamonds (HK) Ltd'
+            value: "GLOBAL SERVICES ANT'ERP BVBA"
           }
         ]
       },
@@ -111,24 +111,24 @@ const data = [
             position: [
               [
                 {
-                  x: 463,
-                  y: 42
+                  x: 807,
+                  y: 56
                 },
                 {
-                  x: 594,
-                  y: 42
+                  x: 1091,
+                  y: 56
                 },
                 {
-                  x: 594,
-                  y: 60
+                  x: 1091,
+                  y: 88
                 },
                 {
-                  x: 463,
-                  y: 60
+                  x: 807,
+                  y: 88
                 }
               ]
             ],
-            value: 'HK DRAGON AIRLINES'
+            value: 'INTERNATIONAL AIR LIMI'
           }
         ]
       },
@@ -142,24 +142,24 @@ const data = [
             position: [
               [
                 {
-                  x: 70,
-                  y: 135
+                  x: 354,
+                  y: 199
                 },
                 {
-                  x: 267,
-                  y: 135
+                  x: 458,
+                  y: 199
                 },
                 {
-                  x: 267,
-                  y: 154
+                  x: 458,
+                  y: 221
                 },
                 {
-                  x: 70,
-                  y: 154
+                  x: 354,
+                  y: 221
                 }
               ]
             ],
-            value: 'KGK Diamonds (Shanghai) Ltd'
+            value: 'TRADERS'
           }
         ]
       },
@@ -187,24 +187,24 @@ const data = [
             position: [
               [
                 {
-                  x: 70,
-                  y: 217
+                  x: 138,
+                  y: 363
                 },
                 {
-                  x: 228,
-                  y: 217
+                  x: 348,
+                  y: 363
                 },
                 {
-                  x: 228,
-                  y: 235
+                  x: 348,
+                  y: 385
                 },
                 {
-                  x: 70,
-                  y: 235
+                  x: 138,
+                  y: 385
                 }
               ]
             ],
-            value: "Brink's Hong Kong Ltd."
+            value: 'BANTERPEN, 2018'
           }
         ]
       },
@@ -232,24 +232,47 @@ const data = [
             position: [
               [
                 {
-                  x: 216,
-                  y: 368
+                  x: 363,
+                  y: 545
                 },
                 {
-                  x: 263,
-                  y: 368
+                  x: 428,
+                  y: 545
                 },
                 {
-                  x: 263,
-                  y: 386
+                  x: 428,
+                  y: 571
                 },
                 {
-                  x: 216,
-                  y: 386
+                  x: 363,
+                  y: 571
                 }
               ]
             ],
-            value: 'KA802'
+            value: 'LX789'
+          },
+          {
+            position: [
+              [
+                {
+                  x: 491,
+                  y: 547
+                },
+                {
+                  x: 558,
+                  y: 547
+                },
+                {
+                  x: 558,
+                  y: 573
+                },
+                {
+                  x: 491,
+                  y: 573
+                }
+              ]
+            ],
+            value: 'LX188'
           }
         ]
       },
@@ -277,20 +300,20 @@ const data = [
             position: [
               [
                 {
-                  x: 519,
-                  y: 505
+                  x: 814,
+                  y: 751
                 },
                 {
-                  x: 700,
-                  y: 505
+                  x: 936,
+                  y: 751
                 },
                 {
-                  x: 700,
-                  y: 558
+                  x: 936,
+                  y: 852
                 },
                 {
-                  x: 519,
-                  y: 558
+                  x: 814,
+                  y: 852
                 }
               ]
             ],
@@ -343,24 +366,24 @@ const data = [
             position: [
               [
                 {
-                  x: 315,
-                  y: 865
+                  x: 513,
+                  y: 1286
                 },
                 {
-                  x: 393,
-                  y: 865
+                  x: 627,
+                  y: 1286
                 },
                 {
-                  x: 393,
-                  y: 884
+                  x: 627,
+                  y: 1312
                 },
                 {
-                  x: 315,
-                  y: 884
+                  x: 513,
+                  y: 1312
                 }
               ]
             ],
-            value: '26/Mar/2018'
+            value: '01/Apr/2014'
           }
         ]
       },
@@ -376,7 +399,31 @@ const data = [
         keyEn: '空单正本校验',
         keyCh: 'Is Original (True or False)',
         groupable: false,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 573,
+                  y: 1397
+                },
+                {
+                  x: 575,
+                  y: 1397
+                },
+                {
+                  x: 575,
+                  y: 1436
+                },
+                {
+                  x: 573,
+                  y: 1436
+                }
+              ]
+            ],
+            value: 'F'
+          }
+        ]
       },
       {
         sortId: 26,
@@ -404,7 +451,31 @@ const data = [
         keyEn: '签字人名字',
         keyCh: 'Signer Name',
         groupable: false,
-        values: []
+        values: [
+          {
+            position: [
+              [
+                {
+                  x: 884,
+                  y: 1341
+                },
+                {
+                  x: 1106,
+                  y: 1341
+                },
+                {
+                  x: 1106,
+                  y: 1370
+                },
+                {
+                  x: 884,
+                  y: 1370
+                }
+              ]
+            ],
+            value: '724'
+          }
+        ]
       },
       {
         sortId: 30,
@@ -416,24 +487,24 @@ const data = [
             position: [
               [
                 {
-                  x: 69,
-                  y: 308
+                  x: 141,
+                  y: 458
                 },
                 {
-                  x: 146,
-                  y: 308
+                  x: 269,
+                  y: 458
                 },
                 {
-                  x: 146,
-                  y: 329
+                  x: 269,
+                  y: 486
                 },
                 {
-                  x: 69,
-                  y: 329
+                  x: 141,
+                  y: 486
                 }
               ]
             ],
-            value: 'Hong Kong'
+            value: 'BRUSsels'
           }
         ]
       },
@@ -447,20 +518,20 @@ const data = [
             position: [
               [
                 {
-                  x: 67,
-                  y: 368
+                  x: 139,
+                  y: 544
                 },
                 {
-                  x: 117,
-                  y: 368
+                  x: 229,
+                  y: 544
                 },
                 {
-                  x: 117,
-                  y: 386
+                  x: 229,
+                  y: 569
                 },
                 {
-                  x: 67,
-                  y: 386
+                  x: 139,
+                  y: 569
                 }
               ]
             ],
@@ -478,24 +549,24 @@ const data = [
             position: [
               [
                 {
-                  x: 463,
-                  y: 42
+                  x: 690,
+                  y: 117
                 },
                 {
-                  x: 598,
-                  y: 42
+                  x: 850,
+                  y: 117
                 },
                 {
-                  x: 598,
-                  y: 60
+                  x: 850,
+                  y: 145
                 },
                 {
-                  x: 463,
-                  y: 60
+                  x: 690,
+                  y: 145
                 }
               ]
             ],
-            value: 'HK DRAGON AIRLINES'
+            value: 'SWITZERLAND'
           }
         ]
       },
@@ -509,24 +580,24 @@ const data = [
             position: [
               [
                 {
-                  x: 125,
-                  y: 506
+                  x: 223,
+                  y: 751
                 },
                 {
-                  x: 151,
-                  y: 506
+                  x: 276,
+                  y: 751
                 },
                 {
-                  x: 151,
-                  y: 519
+                  x: 276,
+                  y: 771
                 },
                 {
-                  x: 125,
-                  y: 519
+                  x: 223,
+                  y: 771
                 }
               ]
             ],
-            value: '16.1'
+            value: '2.69'
           }
         ]
       },
@@ -540,41 +611,69 @@ const data = [
     ],
     json: {
       predict_status: 'success',
-      trace_id: 'U2024011016856900',
+      trace_id: 'U2024011910147913',
       role: 'beefeather',
       extra_info: {},
       error_info: '',
       predict_result: [
         {
           is_signer: [],
-          is_original: [],
+          is_original: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 573,
+                    y: 1397
+                  },
+                  {
+                    x: 575,
+                    y: 1397
+                  },
+                  {
+                    x: 575,
+                    y: 1436
+                  },
+                  {
+                    x: 573,
+                    y: 1436
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'F',
+              img_name: '组 592.png',
+              language: '',
+              value: 'F'
+            }
+          ],
           airline_company: [
             {
               boxes: [
                 [
                   {
-                    x: 463,
-                    y: 42
+                    x: 690,
+                    y: 117
                   },
                   {
-                    x: 598,
-                    y: 42
+                    x: 850,
+                    y: 117
                   },
                   {
-                    x: 598,
-                    y: 60
+                    x: 850,
+                    y: 145
                   },
                   {
-                    x: 463,
-                    y: 60
+                    x: 690,
+                    y: 145
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'HK DRAGON AIRLINES',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: 'SWITZERLAND',
+              img_name: '组 592.png',
               language: '',
-              value: 'HK DRAGON AIRLINES'
+              value: 'SWITZERLAND'
             }
           ],
           airport_of_departure: [
@@ -582,28 +681,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 69,
-                    y: 308
+                    x: 141,
+                    y: 458
                   },
                   {
-                    x: 146,
-                    y: 308
+                    x: 269,
+                    y: 458
                   },
                   {
-                    x: 146,
-                    y: 329
+                    x: 269,
+                    y: 486
                   },
                   {
-                    x: 69,
-                    y: 329
+                    x: 141,
+                    y: 486
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'Hong Kong',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: 'BRUSsels',
+              img_name: '组 592.png',
               language: '',
-              value: 'Hong Kong'
+              value: 'BRUSsels'
             }
           ],
           consignee_name: [
@@ -611,28 +710,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 70,
-                    y: 135
+                    x: 354,
+                    y: 199
                   },
                   {
-                    x: 267,
-                    y: 135
+                    x: 458,
+                    y: 199
                   },
                   {
-                    x: 267,
-                    y: 154
+                    x: 458,
+                    y: 221
                   },
                   {
-                    x: 70,
-                    y: 154
+                    x: 354,
+                    y: 221
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'KGK Diamonds (Shanghai) Ltd',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: 'TRADERS',
+              img_name: '组 592.png',
               language: '',
-              value: 'KGK Diamonds (Shanghai) Ltd'
+              value: 'TRADERS'
             }
           ],
           goods_description: [
@@ -640,26 +739,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 519,
-                    y: 505
+                    x: 814,
+                    y: 751
                   },
                   {
-                    x: 700,
-                    y: 505
+                    x: 936,
+                    y: 751
                   },
                   {
-                    x: 700,
-                    y: 558
+                    x: 936,
+                    y: 852
                   },
                   {
-                    x: 519,
-                    y: 558
+                    x: 814,
+                    y: 852
                   }
                 ]
               ],
               is_std: false,
               ori_value: '',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              img_name: '组 592.png',
               language: '',
               value: '详情见高亮部分'
             }
@@ -670,28 +769,55 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 216,
-                    y: 368
+                    x: 363,
+                    y: 545
                   },
                   {
-                    x: 263,
-                    y: 368
+                    x: 428,
+                    y: 545
                   },
                   {
-                    x: 263,
-                    y: 386
+                    x: 428,
+                    y: 571
                   },
                   {
-                    x: 216,
-                    y: 386
+                    x: 363,
+                    y: 571
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'KA802',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: 'LX789',
+              img_name: '组 592.png',
               language: '',
-              value: 'KA802'
+              value: 'LX789'
+            },
+            {
+              boxes: [
+                [
+                  {
+                    x: 491,
+                    y: 547
+                  },
+                  {
+                    x: 558,
+                    y: 547
+                  },
+                  {
+                    x: 558,
+                    y: 573
+                  },
+                  {
+                    x: 491,
+                    y: 573
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: 'LX188',
+              img_name: '组 592.png',
+              language: '',
+              value: 'LX188'
             }
           ],
           manufacturer: [],
@@ -700,58 +826,86 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 70,
-                    y: 217
+                    x: 138,
+                    y: 363
                   },
                   {
-                    x: 228,
-                    y: 217
+                    x: 348,
+                    y: 363
                   },
                   {
-                    x: 228,
-                    y: 235
+                    x: 348,
+                    y: 385
                   },
                   {
-                    x: 70,
-                    y: 235
+                    x: 138,
+                    y: 385
                   }
                 ]
               ],
               is_std: false,
-              ori_value: "Brink's Hong Kong Ltd.",
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: 'BANTERPEN, 2018',
+              img_name: '组 592.png',
               language: '',
-              value: "Brink's Hong Kong Ltd."
+              value: 'BANTERPEN, 2018'
             }
           ],
-          signer_name: [],
+          signer_name: [
+            {
+              boxes: [
+                [
+                  {
+                    x: 884,
+                    y: 1341
+                  },
+                  {
+                    x: 1106,
+                    y: 1341
+                  },
+                  {
+                    x: 1106,
+                    y: 1370
+                  },
+                  {
+                    x: 884,
+                    y: 1370
+                  }
+                ]
+              ],
+              is_std: false,
+              ori_value: '724',
+              img_name: '组 592.png',
+              language: '',
+              value: '724'
+            }
+          ],
           issue_date: [
             {
               boxes: [
                 [
                   {
-                    x: 315,
-                    y: 865
+                    x: 513,
+                    y: 1286
                   },
                   {
-                    x: 393,
-                    y: 865
+                    x: 627,
+                    y: 1286
                   },
                   {
-                    x: 393,
-                    y: 884
+                    x: 627,
+                    y: 1312
                   },
                   {
-                    x: 315,
-                    y: 884
+                    x: 513,
+                    y: 1312
                   }
                 ]
               ],
               is_std: true,
-              ori_value: '26/Mar/2018',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: '01/Apr/2014',
+              img_name: '组 592.png',
               language: '',
-              value: '26/Mar/2018'
+              value: '01/Apr/2014'
             }
           ],
           flight_date: [],
@@ -762,26 +916,26 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 67,
-                    y: 368
+                    x: 139,
+                    y: 544
                   },
                   {
-                    x: 117,
-                    y: 368
+                    x: 229,
+                    y: 544
                   },
                   {
-                    x: 117,
-                    y: 386
+                    x: 229,
+                    y: 569
                   },
                   {
-                    x: 67,
-                    y: 386
+                    x: 139,
+                    y: 569
                   }
                 ]
               ],
               is_std: false,
               ori_value: 'Pudong',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              img_name: '组 592.png',
               language: '',
               value: 'Pudong'
             }
@@ -791,28 +945,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 125,
-                    y: 506
+                    x: 223,
+                    y: 751
                   },
                   {
-                    x: 151,
-                    y: 506
+                    x: 276,
+                    y: 751
                   },
                   {
-                    x: 151,
-                    y: 519
+                    x: 276,
+                    y: 771
                   },
                   {
-                    x: 125,
-                    y: 519
+                    x: 223,
+                    y: 771
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '16.1',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: '2.69',
+              img_name: '组 592.png',
               language: '',
-              value: '16.1'
+              value: '2.69'
             }
           ],
           MAWB: [
@@ -820,28 +974,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 70,
-                    y: 14
+                    x: 135,
+                    y: 22
                   },
                   {
-                    x: 207,
-                    y: 14
+                    x: 345,
+                    y: 22
                   },
                   {
-                    x: 207,
-                    y: 46
+                    x: 345,
+                    y: 57
                   },
                   {
-                    x: 70,
-                    y: 46
+                    x: 135,
+                    y: 57
                   }
                 ]
               ],
               is_std: false,
-              ori_value: '043HKG76229742',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: '724 4186 3183',
+              img_name: '组 592.png',
               language: '',
-              value: '043HKG76229742'
+              value: '724 4186 3183'
             }
           ],
           shipper_name: [
@@ -849,28 +1003,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 70,
-                    y: 47
+                    x: 223,
+                    y: 66
                   },
                   {
-                    x: 224,
-                    y: 47
+                    x: 600,
+                    y: 66
                   },
                   {
-                    x: 224,
-                    y: 68
+                    x: 600,
+                    y: 93
                   },
                   {
-                    x: 70,
-                    y: 68
+                    x: 223,
+                    y: 93
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'KGK Diamonds (HK) Ltd',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: "GLOBAL SERVICES ANT'ERP BVBA",
+              img_name: '组 592.png',
               language: '',
-              value: 'KGK Diamonds (HK) Ltd'
+              value: "GLOBAL SERVICES ANT'ERP BVBA"
             }
           ],
           carrier_name: [
@@ -878,28 +1032,28 @@ const data = [
               boxes: [
                 [
                   {
-                    x: 463,
-                    y: 42
+                    x: 807,
+                    y: 56
                   },
                   {
-                    x: 594,
-                    y: 42
+                    x: 1091,
+                    y: 56
                   },
                   {
-                    x: 594,
-                    y: 60
+                    x: 1091,
+                    y: 88
                   },
                   {
-                    x: 463,
-                    y: 60
+                    x: 807,
+                    y: 88
                   }
                 ]
               ],
               is_std: false,
-              ori_value: 'HK DRAGON AIRLINES',
-              img_name: 'Air waybill 67-KGK DIAMONDS ok_0.png',
+              ori_value: 'INTERNATIONAL AIR LIMI',
+              img_name: '组 592.png',
               language: '',
-              value: 'HK DRAGON AIRLINES'
+              value: 'INTERNATIONAL AIR LIMI'
             }
           ]
         }
