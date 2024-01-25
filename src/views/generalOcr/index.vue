@@ -148,12 +148,12 @@ export default {
       activeTabIndex: 0,
       tabsArray: [],
       activeTextId: 0,
-      productName: 'document_ocr',
+      productName: '',
       activePageIndex: 0,
       activeId: '',
       productObj: {
-        name: '文档OCR',
-        staticName: 'document_ocr'
+        name: '',
+        staticName: ''
       }
     }
   },

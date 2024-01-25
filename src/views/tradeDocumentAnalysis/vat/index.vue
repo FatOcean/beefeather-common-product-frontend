@@ -43,8 +43,8 @@
           v-for="i in showPageData.content[0].info"
           :key="i.key"
         >
-          <td colspan="2">{{ i.key }}</td>
-          <td style="white-space: pre-line">{{ i.value }}</td>
+          <td colspan="2" >{{ i.key }}</td>
+          <td style="word-break: break-all;" >{{ i.value }}</td>
         </tr>
         <template v-for="(item, index) in showPageData.content[0].commodity">
           <tr v-bind:key="index">
@@ -66,7 +66,7 @@
             v-for="item in showPageData.content[0].commodity[index]"
             :key="item.key"
           >
-            <td style="width: 33%">{{ item.key }}</td>
+            <td >{{ item.key }}</td>
             <td>{{ item.value }}</td>
           </tr>
         </template>
