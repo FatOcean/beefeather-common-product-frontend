@@ -31,78 +31,28 @@
               </thead>
               <tbody v-for="i in page" :key="i.sortId">
                 <tr
-                  v-if="i.keyCh === 'Goods Description'"
-                  :class="{
-                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                  }"
+                  v-if="i.rows && i.rows.length > 0"
                   @click.stop="(e) => clickHandler(e, i)"
-                >
-                  <td rowspan="5">{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                  <td
-                    :class="{
-                      activeTd:
-                        activeTextId === i.sortId && text.keyCh === i.keyCh,
-                    }"
-                  >
-                    <table>
-                      <p>Goods Description<br />商品描述</p>
-                      <p>
-                        Commodity<br />
-                        商品名称
-                      </p>
-                      <p>
-                        HS Code<br />
-                        HS编码
-                      </p>
-                      <p>
-                        Quantity<br />
-                        数量
-                      </p>
-                      <p>
-                        Quantity Unit<br />
-                        数量单位
-                      </p>
-                    </table>
-                  </td>
-                  <td>
-                    {{
-                      i.values && i.values.length > 0 && i.values[0].value
-                        ? i.values[0].value
-                        : ""
-                    }}
-                  </td>
-                </tr>
-                <tr
                   :class="{
                     active: activeTextId === i.sortId && text.keyCh === i.keyCh,
                   }"
-                  @click="(e) => clickHandler(e, i)"
-                  v-else-if="i.keyCh === 'Gross Weight'"
-                  v-show="!i.notShow && !i.notEmpty"
                 >
-                  <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
+                  <td :rowspan="i.rows.length + 1">
+                    {{ i.keyEn }}<br />{{ i.keyCh }}
+                  </td>
                   <td
                     :class="{
                       activeTd:
                         activeTextId === i.sortId && text.keyCh === i.keyCh,
                     }"
                   >
-                    <table>
-                      <p>
-                        Gross Weight<br />
-                        毛重
-                      </p>
-                      <p>
-                        Gross Weight Unit<br />
-                        毛重单位
-                      </p>
-                      <p>
-                        Gross Weight per Carton<br />
-                        每箱毛重
-                      </p>
+                  <table>
+                    <p v-for="j in i.rows" :key="j.keyCh">
+                      {{ j.keyEn }}<br />{{ j.keyCh }}
+                    </p>
                     </table>
                   </td>
-                  <td>
+                  <td :rowspan="i.rows.length + 1">
                     {{
                       i.values && i.values.length > 0 && i.values[0].value
                         ? i.values[0].value
@@ -110,66 +60,7 @@
                     }}
                   </td>
                 </tr>
-                <tr
-                  :class="{
-                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                  }"
-                  @click="(e) => clickHandler(e, i)"
-                  v-else-if="i.keyCh === 'Net Weight'"
-                  v-show="!i.notShow && !i.notEmpty"
-                >
-                  <td>{{ i.keyEn }}<br />{{ i.keyCh }}</td>
-                  <td
-                    :class="{
-                      activeTd:
-                        activeTextId === i.sortId && text.keyCh === i.keyCh,
-                    }"
-                  >
-                    <table>
-                      <p>
-                        Net Weight<br />
-                        净重
-                      </p>
-                      <p>
-                        Net Weight Unit<br />
-                        净重单位
-                      </p>
-                    </table>
-                  </td>
-                  <td>
-                    {{
-                      i.values && i.values.length > 0 && i.values[0].value
-                        ? i.values[0].value
-                        : ""
-                    }}
-                  </td>
-                </tr>
-                <tr
-                  :class="{
-                    active: activeTextId === i.sortId && text.keyCh === i.keyCh,
-                  }"
-                  @click="(e) => clickHandler(e, i)"
-                  v-else-if="i.keyCh === 'Product CBM'"
-                  v-show="!i.notShow && !i.notEmpty"
-                >
-                  <td>{{ i.keyCh }}</td>
-                  <td
-                    :class="{
-                      activeTd:
-                        activeTextId === i.sortId && text.keyCh === i.keyCh,
-                    }"
-                  >
-                    Product CBM<br />
-                    商品体积
-                  </td>
-                  <td>
-                    {{
-                      i.values && i.values.length > 0 && i.values[0].value
-                        ? i.values[0].value
-                        : ""
-                    }}
-                  </td>
-                </tr>
+
                 <tr
                   v-else
                   @click="(e) => clickHandler(e, i)"
@@ -222,7 +113,26 @@ export default {
       activeTabIndex: 0,
       instance: {},
       pageDetail: [],
-      text: ''
+      text: '',
+      rowMapping: {
+        'Goods Description': [
+          { keyCh: '商品描述', keyEn: 'Goods Description' },
+          { keyCh: '商品名称', keyEn: 'Commodity' },
+          { keyCh: 'HS编码', keyEn: 'HS Code' },
+          { keyCh: '数量', keyEn: 'Quantity' },
+          { keyCh: '数量单位', keyEn: 'Quantity Unit' }
+        ],
+        'Gross Weight': [
+          { keyCh: '毛重', keyEn: 'Gross Weight' },
+          { keyCh: '毛重单位', keyEn: 'Gross Weight Unit' },
+          { keyCh: '每箱毛重', keyEn: 'Gross Weight per Carton' }
+        ],
+        'Net Weight': [
+          { keyCh: '净重', keyEn: 'Net Weight' },
+          { keyCh: '净重单位', keyEn: 'Net Weight Unit' }
+        ],
+        'Product CBM': [{ keyCh: '商品体积', keyEn: 'Product CBM' }]
+      }
     }
   },
   computed: {
@@ -239,6 +149,7 @@ export default {
     this.instance = this.data[0]
     this.documents = this.instance
     this.page = this.documents.content
+    this.page = this.handlePage(this.page)
     this.tabsArray = this.data.map((item, index) => {
       return { name: `${this.isbillofLading}${index + 1}` }
     })
@@ -262,6 +173,7 @@ export default {
       this.instance = this.data[0]
       this.documents = this.instance
       this.page = this.documents.content
+      this.page = this.handlePage(this.page)
       this.tabsArray = this.data.map((item, index) => {
         return { name: `${this.isbillofLading}${index + 1}` }
       })
@@ -270,10 +182,22 @@ export default {
       this.$nextTick(() => {
         this.$refs.documents.resetProps()
       })
+      this.checked = false
+      this.search = ''
     }
   },
   methods: {
+    createRowMapping(keyEn) {
+      return this.rowMapping[keyEn] || []
+    },
+    handlePage(page) {
+      return page.map((item) => {
+        // eslint-disable-next-line no-return-assign
+        return { ...item, rows: this.createRowMapping(item.keyCh) }
+      })
+    },
     clickHandler(e, i, noParent) {
+      console.log(e)
       let el = e.target.parentNode.firstChild
       if (el.tagName === 'P') {
         el = el.parentNode.parentNode.parentNode.firstChild
@@ -295,6 +219,7 @@ export default {
       this.instance = this.data[0]
       this.documents = this.instance
       this.page = this.documents.content
+      this.page = this.handlePage(this.page)
       this.tabsArray = this.data.map((item, index) => {
         return { name: `${this.isbillofLading}${index + 1}` }
       })
@@ -311,6 +236,7 @@ export default {
         this.instance = this.data[index]
         this.documents = this.instance
         this.page = this.documents.content
+        this.page = this.handlePage(this.page)
         this.activeName = this.tabsArray[index].name
         this.pageDetail = this.page
         this.checked = false
@@ -321,7 +247,10 @@ export default {
     },
 
     filterEmpty(flag) {
-      const data = this.search !== '' ? this.searchArray(this.pageDetail, this.search.toLowerCase()) : this.pageDetail
+      const data =
+        this.search !== ''
+          ? this.searchArray(this.pageDetail, this.search.toLowerCase())
+          : this.pageDetail
       if (flag) {
         this.page = data.filter((item) => {
           // 过滤掉values为空或者values为数组但value为空的项
@@ -344,7 +273,10 @@ export default {
       this.$refs.documents.pathValue = null
       this.$refs.documents.rectanglePosition = []
       if (this.checked) this.filterEmpty(true)
-      this.page = this.searchArray(this.checked ? this.page : this.pageDetail, this.search.toLowerCase())
+      this.page = this.searchArray(
+        this.checked ? this.page : this.pageDetail,
+        this.search.toLowerCase()
+      )
     },
     searchArray(data, searchTerm) {
       const lowerSearchTerm = searchTerm.toLowerCase()
@@ -359,7 +291,22 @@ export default {
             (v) => v.value && v.value.toLowerCase().includes(lowerSearchTerm)
           )
           // 返回是否匹配任何一个属性
-          return keyChMatch || keyEnMatch || valueMatch
+          if (keyChMatch || keyEnMatch || valueMatch) {
+            return true
+          }
+        }
+
+        // 判断是否包含在 rows 数组中（不区分大小写）
+        if (item.rows && Array.isArray(item.rows)) {
+          const rowsMatch = item.rows.some(
+            (row) =>
+              row.keyCh.toLowerCase().includes(lowerSearchTerm) ||
+          row.keyEn.toLowerCase().includes(lowerSearchTerm)
+          )
+          // 如果 rows 中有匹配项，则返回 true
+          if (rowsMatch) {
+            return true
+          }
         }
 
         // 返回是否匹配 keyCh 或 keyEn
@@ -370,10 +317,10 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.bill-tabs{
-::v-deep .lls-tabs__active-bar {
-  min-width: 36px !important;
-}
+.bill-tabs {
+  ::v-deep .lls-tabs__active-bar {
+    min-width: 36px !important;
+  }
 }
 
 .search-box {
