@@ -23,64 +23,69 @@
           [
             'order',
             'customs_declaration',
-            'cross_border_contract',
             'commercial_invoice',
             'bank_acceptance_bill',
           ].indexOf(productName) > -1
         "
         :productName="productName"
       ></general>
+      <crossBorderContract
+        v-if="productName === 'cross_border_contract'"
+        :productObj="productObj"
+      ></crossBorderContract>
     </div>
   </div>
 </template>
 
 <script>
-import leftselect from './components/leftselect.vue'
-import { mapMutations } from 'vuex'
+import leftselect from "./components/leftselect.vue";
+import { mapMutations } from "vuex";
 export default {
   components: {
     leftselect,
-    vat: (resolve) => require(['./vat'], resolve), // 增值税发票
-    receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
-    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析 航空单
+    vat: (resolve) => require(["./vat"], resolve), // 增值税发票
+    receipt: (resolve) => require(["./receipt"], resolve), // 回单解析
+    billOfLading: (resolve) => require(["./bill_of_lading"], resolve), // 提货单解析 航空单
     financialStatement: (resolve) =>
-      require(['./financial_statement'], resolve), // 流水解析
-    general: (resolve) => require(['./general'], resolve) // 订单 报关单 跨境合同 商业发票 银行汇票
+      require(["./financial_statement"], resolve), // 流水解析
+    general: (resolve) => require(["./general"], resolve), // 订单 报关单 跨境合同 商业发票 银行汇票
+    crossBorderContract: (resolve) =>
+      require(["./cross_border_contract"], resolve), // 跨境合同
   },
   data() {
     return {
-      productName: '',
+      productName: "",
       productObj: {
-        name: '',
-        staticName: ''
-      }
-    }
+        name: "",
+        staticName: "",
+      },
+    };
   },
 
   watch: {},
   computed: {},
   mounted() {
-    this.setProductObj(this.productObj)
+    this.setProductObj(this.productObj);
   },
   methods: {
-    ...mapMutations(['setProductObj']),
+    ...mapMutations(["setProductObj"]),
     setProductName(data) {
-      this.productName = data.staticName
-      this.productObj = data
+      this.productName = data.staticName;
+      this.productObj = data;
     },
     resetId() {},
     goBack() {},
     uploadFileData(res) {
-      const data = res.data
+      const data = res.data;
       data.map((item) => {
         item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
           item.imagePath
-        )}`
-      })
-      this.staticData[this.productName] = data
-    }
-  }
-}
+        )}`;
+      });
+      this.staticData[this.productName] = data;
+    },
+  },
+};
 </script>
 <style lang="stylus" scoped>
 @import './index.styl';
