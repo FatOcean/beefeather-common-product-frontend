@@ -116,6 +116,13 @@ export default {
       // }
     },
   },
+  computed: {
+    originLocation() {
+      return process.env.NODE_ENV === "development"
+        ? "https://beefeather-ng-front.qhhrly.cn//file-handle-web/file/image"
+        : `${window.location.origin}/file-handle-web/file/image`;
+    },
+  },
   created() {
     const content = this.data[0].content;
     this.page = this.disposeContent(content);
@@ -166,13 +173,20 @@ export default {
         el,
         id: i.sortId,
         text: i,
-        imageIndex: imageIndex===-1 ? 0 : imageIndex,
+        imageIndex: imageIndex === -1 ? 0 : imageIndex,
       });
       this.activeTextId = this.$refs.documents.activeTextId;
     },
     uploadFileData(res) {
       this.data = res.data;
-      this.page = this.disposeContent(this.data[0].content)
+      this.data.forEach((item) => {
+        item.images.forEach((image) => {
+          image.imagePath = `${
+                this.originLocation
+              }?filename=${encodeURIComponent(image.imagePath)}`;
+        });
+      });
+      this.page = this.disposeContent(this.data[0].content);
       this.checkedNull = false;
       this.fieldName = "";
       this.activeTextId = "";
