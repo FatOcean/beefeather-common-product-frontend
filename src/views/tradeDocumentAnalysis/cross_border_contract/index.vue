@@ -186,13 +186,17 @@ export default {
             value.sortId = `${item.sortId}-${index}`;
           });
           item.values = item.values.sort((a, b) => {
-            // 提取文件名中的数字部分，并转换为整数
-            const indexA = parseInt(a.imageName.match(/_(\d+)\./)[1]);
-            const indexB = parseInt(b.imageName.match(/_(\d+)\./)[1]);
-
-            // 比较提取的数字部分
-            return indexA - indexB;
-          });
+        // 提取下划线和点号之间的数字部分，并转换为整数
+        const matchA = a.imageName.match(/_(\d+)\./);
+        const matchB = b.imageName.match(/_(\d+)\./);
+        
+        // 如果没有匹配到数字，则默认为0
+        const indexA = matchA ? parseInt(matchA[1]) : 0;
+        const indexB = matchB ? parseInt(matchB[1]) : 0;
+        
+        // 比较提取的数字部分
+        return indexA - indexB;
+    });
         }
       });
       return contents;
