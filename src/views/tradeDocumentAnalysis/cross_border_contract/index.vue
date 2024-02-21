@@ -185,6 +185,14 @@ export default {
           item.values.forEach((value, index) => {
             value.sortId = `${item.sortId}-${index}`;
           });
+          item.values = item.values.sort((a, b) => {
+            // 提取文件名中的数字部分，并转换为整数
+            const indexA = parseInt(a.imageName.match(/_(\d+)\./)[1]);
+            const indexB = parseInt(b.imageName.match(/_(\d+)\./)[1]);
+
+            // 比较提取的数字部分
+            return indexA - indexB;
+          });
         }
       });
       return contents;
