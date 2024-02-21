@@ -1,6 +1,5 @@
 
 import imagePath from '../images/cross_border_contract.png'
-import imagePath2 from '../images/bank_acceptance_bill.png'
 
 const data = [
   {

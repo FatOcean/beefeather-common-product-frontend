@@ -441,8 +441,8 @@ export default {
     },
     // 激活文本
     handleClickText({ el, id, text, imageIndex }) {
-      if (imageIndex+1 !== this.activePageIndex) {
-        this.activePageIndex = imageIndex+1;
+      if (imageIndex + 1 !== this.activePageIndex) {
+        this.activePageIndex = imageIndex + 1;
       }
 
       this.text = text;

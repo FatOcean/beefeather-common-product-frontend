@@ -21,7 +21,7 @@
           <td colspan="2">字段名</td>
           <td>识别结果</td>
         </thead>
-        <tbody v-for="i in showPageData" :key="i.sortId">
+        <tbody v-for="(i, index) in showPageData" :key="index">
           <template v-if="i.groupable">
             <tr>
               <td :rowspan="i.row.length + 1" class="td-title">
@@ -32,9 +32,12 @@
               v-for="(j, jindex) in i.row"
               :key="jindex"
               :class="{
-                active: activeTextId === j.sortId && text.keyCh === j.keyCh,
+                active:
+                  activeTextId === j.sortId &&
+                  text.keyCh === j.keyCh &&
+                  noParent.keyCh === i.keyCh,
               }"
-              @click="(e) => clickHandler(e, j)"
+              @click="(e) => clickHandler(e, j, i)"
             >
               <template>
                 <td>{{ j.keyEn }}<br />{{ j.keyCh }}</td>
@@ -46,6 +49,29 @@
                   }}
                 </td>
               </template>
+            </tr>
+          </template>
+
+          <template v-else-if="i.values && i.values.length > 1">
+            <tr>
+              <td :rowspan="i.values.length + 1" class="td-title" colspan="2">
+                {{ i.keyEn }}<br />{{ i.keyCh }}
+              </td>
+            </tr>
+            <tr
+              v-for="(j, jindex) in i.values"
+              :key="jindex"
+              :class="{
+                activeValues:
+                  activeTextId === j.sortId &&
+                  text.keyCh === j.keyCh &&
+                  noParent.keyCh === i.keyCh,
+              }"
+              @click="(e) => clickHandler(e, j, i, 'values')"
+            >
+              <td style="height: 80px">
+                {{ j.value }}
+              </td>
             </tr>
           </template>
 
@@ -92,6 +118,7 @@ export default {
       fieldName: "",
       checkedNull: false,
       showPageData: [], // 用作展示
+      noParent: "",
     };
   },
   watch: {
@@ -154,15 +181,37 @@ export default {
             })
             .flat(); // 使用 flat() 展开嵌套数组
         }
+        if (item.values && item.values.length > 1) {
+          item.values.forEach((value, index) => {
+            value.sortId = `${item.sortId}-${index}`;
+          });
+        }
       });
       return contents;
     },
-    clickHandler(e, i, noParent) {
+    clickHandler(e, i, noParent = "xx", values = "xx") {
       let el = e.target.parentNode.firstChild;
       if (el.tagName === "TR") el = el.firstChild;
+      if (values === "values") {
+        this.noParent = noParent;
+        this.text = i;
+        e = e || window.event;
+        const images = this.data[0].images;
+        const imageIndex = images.findIndex((item) => {
+          return item.imageName === i.imageName;
+        });
+        this.$refs.documents.$events.trigger("click-ocr-el", {
+          el,
+          id: i.sortId,
+          text: { values: [{ ...i }] },
+          imageIndex: imageIndex === -1 ? 0 : imageIndex,
+        });
+        this.activeTextId = this.$refs.documents.activeTextId;
+      }
       if (!(i.values && i.values.length > 0 && i.values[0].value !== "")) {
         return;
       }
+      this.noParent = noParent;
       this.text = i;
       e = e || window.event;
       const images = this.data[0].images;
@@ -182,8 +231,8 @@ export default {
       this.data.forEach((item) => {
         item.images.forEach((image) => {
           image.imagePath = `${
-                this.originLocation
-              }?filename=${encodeURIComponent(image.imagePath)}`;
+            this.originLocation
+          }?filename=${encodeURIComponent(image.imagePath)}`;
         });
       });
       this.page = this.disposeContent(this.data[0].content);
@@ -379,6 +428,31 @@ export default {
         background: rgba(8, 135, 255, 0.1);
         border: 1px solid #0887ff;
         border-left: 1px solid #E3E8F0;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+    }
+
+    &.activeValues {
+      .activeTd {
+        background: rgba(8, 135, 255, 0.1);
+        border: 1px solid #0887ff;
+        border-right: none;
+        border-left: none;
+      }
+
+      td:first-child {
+        background: rgba(8, 135, 255, 0.1);
+        border: 1px solid #0887ff;
+        border-top-left-radius: 4px;
+        border-right: none;
+        border-bottom-left-radius: 4px;
+      }
+
+      td:last-child {
+        background: rgba(8, 135, 255, 0.1);
+        border: 1px solid #0887ff;
+        // border-left: 1px solid #E3E8F0;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
       }
