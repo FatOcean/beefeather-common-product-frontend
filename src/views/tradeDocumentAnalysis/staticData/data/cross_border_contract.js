@@ -3,6 +3,8 @@ import imagePath from '../images/cross_border_contract.png'
 
 const data = [
   {
+    isexample: true,
+    fileName: 'cross_border_contract.png',
     "images": [
       {
         imagePath,
