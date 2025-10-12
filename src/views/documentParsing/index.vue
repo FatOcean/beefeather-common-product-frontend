@@ -1,7 +1,7 @@
 <template>
   <div class="document-parsing">
-    <lls-page-header @back="goBack" content="证照解析" bottom-line>
-    </lls-page-header>
+    <el-page-header @back="goBack" content="证照解析" bottom-line>
+    </el-page-header>
     <!-- <button @click="pushtest">测试</button> -->
     <div class="document-box">
 
@@ -16,17 +16,17 @@
       :productObj="productObj"
       @resetId="() => (activeTextId = null)"
     >
-      <lls-tabs
+      <el-tabs
         @tab-click="handleClick"
         v-model="activeName"
         v-if="productName === 'id_card'"
       >
-        <lls-tab-pane
+        <el-tab-pane
           v-for="(item, index) in tabsArray"
           :key="index"
           :label="item.name"
           :name="item.name"
-        ></lls-tab-pane>
+        ></el-tab-pane>
         <table cellspacing="0" class="table-data" id="table-data">
           <thead>
             <td colspan="2">字段名</td>
@@ -45,7 +45,7 @@
             </tr>
           </tbody>
         </table>
-      </lls-tabs>
+      </el-tabs>
       <table cellspacing="0" class="table-data" v-else id="table-data">
         <thead>
           <td colspan="2">字段名</td>
@@ -322,9 +322,9 @@ export default {
 }
 
 .document-parsing {
-  padding: 60px 12px 2px 12px;
+  padding: 30px 12px 12px 12px;
 
-  .lls-page-header {
+  .el-page-header {
     padding-bottom: 12px;
     border-bottom: 1px solid #E5E7EC;
   }

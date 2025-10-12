@@ -1,11 +1,11 @@
 <template>
   <div>
     <!--  进度条 -->
-    <bee-loading
+    <!-- <bee-loading
       :percent="percent"
       :needProgress="true"
       v-show="beeLoading"
-    ></bee-loading>
+    ></bee-loading> -->
     <link-upload
       v-model="files"
       class="upload-wrapper-new"
@@ -50,9 +50,10 @@
 </template>
 
 <script>
-import beeLoading from '@linklogis/beeLoading'
+// import beeLoading from '@linklogis/beeLoading'
 import { mapState } from 'vuex'
 import { result } from '@/api/receiptAnalysis'
+import LinkUpload from '@/components/LinkUpload/LinkUpload.vue'
 export default {
   name: 'upload-file',
   props: {
@@ -81,7 +82,8 @@ export default {
     }
   },
   components: {
-    [beeLoading.name]: beeLoading
+    LinkUpload,
+    // [beeLoading.name]: beeLoading
   },
   computed: {
     ...mapState(['ocrProductObj']),

@@ -2,13 +2,13 @@
   <div class="right-select" :style="{ width: isshowRight ? '200px' : '60px' }">
     <div v-show="isshowRight">
       <div class="serInput">
-        <lls-input
+        <el-input
           v-model.trim="productName"
           placeholder="请输入应用名称"
           @input="findProductName"
         >
-          <i slot="prefix" class="lls-icon-search"></i>
-        </lls-input>
+          <i slot="prefix" class="el-icon-search"></i>
+        </el-input>
       </div>
       <div class="product">
         <div
@@ -29,8 +29,8 @@
                 @click="showChildren(item)"
                 :class="
                   item.isShowChildren
-                    ? 'lls-icon-arrow-down'
-                    : 'lls-icon-arrow-up'
+                    ? 'el-icon-arrow-down'
+                    : 'el-icon-arrow-up'
                 "
               ></i>
             </div>
@@ -51,119 +51,122 @@
         </div>
       </div>
       <div class="right-btn">
-        <i class="lls-icon-s-fold" @click="showRight"></i>
+        <i class="el-icon-s-fold" @click="showRight"></i>
       </div>
     </div>
     <div class="right-show" v-show="!isshowRight">
-      <i class="lls-icon-s-unfold" @click="showRight"></i>
+      <i class="el-icon-s-unfold" @click="showRight"></i>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
-import { productListAll } from '../staticData/data.js'
+import { mapMutations, mapState } from "vuex";
+import { productListAll } from "../staticData/data.js";
 export default {
-  name: 'LeftSelect',
+  name: "LeftSelect",
   data() {
     return {
-      productName: '',
+      productName: "",
       productListAll, // 产品名称
       isshowRight: true,
-      activebgName: '提单',
+      activebgName: "提单",
       productList: [],
-      product: []
-    }
+      product: [],
+    };
   },
   computed: {
-    ...mapState(['productData'])
+    ...mapState(["productData"]),
   },
   mounted() {
-    this.messageIframeProduct(this.productData)
+    this.messageIframeProduct(this.productData);
   },
   watch: {
-    productData: {
-      handler(val) {
-        this.messageIframeProduct(val)
-      }
-    }
+    // productData: {
+    //   handler(val) {
+    //     this.messageIframeProduct(val)
+    //   }
+    // }
   },
   methods: {
     messageIframeProduct(data) {
-      const { tradeDocumentAnalysis } = data
-      if (tradeDocumentAnalysis) {
-        this.$nextTick(() => {
-          this.productList = this.filterProducts(
-            productListAll,
-            tradeDocumentAnalysis
-          )
-          this.activebgName = this.productList[0].children[0].name
-          this.product = this.productList
-          this.productNameClick(this.productList[0].children[0])
-        })
-      }
+      const { tradeDocumentAnalysis } = data;
+      // if (tradeDocumentAnalysis) {
+      this.$nextTick(() => {
+        // this.productList = this.filterProducts(
+        //   productListAll,
+        //   tradeDocumentAnalysis
+        // )
+        this.productList = productListAll;
+        this.activebgName = this.productList[0].children[0].name;
+        this.product = this.productList;
+        this.productNameClick(this.productList[0].children[0]);
+      });
+      // }
     },
     // 过滤出有这个权限的应用
     filterProducts(productListAll, filterArray) {
-      return productListAll.map((category) => {
-        const filteredChildren = category.children.filter((child) => {
-          return filterArray.some((filterItem) => {
-            return child.staticName === filterItem.staticName
-          })
-        })
+      return productListAll
+        .map((category) => {
+          const filteredChildren = category.children.filter((child) => {
+            return filterArray.some((filterItem) => {
+              return child.staticName === filterItem.staticName;
+            });
+          });
 
-        return {
-          ...category,
-          children: filteredChildren
-        }
-      }).filter((category) => category.children.length > 0)
+          return {
+            ...category,
+            children: filteredChildren,
+          };
+        })
+        .filter((category) => category.children.length > 0);
     },
-    ...mapMutations(['setProductObj']),
+    ...mapMutations(["setProductObj"]),
     productNameClick(item, index) {
-      this.activebgName = item.name
-      this.setProductObj(item)
-      this.$parent.setProductName(item)
+      this.activebgName = item.name;
+      this.setProductObj(item);
+      this.$parent.setProductName(item);
     },
     showChildren(item) {
-      item.isShowChildren = !item.isShowChildren
+      item.isShowChildren = !item.isShowChildren;
     },
     showRight() {
-      this.isshowRight = !this.isshowRight
-      this.$parent.setisshowRight(this.isshowRight)
+      this.isshowRight = !this.isshowRight;
+      this.$parent.setisshowRight(this.isshowRight);
     },
     findProductName(val) {
-      if (val !== '') {
-        this.productList = this.mapTree(val, this.product)
+      if (val !== "") {
+        this.productList = this.mapTree(val, this.product);
       } else {
-        this.productList = this.product
+        this.productList = this.product;
       }
     },
     mapTree(value, arr) {
-      const newarr = []
+      const newarr = [];
       arr.forEach((element) => {
         // 不区分大小写
         if (element.name.toLowerCase().indexOf(value.toLowerCase()) > -1) {
           // 判断条件
-          element.openStatus = true
-          newarr.push(element)
+          element.openStatus = true;
+          newarr.push(element);
         } else {
           if (element.children && element.children.length > 0) {
-            const redata = this.mapTree(value, element.children)
+            const redata = this.mapTree(value, element.children);
             if (redata && redata.length > 0) {
               const obj = {
                 ...element,
-                children: redata
-              }
-              obj.openStatus = true
-              newarr.push(obj)
+                children: redata,
+              };
+              obj.openStatus = true;
+              newarr.push(obj);
             }
           }
         }
-      })
-      return newarr
-    }
-  }
-}
+      });
+      return newarr;
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -173,15 +176,18 @@ export default {
   .serInput {
     padding-bottom: 10px;
 
-    .lls-input {
-      ::v-deep .lls-input__inner {
+    .el-input {
+      ::v-deep .el-input__inner {
         border-radius: 0px !important;
         border: none;
         border-bottom: 1px solid #BFE0FF;
       }
+      ::v-deep .el-input__prefix{
+        top:10px;
+      }
     }
 
-    .lls-icon-search {
+    .el-icon-search {
       color: #0887FF;
     }
   }
@@ -242,7 +248,7 @@ export default {
     align-items: center;
     justify-content: flex-start;
 
-    .lls-icon-s-fold {
+    .el-icon-s-fold {
       font-size: 20px;
       color: #8492A6;
       cursor: pointer;
@@ -257,7 +263,7 @@ export default {
     padding: 6px 12px 6px 6px;
     border-radius: 0 16px 16px 0;
 
-    .lls-icon-s-unfold {
+    .el-icon-s-unfold {
       font-size: 20px;
       color: #FFF;
       cursor: pointer;

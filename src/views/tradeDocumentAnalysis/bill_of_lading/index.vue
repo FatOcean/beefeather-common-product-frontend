@@ -8,17 +8,17 @@
       :activeTabIndex="activeTabIndex"
     >
       <div class="search-box">
-        <lls-input
+        <el-input
           placeholder="请输入字段名进行搜索"
-          prefix-icon="lls-icon-search"
+          prefix-icon="el-icon-search"
           v-model="search"
         >
-        </lls-input>
-        <lls-checkbox v-model="checked">隐藏空白字段</lls-checkbox>
+        </el-input>
+        <el-checkbox v-model="checked">隐藏空白字段</el-checkbox>
       </div>
       <div class="bill-tabs">
-        <lls-tabs @tab-click="handleClick" v-model="activeName">
-          <lls-tab-pane
+        <el-tabs @tab-click="handleClick" v-model="activeName">
+          <el-tab-pane
             v-for="(item, index) in tabsArray"
             :key="index"
             :label="item.name"
@@ -79,8 +79,8 @@
                 </tr>
               </tbody>
             </table>
-          </lls-tab-pane>
-        </lls-tabs>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </ocr-layout>
   </div>
@@ -318,7 +318,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .bill-tabs {
-  ::v-deep .lls-tabs__active-bar {
+  ::v-deep .el-tabs__active-bar {
     min-width: 36px !important;
   }
 }
@@ -329,16 +329,16 @@ export default {
   align-items: center;
   margin-bottom: 4px;
 
-  .lls-checkbox__label {
+  .el-checkbox__label {
     padding-left: 4px;
     color: #202D40;
   }
 
-  .lls-checkbox {
+  .el-checkbox {
     margin-left: 32px;
   }
 
-  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+  .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #202D40;
   }
 }

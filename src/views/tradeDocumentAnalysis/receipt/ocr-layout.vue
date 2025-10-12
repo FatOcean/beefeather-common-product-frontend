@@ -5,13 +5,13 @@
       <div class="document-box" ref="document-box">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
+            <el-tooltip
               effect="dark"
               :content="imageName"
               placement="bottom-start"
             >
               <span>{{ imageName }}</span>
-            </lls-tooltip>
+            </el-tooltip>
           </div>
           <div>
             <svg-icon
@@ -155,9 +155,9 @@
         :documentWidth="documentWidth"
         :documentHeight="documentHeight"
       ></svgPath>
-      <lls-collapse-transition>
+      <el-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
-      </lls-collapse-transition>
+      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <showImg
@@ -169,7 +169,7 @@
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
-import ImageViewer from '@linklogis/image-viewer'
+import ImageViewer from '@/components/imageViewer.vue'
 
 export default {
   components: {

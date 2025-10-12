@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import LinkUI from 'link-ui-web'
-import 'link-ui-web/lib/theme-chalk/index.css'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
-Vue.use(LinkUI)
+Vue.use(ElementUI)

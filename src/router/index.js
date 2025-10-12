@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: '/documentParsing'
+    redirect: '/tradeDocumentAnalysis'
   },
   {
     path: '/documentParsing',

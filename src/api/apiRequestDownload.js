@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '../router'
-import { Message } from 'link-ui-web'
+import { Message } from 'element-ui'
 const api = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // api 的 base_url
   withCredentials: true, // 跨域请求时发送 cookies

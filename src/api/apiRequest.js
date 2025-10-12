@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '../router'
-import { Message } from 'link-ui-web'
+import { Message } from 'element-ui'
 // import { getSession } from "@/utils/session";
 
 // const baseURL = document.location.protocol === 'https:'

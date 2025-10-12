@@ -7,14 +7,14 @@
       :activeTabIndex="activeTabIndex"
     >
     <div class="search-box">
-        <lls-input
+        <el-input
           placeholder="请输入字段名进行搜索"
-          prefix-icon="lls-icon-search"
+          prefix-icon="el-icon-search"
           @input="fieldNameInput"
           v-model="fieldName"
         >
-        </lls-input>
-        <lls-checkbox v-model="checkedNull">隐藏空白字段</lls-checkbox>
+        </el-input>
+        <el-checkbox v-model="checkedNull">隐藏空白字段</el-checkbox>
       </div>
       <template>
         <div
@@ -31,8 +31,8 @@
           v-show="bank !== '' && !loading && !failedStatus"
           v-loading="loading"
         >
-          <lls-tabs @tab-click="handleClick" v-model="activeName">
-            <lls-tab-pane
+          <el-tabs @tab-click="handleClick" v-model="activeName">
+            <el-tab-pane
               v-for="(item, index) in tabsArray"
               :key="index"
               :label="item.name"
@@ -50,8 +50,8 @@
                   </tr>
                 </tbody>
               </table>
-            </lls-tab-pane>
-          </lls-tabs>
+            </el-tab-pane>
+          </el-tabs>
         </div>
         <div
           v-show="!loading && failedStatus"
@@ -344,11 +344,11 @@ export default {
   margin: 8px;
 }
 
-.lls-select:hover .lls-input__inner {
+.el-select:hover .el-input__inner {
   border-color: #0887ff !important;
 }
 
-.lls-select .lls-input.is-disabled .lls-input__inner:hover {
+.el-select .el-input.is-disabled .el-input__inner:hover {
   border-color: #E9E9E9 !important;
 }
 .search-box {
@@ -357,16 +357,16 @@ export default {
   align-items: center;
   margin-bottom: 4px;
 
-  .lls-checkbox__label {
+  .el-checkbox__label {
     padding-left: 4px;
     color: #202D40;
   }
 
-  .lls-checkbox {
+  .el-checkbox {
     margin-left: 32px;
   }
 
-  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+  .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #202D40;
   }
 }

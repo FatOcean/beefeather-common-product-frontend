@@ -9,14 +9,14 @@
     :pageMenuPerm="pageMenuPerm"
   >
     <template v-if="tabsArray.length > 0">
-      <lls-tabs @tab-click="handleClick" v-model="activeName">
-        <lls-tab-pane
+      <el-tabs @tab-click="handleClick" v-model="activeName">
+        <el-tab-pane
           v-for="(item, index) in tabsArray"
           :key="index"
           :label="item.name"
           :name="item.name"
-        ></lls-tab-pane>
-      </lls-tabs>
+        ></el-tab-pane>
+      </el-tabs>
       <div class="tool-bar">
         <div class="name">
           <div>
@@ -81,7 +81,7 @@
           <img :src="imageUrl" :alt="imageName" />
         </div>
       </div>
-      <lls-image-viewer
+      <el-image-viewer
         v-if="showImageViewer"
         :urlList="urlList"
         :on-close="
@@ -90,7 +90,7 @@
             postFixedMessage(false);
           }
         "
-      ></lls-image-viewer>
+      ></el-image-viewer>
     </template>
     <template v-else>
       <div class="no-data">
@@ -102,8 +102,8 @@
 </template>
 <script>
 import { staticData } from '../staticData'
-import beeLoading from '@linklogis/beeLoading'
-import ImageViewer from '@linklogis/image-viewer'
+// import beeLoading from '@linklogis/beeLoading'
+import ImageViewer from '@/components/imageViewer.vue'
 import ocrLayout from './ocr-layout.vue'
 import { mapState } from 'vuex'
 
@@ -155,7 +155,7 @@ export default {
   //   }
   // },
   components: {
-    [beeLoading.name]: beeLoading,
+    // [beeLoading.name]: beeLoading,
     [ImageViewer.name]: ImageViewer,
     ocrLayout
   },
@@ -530,7 +530,7 @@ export default {
   .number {
     width: 40px;
 
-    ::v-deep .lls-input__inner {
+    ::v-deep .el-input__inner {
       width: 20px;
       position: relative;
       left: -8px;
@@ -599,7 +599,7 @@ export default {
 </style>
 <style lang="stylus">
 .ocr-text {
-  ::v-deep .lls-tabs__active-bar {
+  ::v-deep .el-tabs__active-bar {
     margin-left: 0px !important;
   }
 }

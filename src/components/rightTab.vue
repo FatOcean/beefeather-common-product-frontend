@@ -7,8 +7,8 @@
       :class="[`border-corner-${i}`]"
     ></div>
     <svg-icon iconClass="识别结果" class="svgClass"></svg-icon>
-    <lls-tabs v-model="activeName" height="50px" @tab-click="handleClickTabs">
-      <lls-tab-pane label="识别结果" name="first">
+    <el-tabs v-model="activeName" height="50px" @tab-click="handleClickTabs">
+      <el-tab-pane label="识别结果" name="first">
         <div
           class="ocr-text"
           @scroll="$parent.parentProxy"
@@ -16,8 +16,8 @@
         >
           <slot></slot>
         </div>
-      </lls-tab-pane>
-      <lls-tab-pane label="Json结果" name="second" v-if="isShowJson">
+      </el-tab-pane>
+      <el-tab-pane label="Json结果" name="second" v-if="isShowJson">
         <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
           <b-code-editor
             :indent-unit="4"
@@ -32,10 +32,12 @@
             :auto-format="true"
           ></b-code-editor>
         </div>
-      </lls-tab-pane>
-      <template v-slot:button>
+      </el-tab-pane>
+
+    </el-tabs>
+    <div class="right-tab-button">
         <template v-if="isshowBank && activeName === 'first'">
-          <lls-select
+          <el-select
             ref="selectRef"
             style="margin-right: 8px"
             v-model="bank"
@@ -43,60 +45,60 @@
             :disabled="bankType"
             @change="getResult()"
           >
-            <lls-option
+            <el-option
               v-for="item in options"
               :key="item.bankCh"
               :label="item.bankCh"
               :value="item.bankEn"
             >
-            </lls-option>
-          </lls-select>
+            </el-option>
+          </el-select>
         </template>
         <div v-if="!isImgdownload">
-          <lls-button
+          <el-button
             type="text"
             @click="downloadResult"
             v-if="activeName === 'first' && isshowDownButton"
-            ><i class="lls-icon-download"></i>
+            ><i class="el-icon-download"></i>
             {{
               `下载${activeName === "first" ? "识别" : "Json"}结果`
-            }}</lls-button
+            }}</el-button
           >
-          <lls-button
+          <el-button
             type="text"
             @click="downloadResult"
             v-if="activeName === 'second'"
-            ><i class="lls-icon-download"></i>
+            ><i class="el-icon-download"></i>
             {{
               `下载${activeName === "first" ? "识别" : "Json"}结果`
-            }}</lls-button
+            }}</el-button
           >
         </div>
 
         <div v-else>
-          <lls-dropdown @command="downloadResult" v-if="activeName === 'first'">
-            <lls-button type="text"
-              ><i class="lls-icon-download"></i>
+          <el-dropdown @command="downloadResult" v-if="activeName === 'first'">
+            <el-button type="text"
+              ><i class="el-icon-download"></i>
               {{
                 `下载${activeName === "first" ? "识别" : "Json"}结果`
-              }}</lls-button
+              }}</el-button
             >
-            <lls-dropdown-menu slot="dropdown">
-              <lls-dropdown-item command="JPG">JPG</lls-dropdown-item>
-              <lls-dropdown-item command="JPEG">JPEG</lls-dropdown-item>
-              <lls-dropdown-item command="PNG">PNG</lls-dropdown-item>
-              <lls-dropdown-item command="BMP">BMP</lls-dropdown-item>
-            </lls-dropdown-menu>
-          </lls-dropdown>
-          <lls-button type="text" v-else @click="downloadResult"
-            ><i class="lls-icon-download"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="JPG">JPG</el-dropdown-item>
+              <el-dropdown-item command="JPEG">JPEG</el-dropdown-item>
+              <el-dropdown-item command="PNG">PNG</el-dropdown-item>
+              <el-dropdown-item command="BMP">BMP</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-button type="text" v-else @click="downloadResult"
+            ><i class="el-icon-download"></i>
             {{
               `下载${activeName === "first" ? "识别" : "Json"}结果`
-            }}</lls-button
+            }}</el-button
           >
         </div>
-      </template>
-    </lls-tabs>
+    </div>
+
   </div>
 </template>
 
@@ -275,7 +277,7 @@ export default {
   margin-left: 22px !important;
 }
 
-::v-deep .lls-tabs__active-bar {
+::v-deep .el-tabs__active-bar {
   margin-left: 22px;
 }
 
@@ -292,12 +294,12 @@ export default {
 }
 
 .ocr-text {
-  ::v-deep .lls-tabs__active-bar {
+  ::v-deep .el-tabs__active-bar {
     margin-left: 0px !important;
   }
 }
 
-::v-deep .lls-tabs__header {
+::v-deep .el-tabs__header {
   border-bottom: none;
   margin: 0;
 }
@@ -341,5 +343,11 @@ export default {
     border-left: none;
     border-top: none;
   }
+}
+.right-tab-button{
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  display: flex;
 }
 </style>

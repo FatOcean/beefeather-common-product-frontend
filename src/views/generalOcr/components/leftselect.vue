@@ -2,13 +2,13 @@
   <div class="right-select" :style="{ width: isshowRight ? '200px' : '60px' }">
     <div v-show="isshowRight">
       <div class="serInput">
-        <lls-input
+        <el-input
           v-model.trim="productName"
           placeholder="请输入应用名称"
           @input="findProductName"
         >
-          <i slot="prefix" class="lls-icon-search"></i>
-        </lls-input>
+          <i slot="prefix" class="el-icon-search"></i>
+        </el-input>
       </div>
       <div class="product">
         <div
@@ -24,11 +24,11 @@
         </div>
       </div>
       <div class="right-btn">
-        <i class="lls-icon-s-fold" @click="showRight"></i>
+        <i class="el-icon-s-fold" @click="showRight"></i>
       </div>
     </div>
     <div class="right-show" v-show="!isshowRight">
-      <i class="lls-icon-s-unfold" @click="showRight"></i>
+      <i class="el-icon-s-unfold" @click="showRight"></i>
     </div>
   </div>
 </template>
@@ -131,15 +131,15 @@ export default {
   .serInput {
     padding-bottom: 10px;
 
-    .lls-input {
-      ::v-deep .lls-input__inner {
+    .el-input {
+      ::v-deep .el-input__inner {
         border-radius: 0px !important;
         border: none;
         border-bottom: 1px solid #BFE0FF;
       }
     }
 
-    .lls-icon-search {
+    .el-icon-search {
       color: #0887FF;
     }
   }
@@ -176,7 +176,7 @@ export default {
     align-items: center;
     justify-content: flex-start;
 
-    .lls-icon-s-fold {
+    .el-icon-s-fold {
       font-size: 20px;
       color: #8492A6;
       cursor: pointer;
@@ -191,7 +191,7 @@ export default {
     padding: 6px 12px 6px 6px;
     border-radius: 0 16px 16px 0;
 
-    .lls-icon-s-unfold {
+    .el-icon-s-unfold {
       font-size: 20px;
       color: #FFF;
       cursor: pointer;

@@ -7,14 +7,14 @@
       ref="documents"
       :activeTabIndex="activeTabIndex"
       ><div class="search-box">
-        <lls-input
+        <el-input
           placeholder="请输入字段名进行搜索"
-          prefix-icon="lls-icon-search"
+          prefix-icon="el-icon-search"
           @input="fieldNameInput"
           v-model="fieldName"
         >
-        </lls-input>
-        <lls-checkbox v-model="checkedNull">隐藏空白字段</lls-checkbox>
+        </el-input>
+        <el-checkbox v-model="checkedNull">隐藏空白字段</el-checkbox>
       </div>
       <table cellspacing="0" class="table-data">
         <thead>
@@ -263,16 +263,16 @@ export default {
   align-items: center;
   margin-bottom: 4px;
 
-  .lls-checkbox__label {
+  .el-checkbox__label {
     padding-left: 4px;
     color: #202D40;
   }
 
-  .lls-checkbox {
+  .el-checkbox {
     margin-left: 32px;
   }
 
-  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+  .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #202D40;
   }
 }

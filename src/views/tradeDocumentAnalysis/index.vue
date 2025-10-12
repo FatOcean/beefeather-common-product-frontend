@@ -1,7 +1,7 @@
 <template>
   <div class="document-parsing">
-    <lls-page-header @back="goBack" content="贸易单证解析" bottom-line>
-    </lls-page-header>
+    <el-page-header @back="goBack" content="贸易单证解析" bottom-line>
+    </el-page-header>
     <div class="document-box">
       <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
       <vat v-if="productName === 'vat'" :productObj="productObj"></vat>

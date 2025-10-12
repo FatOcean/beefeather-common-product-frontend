@@ -19,13 +19,13 @@
       <div class="document-box" ref="documentBox">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
+            <el-tooltip
               effect="dark"
               :content="page.fileName"
               placement="bottom-start"
             >
               <span>{{ page.fileName }}</span>
-            </lls-tooltip>
+            </el-tooltip>
           </div>
           <div>
             <svg-icon
@@ -290,12 +290,12 @@
         :documentWidth="documentWidth"
         :documentHeight="documentHeight"
       ></svgPath>
-      <lls-collapse-transition>
+      <el-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
           :productObj="productObj"
         ></upload-File>
-      </lls-collapse-transition>
+      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <showImg

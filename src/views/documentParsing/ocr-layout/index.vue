@@ -17,13 +17,13 @@
       <div class="document-box" ref="documentBox">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
+            <el-tooltip
               effect="dark"
               :content="page.fileName"
               placement="bottom-start"
             >
               <span>{{ page.fileName }}</span>
-            </lls-tooltip>
+            </el-tooltip>
           </div>
           <div>
             <svg-icon
@@ -294,12 +294,12 @@
           :class="[`border-corner-${i}`]"
         ></div>
         <svg-icon iconClass="识别结果" class="svgClass"></svg-icon>
-        <lls-tabs
+        <el-tabs
           v-model="activeName"
           height="50px"
           @tab-click="handleClickTabs"
         >
-          <lls-tab-pane label="识别结果" name="first">
+          <el-tab-pane label="识别结果" name="first">
             <div
               class="ocr-text"
               @scroll="proxy(calculateXy)"
@@ -307,8 +307,8 @@
             >
               <slot></slot>
             </div>
-          </lls-tab-pane>
-          <lls-tab-pane label="Json结果" name="second">
+          </el-tab-pane>
+          <el-tab-pane label="Json结果" name="second">
             <div
               style="border: 1px solid #e3e8f0"
               v-if="activeName === 'second'"
@@ -326,16 +326,16 @@
                 :auto-format="true"
               ></b-code-editor>
             </div>
-          </lls-tab-pane>
+          </el-tab-pane>
           <template v-slot:button>
-            <lls-button type="text" @click="downloadResult"
-              ><i class="lls-icon-download"></i>
+            <el-button type="text" @click="downloadResult"
+              ><i class="el-icon-download"></i>
               {{
                 `下载${activeName === "first" ? "识别" : "Json"}结果`
-              }}</lls-button
+              }}</el-button
             >
           </template>
-        </lls-tabs>
+        </el-tabs>
       </div>
       <svgPath
         v-if="pathValue"
@@ -343,12 +343,12 @@
         :documentWidth="documentWidth"
         :documentHeight="documentHeight"
       ></svgPath>
-      <lls-collapse-transition>
+      <el-collapse-transition>
         <upload-File
           @uploadFileData="$parent.uploadFileData"
           :productObj="productObj"
         ></upload-File>
-      </lls-collapse-transition>
+      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <showImg
@@ -360,7 +360,7 @@
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
-import ImageViewer from '@linklogis/image-viewer'
+import ImageViewer from '@/components/imageViewer.vue'
 // import RightSelect from './LeftSelect.vue'
 import { downloadResult, downloadJson } from '@/api/receiptAnalysis'
 import '@/icons'
@@ -1096,7 +1096,7 @@ export default {
 }
 
 .ocr-text {
-  ::v-deep .lls-tabs__active-bar {
+  ::v-deep .el-tabs__active-bar {
     margin-left: 0px !important;
   }
 }

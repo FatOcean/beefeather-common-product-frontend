@@ -1,7 +1,7 @@
 <template>
   <div class="document-parsing">
-    <lls-page-header @back="goBack" content="通用OCR工具" bottom-line>
-    </lls-page-header>
+    <el-page-header @back="goBack" content="通用OCR工具" bottom-line>
+    </el-page-header>
     <div class="document-box">
       <leftselect></leftselect>
       <ocrlayout

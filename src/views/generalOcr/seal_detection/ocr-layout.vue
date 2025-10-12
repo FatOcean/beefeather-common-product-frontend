@@ -7,13 +7,13 @@ script<template>
       <div class="document-box" ref="document-box">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
+            <el-tooltip
               effect="dark"
               :content="imageName"
               placement="bottom-start"
             >
               <span>{{ imageName }}</span>
-            </lls-tooltip>
+            </el-tooltip>
           </div>
           <div>
             <svg-icon
@@ -114,9 +114,9 @@ script<template>
       <div class="ocr-result" ref="ocrResult">
         <rightTab ref="rightTab" :codeTest="codeTest" :isImgdownload="true"> <slot></slot></rightTab>
       </div>
-      <lls-collapse-transition>
+      <el-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData" :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"></upload-File>
-      </lls-collapse-transition>
+      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
         <showImg
@@ -757,7 +757,7 @@ export default {
 </style>
 <style lang="stylus">
 .ocr-text {
-  ::v-deep .lls-tabs__active-bar {
+  ::v-deep .el-tabs__active-bar {
     margin-left: 0px !important;
   }
 }

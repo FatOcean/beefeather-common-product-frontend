@@ -1,12 +1,12 @@
 <template>
-  <lls-image-viewer
+  <el-image-viewer
     :urlList="urlList"
     :on-close="handleClose"
-  ></lls-image-viewer>
+  ></el-image-viewer>
 </template>
 
 <script>
-import ImageViewer from '@linklogis/image-viewer'
+import ImageViewer from '@/components/imageViewer.vue'
 export default {
   name: 'ShowImg',
   props: {

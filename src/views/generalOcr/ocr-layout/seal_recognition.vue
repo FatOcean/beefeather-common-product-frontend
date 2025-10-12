@@ -6,13 +6,13 @@
       <div class="document-box" ref="document-box">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
+            <el-tooltip
               effect="dark"
               :content="imageName"
               placement="bottom-start"
             >
               <span>{{ imageName }}</span>
-            </lls-tooltip>
+            </el-tooltip>
           </div>
           <div>
             <svg-icon
@@ -148,13 +148,13 @@
         :documentWidth="documentWidth"
         :documentHeight="documentHeight"
       ></svgPath>
-      <lls-collapse-transition>
+      <el-collapse-transition>
         <upload-File
         :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"
           @uploadFileData="$parent.uploadFileData"
           :productObj="productObj"
         ></upload-File>
-      </lls-collapse-transition>
+      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <showImg

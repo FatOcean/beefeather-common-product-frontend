@@ -12,23 +12,23 @@
       ref="documents"
     >
       <div class="search-box">
-        <lls-input
+        <el-input
           placeholder="请输入字段名进行搜索"
-          prefix-icon="lls-icon-search"
+          prefix-icon="el-icon-search"
           @input="fieldNameInput"
           v-model="fieldName"
         >
-        </lls-input>
-        <lls-checkbox v-model="checkedNull">隐藏空白字段</lls-checkbox>
+        </el-input>
+        <el-checkbox v-model="checkedNull">隐藏空白字段</el-checkbox>
       </div>
-      <lls-tabs @tab-click="handleClick" v-model="activeName">
-        <lls-tab-pane
+      <el-tabs @tab-click="handleClick" v-model="activeName">
+        <el-tab-pane
           v-for="(item, index) in tabsArray"
           :key="index"
           :label="item.name"
           :name="item.name"
-        ></lls-tab-pane>
-      </lls-tabs>
+        ></el-tab-pane>
+      </el-tabs>
       <table cellspacing="0" class="table-data">
         <thead>
           <td colspan="2">字段名</td>
@@ -242,16 +242,16 @@ export default {
   align-items: center;
   margin-bottom: 4px;
 
-  .lls-checkbox__label {
+  .el-checkbox__label {
     padding-left: 4px;
     color: #202D40;
   }
 
-  .lls-checkbox {
+  .el-checkbox {
     margin-left: 32px;
   }
 
-  .lls-checkbox__input.is-checked+.lls-checkbox__label {
+  .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #202D40;
   }
 }

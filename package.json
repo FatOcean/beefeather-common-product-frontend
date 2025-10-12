@@ -9,13 +9,9 @@
 		"lint": "vue-cli-service lint"
 	},
 	"dependencies": {
-		"@linklogis/beeLoading": "^1.0.0",
-		"@linklogis/image-viewer": "^1.1.1",
-		"@linklogis/link-upload": "^1.0.9",
-		"@linklogis/ocr-layout": "^1.2.5",
 		"axios": "^0.21.1",
 		"core-js": "^3.6.5",
-		"link-ui-web": "^2.0.19",
+		"element-ui": "^2.15.14",
 		"lodash": "^4.17.21",
 		"vue": "^2.6.11",
 		"vue-router": "^3.2.0",
@@ -24,8 +20,6 @@
 	"devDependencies": {
 		"@commitlint/cli": "^11.0.0",
 		"@commitlint/config-conventional": "^11.0.0",
-		"@linklogis/eslint-plugin-best-practices": "^1.0.1",
-		"@linklogis/spec": "^0.0.6",
 		"@vue/cli-plugin-babel": "~4.5.0",
 		"@vue/cli-plugin-eslint": "~4.5.0",
 		"@vue/cli-plugin-router": "~4.5.0",

@@ -7,13 +7,13 @@
       <div class="document-box" ref="document-box">
         <div class="tool-bar">
           <div class="name">
-            <lls-tooltip
+            <el-tooltip
               effect="dark"
               :content="imageName"
               placement="bottom-start"
             >
               <span>{{ imageName }}</span>
-            </lls-tooltip>
+            </el-tooltip>
           </div>
           <div>
             <svg-icon
@@ -95,9 +95,9 @@
       <div class="ocr-result" ref="ocrResult">
         <rightTab :codeTest="codeTest" :isImgdownload="true" ref="rightTab" :isShowJson="false">  <slot></slot></rightTab>
       </div>
-      <lls-collapse-transition>
+      <el-collapse-transition>
         <upload-File @uploadFileData="$parent.uploadFileData" :fileTypes="['jpg', 'png', 'jpeg', 'bmp']"></upload-File>
-      </lls-collapse-transition>
+      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
        <showImg

@@ -223,11 +223,11 @@ export default {
   margin: 8px;
 }
 
-.lls-select:hover .lls-input__inner {
+.el-select:hover .el-input__inner {
   border-color: #0887ff !important;
 }
 
-.lls-select .lls-input.is-disabled .lls-input__inner:hover {
+.el-select .el-input.is-disabled .el-input__inner:hover {
   border-color: #E9E9E9 !important;
 }
 </style>

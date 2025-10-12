@@ -9,7 +9,7 @@ import './assets/styles/reset.styl'
 
 import './icons'
 import './components/table-wrapper'
-import LinkUpload from '@linklogis/link-upload'
+// import LinkUpload from '@linklogis/link-upload'
 import api from './api/apiRequest.js'
 import uploadFile from '@/components/upload-file/index.vue'
 import Directives from './directives/index'
@@ -28,7 +28,7 @@ Vue.component('showImg', showImg)
 Vue.component('svgPath', svgPath)
 Vue.component('uploadFile', uploadFile)
 
-Vue.use(LinkUpload)
+// Vue.use(LinkUpload)
 
 Vue.prototype.$http = api
 Vue.config.productionTip = false
