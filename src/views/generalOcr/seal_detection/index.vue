@@ -542,7 +542,7 @@ export default {
       text-align: center;
 
       &:focus {
-        border-color: #0887ff;
+        border-color: #009688;
       }
     }
 

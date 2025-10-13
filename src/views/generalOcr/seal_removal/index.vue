@@ -411,7 +411,7 @@ export default {
 
       &.active, &:hover {
         background: rgba(8, 135, 255, 0.1);
-        border: 1px solid #0887ff;
+        border: 1px solid #009688;
         border-radius: 4px;
       }
     }

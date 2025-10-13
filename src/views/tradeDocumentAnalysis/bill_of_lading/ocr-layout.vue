@@ -121,7 +121,7 @@
                 :points="rectanglePosition"
                 style="
                   fill: rgba(8, 135, 255, 0.1);
-                  stroke: #0887ff;
+                  stroke: #009688;
                   stroke-width: 2;
                 "
               />

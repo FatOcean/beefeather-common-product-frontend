@@ -129,7 +129,7 @@
                   :key="index"
                   ref="maskEl"
                   stroke-width="0.5"
-                  stroke="#0887FF"
+                  stroke="#009688"
                   stroke-linejoin="round"
                   stroke-linecap="round"
                   fill="rgba(8, 135, 255, 0.1)"

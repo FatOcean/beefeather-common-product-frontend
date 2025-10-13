@@ -78,7 +78,7 @@
                     <div>
                         不支持预览，可尝试以下方法：<br>
                         1、请<a href="https://acrobat.adobe.com/us/en/acrobat/pdf-reader.html" target="_blank"
-                            style="color:#0887FF">点击下载</a>或自行安装Adobe Reader播放器<br>
+                            style="color:#009688">点击下载</a>或自行安装Adobe Reader播放器<br>
                         2、切换至其他浏览器（推荐Chrome）
                     </div>
                     </embed>
@@ -572,7 +572,7 @@ export default {
   font-size: 12px;
 
   &>i {
-    color: #0887FF;
+    color: #009688;
     margin-right: 5px;
     font-size: 14px;
   }

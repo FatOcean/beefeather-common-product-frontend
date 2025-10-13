@@ -188,7 +188,7 @@ export default {
     }
 
     .el-icon-search {
-      color: #0887FF;
+      color: #009688;
     }
   }
 
@@ -228,14 +228,14 @@ export default {
           padding-left: 28px;
 
           &:hover {
-            background: #0887FF;
+            background: #009688;
             color: #fff;
           }
         }
       }
 
       .activebg {
-        background: #0887FF;
+        background: #009688;
         color: #fff;
       }
     }
@@ -259,7 +259,7 @@ export default {
     position: absolute;
     left: 0px;
     bottom: 27px;
-    background: #0887FF;
+    background: #009688;
     padding: 6px 12px 6px 6px;
     border-radius: 0 16px 16px 0;
 

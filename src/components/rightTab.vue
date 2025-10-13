@@ -314,7 +314,7 @@ export default {
   position: absolute;
   height: 20px;
   width: 20px;
-  border: 4px solid #0887ff;
+  border: 4px solid #009688;
 
   &.border-corner-1 {
     top: 0;

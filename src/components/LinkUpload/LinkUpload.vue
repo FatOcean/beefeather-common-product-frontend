@@ -552,7 +552,7 @@ export default {
 
     &.is-dragger,
     &:hover {
-      border-color: #0887ff;
+      border-color: #009688;
     }
 
     &.is-multiple {
@@ -584,7 +584,7 @@ export default {
       }
 
       > span {
-        color: #0887ff;
+        color: #009688;
         height: 12px;
         line-height: 12px;
         font-weight: bold;

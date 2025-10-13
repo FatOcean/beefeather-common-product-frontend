@@ -85,14 +85,14 @@ script<template>
               <!-- <polygon
                 ref="svg-polygon"
                 :points="svgPosition"
-                style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
+                style="fill:rgba(8,135,255,0.1);stroke:#009688;stroke-width:2"
               />-->
               <polygon
                 ref="svg-rectangle"
                 :points="rectanglePosition"
                 style="
                   fill: rgba(8, 135, 255, 0.1);
-                  stroke: #0887ff;
+                  stroke: #009688;
                   stroke-width: 2;
                 "
               />

@@ -84,7 +84,7 @@
               <!-- <polygon
                 ref="svg-polygon"
                 :points="svgPosition"
-                style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
+                style="fill:rgba(8,135,255,0.1);stroke:#009688;stroke-width:2"
               />-->
               <circle
                 ref="pointEl"
@@ -100,7 +100,7 @@
                 ref="svg-polygon"
                 :d="svgPosition ? `M ${svgPosition} z` : ''"
                 fill="rgba(8,135,255,0.1)"
-                stroke="#0887FF"
+                stroke="#009688"
                 stroke-width="1"
               />
             </svg>
@@ -112,13 +112,13 @@
               <!-- <polygon
                 ref="svg-rectangle"
                 :points="rectanglePosition"
-                style="fill:rgba(8,135,255,0.1);stroke:#0887FF;stroke-width:2"
+                style="fill:rgba(8,135,255,0.1);stroke:#009688;stroke-width:2"
               />-->
               <path
                 ref="svg-rectangle"
                 :d="rectanglePosition ? `M ${rectanglePosition} z` : ''"
                 fill="rgba(8,135,255,0.1)"
-                stroke="#0887FF"
+                stroke="#009688"
                 stroke-width="2"
               />
               <!-- <path d="M 100 100 L 300 100 L 200 300 z" fill="red" stroke="blue" stroke-width="3" /> -->

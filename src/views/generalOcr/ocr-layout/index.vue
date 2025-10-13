@@ -209,7 +209,7 @@
                 <path
                   ref="maskEl"
                   stroke-width="0.5"
-                  stroke="#0887FF"
+                  stroke="#009688"
                   stroke-linejoin="round"
                   stroke-linecap="round"
                   fill="rgba(8, 135, 255, 0.1)"
@@ -227,7 +227,7 @@
                 :height="activeText.boundingBox.height * imgScale"
                 ref="maskEl"
                 stroke-width="0.5"
-                stroke="#0887FF"
+                stroke="#009688"
                 fill="rgba(8, 135, 255, 0.1)"
               />
             </svg>
@@ -259,7 +259,7 @@
                   :key="index"
                   ref="maskEl"
                   stroke-width="0.5"
-                  stroke="#0887FF"
+                  stroke="#009688"
                   stroke-linejoin="round"
                   stroke-linecap="round"
                   fill="rgba(8, 135, 255, 0.1)"
@@ -1008,7 +1008,7 @@ export default {
 
     &.active {
       background: rgba(8, 135, 255, 0.1);
-      border: 1px solid #0887ff;
+      border: 1px solid #009688;
       border-radius: 4px;
     }
   }

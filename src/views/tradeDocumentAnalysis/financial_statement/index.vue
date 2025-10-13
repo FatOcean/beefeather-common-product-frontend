@@ -224,7 +224,7 @@ export default {
 }
 
 .el-select:hover .el-input__inner {
-  border-color: #0887ff !important;
+  border-color: #009688 !important;
 }
 
 .el-select .el-input.is-disabled .el-input__inner:hover {

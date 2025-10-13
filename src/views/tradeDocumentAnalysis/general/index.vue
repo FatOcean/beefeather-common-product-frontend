@@ -343,14 +343,14 @@ export default {
     &.active {
       .activeTd {
         background: rgba(8, 135, 255, 0.1);
-        border: 1px solid #0887ff;
+        border: 1px solid #009688;
         border-right: none;
         border-left: none;
       }
 
       td:first-child {
         background: rgba(8, 135, 255, 0.1);
-        border: 1px solid #0887ff;
+        border: 1px solid #009688;
         border-top-left-radius: 4px;
         border-right: none;
         border-bottom-left-radius: 4px;
@@ -358,7 +358,7 @@ export default {
 
       td:last-child {
         background: rgba(8, 135, 255, 0.1);
-        border: 1px solid #0887ff;
+        border: 1px solid #009688;
         border-left: 1px solid #E3E8F0;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;

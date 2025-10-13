@@ -14,7 +14,7 @@
         pathValue.pathEndY
       }`"
       stroke-width="1"
-      stroke="#0887FF"
+      stroke="#009688"
       stroke-dasharray="5 5"
       fill="transparent"
     />
@@ -23,13 +23,13 @@
       :cx="pathValue.pathStartX"
       :cy="pathValue.pathStartY"
       r="3"
-      fill="#0887FF"
+      fill="#009688"
     />
     <circle
       :cx="pathValue.pathEndX"
       :cy="pathValue.pathEndY"
       r="2"
-      fill="#0887FF"
+      fill="#009688"
     />
   </svg>
 </template>

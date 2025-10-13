@@ -38,7 +38,7 @@
           <svg-icon iconClass="上传"></svg-icon>
           <div style="color: #5f6c80; margin-top: 12px; font-weight: bold">
             拖拽文件到此处或
-            <span style="color: #0887ff; margin: 4px">点击上传</span>
+            <span style="color: #009688; margin: 4px">点击上传</span>
           </div>
           <div class="upload-text">
             支持{{ fileTypes.join("、").toUpperCase() }}格式，文件大小不超过8M
@@ -258,7 +258,7 @@ export default {
     height: initial;
     min-height: initial !important;
     background: #ffffff !important;
-    border: 1px solid #b4dbff !important;
+    border: 1px solid #009688!important;
     border-radius: 16px 16px 0px 0px !important;
     box-shadow: 0px -3px 6px 0px rgba(5, 18, 30, 0.04);
     text-align: center;
@@ -269,7 +269,7 @@ export default {
       padding: 16px 36px;
 
       .put-upload {
-        color: #0887ff;
+        color: #009688;
         font-size: 16px;
         pointer-events: none;
 
