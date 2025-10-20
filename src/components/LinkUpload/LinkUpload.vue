@@ -14,11 +14,11 @@
         <slot v-if="!value.length || !showFileList">
           <div class="dragger-text">
             <template v-if="multiple">
-              <div>{{ $t('placeholder.dragAndDropFilesHere') }}</div>
-              <div>{{ $t('placeholder.multipleFilesAreUploadedAtAheSameTime') }}</div>
+              <div>拖拽文件到此处</div>
+              <div>支持多文件同时上传</div>
             </template>
-            <div v-else>{{ $t('placeholder.dragAndDropIndividualFilesHere') }}</div>
-            <img src="./images/上传.svg" alt="上传" /><span>{{ $t('placeholder.clickUpload') }}</span>
+            <div v-else>拖拽单个文件到此处</div>
+            <img src="./images/上传.svg" alt="上传" /><span>点击上传</span>
           </div>
         </slot>
         <!-- 文件列表 -->
@@ -35,7 +35,7 @@
               <!-- 文件上传失败-预览图 -->
               <template v-if="/fail/.test(i.status)">
                 <img src="./images/上传失败.svg" alt="上传失败" />
-                <div>{{$t('placeholder.uploadError')}}</div>
+                <div>上传失败</div>
               </template>
               <!-- 删除按钮 -->
               <i class="lls-icon-error2" v-show="!disabled" @click.stop.prevent="handleDelete(i)"></i>
@@ -49,7 +49,7 @@
                 <!-- 失败 -->
                 <template v-if="/fail/.test(i.status)">
                   <img src="./images/刷新.svg" alt="刷新" />
-                  <div>{{$t('button.retry')}}</div>
+                  <div>重试</div>
                 </template>
                 <!-- 正在上传 -->
                 <pie v-show="/loading/.test(i.status)" :percent="(i.loaded / i.size) * 100"></pie>
@@ -325,7 +325,7 @@ export default {
           this.proxy((_) => {
             this.$message({
               // message: `上传文件只能是${this.accept.join('，')}格式`,
-              message: this.$t('description.uploadErrorTips', { format: this.accept.join('，') }),
+              message: `上传文件只能是${this.accept.join('，')}格式`,
               type: 'error',
               offset: this.messageOffset
             })
@@ -336,7 +336,7 @@ export default {
           this.proxy((_) => {
             this.$message({
               // message: '文件不能超过规定大小',
-              message: this.$t('description.uploadErrorSize'),
+              message: '文件不能超过规定大小',
               type: 'error',
               offset: this.messageOffset
             })

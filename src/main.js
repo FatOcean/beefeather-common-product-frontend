@@ -18,9 +18,10 @@ import RightTab from '@/components/rightTab.vue'
 import showImg from '@/components/showImg.vue'
 import svgPath from '@/components/svgPath.vue'
 import eventPlugin from './utils/eventPlugin'
+import VueVirtualScroller from 'vue-virtual-scroller'
 import './components/ocr-el'
 Vue.use(eventPlugin)
-
+Vue.use(VueVirtualScroller)
 Vue.use(CodeEditor)
 Vue.use(Directives)
 Vue.component('RightTab', RightTab)
