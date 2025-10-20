@@ -1,66 +1,68 @@
 <template>
-  <div class="classify-page">
-    <!-- 头部 -->
-    <div class="header">
-      <div class="header-left">
-        <el-button icon="el-icon-arrow-left" @click="goBack" circle></el-button>
-        <span class="title">单据分类</span>
-      </div>
-      <div class="header-right">
-        <el-button type="primary" @click="handleSubmit">提交</el-button>
-      </div>
-    </div>
+  <div class="container">
+    <h2>图片分组示例</h2>
 
-    <!-- 图片内容区域 -->
-    <div class="content-area">
-      <div class="image-grid">
-        <div
-          v-for="(item, index) in imageList"
-          :key="index"
-          class="image-item"
-        >
-          <!-- 单据类型选择 -->
-          <div class="item-header">
-            <div class="form-item">
-              <label>单据类型：</label>
-              <el-select
-                v-model="item.docType"
-                placeholder="请选择"
-                size="small"
-                style="width: 150px"
-              >
-                <el-option
-                  v-for="doc in docTypeOptions"
-                  :key="doc.value"
-                  :label="doc.label"
-                  :value="doc.value"
-                ></el-option>
-              </el-select>
-            </div>
-            <div class="form-item">
-              <label>分组：</label>
-              <el-input
-                v-model="item.group"
-                placeholder="分组标识"
-                size="small"
-                style="width: 100px"
-              ></el-input>
+    <div class="content">
+      <!-- 左侧图片区域 -->
+      <div class="left-panel">
+        <div class="toolbar">
+          <button @click="createGroup" :disabled="selectedImages.length === 0">
+            创建新组 (选中 {{ selectedImages.length }} 张)
+          </button>
+          <button @click="resetGroup" :disabled="selectedImages.length === 0">
+            重置为未分组
+          </button>
+          <button @click="clearSelection" :disabled="selectedImages.length === 0">
+            清除选中
+          </button>
+        </div>
+
+        <div class="image-grid">
+          <div
+            v-for="(img, index) in images"
+            :key="index"
+            class="image-box"
+            :class="{
+              selected: selectedImages.includes(img.id),
+              [`group-${img.group}`]: img.group !== null,
+              ungrouped: img.group === null
+            }"
+            @click="toggleSelect(img)"
+          >
+            <img :src="img.url" alt="示例图片" />
+            <div class="label">
+              {{ img.group !== null ? '组 ' + img.group : '未分组' }}
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- 图片展示 -->
-          <div class="image-container">
-            <el-image
-              :src="item.imageUrl"
-              :preview-src-list="[item.imageUrl]"
-              fit="contain"
-              class="image"
-            >
-              <div slot="error" class="image-slot">
-                <i class="el-icon-picture-outline"></i>
-              </div>
-            </el-image>
-            <div class="image-label">{{ item.imageName }}</div>
+      <!-- 右侧分组情况 -->
+      <div class="right-panel">
+        <h3>当前分组情况</h3>
+        <div v-if="groupList.length === 0" class="empty">
+          暂无分组
+        </div>
+
+        <div
+          v-for="group in groupList"
+          :key="group.id"
+          class="group-item"
+        >
+          <div class="group-header">
+            <strong>组 {{ group.id }}</strong>
+            <button class="delete-btn" @click="deleteGroup(group.id)">
+              删除组
+            </button>
+          </div>
+
+          <div class="group-images">
+            <img
+              v-for="img in group.images"
+              :key="img.id"
+              :src="img.url"
+              alt="缩略图"
+            />
           </div>
         </div>
       </div>
@@ -70,260 +72,220 @@
 
 <script>
 export default {
-  name: 'ClassifyNew',
+  name: "ImageGrouping",
   data() {
     return {
-      // 单据类型选项
-      docTypeOptions: [
-        { label: '发票', value: 'invoice' },
-        { label: '合同', value: 'contract' },
-        { label: '收据', value: 'receipt' },
-        { label: '提单', value: 'bill_of_lading' },
-        { label: '装箱单', value: 'packing_list' },
-        { label: '商业发票', value: 'commercial_invoice' },
-        { label: '产地证', value: 'certificate_of_origin' },
-        { label: '保险单', value: 'insurance_policy' }
-      ],
-      // 图片列表数据
-      imageList: [
-        {
-          id: 1,
-          docType: 'invoice',
-          group: 'S1',
-          imageUrl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-          imageName: '10_46fb064dce3.jpg'
-        },
-        {
-          id: 2,
-          docType: 'contract',
-          group: 'S1',
-          imageUrl: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-          imageName: '11_4f3847ae7186.jpg'
-        },
-        {
-          id: 3,
-          docType: 'receipt',
-          group: 'S1',
-          imageUrl: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-          imageName: '12_ce61b957ed6a.jpg'
-        },
-        {
-          id: 4,
-          docType: 'bill_of_lading',
-          group: 'S1',
-          imageUrl: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-          imageName: '13_3432b02b932d.jpg'
-        },
-        {
-          id: 5,
-          docType: 'packing_list',
-          group: 'S2',
-          imageUrl: 'https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg',
-          imageName: '14_5621c34a876e.jpg'
-        },
-        {
-          id: 6,
-          docType: 'commercial_invoice',
-          group: 'S2',
-          imageUrl: 'https://fuss10.elemecdn.com/d/e6/c4d93a3805b3ce3f323f7974e6f78jpeg.jpeg',
-          imageName: '15_7843f92b456c.jpg'
-        },
-        {
-          id: 7,
-          docType: 'certificate_of_origin',
-          group: 'S2',
-          imageUrl: 'https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg',
-          imageName: '16_8954a03b567d.jpg'
-        },
-        {
-          id: 8,
-          docType: 'insurance_policy',
-          group: 'S2',
-          imageUrl: 'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
-          imageName: '17_9065b14c678e.jpg'
+      nextGroupId: 1,
+      selectedImages: [],
+      images: [],
+    };
+  },
+  computed: {
+    groupList() {
+      const groups = {};
+      this.images.forEach(img => {
+        const groupId = img.group;
+        if (groupId !== null) {
+          if (!groups[groupId]) groups[groupId] = { id: groupId, images: [] };
+          groups[groupId].images.push(img);
         }
-      ]
-    }
+      });
+      return Object.values(groups);
+    },
+  },
+  created() {
+    // 模拟 12 张图片
+    this.images = Array.from({ length: 12 }, (_, i) => ({
+      id: i + 1,
+      url: `https://picsum.photos/seed/${i + 1}/200/150`,
+      group: null,
+    }));
   },
   methods: {
-    // 返回
-    goBack() {
-      this.$confirm('确定要返回吗？未保存的修改将丢失', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$router.back()
-      }).catch(() => {})
+    toggleSelect(img) {
+      const idx = this.selectedImages.indexOf(img.id);
+      if (idx > -1) this.selectedImages.splice(idx, 1);
+      else this.selectedImages.push(img.id);
     },
-
-    // 提交
-    handleSubmit() {
-      // 验证是否所有图片都已选择单据类型
-      const unclassified = this.imageList.filter(item => !item.docType)
-      if (unclassified.length > 0) {
-        this.$message.warning('请为所有单据选择类型')
-        return
-      }
-
-      this.$confirm('确定要提交分类结果吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        // 这里可以添加提交逻辑
-        console.log('提交数据：', this.imageList)
-        this.$message.success('提交成功')
-
-        // 提交成功后返回
-        setTimeout(() => {
-          this.$router.back()
-        }, 1000)
-      }).catch(() => {})
-    }
-  }
-}
+    createGroup() {
+      if (this.selectedImages.length === 0) return;
+      const newGroupId = this.nextGroupId++;
+      this.images.forEach(img => {
+        if (this.selectedImages.includes(img.id)) {
+          img.group = newGroupId;
+        }
+      });
+      this.selectedImages = [];
+    },
+    resetGroup() {
+      if (this.selectedImages.length === 0) return;
+      this.images.forEach(img => {
+        if (this.selectedImages.includes(img.id)) {
+          img.group = null;
+        }
+      });
+      this.selectedImages = [];
+    },
+    deleteGroup(groupId) {
+      this.images.forEach(img => {
+        if (img.group === groupId) img.group = null;
+      });
+    },
+    clearSelection() {
+      this.selectedImages = [];
+    },
+  },
+};
 </script>
 
-<style scoped lang="stylus">
-.classify-page {
-  min-height: 100vh;
-  background-color: #f5f7fa;
+<style scoped>
+.container {
+  padding: 20px;
+  font-family: sans-serif;
+}
+h2 {
+  margin-bottom: 16px;
+}
+.content {
   display: flex;
-  flex-direction: column;
+  gap: 20px;
 }
 
-.header {
-  background: #fff;
-  padding: 16px 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+/* 左侧图片区域 */
+.left-panel {
+  flex: 3;
 }
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-
-  .title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-  }
+.toolbar {
+  margin-bottom: 16px;
 }
-
-.header-right {
-  display: flex;
-  gap: 12px;
+button {
+  margin-right: 10px;
+  padding: 6px 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
-
-.content-area {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
+button:hover:not(:disabled) {
+  background-color: #0069d9;
+}
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
 }
-
-.image-item {
-  background: #fff;
+.image-box {
+  position: relative;
+  border: 3px solid #ddd;
   border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s;
-
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-  }
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.image-box:hover {
+  transform: scale(1.03);
+}
+.image-box img {
+  width: 100%;
+  display: block;
+  user-select: none;
+}
+.label {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
 }
 
-.item-header {
+/* ✅ 点击选中时的边框样式 */
+.selected {
+  border-color: #ff9800 !important;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.8);
+  transform: scale(1.05);
+  z-index: 1;
+}
+
+/* 分组边框颜色 */
+.ungrouped {
+  border-color: #ccc;
+}
+.group-1 {
+  border-color: #e74c3c;
+}
+.group-2 {
+  border-color: #3498db;
+}
+.group-3 {
+  border-color: #2ecc71;
+}
+.group-4 {
+  border-color: #9b59b6;
+}
+.group-5 {
+  border-color: #f1c40f;
+}
+
+/* 右侧分组情况 */
+.right-panel {
+  flex: 1.2;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px;
+  overflow-y: auto;
+  max-height: 80vh;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.group-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   margin-bottom: 12px;
+  padding: 8px;
+}
+.group-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  .form-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-
-    label {
-      font-size: 13px;
-      color: #666;
-      white-space: nowrap;
-      margin-right: 8px;
-      font-weight: 500;
-    }
-  }
 }
-
-.image-container {
-  position: relative;
-
-  .image {
-    width: 100%;
-    height: 280px;
-    border-radius: 4px;
-    border: 1px solid #e5e7eb;
-    cursor: pointer;
-
-    /deep/ .el-image__inner {
-      border-radius: 4px;
-    }
-  }
-
-  .image-slot {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    background: #f5f7fa;
-    color: #ccc;
-
-    i {
-      font-size: 48px;
-    }
-  }
-
-  .image-label {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #999;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.delete-btn {
+  background: #dc3545;
+  border: none;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
 }
-
-/* 响应式布局 */
-@media (max-width: 1600px) {
-  .image-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.delete-btn:hover {
+  background: #c82333;
 }
-
-@media (max-width: 1200px) {
-  .image-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.group-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
 }
-
-@media (max-width: 768px) {
-  .image-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
+.group-images img {
+  width: 60px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 2px solid #ccc;
+}
+.empty {
+  text-align: center;
+  color: #777;
+  margin-top: 20px;
 }
 </style>
+

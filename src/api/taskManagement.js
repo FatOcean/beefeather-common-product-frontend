@@ -78,11 +78,7 @@ export const getTaskList = (params) => {
               errorMessage: '文件格式不支持'
             }
           ],
-          pagination: {
-            total: 5,
-            pageNum: params.pageNum || 1,
-            pageSize: params.pageSize || 10
-          }
+          total: "22",
         }
       }
 

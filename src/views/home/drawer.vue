@@ -4,8 +4,9 @@
     :visible.sync="drawer"
     :direction="direction"
     :before-close="handleClose"
+    custom-class="drawer-custom"
   >
-  <el-form ref="form" :model="form" label-width="80px">
+  <el-form ref="form" :model="form" label-width="110px">
   <el-form-item label="任务名称">
     <el-input v-model="form.taskName" placeholder="请选择任务名称" style="width: 280px;"></el-input>
   </el-form-item>
@@ -18,6 +19,10 @@
     <upload :limit="1" :fileList="documentTypeFields[form.documentType]" @change="handleFileChange" :accept="['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'json', 'zip', 'rar', '7z']"></upload>
   </el-form-item>
 </el-form>
+<div class="dialog-footer">
+    <el-button @click="handleClose">取 消</el-button>
+    <el-button type="primary" @click="handleSubmit">确 定</el-button>
+  </div>
   </el-drawer>
 </template>
 <script>
@@ -72,7 +77,43 @@ export default {
     },
     handleFileChange(fileList) {
       this.form.fileList = fileList
+    },
+    handleSubmit() {
+      console.log(this.form)
     }
   }
 }
 </script>
+<style scoped lang="stylus">
+::v-deep.el-drawer__header{
+  margin-bottom: 0px;
+}
+::v-deep.el-drawer__title{
+  margin-bottom: 0px
+  }
+  .el-drawer__header{
+  margin-bottom: 0px;
+
+    }
+.drawer-custom{
+  .el-drawer__header{
+    margin-bottom: 0px;
+  }
+  .el-drawer__body{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    height: 100%;
+  }
+  .dialog-footer{
+    margin-top: auto;
+    display: flex;
+    margin-bottom: 12px;
+    margin-right: 12px;
+    justify-content: flex-end;
+    border-top: 1px solid #ebeef5;
+    padding-top: 12px;
+  }
+}
+</style>

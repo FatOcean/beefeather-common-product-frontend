@@ -24,22 +24,6 @@ const routes = [
     }
   },
   {
-    path: '/documentParsing',
-    name: 'documentParsing',
-    component: (resolve) => require(['@/views/documentParsing'], resolve),
-    meta: {
-      title: '证件解析'
-    }
-  },
-  {
-    path: '/generalOcr',
-    name: 'generalOcr',
-    component: (resolve) => require(['@/views/generalOcr'], resolve),
-    meta: {
-      title: '通用OCR工具'
-    }
-  },
-  {
     path: '/tradeDocumentAnalysis',
     name: 'tradeDocumentAnalysis',
     component: (resolve) => require(['@/views/tradeDocumentAnalysis'], resolve),

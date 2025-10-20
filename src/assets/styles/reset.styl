@@ -126,10 +126,16 @@ textarea {
 }
 
 
- .el-input__inner:focus {
+ .el-input__inner{
+    border-radius: 8px;
+    height: 36px;
+    line-height: 36px;
+
+  &:focus {
     border-color: #009688;
     outline: 0;
 }
+ }
 
 .el-tabs__item.is-active {
     color: #009688;
@@ -142,8 +148,14 @@ textarea {
 .el-tabs__active-bar{
   background-color: #009688 !important;
 }
+.el-button{
+  border-radius: 8px;
+  padding: 9px 20px;
+}
 
 .el-button--text{
+  padding: 0px;
+
   color: #009688;
 }
 
