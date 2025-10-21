@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/classify',
     name: 'classify',
-    component: (resolve) => require(['@/views/classifyResult/newIndex.vue'], resolve),
+    component: (resolve) => require(['@/views/classify/index.vue'], resolve),
     meta: {
       title: '分类结果'
     }

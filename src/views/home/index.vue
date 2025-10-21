@@ -3,7 +3,7 @@
     <div class="content-box">
       <!-- 页面标题 -->
       <div class="page-header">
-        <h1 class="page-title">单据解析</h1>
+        <h1 class="page-title">资产列表</h1>
         <div class="header-actions">
           <el-button type="primary" icon="el-icon-plus" @click="openDrawer"
             >新增</el-button
@@ -144,7 +144,7 @@ export default {
           createTime: "2025-10-20 08:00:00",
         },
       ],
-      selectedRows:[],
+      selectedRows: [],
     };
   },
   methods: {
