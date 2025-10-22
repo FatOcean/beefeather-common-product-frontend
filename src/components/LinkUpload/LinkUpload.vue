@@ -25,7 +25,7 @@
         <div class="file-list-wrapper" v-if="showFileList && value.length > 0">
           <!-- 添加按钮 -->
           <div class="file-item add" v-show="multiple && !disabled">
-            <div class="file-thumbnail"><i class="lls-icon-plus"></i></div>
+            <div class="file-thumbnail"><i class="el-icon-plus"></i></div>
           </div>
           <!-- 文件item -->
           <div class="file-item" v-for="(i, index) in value" :key="index">
@@ -38,7 +38,7 @@
                 <div>上传失败</div>
               </template>
               <!-- 删除按钮 -->
-              <i class="lls-icon-error2" v-show="!disabled" @click.stop.prevent="handleDelete(i)"></i>
+              <i class="el-icon-error" v-show="!disabled" @click.stop.prevent="handleDelete(i)"></i>
               <!-- 上传状态 -->
               <div
                 class="upload-status"
@@ -556,7 +556,7 @@ export default {
     }
 
     &.is-multiple {
-      width: 460px;
+      width: 400px;
     }
 
     .dragger-text {
@@ -623,7 +623,7 @@ export default {
             max-height: 35px;
           }
 
-          .lls-icon-error2 {
+          .el-icon-error {
             position: absolute;
             font-size: 14px;
             color: #8492a6;
@@ -657,7 +657,7 @@ export default {
           }
 
           &:hover {
-            .lls-icon-error2 {
+            .el-icon-error {
               display: block;
             }
 

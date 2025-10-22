@@ -102,12 +102,14 @@
         />
       </div>
     </div>
-    <drawer ref="drawer" />
+    <drawer ref="drawer" @submit-success="handleSubmitSuccess" />
   </div>
 </template>
 
 <script>
 import drawer from "./drawer.vue";
+import { getTaskList } from "@/api/taskManagement";
+
 export default {
   name: "DocumentParsing",
   components: {
@@ -147,6 +149,9 @@ export default {
       selectedRows: [],
     };
   },
+  created() {
+    this.fetchTableData();
+  },
   methods: {
     handleSelectionChange(val) {
       this.selectedRows = val;
@@ -154,19 +159,42 @@ export default {
     openDrawer() {
       this.$refs.drawer.openDrawer();
     },
+    // 获取表格数据
+    async fetchTableData() {
+      this.loading = true;
+      try {
+        const params = {
+          taskName: this.searchForm.queryCondition.taskName,
+          pageNum: this.searchForm.currentPage,
+          pageSize: this.searchForm.pageSize,
+        };
+        const response = await getTaskList(params);
+        if (response.code === "200") {
+          this.tableData = response.data.list;
+          this.searchForm.total = Number(response.data.total);
+        }
+      } catch (error) {
+        console.error("获取任务列表失败：", error);
+        this.$message.error("获取任务列表失败");
+      } finally {
+        this.loading = false;
+      }
+    },
+    // 处理新增成功
+    handleSubmitSuccess(data) {
+      console.log("新增任务成功：", data);
+      // 刷新列表
+      this.fetchTableData();
+    },
     // 搜索
     handleSearch() {
-      this.loading = true;
-      // 模拟搜索请求
-      setTimeout(() => {
-        this.loading = false;
-        this.$message.success("搜索完成");
-      }, 1000);
+      this.searchForm.currentPage = 1; // 重置到第一页
+      this.fetchTableData();
     },
 
     // 重置搜索
     handleReset() {
-      this.searchForm.taskName = "";
+      this.searchForm.queryCondition.taskName = "";
       this.handleSearch();
     },
 
@@ -212,13 +240,14 @@ export default {
     // 分页大小改变
     handleSizeChange(val) {
       this.searchForm.pageSize = val;
-      this.handleSearch();
+      this.searchForm.currentPage = 1; // 重置到第一页
+      this.fetchTableData();
     },
 
     // 当前页改变
     handleCurrentChange(val) {
       this.searchForm.currentPage = val;
-      this.handleSearch();
+      this.fetchTableData();
     },
   },
 };
