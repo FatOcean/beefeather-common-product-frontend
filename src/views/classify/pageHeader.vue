@@ -7,15 +7,12 @@
       </div>
     </div>
     <div class="el-page-header__content">
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="增值税发票" name="first"></el-tab-pane>
-        <el-tab-pane label="提货单" name="second"></el-tab-pane>
-        <el-tab-pane label="合同" name="third"></el-tab-pane>
-        <el-tab-pane label="流水" name="fourth"></el-tab-pane>
+      <el-tabs v-model="currentTab" @tab-click="handleClick">
+        <el-tab-pane v-for="item in mockData" :key="item.value" :label="item.name" :name="item.value"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="el-page-header__right">
-        <el-button type="primary" @click="handleClick">提交</el-button>
+        <el-button type="primary" @click="handleSubmit">提交</el-button>
     </div>
   </div>
 </template>
@@ -32,15 +29,35 @@ export default {
       },
     },
     content: String,
+    mockData: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    activeName: {
+      type: String,
+      default() {
+        return "";
+      },
+    },
   },
   data() {
     return {
-      activeName: "first",
+      currentTab: this.activeName,
     };
+  },
+  watch: {
+    activeName(newVal) {
+      this.currentTab = newVal;
+    },
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      this.$emit('tab-change', tab.name);
+    },
+    handleSubmit() {
+      this.$emit('submit');
     },
   },
 };

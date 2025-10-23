@@ -17,22 +17,6 @@
           <slot></slot>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="Json结果" name="second" v-if="isShowJson">
-        <div style="border: 1px solid #e3e8f0" v-if="activeName === 'second'">
-          <b-code-editor
-            :indent-unit="4"
-            v-model="newCodeTest"
-            :readonly="true"
-            :gutter="false"
-            ref="editor"
-            mode="application/json"
-            theme="eclipse"
-            :height="'calc(100vh - 200px)'"
-            :show-number="false"
-            :auto-format="true"
-          ></b-code-editor>
-        </div>
-      </el-tab-pane>
 
     </el-tabs>
     <div class="right-tab-button">
@@ -61,16 +45,7 @@
             v-if="activeName === 'first' && isshowDownButton"
             ><i class="el-icon-download"></i>
             {{
-              `下载${activeName === "first" ? "识别" : "Json"}结果`
-            }}</el-button
-          >
-          <el-button
-            type="text"
-            @click="downloadResult"
-            v-if="activeName === 'second'"
-            ><i class="el-icon-download"></i>
-            {{
-              `下载${activeName === "first" ? "识别" : "Json"}结果`
+              `下载识别结果`
             }}</el-button
           >
         </div>
@@ -346,8 +321,8 @@ export default {
 }
 .right-tab-button{
   position: absolute;
-  right: 16px;
-  top: 16px;
+  right: 20px;
+  top: 26px;
   display: flex;
 }
 </style>

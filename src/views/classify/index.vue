@@ -1,6 +1,14 @@
 <template>
   <div class="container">
-    <PageHeader @back="goBack" content="单据分组"> </PageHeader>
+    <PageHeader
+      @back="goBack"
+      content="单据分组"
+      :mockData="mockData"
+      :activeName="activeName"
+      @tab-change="handleTabChange"
+      @submit="handleSubmit"
+    >
+    </PageHeader>
 
     <div class="content">
       <!-- 右侧分组情况 -->
@@ -47,10 +55,7 @@
           >
             清除选中
           </el-button>
-           <el-button
-            @click="selectAll"
-            :disabled="selectedImages.length === 0"
-          >
+          <el-button @click="selectAll" :disabled="selectedImages.length === 0">
             全选
           </el-button>
         </div>
@@ -80,6 +85,8 @@
 
 <script>
 import PageHeader from "./pageHeader.vue";
+import { submitDocumentGrouping } from "@/api/taskManagement";
+
 export default {
   name: "ImageGrouping",
   components: {
@@ -87,50 +94,49 @@ export default {
   },
   data() {
     return {
-      nextGroupId: 1,
       selectedImages: [],
       images: [],
-      data: {
-        taskId: "",
-        data: [
-          {
-            name: "增值税发票",
-            value: "vat",
-            imagesList: [
-              {
-                imageUrl: "xxx",
-                imageName: "xxx",
-                group:'', // 有参数代表有组别 传null或者为空 表示单独为一张
-              },
-            ],
-          },
-        ],
-      },
+      activeName: "vat",
       mockData: [
         {
           name: "增值税发票",
           value: "vat",
-          imagesList: [
-            {
-              imageUrl: "xxx",
-              imageName: "xxx",
-            },
-          ],
+          nextGroupId: 1, // 每个tab独立的分组ID计数器
+          imagesList: Array.from({ length: 60 }, (_, i) => ({
+            id: `vat-${i + 1}`,
+            url: `https://picsum.photos/seed/vat-${i + 1}/200/350`,
+            group: null,
+          })),
         },
         {
           name: "流水",
           value: "financial_statement",
-          imagesList: [{}],
+          nextGroupId: 1,
+          imagesList: Array.from({ length: 45 }, (_, i) => ({
+            id: `financial-${i + 1}`,
+            url: `https://picsum.photos/seed/financial-${i + 1}/200/350`,
+            group: null,
+          })),
         },
         {
           name: "提货单",
           value: "bill_of_lading",
-          imagesList: [{}],
+          nextGroupId: 1,
+          imagesList: Array.from({ length: 30 }, (_, i) => ({
+            id: `bill-${i + 1}`,
+            url: `https://picsum.photos/seed/bill-${i + 1}/200/350`,
+            group: null,
+          })),
         },
         {
           name: "合同",
           value: "contract",
-          imagesList: [{}],
+          nextGroupId: 1,
+          imagesList: Array.from({ length: 20 }, (_, i) => ({
+            id: `contract-${i + 1}`,
+            url: `https://picsum.photos/seed/contract-${i + 1}/200/350`,
+            group: null,
+          })),
         },
       ],
     };
@@ -149,56 +155,157 @@ export default {
     },
   },
   created() {
-    // 模拟 12 张图片
-    this.images = Array.from({ length: 60 }, (_, i) => ({
-      id: i + 1,
-      url: `https://picsum.photos/seed/${i + 1}/200/350`,
-      group: null,
-    }));
+    // 根据默认 activeName 加载对应的图片列表
+    this.loadImagesByTab(this.activeName);
   },
   methods: {
     goBack() {
-      this.$router.back()
+      this.$router.back();
+    },
+    handleTabChange(tabName) {
+      // 切换tab时清空选中状态
+      this.selectedImages = [];
+      this.activeName = tabName;
+      this.loadImagesByTab(tabName);
+    },
+    loadImagesByTab(tabName) {
+      const currentTab = this.mockData.find(item => item.value === tabName);
+      if (currentTab && currentTab.imagesList) {
+        // 直接引用原数据，这样修改会保存到 mockData 中
+        this.images = currentTab.imagesList;
+      } else {
+        this.images = [];
+      }
+    },
+    getCurrentTab() {
+      return this.mockData.find(item => item.value === this.activeName);
     },
     toggleSelect(img) {
-      const idx = this.selectedImages.indexOf(img.id)
-      if (idx > -1) this.selectedImages.splice(idx, 1)
-      else this.selectedImages.push(img.id)
+      const idx = this.selectedImages.indexOf(img.id);
+      if (idx > -1) this.selectedImages.splice(idx, 1);
+      else this.selectedImages.push(img.id);
     },
     createGroup() {
-      if (this.selectedImages.length === 0) return
-      const newGroupId = this.nextGroupId++
+      if (this.selectedImages.length === 0) return;
+      const currentTab = this.getCurrentTab();
+      if (!currentTab) return;
+      
+      const newGroupId = currentTab.nextGroupId++;
       this.images.forEach((img) => {
         if (this.selectedImages.includes(img.id)) {
-          img.group = newGroupId
+          img.group = newGroupId;
         }
       });
-      this.selectedImages = []
+      this.selectedImages = [];
     },
     resetGroup() {
-      if (this.selectedImages.length === 0) return
+      if (this.selectedImages.length === 0) return;
       this.images.forEach((img) => {
         if (this.selectedImages.includes(img.id)) {
-          img.group = null
+          img.group = null;
         }
-      })
-      this.selectedImages = []
+      });
+      this.selectedImages = [];
     },
     deleteGroup(groupId) {
       this.images.forEach((img) => {
-        if (img.group === groupId) img.group = null
-      })
+        if (img.group === groupId) img.group = null;
+      });
     },
     clearSelection() {
-      this.selectedImages = []
+      this.selectedImages = [];
     },
     selectAll() {
       this.images.forEach((img) => {
-        this.selectedImages.push(img.id)
-      })
-    }
-  }
-}
+        this.selectedImages.push(img.id);
+      });
+    },
+    handleSubmit() {
+      // 收集所有 tab 的分组数据
+      const groupingData = this.collectGroupingData();
+      
+      // 验证是否有分组数据
+      if (groupingData.length === 0) {
+        this.$message.warning('请先进行单据分组后再提交');
+        return;
+      }
+      
+      // 展示收集到的数据（调试用）
+      console.log('提交的分组数据:', groupingData);
+      
+      // 调用后台接口
+      this.submitGroupingData(groupingData);
+    },
+    collectGroupingData() {
+      const result = [];
+      
+      // 遍历所有 tab
+      this.mockData.forEach((tab) => {
+        // 收集该 tab 中的所有分组
+        const groups = {};
+        
+        tab.imagesList.forEach((img) => {
+          if (img.group !== null) {
+            if (!groups[img.group]) {
+              groups[img.group] = {
+                groupId: img.group,
+                images: [],
+              };
+            }
+            groups[img.group].images.push({
+              id: img.id,
+              url: img.url,
+            });
+          }
+        });
+        
+        // 如果该 tab 有分组数据，则添加到结果中
+        const groupList = Object.values(groups);
+        if (groupList.length > 0) {
+          result.push({
+            documentType: tab.value,
+            documentName: tab.name,
+            groups: groupList,
+            totalGroups: groupList.length,
+            totalImages: groupList.reduce((sum, g) => sum + g.images.length, 0),
+          });
+        }
+      });
+      
+      return result;
+    },
+    async submitGroupingData(data) {
+      try {
+        const loading = this.$loading({
+          lock: true,
+          text: '正在提交分组数据...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+        
+        // 调用 API 提交数据
+        const response = await submitDocumentGrouping(data);
+        
+        loading.close();
+
+        if (response.code === '200') {
+          this.$message.success(response.message || '分组数据提交成功！');
+          console.log('提交响应:', response.data);
+          
+          // 提交成功后的操作，比如返回上一页
+          setTimeout(() => {
+            this.$router.back();
+          }, 1500);
+        } else {
+          this.$message.error(response.message || '提交失败');
+        }
+      } catch (error) {
+        this.$message.error('提交失败：' + (error.message || '未知错误'));
+        console.error('提交分组数据失败:', error);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped lang="stylus">

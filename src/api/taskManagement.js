@@ -409,3 +409,42 @@ export const deleteTask = (taskId) => {
   //   method: 'delete'
   // })
 }
+
+/**
+ * 6. 提交单据分组数据
+ * @param {Object} data - 分组数据
+ * @param {Array} data.groups - 分组信息数组
+ * @returns {Promise}
+ */
+export const submitDocumentGrouping = (data) => {
+  // 模拟数据
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      // 模拟成功响应
+      const mockResponse = {
+        code: '200',
+        message: '分组数据提交成功',
+        data: {
+          taskId: Math.floor(Math.random() * 10000),
+          submittedAt: new Date().toISOString(),
+          totalDocumentTypes: data.length,
+          totalGroups: data.reduce((sum, item) => sum + item.totalGroups, 0),
+          totalImages: data.reduce((sum, item) => sum + item.totalImages, 0),
+        }
+      }
+
+      console.log('提交的分组数据详情:', data)
+      resolve(mockResponse)
+      
+      // 模拟失败（取消注释来测试错误处理）
+      // reject(new Error('网络连接失败'))
+    }, 1500)
+  })
+
+  // 真实接口调用（注释掉，需要时启用）
+  // return api({
+  //   url: '/api/document/grouping/submit',
+  //   method: 'post',
+  //   data: data
+  // })
+}

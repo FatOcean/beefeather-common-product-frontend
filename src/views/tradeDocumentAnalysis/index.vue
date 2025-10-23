@@ -5,10 +5,6 @@
     <div class="document-box">
       <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
       <vat v-if="productName === 'vat'" :productObj="productObj"></vat>
-      <receipt
-        v-if="productName === 'receipt'"
-        :productObj="productObj"
-      ></receipt>
       <financialStatement
         v-if="productName === 'financial_statement'"
         :productObj="productObj"
@@ -44,7 +40,6 @@ export default {
   components: {
     leftselect,
     vat: (resolve) => require(['./vat'], resolve), // 增值税发票
-    receipt: (resolve) => require(['./receipt'], resolve), // 回单解析
     billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析 航空单
     financialStatement: (resolve) =>
       require(['./financial_statement'], resolve), // 流水解析

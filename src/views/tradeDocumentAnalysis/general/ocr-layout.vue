@@ -147,9 +147,6 @@
         :documentWidth="documentWidth"
         :documentHeight="documentHeight"
       ></svgPath>
-      <el-collapse-transition>
-        <upload-File @uploadFileData="$parent.uploadFileData"></upload-File>
-      </el-collapse-transition>
     </div>
     <!-- 大图预览 -->
     <showImg
