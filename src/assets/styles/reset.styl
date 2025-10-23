@@ -159,13 +159,50 @@ textarea {
   color: #009688;
 }
 
-.el-button--text:hover{
-  color: #009688;
-}
+// .el-button--text:hover{
+//   color: #009688;
+// }
 .el-button--text:focus{
   color: #009688;
 }
 
 .el-button--text:active{
   color: #009688;
+}
+
+.el-button--primary{
+  background-color: #009688;
+  border-color: #009688;
+  &:focus{
+    color: #fff !important;
+    background-color: #009688;
+    border-color: #009688;
+    }
+  &:hover{
+    color: #fff !important;
+    background-color: #009688;
+    border-color: #009688;
+    }
+  &:active{
+    color: #fff !important;
+    background-color: #009688;
+    border-color: #009688;
+    }
+}
+.el-pager{
+  .active{
+    color: #009688 !important;
+    }
+  }
+  .el-button:focus, .el-button:hover {
+    color: rgb(0, 150, 136);
+    // border-color: rgba(0, 150, 136,.6);
+    // background-color: rgba(0, 150, 136,.1);
+}
+.el-select-dropdown__item.selected {
+    color: rgb(0, 150, 136);
+    font-weight: 700;
+}
+.el-range-editor.is-active, .el-range-editor.is-active:hover, .el-select .el-input.is-focus .el-input__inner {
+    border-color: rgb(0, 150, 136);
 }

@@ -14,39 +14,14 @@
         <div
           v-for="(item, index) in productList"
           :key="index"
-          class="product-namelist"
+          :class="{
+            'product-namelist': true,
+            activebg: item.name === activebgName,
+          }"
+          @click="productNameClick(item, index)"
         >
-          <div>
-            <div class="product-list-title">
-              <span>
-                <svg-icon
-                  :iconClass="item.name"
-                  style="margin-right: 5px"
-                ></svg-icon>
-                {{ item.name }}
-              </span>
-              <i
-                @click="showChildren(item)"
-                :class="
-                  item.isShowChildren
-                    ? 'el-icon-arrow-down'
-                    : 'el-icon-arrow-up'
-                "
-              ></i>
-            </div>
-            <div v-show="item.isShowChildren">
-              <div
-                v-for="(child, childIndex) in item.children"
-                :key="childIndex"
-                :class="{
-                  'product-list-name': true,
-                  activebg: child.name === activebgName,
-                }"
-                @click="productNameClick(child, childIndex)"
-              >
-                <div>{{ child.name }}</div>
-              </div>
-            </div>
+          <div class="product-item">
+            <span>{{ item.name }}</span>
           </div>
         </div>
       </div>
@@ -72,7 +47,7 @@ export default {
       isshowRight: true,
       activebgName: "提单",
       productList: [],
-      product: [],
+      productBackup: [], // 备份用于搜索
     };
   },
   computed: {
@@ -91,35 +66,14 @@ export default {
   methods: {
     messageIframeProduct(data) {
       const { tradeDocumentAnalysis } = data;
-      // if (tradeDocumentAnalysis) {
       this.$nextTick(() => {
-        // this.productList = this.filterProducts(
-        //   productListAll,
-        //   tradeDocumentAnalysis
-        // )
         this.productList = productListAll;
-        this.activebgName = this.productList[0].children[0].name;
-        this.product = this.productList;
-        this.productNameClick(this.productList[0].children[0]);
+        this.productBackup = productListAll;
+        if (this.productList.length > 0) {
+          this.activebgName = this.productList[0].name;
+          this.productNameClick(this.productList[0], 0);
+        }
       });
-      // }
-    },
-    // 过滤出有这个权限的应用
-    filterProducts(productListAll, filterArray) {
-      return productListAll
-        .map((category) => {
-          const filteredChildren = category.children.filter((child) => {
-            return filterArray.some((filterItem) => {
-              return child.staticName === filterItem.staticName;
-            });
-          });
-
-          return {
-            ...category,
-            children: filteredChildren,
-          };
-        })
-        .filter((category) => category.children.length > 0);
     },
     ...mapMutations(["setProductObj"]),
     productNameClick(item, index) {
@@ -127,43 +81,19 @@ export default {
       this.setProductObj(item);
       this.$parent.setProductName(item);
     },
-    showChildren(item) {
-      item.isShowChildren = !item.isShowChildren;
-    },
     showRight() {
       this.isshowRight = !this.isshowRight;
       this.$parent.setisshowRight(this.isshowRight);
     },
     findProductName(val) {
       if (val !== "") {
-        this.productList = this.mapTree(val, this.product);
+        // 不区分大小写的搜索
+        this.productList = this.productBackup.filter((item) => {
+          return item.name.toLowerCase().indexOf(val.toLowerCase()) > -1;
+        });
       } else {
-        this.productList = this.product;
+        this.productList = this.productBackup;
       }
-    },
-    mapTree(value, arr) {
-      const newarr = [];
-      arr.forEach((element) => {
-        // 不区分大小写
-        if (element.name.toLowerCase().indexOf(value.toLowerCase()) > -1) {
-          // 判断条件
-          element.openStatus = true;
-          newarr.push(element);
-        } else {
-          if (element.children && element.children.length > 0) {
-            const redata = this.mapTree(value, element.children);
-            if (redata && redata.length > 0) {
-              const obj = {
-                ...element,
-                children: redata,
-              };
-              obj.openStatus = true;
-              newarr.push(obj);
-            }
-          }
-        }
-      });
-      return newarr;
     },
   },
 };
@@ -198,45 +128,30 @@ export default {
 
     .product-namelist {
       font-size: 14px;
-      padding: 8px 4px;
+      padding: 0;
       border-bottom: 1px solid #D8E1FF;
+      cursor: pointer;
 
       &:last-child {
         border-bottom: none;
       }
 
-      &:first-child {
-        padding-top: 0px;
-      }
+      .product-item {
+        padding: 10px 16px;
+        line-height: 24px;
+        transition: all 0.3s;
 
-      .product-list-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        line-height: 30px;
-
-        i {
-          cursor: pointer;
+        &:hover {
+          background: #E6F7FF;
+          color: #009688;
         }
       }
 
-      .product-list-name {
-        line-height: 30px;
-        cursor: pointer;
-
-        >div {
-          padding-left: 28px;
-
-          &:hover {
-            background: #009688;
-            color: #fff;
-          }
+      &.activebg {
+        .product-item {
+          background: #009688;
+          color: #fff;
         }
-      }
-
-      .activebg {
-        background: #009688;
-        color: #fff;
       }
     }
   }
