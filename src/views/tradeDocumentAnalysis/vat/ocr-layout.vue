@@ -4,73 +4,18 @@
     <div class="ocr-inner" style="width: 100%">
       <!-- 文档 -->
       <div class="document-box" ref="document-box">
-        <div class="tool-bar">
-          <div class="name">
-            <el-tooltip
-              effect="dark"
-              :content="example.fileName"
-              placement="bottom-start"
-            >
-              <span>{{ example.fileName }}</span>
-            </el-tooltip>
-          </div>
-          <div>
-            <svg-icon
-              v-if="activePageIndex === 1"
-              class="dis-icon"
-              iconClass="左置灰"
-            ></svg-icon>
-            <svg-icon
-              v-else
-              class="big-icon"
-              iconClass="ic-左"
-              @click.native="handleTurnPage(-1)"
-            ></svg-icon>
-             <span class="number">
-              <input
-                class="dih-page-input"
-                type="number"
-                v-model.number="activePageIndex"
-                v-on:change="inputChange($event)"
-              /><span>/&nbsp;&nbsp;{{ total }}</span></span
-            >
-            <svg-icon
-              v-if="activePageIndex === total"
-              class="dis-icon"
-              iconClass="右置灰"
-            ></svg-icon>
-            <svg-icon
-              v-else
-              class="big-icon"
-              iconClass="ic-右"
-              @click.native="handleTurnPage(1)"
-            ></svg-icon>
-          </div>
-          <div>
-            <svg-icon
-              iconClass="ic-放大"
-              @click.native="handleZoom(zoomStep)"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-缩小"
-              @click.native="handleZoom(-zoomStep)"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-旋转"
-              @click.native="handleClickRotate"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-恢复默认"
-              @click.native="resetProps"
-            ></svg-icon>
-            <svg-icon
-              iconClass="ic-全屏"
-              @click.native="
-                showImageViewer = true;
-              "
-            ></svg-icon>
-          </div>
-        </div>
+        <OcrToolbar
+          :fileName="example.fileName"
+          :activePageIndex="activePageIndex"
+          :total="total"
+          :zoomStep="zoomStep"
+          :urlList="urlList"
+          @turn-page="handleTurnPage"
+          @input-change="inputChange"
+          @zoom="handleZoom"
+          @rotate="handleClickRotate"
+          @reset="resetProps"
+        />
         <div
           class="document-layout"
           ref="documentLayout"
@@ -171,24 +116,20 @@
       </div>
             <svgPath v-if="pathValue" :pathValue="pathValue" :documentWidth="documentWidth" :documentHeight="documentHeight"></svgPath>
     </div>
-    <!-- 大图预览 -->
-    <showImg
-      v-if="showImageViewer"
-      :urlList="urlList"
-      @close="showImageViewer = false"
-    ></showImg>
   </div>
 </template>
 <script>
 import ResizeObserver from 'resize-observer-polyfill'
 import ImageViewer from '@/components/imageViewer.vue'
+import OcrToolbar from '@/components/ocr-toolbar.vue'
 export default {
   model: {
     prop: 'value',
     event: 'handle-change'
   },
   components: {
-    [ImageViewer.name]: ImageViewer
+    [ImageViewer.name]: ImageViewer,
+    OcrToolbar
   },
   props: {
     value: {

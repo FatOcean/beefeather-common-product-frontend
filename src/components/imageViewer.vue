@@ -1,63 +1,63 @@
 <template>
     <transition name="viewer-fade">
-        <div tabindex="-1" ref="a-image-viewer__wrapper" class="a-image-viewer__wrapper"
+        <div tabindex="-1" ref="el-image-viewer__wrapper" class="el-image-viewer__wrapper"
             :style="{ 'z-index': zIndex }">
-            <div class="a-image-viewer__mask" @click.self="handleMaskClick"></div>
+            <div class="el-image-viewer__mask" @click.self="handleMaskClick"></div>
             <!-- ARROW -->
             <template v-if="!isSingle">
-                <span class="a-image-viewer__btn a-image-viewer__prev"
+                <span class="el-image-viewer__btn el-image-viewer__prev"
                     :class="{ 'is-disabled': !infinite && isFirst }" @click="prev">
-                    <i class="a-icon-arrow-left" />
+                    <i class="el-icon-arrow-left" />
                 </span>
-                <span class="a-image-viewer__btn a-image-viewer__next"
+                <span class="el-image-viewer__btn el-image-viewer__next"
                     :class="{ 'is-disabled': !infinite && isLast }" @click="next">
-                    <i class="a-icon-arrow-right" />
+                    <i class="el-icon-arrow-right" />
                 </span>
             </template>
             <!-- ACTIONS -->
-            <div class="a-image-viewer__actions">
-                <div class="a-image-viewer__title">
+            <div class="el-image-viewer__actions">
+                <div class="el-image-viewer__title">
                     {{ currentTitle }}
                 </div>
-                <div v-if="!isSingle" class="a-image-viewer__pages">
+                <div v-if="!isSingle" class="el-image-viewer__pages">
                     {{ this.index + 1 }} / {{ this.urlList.length }}
                 </div>
-                <div class="a-image-viewer__actions__inner">
+                <div class="el-image-viewer__actions__inner">
                     <template v-if="!currentIsPDF">
-                        <i class="a-icon-zoom-out" @click="handleActions('zoomOut')"></i>
-                        <i class="a-icon-zoom-in" @click="handleActions('zoomIn')"></i>
+                        <i class="el-icon-zoom-out" @click="handleActions('zoomOut')"></i>
+                        <i class="el-icon-zoom-in" @click="handleActions('zoomIn')"></i>
                         <i :class="mode.icon" @click="toggleMode"></i>
-                        <i class="a-icon-refresh-left" @click="handleActions('anticlocelise')"></i>
-                        <i class="a-icon-refresh-right" @click="handleActions('clocelise')"></i>
+                        <i class="el-icon-refresh-left" @click="handleActions('anticlocelise')"></i>
+                        <i class="el-icon-refresh-right" @click="handleActions('clocelise')"></i>
                     </template>
                     <template v-if="currentIsPDF && $slots.pdf">
-                        <i class="a-icon-zoom-out" @click="emitAction('zoomOut')"></i>
-                        <i class="a-icon-zoom-in" @click="emitAction('zoomIn')"></i>
-                        <i class="a-icon-refresh-left" @click="emitAction('rotateLeft')"></i>
-                        <i class="a-icon-refresh-right" @click="emitAction('rotateRight')"></i>
+                        <i class="el-icon-zoom-out" @click="emitAction('zoomOut')"></i>
+                        <i class="el-icon-zoom-in" @click="emitAction('zoomIn')"></i>
+                        <i class="el-icon-refresh-left" @click="emitAction('rotateLeft')"></i>
+                        <i class="el-icon-refresh-right" @click="emitAction('rotateRight')"></i>
                     </template>
-                    <i class="a-icon-close" @click="hide"></i>
+                    <i class="el-icon-close" @click="hide"></i>
                 </div>
             </div>
-            <div class="a-image-viewer__exter" v-if="exterActions.length > 0">
+            <div class="el-image-viewer__exter" v-if="exterActions.length > 0">
                 <template v-for="item in exterActions">
-                    <a-popover v-if="item === 'rename'" placement="top" width="265" v-model="renameVisible"
+                    <el-popover v-if="item === 'rename'" placement="top" width="265" v-model="renameVisible"
                         :key="item">
                         <div style="font-weight: bold;margin-bottom: 7px">{{ exterActionsMap.rename.text }}</div>
-                        <a-input v-model="renameValue"></a-input>
+                        <el-input v-model="renameValue"></el-input>
                         <div style="text-align: right;margin-top: 15px;">
-                            <a-button size="mini" type="primary" plain @click="handleRename(false)">取消</a-button>
-                            <a-button type="primary" size="mini" @click="handleRename(true)">确认</a-button>
+                            <el-button size="mini" type="primary" plain @click="handleRename(false)">取消</el-button>
+                            <el-button type="primary" size="mini" @click="handleRename(true)">确认</el-button>
                         </div>
                         <template v-slot:reference>
-                            <div class="a-image-viewer__exter-item">
+                            <div class="el-image-viewer__exter-item">
                                 <i :class="exterActionsMap.rename.icon"></i>
                                 <span>{{ exterActionsMap.rename.text }}</span>
                             </div>
                         </template>
-                    </a-popover>
+                    </el-popover>
                     <div v-else>
-                        <div class="a-image-viewer__exter-item" :key="item" @click="handleExterClick(item)">
+                        <div class="el-image-viewer__exter-item" :key="item" @click="handleExterClick(item)">
                             <i :class="exterActionsMap[item].icon"></i>
                             <span>{{ exterActionsMap[item].text }}</span>
                         </div>
@@ -66,12 +66,12 @@
                 </template>
             </div>
             <!-- CANVAS -->
-            <div class="a-image-viewer__canvas" v-if="!currentIsPDF">
-                <img v-for="(urlObj, i) in urlList" v-if="i === index" ref="img" class="a-image-viewer__img"
+            <div class="el-image-viewer__canvas" v-if="!currentIsPDF">
+                <img v-for="(urlObj, i) in urlList" v-if="i === index" ref="img" class="el-image-viewer__img"
                     :key="urlObj.url" :src="currentImg" :style="imgStyle" @load="handleImgLoad" @error="handleImgError"
                     @mousedown="handleMouseDown">
             </div>
-            <div class="a-image-viewer__pdf" v-else>
+            <div class="el-image-viewer__pdf" v-else>
                 <slot v-if="$slots.pdf" name="pdf" v-bind:url="urlList[index].url"></slot>
                 <object v-else :data="urlList[index].url" type="application/pdf" width="100%" height="100%">
                     <embed type="application/pdf" wmode="opaque" :src="urlList[index].url">
@@ -146,11 +146,11 @@ const rafThrottle = function (fn) {
 const Mode = {
   CONTAIN: {
     name: "contain",
-    icon: "a-icon-full-screen",
+    icon: "el-icon-full-screen",
   },
   ORIGINAL: {
     name: "original",
-    icon: "a-icon-c-scale-to-original",
+    icon: "el-icon-c-scale-to-original",
   },
 };
 
@@ -158,15 +158,15 @@ const mousewheelEventName = isFirefox() ? "DOMMouseScroll" : "mousewheel";
 
 const ExterActionsMap = {
   rename: {
-    icon: "a-icon-edit",
+    icon: "el-icon-edit",
     text: "重命名",
   },
   download: {
-    icon: "a-icon-download",
+    icon: "el-icon-download",
     text: "下载",
   },
   replace: {
-    icon: "a-icon-sort",
+    icon: "el-icon-sort",
     text: "替换",
   },
 };
@@ -462,7 +462,7 @@ export default {
     }
     // add tabindex then wrapper can be focusable via Javascript
     // focus wrapper so arrow key can't cause inner scroll behavior underneath
-    this.$refs["a-image-viewer__wrapper"].focus();
+    this.$refs["el-image-viewer__wrapper"].focus();
   },
   unmounted() {
     // if appendToBody is true, remove DOM node after destroy
@@ -475,7 +475,7 @@ export default {
 
 
 <style lang="stylus" scoped>
-.a-image-viewer__wrapper {
+.el-image-viewer__wrapper {
   position: fixed;
   top: 0;
   right: 0;
@@ -483,7 +483,7 @@ export default {
   left: 0;
 }
 
-.a-image-viewer__btn {
+.el-image-viewer__btn {
   position: absolute;
   z-index: 1;
   display: flex;
@@ -496,7 +496,7 @@ export default {
   user-select: none;
 }
 
-.a-image-viewer__canvas {
+.el-image-viewer__canvas {
   width: 100%;
   height: calc(100% - 44px);
   display: flex;
@@ -504,7 +504,7 @@ export default {
   align-items: center;
 }
 
-.a-image-viewer__actions {
+.el-image-viewer__actions {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -512,8 +512,9 @@ export default {
   height: 44px;
   background-color: #000;
   z-index: 1;
+  bottom: 0px !important
 
-  .a-image-viewer__pages {
+  .el-image-viewer__pages {
     position: absolute;
     left: 50%;
     top: 0;
@@ -522,7 +523,7 @@ export default {
     line-height: 44px;
   }
 
-  .a-image-viewer__title {
+  .el-image-viewer__title {
     padding: 0 20px;
     height: 100%;
     line-height: 44px;
@@ -532,7 +533,7 @@ export default {
     text-overflow: ellipsis;
   }
 
-  .a-image-viewer__actions__inner {
+  .el-image-viewer__actions__inner {
     height: 100%;
     text-align: justify;
     cursor: default;
@@ -549,7 +550,7 @@ export default {
   }
 }
 
-.a-image-viewer__exter {
+.el-image-viewer__exter {
   position: fixed;
   bottom: 0;
   left: 50%;
@@ -563,7 +564,7 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 
-.a-image-viewer__exter-item {
+.el-image-viewer__exter-item {
   display: flex;
   align-items: center;
   height: 100%;
@@ -578,7 +579,7 @@ export default {
   }
 }
 
-.a-image-viewer__prev {
+.el-image-viewer__prev {
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
@@ -590,7 +591,7 @@ export default {
   left: 40px;
 }
 
-.a-image-viewer__next {
+.el-image-viewer__next {
   top: 50%;
   transform: translateY(-50%);
   width: 44px;
@@ -603,7 +604,7 @@ export default {
   text-indent: 2px;
 }
 
-.a-image-viewer__mask {
+.el-image-viewer__mask {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -613,7 +614,7 @@ export default {
   background: #000;
 }
 
-.a-image-viewer__pdf {
+.el-image-viewer__pdf {
   position: relative;
   width: 100%;
   height: calc(100% - 44px);
