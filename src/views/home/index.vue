@@ -8,8 +8,8 @@
           <el-button type="primary" icon="el-icon-plus" @click="openDrawer"
             >新增</el-button
           >
-           <el-button type="primary" icon="el-icon-plus" @click="openDrawer"
-            >合并导出</el-button
+           <el-button type="primary" icon="el-icon-plus" :disabled="selectedRows.length === 0" @click="handleExport"
+            >导出</el-button
           >
         </div>
       </div>
@@ -98,7 +98,7 @@
           :page-sizes="[10, 20, 50, 100]"
           :page-size="searchForm.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="searchForm.total"
+          :total="total"
         />
       </div>
     </div>
@@ -124,24 +124,25 @@ export default {
         },
         pageSize: 10,
         currentPage: 1,
-        total: 3,
       },
+        total: 3,
+
       tableData: [
         {
           id: 1,
-          taskName: "发票解析任务001",
+          taskName: "资产任务1",
           status: "待分类",
           createTime: "2025-10-18 10:30:00",
         },
         {
           id: 2,
-          taskName: "合同解析任务002",
+          taskName: "资产任务2",
           status: "解析中",
           createTime: "2025-10-15 14:20:00",
         },
         {
           id: 3,
-          taskName: "收据解析任务003",
+          taskName: "资产任务3",
           status: "已完成",
           createTime: "2025-10-20 08:00:00",
         },
@@ -153,6 +154,9 @@ export default {
     this.fetchTableData();
   },
   methods: {
+    handleExport() {
+      console.log("导出");
+    },
     handleSelectionChange(val) {
       this.selectedRows = val;
     },
@@ -163,15 +167,10 @@ export default {
     async fetchTableData() {
       this.loading = true;
       try {
-        const params = {
-          taskName: this.searchForm.queryCondition.taskName,
-          pageNum: this.searchForm.currentPage,
-          pageSize: this.searchForm.pageSize,
-        };
-        const response = await getTaskList(params);
+        const response = await getTaskList(this.searchForm);
         if (response.code === "200") {
           this.tableData = response.data.list;
-          this.searchForm.total = Number(response.data.total);
+          this.total = Number(response.data.total);
         }
       } catch (error) {
         console.error("获取任务列表失败：", error);
@@ -217,7 +216,7 @@ export default {
 
     // 分类
     handleClassify(row) {
-      this.$router.push({ name: "classify" });
+      this.$router.push({ name: "classify", query: { taskId: row.id } });
       this.$message.info(`分类任务: ${row.taskName}`);
     },
 
@@ -300,5 +299,10 @@ export default {
 .header-actions {
   display: flex;
   gap: 10px;
+}
+
+.el-button--primary.is-disabled{
+  background-color: #999;
+  border-color: #999;
 }
 </style>

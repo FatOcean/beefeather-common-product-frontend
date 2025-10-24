@@ -85,7 +85,7 @@
 
 <script>
 import PageHeader from "./pageHeader.vue";
-import { submitDocumentGrouping } from "@/api/taskManagement";
+import { submitClassifyResult,getClassifyImages } from "@/api/taskManagement";
 
 export default {
   name: "ImageGrouping",
@@ -101,7 +101,6 @@ export default {
         {
           name: "增值税发票",
           value: "vat",
-          nextGroupId: 1, // 每个tab独立的分组ID计数器
           imagesList: Array.from({ length: 60 }, (_, i) => ({
             id: `vat-${i + 1}`,
             url: `https://picsum.photos/seed/vat-${i + 1}/200/350`,
@@ -111,7 +110,6 @@ export default {
         {
           name: "流水",
           value: "financial_statement",
-          nextGroupId: 1,
           imagesList: Array.from({ length: 45 }, (_, i) => ({
             id: `financial-${i + 1}`,
             url: `https://picsum.photos/seed/financial-${i + 1}/200/350`,
@@ -121,7 +119,6 @@ export default {
         {
           name: "提货单",
           value: "bill_of_lading",
-          nextGroupId: 1,
           imagesList: Array.from({ length: 30 }, (_, i) => ({
             id: `bill-${i + 1}`,
             url: `https://picsum.photos/seed/bill-${i + 1}/200/350`,
@@ -131,7 +128,6 @@ export default {
         {
           name: "合同",
           value: "contract",
-          nextGroupId: 1,
           imagesList: Array.from({ length: 20 }, (_, i) => ({
             id: `contract-${i + 1}`,
             url: `https://picsum.photos/seed/contract-${i + 1}/200/350`,
@@ -139,6 +135,7 @@ export default {
           })),
         },
       ],
+      taskId: this.$route.query.taskId,
     };
   },
   computed: {
@@ -157,6 +154,13 @@ export default {
   created() {
     // 根据默认 activeName 加载对应的图片列表
     this.loadImagesByTab(this.activeName);
+
+    getClassifyImages(this.taskId).then((response) => {
+      if (response.code === '200') {
+        this.images = response.data;
+      }
+    });
+    console.log(this.mockData, '现有mock数据')
   },
   methods: {
     goBack() {
@@ -224,14 +228,8 @@ export default {
       // 收集所有 tab 的分组数据
       const groupingData = this.collectGroupingData();
       
-      // 验证是否有分组数据
-      if (groupingData.length === 0) {
-        this.$message.warning('请先进行单据分组后再提交');
-        return;
-      }
-      
       // 展示收集到的数据（调试用）
-      console.log('提交的分组数据:', groupingData);
+      console.log('提交的分组数据 有则提交 没有默认按无分组处理:', groupingData);
       
       // 调用后台接口
       this.submitGroupingData(groupingData);
@@ -266,8 +264,8 @@ export default {
             documentType: tab.value,
             documentName: tab.name,
             groups: groupList,
-            totalGroups: groupList.length,
-            totalImages: groupList.reduce((sum, g) => sum + g.images.length, 0),
+            // totalGroups: groupList.length,
+            // totalImages: groupList.reduce((sum, g) => sum + g.images.length, 0),
           });
         }
       });
@@ -276,28 +274,13 @@ export default {
     },
     async submitGroupingData(data) {
       try {
-        const loading = this.$loading({
-          lock: true,
-          text: '正在提交分组数据...',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)'
-        });
         
         // 调用 API 提交数据
-        const response = await submitDocumentGrouping(data);
-        
-        loading.close();
-
+        const response = await submitClassifyResult({ taskId: this.taskId, data });
         if (response.code === '200') {
-          this.$message.success(response.message || '分组数据提交成功！');
-          console.log('提交响应:', response.data);
-          
-          // 提交成功后的操作，比如返回上一页
-          setTimeout(() => {
-            this.$router.back();
-          }, 1500);
+          this.$message.success("提交成功！");
         } else {
-          this.$message.error(response.message || '提交失败');
+          this.$message.error("提交失败！");
         }
       } catch (error) {
         this.$message.error('提交失败：' + (error.message || '未知错误'));
