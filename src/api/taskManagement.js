@@ -103,13 +103,28 @@ export const getDocumentTypeList = () => {
   return api.post('/api/docflow/document/type/list')
 }
 
-export const createTask = (data) => {
-  return api.post('/api/docflow/task/create', data, {
+/**
+ * 上传单个文件
+ * @param {FormData} formData - 包含文件和文档类型的表单数据
+ * @returns {Promise} 返回文件ID
+ */
+export const uploadFile = (formData) => {
+  // 先模拟调用成功  生成唯一id返回
+  return api.post('/api/docflow/file/upload', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     },
     timeout: 300000 // 5分钟超时，适用于大文件上传
   })
+}
+
+/**
+ * 创建任务（提交文件ID）
+ * @param {Object} data - 任务数据
+ * @returns {Promise}
+ */
+export const createTask = (data) => {
+  return api.post('/api/docflow/task/create', data)
 } 
 
 /**

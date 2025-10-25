@@ -54,7 +54,7 @@
 </template>
 <script>
 import upload from "@/components/LinkUpload";
-import {getDocumentTypeList,createTask} from "@/api/taskManagement";
+import { getDocumentTypeList, createTask, uploadFile } from "@/api/taskManagement";
 export default {
   components: {
     upload,
@@ -108,7 +108,7 @@ export default {
       this.documentTypeFields[this.form.documentType] = fileList;
     },
     
-    // 自定义上传请求
+    // 自定义上传请求 - 上传文件流，获取文件ID
     async fileUpload(files) {
       for (let index = 0; index < files.length; index++) {
         const fileItem = files[index];
@@ -119,23 +119,27 @@ export default {
         formData.append("documentType", this.form.documentType);
         
         try {
-          // 模拟上传请求（当有真实接口时，取消注释并修改）
-          // const res = await uploadFileApi(formData)
-          // if (res.data.code === '200') {
-          //   const { uploadId, filePath, fileExt } = res.data.data
-          //   fileItem.uploadId = uploadId
-          //   fileItem.filePath = filePath
-          //   fileItem.status = 'success'
-          // } else {
-          //   fileItem.status = 'fail'
-          // }
+          // 调用上传接口
+          const response = await uploadFile(formData);
           
-          // 模拟上传成功
-          await new Promise((resolve) => setTimeout(resolve, 500));
-          fileItem.status = "success";
+          if (response.code === "200") {
+            // 保存文件ID到 fileItem
+            fileItem.fileId = response.data.fileId; // 后端返回的文件ID
+            fileItem.fileName = response.data.fileName || fileItem.file.name;
+            fileItem.filePath = response.data.filePath; // 可选：文件路径
+            fileItem.status = "success";
+            
+            console.log(`文件上传成功：${fileItem.fileName}，文件ID：${fileItem.fileId}`);
+          } else {
+            fileItem.status = "fail";
+            fileItem.errorMsg = response.message || "上传失败";
+            this.$message.error(`${fileItem.file.name} 上传失败：${fileItem.errorMsg}`);
+          }
         } catch (error) {
           fileItem.status = "fail";
+          fileItem.errorMsg = error.message || "网络错误";
           console.error("上传文件出错:", error);
+          this.$message.error(`${fileItem.file.name} 上传失败`);
         }
       }
     },
@@ -186,28 +190,61 @@ export default {
           return;
         }
 
-        const files = {}
-        // 循环documentTypeFields 取出file对象
+        // 检查是否有文件正在上传
+        const allFiles = Object.values(this.documentTypeFields).flat();
+        const uploadingFiles = allFiles.filter(f => f.status === 'uploading');
+        if (uploadingFiles.length > 0) {
+          this.$message.warning("还有文件正在上传中，请稍候...");
+          return;
+        }
+
+        // 检查是否有上传失败的文件
+        const failedFiles = allFiles.filter(f => f.status === 'fail');
+        if (failedFiles.length > 0) {
+          this.$message.error(`有 ${failedFiles.length} 个文件上传失败，请重新上传`);
+          return;
+        }
+
+        // 提取文件ID，按单据类型分组
+        const fileIds = {};
         Object.keys(this.documentTypeFields).forEach((docType) => {
-          files[docType] = this.documentTypeFields[docType].map((file) => file.file)
-        })
+          const fileList = this.documentTypeFields[docType];
+          if (fileList.length > 0) {
+            // 只提取文件ID
+            fileIds[docType] = fileList
+              .filter(f => f.fileId) // 确保有fileId
+              .map(f => f.fileId);
+          }
+        });
         
-        // 构建提交数据
+        // 检查是否有文件
+        const totalFiles = Object.values(fileIds).flat().length;
+        if (totalFiles === 0) {
+          this.$message.warning("请至少上传一个文件");
+          return;
+        }
+
+        // 构建提交数据（只传文件ID）
         const submitData = {
           taskName: this.form.taskName,
           documentType: this.form.documentType,
-          files: files, // 所有文件列表
+          fileIds: fileIds, // 文件ID数组，按单据类型分组
         };
+
+        console.log("提交的数据：", submitData);
 
         createTask(submitData).then((response) => {
           if (response.code === "200") {
-            this.$message.success("提交成功！");
+            this.$message.success("任务创建成功！");
             this.handleClose();
+            // 通知父组件刷新列表
+            this.$emit('refresh');
           } else {
-            this.$message.error("提交失败！");
+            this.$message.error(response.message || "提交失败！");
           }
         }).catch((error) => {
-          this.$message.error("提交失败！");
+          console.error("提交失败：", error);
+          this.$message.error("提交失败，请稍后重试！");
         });
       });
     },
