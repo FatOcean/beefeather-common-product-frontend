@@ -14,7 +14,7 @@
           style="width: 280px"
         ></el-input>
       </el-form-item>
-      <el-form-item label="单据类型">
+      <!-- <el-form-item label="单据类型">
         <el-select
           v-model="form.documentType"
           placeholder="请选择单据类型"
@@ -27,7 +27,7 @@
             :value="value.value"
           ></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="上传">
         <upload
           v-model="documentTypeFields[form.documentType]"
@@ -116,7 +116,7 @@ export default {
         // 构建 FormData
         const formData = new FormData();
         formData.append("file", fileItem.file);
-        formData.append("documentType", this.form.documentType);
+        // formData.append("documentType", this.form.documentType);
         
         try {
           // 调用上传接口
