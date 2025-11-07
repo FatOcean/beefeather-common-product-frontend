@@ -30,6 +30,14 @@ const routes = [
     meta: {
       title: '贸易单证解析'
     }
+  },
+  {
+    path: '/streamAnalysis',
+    name: 'streamAnalysis',
+    component: (resolve) => require(['@/views/streamAnalysis/index.vue'], resolve),
+    meta: {
+      title: '流程分析'
+    }
   }
 ]
 

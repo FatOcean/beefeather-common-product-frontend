@@ -84,6 +84,14 @@
               >
                 删除
               </el-button>
+                <el-button
+                type="text"
+                size="small"
+                :disabled="scope.row.status !== '已完成'"
+                @click="onStreamAnalysis(scope.row)"
+              >
+                流程分析
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -154,6 +162,9 @@ export default {
     this.fetchTableData();
   },
   methods: {
+    onStreamAnalysis(row){
+      this.$router.push({ name: "streamAnalysis", query: { taskId: row.id } });
+    },
     handleExport() {
       console.log("导出");
     },
