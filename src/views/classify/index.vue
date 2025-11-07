@@ -16,9 +16,9 @@
         <h3>当前分组情况</h3>
         <div v-if="groupList.length === 0" class="empty">暂无分组</div>
 
-        <div v-for="group in groupList" :key="group.id" class="group-item">
+        <div v-for="(group, idx) in groupList" :key="group.id" class="group-item">
           <div class="group-header">
-            <strong>组 {{ group.id }}</strong>
+            <strong>组 {{ idx + 1 }}</strong>
             <el-button class="delete-btn" @click="deleteGroup(group.id)">
               删除组
             </el-button>
@@ -44,11 +44,17 @@
             创建新组 (选中 {{ selectedImages.length }} 张)
           </el-button>
           <el-button
+            @click="batchGroup"
+            :disabled="selectedImages.length === 0"
+          >
+            批量分组（单图成组）
+          </el-button>
+          <!-- <el-button
             @click="resetGroup"
             :disabled="selectedImages.length === 0"
           >
             重置为未分组
-          </el-button>
+          </el-button> -->
           <el-button
             @click="clearSelection"
             :disabled="selectedImages.length === 0"
@@ -62,7 +68,7 @@
 
         <div class="image-grid">
           <div
-            v-for="(img, index) in images"
+            v-for="(img, index) in displayImages"
             :key="index"
             class="image-box"
             :class="{
@@ -85,7 +91,7 @@
 
 <script>
 import PageHeader from "./pageHeader.vue";
-import { submitClassifyResult,getClassifyImages } from "@/api/taskManagement";
+import { submitClassifyResult, getClassifyImages } from "@/api/taskManagement";
 
 export default {
   name: "ImageGrouping",
@@ -95,44 +101,30 @@ export default {
   data() {
     return {
       selectedImages: [],
-      images: [],
+      images: Array.from({ length: 60 }, (_, i) => ({
+        id: `vat-${i + 1}`,
+        url: `https://picsum.photos/seed/vat-${i + 1}/200/350`,
+        group: null,
+        tab: null,
+      })),
       activeName: "vat",
+      // 组ID使用UUID；展示时用索引
       mockData: [
         {
           name: "增值税发票",
           value: "vat",
-          imagesList: Array.from({ length: 60 }, (_, i) => ({
-            id: `vat-${i + 1}`,
-            url: `https://picsum.photos/seed/vat-${i + 1}/200/350`,
-            group: null,
-          })),
         },
         {
           name: "流水",
           value: "financial_statement",
-          imagesList: Array.from({ length: 45 }, (_, i) => ({
-            id: `financial-${i + 1}`,
-            url: `https://picsum.photos/seed/financial-${i + 1}/200/350`,
-            group: null,
-          })),
         },
         {
           name: "提货单",
-          value: "bill_of_lading",
-          imagesList: Array.from({ length: 30 }, (_, i) => ({
-            id: `bill-${i + 1}`,
-            url: `https://picsum.photos/seed/bill-${i + 1}/200/350`,
-            group: null,
-          })),
+          value: "delivery_order",
         },
         {
           name: "合同",
           value: "contract",
-          imagesList: Array.from({ length: 20 }, (_, i) => ({
-            id: `contract-${i + 1}`,
-            url: `https://picsum.photos/seed/contract-${i + 1}/200/350`,
-            group: null,
-          })),
         },
       ],
       taskId: this.$route.query.taskId,
@@ -141,26 +133,36 @@ export default {
   computed: {
     groupList() {
       const groups = {};
+      // 仅统计当前 Tab 中的已分组图片
       this.images.forEach((img) => {
         const groupId = img.group;
-        if (groupId !== null) {
+        if (groupId !== null && img.tab === this.activeName) {
           if (!groups[groupId]) groups[groupId] = { id: groupId, images: [] };
           groups[groupId].images.push(img);
         }
       });
       return Object.values(groups);
     },
+    displayImages() {
+      // 左侧仅展示“未分组”的图片，避免一图多组
+      return this.images.filter((img) => img.group === null);
+    },
   },
   created() {
     // 根据默认 activeName 加载对应的图片列表
-    this.loadImagesByTab(this.activeName);
+    // 移除按 Tab 加载，统一从全局图片池取未分组
 
     getClassifyImages(this.taskId).then((response) => {
-      if (response.code === '200') {
-        this.images = response.data;
+      if (response.code === "200") {
+        // 规范化后端返回：确保存在 group 与 tab 字段
+        this.images = (response.data || []).map((item) => ({
+          ...item,
+          group: item.group === undefined ? null : item.group,
+          tab: item.tab === undefined ? null : item.tab,
+        }));
       }
     });
-    console.log(this.mockData, '现有mock数据')
+    console.log(this.mockData, "现有mock数据");
   },
   methods: {
     goBack() {
@@ -170,19 +172,10 @@ export default {
       // 切换tab时清空选中状态
       this.selectedImages = [];
       this.activeName = tabName;
-      this.loadImagesByTab(tabName);
-    },
-    loadImagesByTab(tabName) {
-      const currentTab = this.mockData.find(item => item.value === tabName);
-      if (currentTab && currentTab.imagesList) {
-        // 直接引用原数据，这样修改会保存到 mockData 中
-        this.images = currentTab.imagesList;
-      } else {
-        this.images = [];
-      }
+      // this.loadImagesByTab(tabName);
     },
     getCurrentTab() {
-      return this.mockData.find(item => item.value === this.activeName);
+      return this.mockData.find((item) => item.value === this.activeName);
     },
     toggleSelect(img) {
       const idx = this.selectedImages.indexOf(img.id);
@@ -193,11 +186,24 @@ export default {
       if (this.selectedImages.length === 0) return;
       const currentTab = this.getCurrentTab();
       if (!currentTab) return;
-      
-      const newGroupId = currentTab.nextGroupId++;
+
+      const newGroupId = this.generateUuid();
       this.images.forEach((img) => {
         if (this.selectedImages.includes(img.id)) {
           img.group = newGroupId;
+          img.tab = this.activeName;
+        }
+      });
+      this.selectedImages = [];
+    },
+    batchGroup() {
+      if (this.selectedImages.length === 0) return;
+      const currentTab = this.getCurrentTab();
+      if (!currentTab) return;
+      this.images.forEach((img) => {
+        if (this.selectedImages.includes(img.id) && img.group === null) {
+          img.group = this.generateUuid();
+          img.tab = this.activeName;
         }
       });
       this.selectedImages = [];
@@ -207,84 +213,105 @@ export default {
       this.images.forEach((img) => {
         if (this.selectedImages.includes(img.id)) {
           img.group = null;
+          img.tab = null;
         }
       });
       this.selectedImages = [];
     },
     deleteGroup(groupId) {
+      // 仅删除当前 Tab 下该组（不影响其他 Tab）
       this.images.forEach((img) => {
-        if (img.group === groupId) img.group = null;
+        if (img.group === groupId && img.tab === this.activeName) {
+          img.group = null;
+          img.tab = null;
+        }
       });
     },
     clearSelection() {
       this.selectedImages = [];
     },
     selectAll() {
-      this.images.forEach((img) => {
-        this.selectedImages.push(img.id);
-      });
+      // 基于当前显示（未分组）的图片选择
+      this.selectedImages = this.displayImages.map((img) => img.id);
     },
     handleSubmit() {
       // 收集所有 tab 的分组数据
       const groupingData = this.collectGroupingData();
-      
+
       // 展示收集到的数据（调试用）
-      console.log('提交的分组数据 有则提交 没有默认按无分组处理:', groupingData);
-      
+      console.log(
+        "提交的分组数据 有则提交 没有默认按无分组处理:",
+        groupingData
+      );
+
       // 调用后台接口
       this.submitGroupingData(groupingData);
     },
     collectGroupingData() {
-      const result = [];
-      
-      // 遍历所有 tab
+      // 生成结构：
+      // { unclassified: [url, ...], <tab.value>: [[url, ...], [url, ...]], ... }
+      const payload = { unclassified: [] };
+
+      // 未分组（跨所有）
+      this.images.forEach((img) => {
+        if (img.group === null) payload.unclassified.push(img.url);
+      });
+
+      // 各 Tab 的分组
       this.mockData.forEach((tab) => {
-        // 收集该 tab 中的所有分组
-        const groups = {};
-        
-        tab.imagesList.forEach((img) => {
-          if (img.group !== null) {
-            if (!groups[img.group]) {
-              groups[img.group] = {
-                groupId: img.group,
-                images: [],
-              };
-            }
-            groups[img.group].images.push({
-              id: img.id,
-              url: img.url,
-            });
+        const groupIdToUrls = {};
+        this.images.forEach((img) => {
+          if (img.tab === tab.value && img.group !== null) {
+            if (!groupIdToUrls[img.group]) groupIdToUrls[img.group] = [];
+            groupIdToUrls[img.group].push(img.url);
           }
         });
-        
-        // 如果该 tab 有分组数据，则添加到结果中
-        const groupList = Object.values(groups);
-        if (groupList.length > 0) {
-          result.push({
-            documentType: tab.value,
-            documentName: tab.name,
-            groups: groupList,
-            // totalGroups: groupList.length,
-            // totalImages: groupList.reduce((sum, g) => sum + g.images.length, 0),
-          });
-        }
+        // UUID 作为键，保持插入顺序即可
+        const groupArrays = Object.keys(groupIdToUrls)
+          .map((gid) => groupIdToUrls[gid]);
+        payload[tab.value] = groupArrays.length > 0 ? groupArrays : [[]];
       });
-      
-      return result;
+
+      return payload;
+    },
+    generateUuid() {
+      if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+        const buf = new Uint8Array(16);
+        crypto.getRandomValues(buf);
+        // Per RFC4122 v4
+        buf[6] = (buf[6] & 0x0f) | 0x40;
+        buf[8] = (buf[8] & 0x3f) | 0x80;
+        const hex = [...buf].map(b => b.toString(16).padStart(2, '0'));
+        return (
+          hex[0] + hex[1] + hex[2] + hex[3] + '-' +
+          hex[4] + hex[5] + '-' +
+          hex[6] + hex[7] + '-' +
+          hex[8] + hex[9] + '-' +
+          hex[10] + hex[11] + hex[12] + hex[13] + hex[14] + hex[15]
+        );
+      }
+      // 回退方案
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
     },
     async submitGroupingData(data) {
       try {
-        
         // 调用 API 提交数据
-        const response = await submitClassifyResult({ taskId: this.taskId, data });
-        if (response.code === '200') {
+        const response = await submitClassifyResult({
+          taskId: this.taskId,
+          data,
+        });
+        if (response.code === "200") {
           this.$message.success("提交成功！");
         } else {
           this.$message.error("提交失败！");
         }
       } catch (error) {
-        this.$message.error('提交失败：' + (error.message || '未知错误'));
-        console.error('提交分组数据失败:', error);
+        this.$message.error("提交失败：" + (error.message || "未知错误"));
+        console.error("提交分组数据失败:", error);
       }
     },
   },
