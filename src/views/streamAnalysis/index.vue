@@ -46,27 +46,15 @@
           </span>
         </el-tree>
 
-        <!-- <div class="uploader">
-          <upload
-            v-model="jsonFiles"
-            :limit="20"
-            :accept="['json']"
-            :multiple="true"
-            :http-request="fileUploadJson"
-            :auto-upload="true"
-            :show-file-list="true"
-          >
-            <template slot="tip">
-              <div>仅支持 json 文件，解析后自动加入左侧规则树</div>
-            </template>
-          </upload>
-        </div> -->
-
         <div class="actions">
+          <el-button type="primary" @click="handleAdd" size="mini"
+            >新增</el-button
+          >
           <el-button
             type="danger"
             :disabled="!hasSelection"
             @click="handleDelete"
+            size="mini"
             >删除</el-button
           >
         </div>
@@ -85,34 +73,38 @@
         <div class="composer">
           <el-input
             type="textarea"
-            :rows="3"
             v-model="inputText"
+            :autosize="{ minRows: 2, maxRows: 8 }"
             placeholder="请输入问题..."
           />
-          <div class="composer-footer">
-            <el-switch
-              v-model="includeParsedContent"
-              active-text="添加本次解析内容"
-            />
-            <el-button
-              type="primary"
-              @click="handleSend"
-              :disabled="!inputText.trim()"
-              >发送</el-button
-            >
-          </div>
+          <!-- <div class="composer-footer"> -->
+          <el-switch
+            v-model="includeParsedContent"
+            active-text="添加本次解析内容"
+          />
+          <el-button
+            type="primary"
+            circle
+            icon="el-icon-top"
+            size="small"
+            @click="handleSend"
+            :disabled="!inputText.trim()"
+            title="发送"
+          />
+          <!-- </div> -->
         </div>
       </div>
     </div>
+    <UploadDialog ref="uploadDialog" />
   </div>
 </template>
 
 <script>
 import upload from "@/components/LinkUpload";
-
+import UploadDialog from "./uploadDialog.vue";
 export default {
   name: "StreamAnalysis",
-  components: { upload },
+  components: { upload, UploadDialog },
   data() {
     return {
       treeData: [
@@ -120,23 +112,17 @@ export default {
           id: 1,
           label: "规则1",
           tooltip: "规则1的描述",
-          children: [
-            { id: 2, label: "规则2", },
-          ],
+          children: [{ id: 2, label: "规则2" }],
         },
         {
           id: 3,
           label: "规则1",
-          children: [
-            { id: 4, label: "规则2", },
-          ],
+          children: [{ id: 4, label: "规则2" }],
         },
         {
           id: 5,
           label: "规则1",
-          children: [
-            { id: 6, label: "规则2", },
-          ],
+          children: [{ id: 6, label: "规则2" }],
         },
       ],
       treeProps: { label: "label", children: "children" },
@@ -160,6 +146,9 @@ export default {
     },
   },
   methods: {
+    handleAdd() {
+      this.$refs.uploadDialog.openDialog();
+    },
     goBack() {
       this.$router.push({ name: "home" });
     },
@@ -356,90 +345,66 @@ export default {
       flex-direction: column;
       background: #fff;
       height: 100%;
+
+      .tree-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        h3 {
+          margin: 0;
+          font-size: 14px;
+          color: #303133;
+        }
+      }
+
+      .rule-tree {
+        flex: 1;
+        overflow: auto;
+        border: 1px solid #f0f0f0;
+        border-radius: 6px;
+        padding: 6px;
+
+        .custom-tree-node {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          width: 100%;
+          font-size: 13px;
+
+          .label {
+            flex: none;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+
+      .help-icon {
+        color: #909399;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+          color: #606266;
+        }
+      }
+
+      .edit-icon {
+        margin-left: auto;
+        color: #606266;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+          color: #409EFF;
+        }
+      }
     }
   }
-}
-
-.stream-page, .stream-page .left-panel .tree-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.stream-page .left-panel .tree-header h3 {
-  margin: 0;
-  font-size: 14px;
-  color: #303133;
-}
-
-.stream-page .left-panel .rule-tree {
-  flex: 1;
-  overflow: auto;
-  border: 1px solid #f0f0f0;
-  border-radius: 6px;
-  padding: 6px;
-}
-
-.stream-page .left-panel .rule-tree .custom-tree-node {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-  font-size: 13px;
-}
-
-.stream-page .left-panel .rule-tree .custom-tree-node .label {
-  flex: none;
-  max-width: 180px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.stream-page .left-panel .rule-tree .custom-tree-node .help-icon {
-  color: #909399;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.stream-page .left-panel .rule-tree .custom-tree-node .help-icon:hover {
-  color: #606266;
-}
-
-.stream-page .left-panel .rule-tree .custom-tree-node .edit-icon {
-  margin-left: auto;
-  color: #606266;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.stream-page .left-panel .rule-tree .custom-tree-node .edit-icon:hover {
-  color: #409EFF;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-tree-node__content {
-  height: 28px;
-  line-height: 28px;
-  padding-right: 6px;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-checkbox__inner {
-  width: 14px;
-  height: 14px;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-checkbox__input.is-checked .el-checkbox__inner {
-  background-color: #409EFF;
-  border-color: #409EFF;
-}
-
-.stream-page .left-panel .uploader {
-  margin-top: 10px;
-  border: 1px dashed #dcdfe6;
-  border-radius: 6px;
-  padding: 8px;
-  background: #fcfcfc;
 }
 
 .stream-page .left-panel .actions {
@@ -450,121 +415,82 @@ export default {
 }
 
 .stream-page .right-panel {
+  padding: 10%;
   flex: 1;
   display: flex;
   flex-direction: column;
-  border: 1px solid #e5e7ec;
   border-radius: 8px;
-  padding: 10px;
+  padding: 100px 140px;
+  padding-top: 60px;
   background: #fff;
-}
 
-.stream-page .right-panel .chat-box {
-  flex: 1;
-  overflow: auto;
-  background: #fafafa;
-  border: 1px solid #f0f0f0;
-  border-radius: 6px;
-  padding: 10px;
-}
+  .chat-box {
+    flex: 1;
+    overflow: auto;
+    border-radius: 6px;
+    padding: 10px;
 
-.stream-page .right-panel .chat-box .msg {
-  margin-bottom: 8px;
-}
+    .msg {
+      margin-bottom: 8px;
 
-.stream-page .right-panel .chat-box .msg .bubble {
-  display: inline-block;
-  padding: 8px 10px;
-  border-radius: 6px;
-  background: #fff;
-  border: 1px solid #eee;
-}
+      .bubble {
+        display: inline-block;
+        padding: 8px 10px;
+        border-radius: 6px;
+        background: #fff;
+        border: 1px solid #eee;
+      }
+    }
 
-.stream-page .right-panel .chat-box .msg.user {
-  text-align: right;
-}
+    .user {
+      text-align: right;
+    }
+  }
 
-.stream-page .right-panel .chat-box .msg.user .bubble {
-  background: #e6f7ff;
-  border-color: #bae7ff;
-}
+  .composer {
+    position: relative;
 
-.stream-page .right-panel .chat-box .msg.assistant {
-  text-align: left;
-}
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
+    ::v-deep .el-textarea__inner {
+      border-radius: 18px;
+      padding-bottom: 30px;
+      padding-right: 50px;
+    }
 
-.stream-page .right-panel .composer {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+    .composer-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.stream-page .right-panel .composer ::v-deep .el-textarea__inner {
-  font-size: 13px;
-}
+    ::v-deep .el-button {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      padding: 4px;
+      transform: translateY(-50%);
 
-.stream-page .right-panel .composer .composer-footer {
-  margin-top: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
+      &:.is-disabled {
+        border-color: #ececec;
+      }
+    }
 
-.stream-page .right-panel .composer .composer-footer .el-switch {
-  margin-right: auto;
-}
-
-/* 补全：左侧底部吸附、悬浮高亮、展开图标、滚动条 */
-.stream-page .left-panel .actions {
-  position: sticky;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #fff 18px);
-  padding-top: 8px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-tree-node__content:hover {
-  background-color: #f5f7fa;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-tree-node.is-current > .el-tree-node__content {
-  background-color: #ecf5ff;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-tree-node__expand-icon {
-  font-size: 14px;
-  color: #909399;
-}
-
-.stream-page .left-panel .rule-tree ::v-deep .el-tree-node__expand-icon.expanded {
-  transform: rotate(90deg);
-}
-
-.stream-page .left-panel .rule-tree::-webkit-scrollbar {
-  width: 8px;
-}
-
-.stream-page .left-panel .rule-tree::-webkit-scrollbar-thumb {
-  background: #dcdfe6;
-  border-radius: 4px;
-}
-
-.stream-page .left-panel .rule-tree::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.stream-page .right-panel .chat-box::-webkit-scrollbar {
-  width: 8px;
-}
-
-.stream-page .right-panel .chat-box::-webkit-scrollbar-thumb {
-  background: #dcdfe6;
-  border-radius: 4px;
-}
-
-.stream-page .right-panel .chat-box::-webkit-scrollbar-track {
-  background: transparent;
+    .el-switch {
+      position: absolute;
+      bottom: 6px;
+      left: 6px;
+      &.is-checked {
+        ::v-deep .el-switch__core {
+          border-color: #009688;
+          background-color: #009688;
+        }
+        ::v-deep .el-switch__label {
+          color: #009688;
+        }
+      }
+    }
+  }
 }
 </style>
