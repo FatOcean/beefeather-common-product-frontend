@@ -17,6 +17,7 @@
           default-expand-all
           :props="treeProps"
           :expand-on-click-node="false"
+          @check-change="onTreeCheckChange"
         >
           <span class="custom-tree-node" slot-scope="{ node, data }">
             <template v-if="editingNodeId === data.id">
@@ -100,11 +101,10 @@
 </template>
 
 <script>
-import upload from "@/components/LinkUpload";
 import UploadDialog from "./uploadDialog.vue";
 export default {
   name: "StreamAnalysis",
-  components: { upload, UploadDialog },
+  components: { UploadDialog },
   data() {
     return {
       treeData: [
@@ -122,7 +122,10 @@ export default {
         {
           id: 5,
           label: "规则1",
-          children: [{ id: 6, label: "规则2" }],
+          children: [
+            { id: 6, label: "规则2" },
+            { id: 7, label: "规则3" },
+          ],
         },
       ],
       treeProps: { label: "label", children: "children" },
@@ -135,17 +138,19 @@ export default {
       inputText: "",
       includeParsedContent: false,
       streamTimer: null,
+      hasSelection: false,
     };
   },
-  computed: {
-    hasSelection() {
-      const tree = this.$refs.ruleTree;
-      if (!tree) return false;
-      const nodes = tree.getCheckedNodes();
-      return nodes && nodes.length > 0;
-    },
-  },
   methods: {
+    // ========== 树：选择变化 ==========
+    onTreeCheckChange() {
+      const tree = this.$refs.ruleTree;
+      this.hasSelection = !!(
+        tree &&
+        tree.getCheckedKeys &&
+        tree.getCheckedKeys().length > 0
+      );
+    },
     handleAdd() {
       this.$refs.uploadDialog.openDialog();
     },
@@ -171,6 +176,7 @@ export default {
       const checked = tree.getCheckedKeys();
       if (!checked || checked.length === 0) return;
       this.treeData = this.removeNodesByIds(this.treeData, new Set(checked));
+      this.hasSelection = false;
     },
     removeNodesByIds(list, idSet) {
       // 删除命中的节点；若父命中则整组删；否则递归 children
@@ -481,11 +487,13 @@ export default {
       position: absolute;
       bottom: 6px;
       left: 6px;
+
       &.is-checked {
         ::v-deep .el-switch__core {
           border-color: #009688;
           background-color: #009688;
         }
+
         ::v-deep .el-switch__label {
           color: #009688;
         }
