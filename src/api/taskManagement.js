@@ -13,94 +13,12 @@ import api from './apiRequest'
  * @returns {Promise}
  */
 export const getTaskList = (params) => {
-  // // 模拟数据
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     const mockData = {
-  //       code: '200',
-  //       message: '查询成功',
-  //       data: {
-  //         list: [
-  //           {
-  //             id: 1,
-  //             taskName: '发票解析任务001',
-  //             status: '处理中',
-  //             documentType: 'vat',
-  //             documentTypeName: '增值税发票',
-  //             fileCount: 15,
-  //             classifiedCount: 8,
-  //             createTime: '2025-10-18 10:30:00',
-  //             updateTime: '2025-10-20 09:15:00'
-  //           },
-  //           {
-  //             id: 2,
-  //             taskName: '合同解析任务002',
-  //             status: '已完成',
-  //             documentType: 'financial_statement',
-  //             documentTypeName: '流水',
-  //             fileCount: 20,
-  //             classifiedCount: 20,
-  //             createTime: '2025-10-15 14:20:00',
-  //             updateTime: '2025-10-19 16:45:00'
-  //           },
-  //           {
-  //             id: 3,
-  //             taskName: '收据解析任务003',
-  //             status: '待处理',
-  //             documentType: 'bill_of_lading',
-  //             documentTypeName: '提单',
-  //             fileCount: 10,
-  //             classifiedCount: 0,
-  //             createTime: '2025-10-20 08:00:00',
-  //             updateTime: '2025-10-20 08:00:00'
-  //           },
-  //           {
-  //             id: 4,
-  //             taskName: '提单解析任务004',
-  //             status: '已完成',
-  //             documentType: 'bill_of_lading',
-  //             documentTypeName: '提单',
-  //             fileCount: 25,
-  //             classifiedCount: 25,
-  //             createTime: '2025-10-12 11:00:00',
-  //             updateTime: '2025-10-17 13:30:00'
-  //           },
-  //           {
-  //             id: 5,
-  //             taskName: '订单解析任务005',
-  //             status: '失败',
-  //             documentType: 'order',
-  //             documentTypeName: '订单',
-  //             fileCount: 8,
-  //             classifiedCount: 0,
-  //             createTime: '2025-10-19 15:30:00',
-  //             updateTime: '2025-10-19 16:00:00',
-  //             errorMessage: '文件格式不支持'
-  //           }
-  //         ],
-  //         total: "22",
-  //       }
-  //     }
-
-  //     // 如果有搜索关键词，过滤数据
-  //     if (params.taskName) {
-  //       mockData.data.list = mockData.data.list.filter(item =>
-  //         item.taskName.includes(params.taskName)
-  //       )
-  //       mockData.data.pagination.total = mockData.data.list.length
-  //     }
-
-  //     resolve(mockData)
-  //   }, 800)
-  // })
   return api.post('/api/docflow/task/list', params)
-
 }
-
 
 // 获取单据类型
 export const getDocumentTypeList = () => {
-  return api.post('/api/docflow/document/type/list')
+  return api.post('/api/docflow/task/document-types')
 }
 
 /**

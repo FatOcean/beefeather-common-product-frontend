@@ -28,9 +28,9 @@
           ></el-option>
         </el-select>
       </el-form-item> -->
-      <el-form-item label="上传">
+      <el-form-item label="上传" required>
         <upload
-          v-model="documentTypeFields[form.documentType]"
+          v-model="documentfileList"
           :limit="10"
           :accept="acceptList"
           :multiple="true"
@@ -41,7 +41,7 @@
           @handle-change="fileChange"
         >
           <template slot="tip">
-            <div>支持{{ acceptList.join("、") }}格式</div>
+            <div>仅支持{{ acceptList.join("、") }}格式</div>
           </template>
         </upload>
       </el-form-item>
@@ -54,7 +54,7 @@
 </template>
 <script>
 import upload from "@/components/LinkUpload";
-import { getDocumentTypeList, createTask, uploadFile } from "@/api/taskManagement";
+import { createTask, uploadFile } from "@/api/taskManagement";
 export default {
   components: {
     upload,
@@ -74,12 +74,7 @@ export default {
         documentType: "vat",
         fileList: [],
       },
-      documentTypeFields: {
-        financial_statement: [],
-        vat: [],
-        bill_of_lading: [],
-        order: [],
-      },
+      documentfileList: [],
       documentTypeOptions: [
         {
           label: "流水",
@@ -122,7 +117,7 @@ export default {
           // 调用上传接口
           const response = await uploadFile(formData);
           
-          if (response.code === "200") {
+          if (response.data.code === "200") {
             // 保存文件ID到 fileItem
             fileItem.fileId = response.data.fileId; // 后端返回的文件ID
             fileItem.fileName = response.data.fileName || fileItem.file.name;
@@ -147,15 +142,6 @@ export default {
     // 打开抽屉
     openDrawer() {
       this.drawer = true;
-      this.getDocumentTypeList();
-    },
-    async getDocumentTypeList() {
-      const response = await getDocumentTypeList();
-      if (response.code === "200") {
-        this.documentTypeOptions = response.data;
-      } else {
-        this.$message.error("获取单据类型失败");
-      }
     },
     
     // 关闭抽屉
@@ -186,55 +172,36 @@ export default {
       // 表单验证
       this.$refs.form.validate((valid) => {
         if (!valid) {
-          this.$message.error("请完善表单信息");
           return;
         }
 
-        // 检查是否有文件正在上传
-        const allFiles = Object.values(this.documentTypeFields).flat();
-        const uploadingFiles = allFiles.filter(f => f.status === 'uploading');
+        const uploadingFiles = this.documentfileList.filter(f => f.status === 'uploading' );
         if (uploadingFiles.length > 0) {
           this.$message.warning("还有文件正在上传中，请稍候...");
           return;
         }
 
         // 检查是否有上传失败的文件
-        const failedFiles = allFiles.filter(f => f.status === 'fail');
+        const failedFiles = this.documentfileList.filter(f => f.status === 'fail');
         if (failedFiles.length > 0) {
           this.$message.error(`有 ${failedFiles.length} 个文件上传失败，请重新上传`);
           return;
         }
-
-        // 提取文件ID，按单据类型分组
-        const fileIds = {};
-        Object.keys(this.documentTypeFields).forEach((docType) => {
-          const fileList = this.documentTypeFields[docType];
-          if (fileList.length > 0) {
-            // 只提取文件ID
-            fileIds[docType] = fileList
-              .filter(f => f.fileId) // 确保有fileId
-              .map(f => f.fileId);
-          }
-        });
         
         // 检查是否有文件
-        const totalFiles = Object.values(fileIds).flat().length;
-        if (totalFiles === 0) {
-          this.$message.warning("请至少上传一个文件");
+        if (this.documentfileList.length === 0) {
+          this.$message.error("请至少上传一个文件");
           return;
         }
 
         // 构建提交数据（只传文件ID）
         const submitData = {
           taskName: this.form.taskName,
-          documentType: this.form.documentType,
-          fileIds: fileIds, // 文件ID数组，按单据类型分组
+          // documentType: this.form.documentType,
+          documentfileList: this.documentfileList.map(f => f.fileId), // 文件ID数组，按单据类型分组
         };
-
-        console.log("提交的数据：", submitData);
-
         createTask(submitData).then((response) => {
-          if (response.code === "200") {
+          if (response.data.code === "200") {
             this.$message.success("任务创建成功！");
             this.handleClose();
             // 通知父组件刷新列表

@@ -179,9 +179,9 @@ export default {
       this.loading = true;
       try {
         const response = await getTaskList(this.searchForm);
-        if (response.code === "200") {
-          this.tableData = response.data.list;
-          this.total = Number(response.data.total);
+        if (response.data.code === "200") {
+          this.tableData = response.data.data.list;
+          this.total = Number(response.data.data.total);
         }
       } catch (error) {
         console.error("获取任务列表失败：", error);
@@ -221,14 +221,12 @@ export default {
 
     // 查看
     handleView(row) {
-      this.$router.push({ name: "tradeDocumentAnalysis" });
-      this.$message.info(`查看任务: ${row.taskName}`);
+      this.$router.push({ name: "tradeDocumentAnalysis", query: { taskId: row.id } });
     },
 
     // 分类
     handleClassify(row) {
       this.$router.push({ name: "classify", query: { taskId: row.id } });
-      this.$message.info(`分类任务: ${row.taskName}`);
     },
 
     // 删除

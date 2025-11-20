@@ -8,7 +8,7 @@
     </div>
     <div class="el-page-header__content">
       <el-tabs v-model="currentTab" @tab-click="handleClick">
-        <el-tab-pane v-for="item in mockData" :key="item.value" :label="item.name" :name="item.value"></el-tab-pane>
+        <el-tab-pane v-for="item in documentTypelist" :key="item.value" :label="item.label" :name="item.value"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="el-page-header__right">
@@ -29,7 +29,7 @@ export default {
       },
     },
     content: String,
-    mockData: {
+    documentTypelist: {
       type: Array,
       default() {
         return [];
@@ -71,5 +71,8 @@ export default {
 }
 .el-page-header__right {
   margin-left: auto;
+}
+::v-deep .el-tabs__nav-wrap::after {
+  height: 0 !important;
 }
 </style>
