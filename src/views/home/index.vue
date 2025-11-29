@@ -65,6 +65,7 @@
               <el-button
                 type="text"
                 size="small"
+                :disabled="scope.row.status !== '已完成'"
                 @click="handleView(scope.row)"
               >
                 查看
@@ -117,7 +118,7 @@
 
 <script>
 import drawer from "./drawer.vue";
-import { getTaskList } from "@/api/taskManagement";
+import { getTaskList, deleteTask } from "@/api/taskManagement";
 
 export default {
   name: "DocumentParsing",
@@ -127,6 +128,8 @@ export default {
   data() {
     return {
       loading: false,
+      pollTimer: null,
+      isPolling: false,
       searchForm: {
         queryCondition: {
           taskName: "",
@@ -162,6 +165,12 @@ export default {
   created() {
     this.fetchTableData();
   },
+  mounted() {
+    this.startPolling();
+  },
+  beforeDestroy() {
+    this.stopPolling();
+  },
   methods: {
     onStreamAnalysis(row){
       this.$router.push({ name: "streamAnalysis", query: { taskId: row.id } });
@@ -176,8 +185,8 @@ export default {
       this.$refs.drawer.openDrawer();
     },
     // 获取表格数据
-    async fetchTableData() {
-      this.loading = true;
+    async fetchTableData(silent = false) {
+      if (!silent) this.loading = true;
       try {
         const response = await getTaskList(this.searchForm);
         if (response.data.code === "200" || response.data.data) {
@@ -188,7 +197,36 @@ export default {
         console.error("获取任务列表失败：", error);
         this.$message.error("获取任务列表失败");
       } finally {
-        this.loading = false;
+        if (!silent) this.loading = false;
+      }
+    },
+    // 启动轮询（无感知）
+    startPolling() {
+      this.stopPolling(); // 先清理已存在的定时器
+      const poll = async () => {
+        // 避免组件销毁后仍然请求
+        if (this._isBeingDestroyed || this._isDestroyed) return;
+        // 避免轮询请求并发重叠
+        if (this.isPolling) {
+          this.pollTimer = setTimeout(poll, 10000);
+          return;
+        }
+        this.isPolling = true;
+        try {
+          await this.fetchTableData(true); // silent: 不展示 loading
+        } finally {
+          this.isPolling = false;
+          this.pollTimer = setTimeout(poll, 10000);
+        }
+      };
+      // 首次延迟 10s 开始，以避免与初始化请求重叠
+      this.pollTimer = setTimeout(poll, 10000);
+    },
+    // 停止轮询
+    stopPolling() {
+      if (this.pollTimer) {
+        clearTimeout(this.pollTimer);
+        this.pollTimer = null;
       }
     },
     // 处理新增成功
@@ -239,10 +277,15 @@ export default {
         type: "warning",
       })
         .then(() => {
-          this.$message.success("删除成功");
-          // 这里可以添加删除逻辑
-        })
-        .catch(() => {
+          deleteTask(row.id).then(res => {
+            if (res.data.code === "200") {
+              this.$message.success("删除成功");
+              this.fetchTableData();
+            } else {
+              this.$message.error("删除失败");
+            }
+          });
+        }).catch(() => {
           this.$message.info("已取消删除");
         });
     },

@@ -74,5 +74,5 @@ export const submitClassifyResult = (data) => {
  * @returns {Promise}
  */
 export const deleteTask = (taskId) => {
-  return api.delete(`/api/docflow/task/${taskId}`)
+  return api.post(`/api/docflow/task/delete/${taskId}`)
 }
