@@ -14,20 +14,6 @@
           style="width: 280px"
         ></el-input>
       </el-form-item>
-      <!-- <el-form-item label="单据类型">
-        <el-select
-          v-model="form.documentType"
-          placeholder="请选择单据类型"
-          style="width: 280px"
-        >
-          <el-option
-            v-for="value in documentTypeOptions"
-            :key="value.value"
-            :label="value.label"
-            :value="value.value"
-          ></el-option>
-        </el-select>
-      </el-form-item> -->
       <el-form-item label="上传" required>
         <upload
           v-model="documentfileList"
@@ -38,7 +24,6 @@
           :auto-upload="true"
           :show-file-list="true"
           :chunkSize="1024 * 1024 * 1024 * 1.1"
-          @handle-change="fileChange"
         >
           <template slot="tip">
             <div>仅支持{{ acceptList.join("、") }}格式</div>
@@ -48,7 +33,9 @@
     </el-form>
     <div class="dialog-footer">
       <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="handleSubmit">确 定</el-button>
+      <el-button type="primary" @click="handleSubmit" :loading="loading"
+        >确 定</el-button
+      >
     </div>
   </el-drawer>
 </template>
@@ -63,6 +50,7 @@ export default {
   data() {
     return {
       drawer: false,
+      loading: false,
       rules: {
         taskName: [
           { required: true, message: "请输入任务名称", trigger: "blur" },
@@ -96,39 +84,37 @@ export default {
     };
   },
   methods: {
-    // 文件列表变化时触发
-    fileChange(fileList) {
-      console.log("文件列表变化：", fileList);
-      // 更新当前单据类型对应的文件列表
-      this.documentTypeFields[this.form.documentType] = fileList;
-    },
-    
     // 自定义上传请求 - 上传文件流，获取文件ID
     async fileUpload(files) {
       for (let index = 0; index < files.length; index++) {
         const fileItem = files[index];
-        
+
         // 构建 FormData
         const formData = new FormData();
         formData.append("file", fileItem.file);
         // formData.append("documentType", this.form.documentType);
-        
+
         try {
           // 调用上传接口
           const response = await uploadFile(formData);
-          
-          if (response.data.code === "200") {
+
+          if (response.data.code === "200" || response.data.data) {
+            const fileData = response.data.data;
             // 保存文件ID到 fileItem
-            fileItem.fileId = response.data.fileId; // 后端返回的文件ID
-            fileItem.fileName = response.data.fileName || fileItem.file.name;
-            fileItem.filePath = response.data.filePath; // 可选：文件路径
+            fileItem.fileId = fileData.id; // 后端返回的文件ID
+            fileItem.fileName = fileData.fileName || fileItem.file.name;
+            fileItem.filePath = fileData.filePath; // 可选：文件路径
             fileItem.status = "success";
-            
-            console.log(`文件上传成功：${fileItem.fileName}，文件ID：${fileItem.fileId}`);
+
+            console.log(
+              `文件上传成功：${fileItem.fileName}，文件ID：${fileItem.id}`
+            );
           } else {
             fileItem.status = "fail";
             fileItem.errorMsg = response.message || "上传失败";
-            this.$message.error(`${fileItem.file.name} 上传失败：${fileItem.errorMsg}`);
+            this.$message.error(
+              `${fileItem.file.name} 上传失败：${fileItem.errorMsg}`
+            );
           }
         } catch (error) {
           fileItem.status = "fail";
@@ -138,56 +124,55 @@ export default {
         }
       }
     },
-    
+
     // 打开抽屉
     openDrawer() {
       this.drawer = true;
     },
-    
+
     // 关闭抽屉
     handleClose() {
       this.drawer = false;
       // 重置表单
       this.resetForm();
     },
-    
+
     // 重置表单
     resetForm() {
       this.form = {
         taskName: "",
-        documentType: "vat",
-        fileList: [],
       };
-      this.documentTypeFields = {
-        financial_statement: [],
-        vat: [],
-        bill_of_lading: [],
-        order: [],
-      };
+      this.documentfileList = [];
       this.$refs.form && this.$refs.form.resetFields();
     },
-    
+
     // 提交表单
-     handleSubmit() {
+    handleSubmit() {
       // 表单验证
       this.$refs.form.validate((valid) => {
         if (!valid) {
           return;
         }
 
-        const uploadingFiles = this.documentfileList.filter(f => f.status === 'uploading' );
+        const uploadingFiles = this.documentfileList.filter(
+          (f) => f.status === "uploading"
+        );
         if (uploadingFiles.length > 0) {
           this.$message.warning("还有文件正在上传中，请稍候...");
           return;
         }
 
         // 检查是否有上传失败的文件
-        const failedFiles = this.documentfileList.filter(f => f.status === 'fail');
+        const failedFiles = this.documentfileList.filter(
+          (f) => f.status === "fail"
+        );
         if (failedFiles.length > 0) {
-          this.$message.error(`有 ${failedFiles.length} 个文件上传失败，请重新上传`);
+          this.$message.error(
+            `有 ${failedFiles.length} 个文件上传失败，请重新上传`
+          );
           return;
         }
-        
+
         // 检查是否有文件
         if (this.documentfileList.length === 0) {
           this.$message.error("请至少上传一个文件");
@@ -198,21 +183,26 @@ export default {
         const submitData = {
           taskName: this.form.taskName,
           // documentType: this.form.documentType,
-          documentfileList: this.documentfileList.map(f => f.fileId), // 文件ID数组，按单据类型分组
+          documentfileList: this.documentfileList.map((f) => f.fileId), // 文件ID数组，按单据类型分组
         };
-        createTask(submitData).then((response) => {
-          if (response.data.code === "200") {
-            this.$message.success("任务创建成功！");
-            this.handleClose();
-            // 通知父组件刷新列表
-            this.$emit('refresh');
-          } else {
-            this.$message.error(response.message || "提交失败！");
-          }
-        }).catch((error) => {
-          console.error("提交失败：", error);
-          this.$message.error("提交失败，请稍后重试！");
-        });
+        this.loading = true;
+        createTask(submitData)
+          .then((response) => {
+            if (response.data.code === "200" || response.data.data) {
+              this.$message.success("任务创建成功！");
+              this.handleClose();
+              // 通知父组件刷新列表
+              this.$emit("refresh");
+            } else {
+              this.$message.error(response.message || "提交失败！");
+            }
+          })
+          .catch((error) => {
+            this.$message.error("提交失败，请稍后重试！");
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       });
     },
   },

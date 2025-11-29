@@ -110,7 +110,7 @@
         />
       </div>
     </div>
-    <drawer ref="drawer" @submit-success="handleSubmitSuccess" />
+    <drawer ref="drawer" @submit-success="handleSubmitSuccess" @refresh="fetchTableData" />
   </div>
 </template>
 
@@ -179,7 +179,7 @@ export default {
       this.loading = true;
       try {
         const response = await getTaskList(this.searchForm);
-        if (response.data.code === "200") {
+        if (response.data.code === "200" || response.data.data) {
           this.tableData = response.data.data.list;
           this.total = Number(response.data.data.total);
         }
@@ -192,7 +192,6 @@ export default {
     },
     // 处理新增成功
     handleSubmitSuccess(data) {
-      console.log("新增任务成功：", data);
       // 刷新列表
       this.fetchTableData();
     },

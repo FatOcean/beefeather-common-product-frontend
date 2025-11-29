@@ -32,7 +32,7 @@
             <img
               v-for="img in group.images"
               :key="img.id"
-              :src="img.url"
+              :src="formatImageSrc(img.url)"
               alt="缩略图"
             />
           </div>
@@ -82,7 +82,7 @@
             }"
             @click="toggleSelect(img)"
           >
-            <img :src="img.url" alt="示例图片" />
+            <img :src="formatImageSrc(img.url)" alt="示例图片" />
             <div class="label">
               {{ img.group !== null ? "组 " + img.group : "未分组" }}
             </div>
@@ -109,12 +109,13 @@ export default {
   data() {
     return {
       selectedImages: [],
-      images: Array.from({ length: 60 }, (_, i) => ({
-        id: `vat-${i + 1}`,
-        url: `https://picsum.photos/seed/vat-${i + 1}/200/350`,
-        group: null,
-        tab: null,
-      })),
+      images: [],
+      // images: Array.from({ length: 60 }, (_, i) => ({
+      //   id: `vat-${i + 1}`,
+      //   url: `https://picsum.photos/seed/vat-${i + 1}/200/350`,
+      //   group: null,
+      //   tab: null,
+      // })),
       activeName: "vat",
       // 组ID使用UUID；展示时用索引
       documentTypelist: [
@@ -136,7 +137,8 @@ export default {
         },
       ],
       taskId: this.$route.query.taskId,
-      useMock: true,
+      useMock: false,
+      baseOrigin: "",
     };
   },
   computed: {
@@ -158,9 +160,17 @@ export default {
     },
   },
   created() {
+    this.baseOrigin =
+      typeof window !== "undefined" && window.location
+        ? window.location.origin
+        : "";
     this.init();
   },
   methods: {
+    formatImageSrc(url) {
+      if (!url) return "";
+      return `${this.baseOrigin}${url}`;
+    },
     async init() {
       // 根据默认 activeName 加载对应的图片列表
       // 移除按 Tab 加载，统一从全局图片池取未分组
@@ -171,13 +181,15 @@ export default {
       });
 
       if (this.useMock) {
-        this.images = this.inflateImagesFromGroupingPayload(this.mockGroupingPayload());
+        this.images = this.inflateImagesFromGroupingPayload(
+          this.mockGroupingPayload()
+        );
         return;
       }
 
       getClassifyImages(this.taskId).then((response) => {
-        if (response.data.code === "200") {
-          const data = response.data.data.images
+        if (response.data.code === "200" || response.data.data) {
+          const data = response.data.data.images;
           this.images = this.inflateImagesFromGroupingPayload(data);
         }
       });
@@ -199,8 +211,14 @@ export default {
         ],
         financial_statement: [
           [
-            { imageId: "fs-1", imageUrl: "https://picsum.photos/seed/fs1/200/350" },
-            { imageId: "fs-2", imageUrl: "https://picsum.photos/seed/fs2/200/350" },
+            {
+              imageId: "fs-1",
+              imageUrl: "https://picsum.photos/seed/fs1/200/350",
+            },
+            {
+              imageId: "fs-2",
+              imageUrl: "https://picsum.photos/seed/fs2/200/350",
+            },
           ],
         ],
         delivery_order: [[]],
@@ -373,7 +391,7 @@ export default {
           taskId: this.taskId,
           images,
         });
-        if (response.data.code === "200") {
+        if (response.data.code === "200" || response.data.data) {
           this.$message.success("提交成功！");
         } else {
           this.$message.error("提交失败！");
@@ -426,6 +444,7 @@ export default {
           overflow: hidden;
           cursor: pointer;
           transition: all 0.2s ease;
+          min-height: 400px;
 
           &:hover {
             transform: scale(1.03);
