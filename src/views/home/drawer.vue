@@ -105,6 +105,7 @@ export default {
             fileItem.fileName = fileData.fileName || fileItem.file.name;
             fileItem.filePath = fileData.filePath; // 可选：文件路径
             fileItem.status = "success";
+            // fileItem.imgUrl = `${window.location.origin}/${fileData.filePath}`;
 
             console.log(
               `文件上传成功：${fileItem.fileName}，文件ID：${fileItem.id}`

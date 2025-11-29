@@ -176,7 +176,7 @@ export default {
       // 移除按 Tab 加载，统一从全局图片池取未分组
       getDocumentTypeList().then((response) => {
         if (response.data.code === "200") {
-          this.documentTypelist = response.data;
+          this.documentTypelist = response.data.data;
         }
       });
 
@@ -393,6 +393,7 @@ export default {
         });
         if (response.data.code === "200" || response.data.data) {
           this.$message.success("提交成功！");
+          this.goBack()
         } else {
           this.$message.error("提交失败！");
         }
@@ -444,7 +445,7 @@ export default {
           overflow: hidden;
           cursor: pointer;
           transition: all 0.2s ease;
-          min-height: 400px;
+          height: 400px;
 
           &:hover {
             transform: scale(1.03);
@@ -454,6 +455,9 @@ export default {
             width: 100%;
             display: block;
             user-select: none;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
           }
 
           .label {
@@ -515,6 +519,7 @@ export default {
           flex-wrap: wrap;
           gap: 6px;
           margin-top: 8px;
+          height:100px;
 
           img {
             width: 60px;
@@ -522,6 +527,9 @@ export default {
             object-fit: cover;
             border-radius: 4px;
             border: 2px solid #ccc;
+             height: 100%;
+            object-fit: contain;
+            object-position: center;
           }
         }
       }

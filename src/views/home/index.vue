@@ -72,6 +72,7 @@
               <el-button
                 type="text"
                 size="small"
+                :disabled="scope.row.status !== '待分类'"
                 @click="handleClassify(scope.row)"
               >
                 分类
@@ -212,8 +213,10 @@ export default {
       const statusMap = {
         待处理: "info",
         解析中: "warning",
+        分析中: "warning",
         已完成: "success",
         失败: "danger",
+        初始化: "warning",
       };
       return statusMap[status] || "info";
     },
