@@ -169,7 +169,7 @@ export default {
   methods: {
     formatImageSrc(url) {
       if (!url) return "";
-      return `${this.baseOrigin}${url}`;
+      return `${this.baseOrigin}/${url}`;
     },
     async init() {
       // 根据默认 activeName 加载对应的图片列表
