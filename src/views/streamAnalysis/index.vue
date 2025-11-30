@@ -327,8 +327,8 @@ export default {
 <style scoped lang="stylus">
 .stream-page-container {
   .el-page-header {
-    height: 52px;
-    line-height: 52px;
+    height: 40px;
+    line-height: 40px;
     padding: 0 12px;
     box-sizing: border-box;
     border-bottom: 1px solid #E5E7EC;
@@ -339,7 +339,8 @@ export default {
     display: flex;
     gap: 12px;
     padding: 12px;
-    height: calc(100vh - 70px);
+    padding-left: 0px;
+    height: calc(100vh - 116px);
     box-sizing: border-box;
 
     .left-panel {

@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <div class="content-box">
+
     <PageHeader
       @back="goBack"
       content="单据分组"
@@ -89,6 +91,8 @@
           </div>
         </div>
       </div>
+    </div>
+          
     </div>
   </div>
 </template>
@@ -408,9 +412,17 @@ export default {
 
 <style scoped lang="stylus">
 .container {
-  padding: 12px;
-  height: 100vh;
-  font-family: sans-serif;
+  // padding: 20px;
+  // height: 100vh;
+  // background-color: #f5f5f5;
+  // font-family: sans-serif;
+  // .content-box {
+  //   background-color: #fff;
+  //   border-radius: 8px;
+  //   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  //   padding: 20px;
+  //   padding-top:12px;
+  // }
 
   .el-page-header {
     border-bottom: 1px solid #e5e7ec;
@@ -420,7 +432,7 @@ export default {
   .content {
     display: flex;
     gap: 20px;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 126px);
 
     /* 左侧图片区域 */
     .left-panel {

@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="right-btn">
-        <i class="el-icon-s-fold" @click="showRight"></i>
+        <i class="el-icon-s-fold"  @click="showRight"></i>
       </div>
     </div>
     <div class="right-show" v-show="!isshowRight">
@@ -167,15 +167,16 @@ export default {
       font-size: 20px;
       color: #8492A6;
       cursor: pointer;
+      margin-left: 12px;
     }
   }
 
   .right-show {
     position: absolute;
-    left: 0px;
-    bottom: 27px;
+    left: 42px;
+    bottom: 50px;
     background: #009688;
-    padding: 6px 12px 6px 6px;
+    padding: 4px 10px 4px 4px;
     border-radius: 0 16px 16px 0;
 
     .el-icon-s-unfold {

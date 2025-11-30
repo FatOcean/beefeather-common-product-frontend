@@ -308,16 +308,16 @@ export default {
 
 <style scoped lang="stylus">
 .document-parsing-page {
-  padding: 20px;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  // padding: 20px;
+  // background-color: #f5f5f5;
+  // min-height: 100vh;
 
   .content-box {
-    background: #fff;
-    height: calc(100vh - 40px);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    // background: #fff;
+    // height: calc(100vh - 40px);
+    // border-radius: 8px;
+    // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    // padding: 20px;
 
     .page-header {
       display: flex;
