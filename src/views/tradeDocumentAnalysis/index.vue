@@ -36,6 +36,7 @@
 <script>
 import leftselect from './components/leftselect.vue'
 import { mapMutations } from 'vuex'
+import { getTaskDetail } from '@/api/taskManagement'
 export default {
   components: {
     leftselect,
@@ -61,6 +62,7 @@ export default {
   computed: {},
   mounted() {
     this.setProductObj(this.productObj)
+    this.getTaskDetail()
   },
   methods: {
     ...mapMutations(['setProductObj']),
@@ -80,6 +82,11 @@ export default {
         )}`
       })
       this.staticData[this.productName] = data
+    },
+    getTaskDetail() {
+      getTaskDetail(this.$route.query.taskId).then(res => {
+        console.log(res)
+      })
     }
   }
 }

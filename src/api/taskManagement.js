@@ -76,3 +76,8 @@ export const submitClassifyResult = (data) => {
 export const deleteTask = (taskId) => {
   return api.post(`/api/docflow/task/delete/${taskId}`)
 }
+
+// 获取任务详情
+export const getTaskDetail = (taskId) => {
+  return api.get(`/api/docflow/task/get?taskId=${taskId}`)
+}
