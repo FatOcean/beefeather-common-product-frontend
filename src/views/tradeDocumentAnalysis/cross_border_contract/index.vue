@@ -2,6 +2,7 @@
   <div class="bill-of-lading-wrapper" style="width: 100%">
     <ocr-layout
       @resetId="() => (activeTextId = null)"
+      @group-change="handleChangeGroup"
       :data="data"
       v-model="page"
       ref="documents"
@@ -113,6 +114,7 @@ export default {
       activeTextId: "",
       page: [], // 当前页面数据信息
       activeDocumentIndex: 0,
+      activeGroupIndex: 0,
       activeTabIndex: 0,
       text: "",
       fieldName: "",
@@ -151,7 +153,7 @@ export default {
     },
   },
   created() {
-    const content = this.data[0].content;
+    const content = this.data[this.activeGroupIndex].content;
     this.page = this.disposeContent(content);
   },
   mounted() {},
@@ -208,7 +210,7 @@ export default {
         this.noParent = noParent;
         this.text = i;
         e = e || window.event;
-        const images = this.data[0].images;
+        const images = this.data[this.activeGroupIndex].images;
         const imageIndex = images.findIndex((item) => {
           return item.imageName === i.imageName;
         });
@@ -226,7 +228,7 @@ export default {
       this.noParent = noParent;
       this.text = i;
       e = e || window.event;
-      const images = this.data[0].images;
+      const images = this.data[this.activeGroupIndex].images;
       const imageIndex = images.findIndex((item) => {
         return item.imageName === i.values[0].imageName;
       });
@@ -238,6 +240,16 @@ export default {
       });
       this.activeTextId = this.$refs.documents.activeTextId;
     },
+    handleChangeGroup(index) {
+      this.activeGroupIndex = index;
+      this.page = this.disposeContent(
+        this.data[this.activeGroupIndex].content
+      );
+      // 重置右侧筛选与高亮状态
+      this.checkedNull = false;
+      this.fieldName = "";
+      this.activeTextId = "";
+    },
     uploadFileData(res) {
       this.data = res.data;
       this.data.forEach((item) => {
@@ -247,7 +259,8 @@ export default {
           }?filename=${encodeURIComponent(image.imagePath)}`;
         });
       });
-      this.page = this.disposeContent(this.data[0].content);
+      this.activeGroupIndex = 0;
+      this.page = this.disposeContent(this.data[this.activeGroupIndex].content);
       this.checkedNull = false;
       this.fieldName = "";
       this.activeTextId = "";

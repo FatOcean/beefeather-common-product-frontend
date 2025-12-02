@@ -5,6 +5,7 @@
       <!-- 文档 -->
       <div class="document-box" ref="document-box">
         <OcrToolbar
+          :data="data"
           :fileName="imageName"
           :activePageIndex="activePageIndex"
           :total="total"
@@ -15,6 +16,7 @@
           @zoom="handleZoom"
           @rotate="handleClickRotate"
           @reset="resetProps"
+          @change-group="handleChangeGroup"
         />
         <div
           class="document-layout"
@@ -130,6 +132,7 @@ export default {
       rectanglePosition: "",
       documentWidth: null, // 画布的宽度
       documentHeight: null, // 画布的高度
+      activeGroupIndex: 0, // 当前分组索引
       activeDocumentIndex: 0, // 当前示例索引
       activePageIndex: 1, // 当前页面索引
       activeTextId: null, // 高亮的文本索引
@@ -155,6 +158,7 @@ export default {
   },
   created() {},
   mounted() {
+    console.log("🚀 ~ this.data:", this.data)
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg();
 
@@ -167,6 +171,7 @@ export default {
   },
   watch: {
     data(val) {
+      console.log("🚀 ~ val:", val)
       this.activeDocumentIndex = 0;
       this.reRenderImage();
       this.resetProps();
@@ -180,6 +185,18 @@ export default {
     this.resizeObserver.disconnect();
   },
   methods: {
+    handleChangeGroup(index) {
+      this.activeGroupIndex = index;
+      // 重置画布与交互状态
+      this.resetProps();
+      this.activePageIndex = 1;
+      // 重置右侧 Tab
+      this.$refs.rightTab && (this.$refs.rightTab.activeName = "first");
+      // 重新渲染当前分组的图片尺寸
+      this.reRenderImage();
+      // 通知父级（如 index.vue）切换分组，以便重算识别结果列表
+      this.$emit("group-change", index);
+    },
     setRectangle(index = 0) {
       const rectangle = this?.text?.values[0].position[0];
       if (rectangle) {
@@ -601,8 +618,9 @@ export default {
     // 当前示例信息
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.codeTest = JSON.stringify(this.data[0].json) || "";
-      return this.data[0];
+      this.codeTest =
+        JSON.stringify(this.data[this.activeGroupIndex]?.json) || "";
+      return this.data[this.activeGroupIndex];
     },
     // 总页数
     total() {

@@ -2,6 +2,17 @@
   <div>
     <div class="tool-bar">
       <div class="name">
+        <el-dropdown @command="handleCommand">
+          <span class="el-dropdown-link">
+            {{ data[activeGroupIndex].groupName }}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="(item,index) in data" :key="item.groupName" :command="index">{{
+              item.groupName
+            }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-tooltip effect="dark" :content="fileName" placement="bottom-start">
           <span>{{ fileName }}</span>
         </el-tooltip>
@@ -48,8 +59,14 @@
           @click.native="handleZoom(-zoomStep)"
         ></svg-icon>
         <svg-icon iconClass="ic-旋转" @click.native="handleRotate"></svg-icon>
-        <svg-icon iconClass="ic-恢复默认" @click.native="handleReset"></svg-icon>
-        <svg-icon iconClass="ic-全屏" @click.native="handleFullscreen"></svg-icon>
+        <svg-icon
+          iconClass="ic-恢复默认"
+          @click.native="handleReset"
+        ></svg-icon>
+        <svg-icon
+          iconClass="ic-全屏"
+          @click.native="handleFullscreen"
+        ></svg-icon>
       </div>
     </div>
     <!-- 图片预览组件 -->
@@ -62,14 +79,18 @@
 </template>
 
 <script>
-import imageViewer from '@/components/imageViewer.vue'
+import imageViewer from "@/components/imageViewer.vue";
 
 export default {
   name: "OcrToolbar",
   components: {
-    imageViewer
+    imageViewer,
   },
   props: {
+    data: {
+      type: Array,
+      default: () => [],
+    },
     // 文件名
     fileName: {
       type: String,
@@ -93,15 +114,20 @@ export default {
     // 图片列表
     urlList: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
-      showImageViewer: false
-    }
+      showImageViewer: false,
+      activeGroupIndex: 0,
+    };
   },
   methods: {
+    handleCommand(index) {
+      this.activeGroupIndex = index;
+      this.$emit("change-group", index);
+    },
     // 翻页
     handleTurnPage(direction) {
       this.$emit("turn-page", direction);
@@ -129,7 +155,7 @@ export default {
     // 关闭图片预览
     handleCloseImageViewer() {
       this.showImageViewer = false;
-    }
+    },
   },
 };
 </script>
