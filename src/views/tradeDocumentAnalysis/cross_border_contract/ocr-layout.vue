@@ -1,7 +1,7 @@
 <template>
   <div class="ocr-layout">
     <!-- ocr -->
-    <div class="ocr-inner">
+    <div class="ocr-inner" v-if="example">
       <!-- 文档 -->
       <div class="document-box" ref="document-box">
         <OcrToolbar
@@ -158,12 +158,13 @@ export default {
   },
   created() {},
   mounted() {
-    console.log("🚀 ~ this.data:", this.data)
     // 监听窗口变化 并读取文档的宽度
     this.resizeImg();
 
     // 兼容firefox
-    this.bind(this.$refs.documentLayout, "DOMMouseScroll", this.handleZoom);
+    this.$nextTick(() => {
+      this.bind(this.$refs.documentLayout, "DOMMouseScroll", this.handleZoom);
+    });
 
     this.$events.listen("click-ocr-el", this.handleClickText);
     this.$events.listen("drag-document", this.transferDocument);
@@ -171,18 +172,22 @@ export default {
   },
   watch: {
     data(val) {
-      console.log("🚀 ~ val:", val)
       this.activeDocumentIndex = 0;
       this.reRenderImage();
       this.resetProps();
-      this.$refs.rightTab.activeName = "first";
+      this.$nextTick(() => {
+        const rightTab = this.$refs.rightTab;
+        if (rightTab) rightTab.activeName = "first";
+        // 数据到位且 DOM 已渲染后再绑定 ResizeObserver
+        this.resizeImg();
+      });
     },
   },
   beforeDestroy() {
     this.$events.remove("click-ocr-el", this.clickOcrEl);
     this.$events.remove("drag-document", this.transferDocument);
     this.$events.remove("drag-view", this.transferView);
-    this.resizeObserver.disconnect();
+    this.resizeObserver && this.resizeObserver.disconnect();
   },
   methods: {
     handleChangeGroup(index) {
@@ -191,7 +196,7 @@ export default {
       this.resetProps();
       this.activePageIndex = 1;
       // 重置右侧 Tab
-      this.$refs.rightTab && (this.$refs.rightTab.activeName = "first");
+      // this.$refs.rightTab && (this.$refs.rightTab.activeName = "first");
       // 重新渲染当前分组的图片尺寸
       this.reRenderImage();
       // 通知父级（如 index.vue）切换分组，以便重算识别结果列表
@@ -237,21 +242,38 @@ export default {
       this.resizeImg();
     },
     resizeImg() {
-      const el = this.$el;
+      // 只监听画布容器，避免拿到非 Element 节点导致 ResizeObserver 报错
+      const el = this.$refs.documentLayout;
+      if (!el || !(el instanceof Element)) return;
+
+      // 重置旧的 observer，防止重复注册
+      this.resizeObserver && this.resizeObserver.disconnect();
+
+      const updateSize = () => {
+        this.documentWidth = el.clientWidth;
+        this.documentHeight = el.clientHeight;
+        // 初始化每张图片的宽高
+        this.reRenderImage();
+      };
+
       this.resizeObserver = new ResizeObserver((_) => {
-        this.proxy((_) => {
-          this.documentWidth = this.$refs.documentLayout.clientWidth;
-          this.documentHeight = this.$refs.documentLayout.clientHeight;
-          // console.log(this.documentWidth, this.documentHeight);
-          // 初始化每张图片的宽高
-          this.reRenderImage();
-        });
+        this.proxy(updateSize);
       });
+
+      // 先同步测量一次，避免初始宽高为 0
+      updateSize();
       this.resizeObserver.observe(el);
     },
     // 计算图片的的实际渲染大小
     reRenderImage() {
-      this.example.images.forEach((page, index) => {
+      if (
+        !this.example ||
+        !Array.isArray(this.example.image_paths) ||
+        !this.example.image_paths.length
+      ) {
+        return;
+      }
+      this.example.image_paths.forEach((page, index) => {
         const vm = this;
         if (index === this.activePageIndex - 1) {
           page.scale =
@@ -272,7 +294,6 @@ export default {
           // };
         }
       });
-      // console.log("render")
       window.setTimeout((_) => {
         this.calculateXy();
       });
@@ -404,7 +425,6 @@ export default {
       }
 
       this.text = text;
-      // console.log(el, "el2");
       // if (imageIndex !== this.activePageIndex) {
       //   this.activePageIndex = imageIndex
       // }
@@ -572,7 +592,6 @@ export default {
           });
           el.removeEventListener("mousedown", this.handleMousedown);
           this.draggable = true;
-          // console.log(e, elName, this[`${elName}Mousemove`]);
         })
       );
       window.addEventListener(
@@ -593,6 +612,7 @@ export default {
     },
     // 绑定事件函数
     bind(node, event, fun) {
+      if (!node) return;
       if (node.addEventListener) {
         node.removeEventListener(event, fun);
         node.addEventListener(event, fun, false);
@@ -615,16 +635,19 @@ export default {
     },
   },
   computed: {
+    hasExample() {
+      return !!this.example;
+    },
     // 当前示例信息
     example() {
       // eslint-disable-next-line vue/no-side-effects-in-computed-properties
       this.codeTest =
         JSON.stringify(this.data[this.activeGroupIndex]?.json) || "";
-      return this.data[this.activeGroupIndex];
+      return this.data?.[this.activeGroupIndex] || null;
     },
     // 总页数
     total() {
-      return this.example.images.length;
+      return this.example?.image_paths?.length || 0;
     },
     // 当前页面信息
     page() {
@@ -649,14 +672,16 @@ export default {
     },
     // 文档图片地址
     imageUrl() {
-      return this.example.images[this.activePageIndex - 1].imagePath;
+      const page = this.example?.image_paths?.[this.activePageIndex - 1];
+      return page?.imagePath || "";
     },
     imageName() {
-      return this.example.images[this.activePageIndex - 1].imageName;
+      const page = this.example?.image_paths?.[this.activePageIndex - 1];
+      return page?.imageName || "";
     },
     // 大图预览所需数据
     urlList() {
-      return [{ url: this.imageUrl, title: this.imageName }];
+      return this.imageUrl ? [{ url: this.imageUrl, title: this.imageName }] : [];
     },
     // 当前文本信息
     // text() {

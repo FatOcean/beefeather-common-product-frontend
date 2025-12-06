@@ -16,12 +16,12 @@
           :key="index"
           :class="{
             'product-namelist': true,
-            activebg: item.name === activebgName,
+            activebg: item.type === activebgName,
           }"
           @click="productNameClick(item, index)"
         >
           <div class="product-item">
-            <span>{{ item.name }}</span>
+            <span>{{ item.label }}</span>
           </div>
         </div>
       </div>
@@ -37,13 +37,17 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
-import { productListAll } from "../staticData/data.js";
 export default {
   name: "LeftSelect",
+  props: {
+    productListAll: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       productName: "",
-      productListAll, // 产品名称
       isshowRight: true,
       activebgName: "提单",
       productList: [],
@@ -57,28 +61,26 @@ export default {
     this.messageIframeProduct(this.productData);
   },
   watch: {
-    // productData: {
-    //   handler(val) {
-    //     this.messageIframeProduct(val)
-    //   }
-    // }
+    productListAll: {
+      handler(val) {
+        this.messageIframeProduct(val)
+      }
+    }
   },
   methods: {
     messageIframeProduct(data) {
       const { tradeDocumentAnalysis } = data;
       this.$nextTick(() => {
-        this.productList = productListAll;
-        this.productBackup = productListAll;
+        this.productList = this.productListAll;
+        this.productBackup = this.productListAll;
         if (this.productList.length > 0) {
           this.activebgName = this.productList[0].name;
           this.productNameClick(this.productList[0], 0);
         }
       });
     },
-    ...mapMutations(["setProductObj"]),
     productNameClick(item, index) {
-      this.activebgName = item.name;
-      this.setProductObj(item);
+      this.activebgName = item.type;
       this.$parent.setProductName(item);
     },
     showRight() {

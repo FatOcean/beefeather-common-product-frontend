@@ -96,21 +96,20 @@
   </div>
 </template>
 <script>
-import { staticData } from "../staticData";
 import ocrLayout from "./ocr-layout.vue";
 export default {
   components: {
     ocrLayout,
   },
-  // props: {
-  //   productName: {
-  //     type: String,
-  //     default: 'order'
-  //   }
-  // },
+  props: {
+    documentData: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
-      data: staticData.cross_border_contract,
+      data: [],
       activeTextId: "",
       page: [], // 当前页面数据信息
       activeDocumentIndex: 0,
@@ -124,15 +123,20 @@ export default {
     };
   },
   watch: {
-    // productName() {
-    //   this.data = staticData[this.productName]
-    //   this.page = this.disposeContent(this.data[0].content)
-    //   this.$nextTick(() => {
-    //     this.$refs.documents.resetProps()
-    //   })
-    //   this.fieldName = ''
-    //   this.checkedNull = false
-    // },
+    documentData: {
+      immediate: true,
+      handler(val) {
+        if (!Array.isArray(val)) return;
+        this.data = val;
+        this.activeGroupIndex = 0;
+        if (val.length > 0) {
+          const content = val[this.activeGroupIndex].parse_result || [];
+          this.page = this.disposeContent(content);
+        } else {
+          this.page = [];
+        }
+      }
+    },
     page: {
       handler(val) {
         this.showPageData = val;
@@ -153,8 +157,7 @@ export default {
     },
   },
   created() {
-    const content = this.data[this.activeGroupIndex].content;
-    this.page = this.disposeContent(content);
+    // 等待外部 documentData 初始化后通过 watch 处理
   },
   mounted() {},
   methods: {
@@ -210,8 +213,8 @@ export default {
         this.noParent = noParent;
         this.text = i;
         e = e || window.event;
-        const images = this.data[this.activeGroupIndex].images;
-        const imageIndex = images.findIndex((item) => {
+        const image_paths = this.data[this.activeGroupIndex].image_paths;
+        const imageIndex = image_paths.findIndex((item) => {
           return item.imageName === i.imageName;
         });
         this.$refs.documents.$events.trigger("click-ocr-el", {
@@ -228,8 +231,8 @@ export default {
       this.noParent = noParent;
       this.text = i;
       e = e || window.event;
-      const images = this.data[this.activeGroupIndex].images;
-      const imageIndex = images.findIndex((item) => {
+      const image_paths = this.data[this.activeGroupIndex].image_paths;
+      const imageIndex = image_paths.findIndex((item) => {
         return item.imageName === i.values[0].imageName;
       });
       this.$refs.documents.$events.trigger("click-ocr-el", {
@@ -243,7 +246,7 @@ export default {
     handleChangeGroup(index) {
       this.activeGroupIndex = index;
       this.page = this.disposeContent(
-        this.data[this.activeGroupIndex].content
+        this.data[this.activeGroupIndex].parse_result
       );
       // 重置右侧筛选与高亮状态
       this.checkedNull = false;
@@ -253,21 +256,20 @@ export default {
     uploadFileData(res) {
       this.data = res.data;
       this.data.forEach((item) => {
-        item.images.forEach((image) => {
+        item.image_paths.forEach((image) => {
           image.imagePath = `${
             this.originLocation
           }?filename=${encodeURIComponent(image.imagePath)}`;
         });
       });
       this.activeGroupIndex = 0;
-      this.page = this.disposeContent(this.data[this.activeGroupIndex].content);
+      this.page = this.disposeContent(this.data[this.activeGroupIndex].parse_result);
       this.checkedNull = false;
       this.fieldName = "";
       this.activeTextId = "";
       this.$refs.documents.resetProps();
     },
     handleClick(value) {
-      // this.page = this.disposeContent(this.data[value - 1].content)
       this.checkedNull = false;
       this.fieldName = "";
       this.activeTextId = "";

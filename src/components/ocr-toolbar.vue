@@ -4,12 +4,12 @@
       <div class="name">
         <el-dropdown @command="handleCommand">
           <span class="el-dropdown-link">
-            {{ data[activeGroupIndex].groupName }}
+            {{ data[activeGroupIndex].group_name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="(item,index) in data" :key="item.groupName" :command="index">{{
-              item.groupName
+            <el-dropdown-item v-for="(item,index) in data" :key="item.group_name" :command="index">{{
+              item.group_name
             }}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>

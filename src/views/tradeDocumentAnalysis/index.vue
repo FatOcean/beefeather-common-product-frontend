@@ -2,94 +2,89 @@
   <div class="document-parsing">
     <el-page-header @back="goBack" content="贸易单证解析" bottom-line>
     </el-page-header>
-    <div class="document-box">
-      <leftselect style="flex-shrink: 0; flex-grow: 0"></leftselect>
-      <vat v-if="productName === 'vat'" :productObj="productObj"></vat>
-      <financialStatement
-        v-if="productName === 'financial_statement'"
-        :productObj="productObj"
-      ></financialStatement>
-      <billOfLading
-        v-if="productName === 'bill_of_lading' || productName === 'airway_bill'"
-        :productName="productName"
-        :productObj="productObj"
-      ></billOfLading>
-      <general
-        v-if="
-          [
-            'order',
-            'customs_declaration',
-            'commercial_invoice',
-            'bank_acceptance_bill',
-          ].indexOf(productName) > -1
-        "
-        :productName="productName"
-      ></general>
+    <div class="document-box" v-loading="loading">
+      <leftselect
+        style="flex-shrink: 0; flex-grow: 0"
+        :productListAll="parse_result"
+        @setProductName="setProductName"
+      ></leftselect>
       <crossBorderContract
-        v-if="productName === 'cross_border_contract'"
         :productObj="productObj"
+        :documentData="documentData"
       ></crossBorderContract>
     </div>
   </div>
 </template>
 
 <script>
-import leftselect from './components/leftselect.vue'
-import { mapMutations } from 'vuex'
-import { getTaskDetail } from '@/api/taskManagement'
+import leftselect from "./components/leftselect.vue";
+import { mapMutations } from "vuex";
+import { getTaskDetail } from "@/api/taskManagement";
 export default {
   components: {
     leftselect,
-    vat: (resolve) => require(['./vat'], resolve), // 增值税发票
-    billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析 航空单
-    financialStatement: (resolve) =>
-      require(['./financial_statement'], resolve), // 流水解析
-    general: (resolve) => require(['./general'], resolve), // 订单 报关单 跨境合同 商业发票 银行汇票
+    // vat: (resolve) => require(['./vat'], resolve), // 增值税发票
+    // billOfLading: (resolve) => require(['./bill_of_lading'], resolve), // 提货单解析 航空单
+    // financialStatement: (resolve) =>
+    //   require(['./financial_statement'], resolve), // 流水解析
+    // general: (resolve) => require(['./general'], resolve), // 订单 报关单 跨境合同 商业发票 银行汇票
     crossBorderContract: (resolve) =>
-      require(['./cross_border_contract'], resolve) // 跨境合同
+      require(["./cross_border_contract"], resolve), // 跨境合同
   },
   data() {
     return {
-      productName: '',
+      productName: "",
       productObj: {
-        name: '',
-        staticName: ''
-      }
-    }
+        name: "",
+        staticName: "",
+      },
+      parse_result: [],
+      documentData: [], // 当前页面要展示的哪个单据的数据
+      loading: false,
+    };
   },
 
   watch: {},
   computed: {},
   mounted() {
-    this.setProductObj(this.productObj)
-    this.getTaskDetail()
+    this.setProductObj(this.productObj);
+    this.getTaskDetail();
   },
   methods: {
-    ...mapMutations(['setProductObj']),
+    ...mapMutations(["setProductObj"]),
     setProductName(data) {
-      this.productName = data.staticName
-      this.productObj = data
+      this.documentData = this.parse_result.find(
+        (item) => item.type === data.type
+      ).documents;
     },
     resetId() {},
     goBack() {
-      this.$router.push({ name: 'home' })
+      this.$router.push({ name: "home" });
     },
     uploadFileData(res) {
-      const data = res.data
+      const data = res.data;
       data.map((item) => {
         item.imagePath = `${this.originLocation}?filename=${encodeURIComponent(
           item.imagePath
-        )}`
-      })
-      this.staticData[this.productName] = data
+        )}`;
+      });
+      this.staticData[this.productName] = data;
     },
     getTaskDetail() {
-      getTaskDetail(this.$route.query.taskId).then(res => {
-        console.log(res)
-      })
-    }
-  }
-}
+      this.loading = true;
+      getTaskDetail(this.$route.query.taskId)
+        .then((res) => {
+          if (res.data.code === "200") {
+            const { data } = res.data;
+            this.parse_result = data.parse_result;
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+};
 </script>
 <style lang="stylus" scoped>
 @import './index.styl';
